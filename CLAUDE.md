@@ -9,12 +9,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > **archived on 2026-06-08** to the `legacy/pre-refocus-snapshot` branch and
 > removed from the working tree. See "Core vs Archived" below.
 >
-> **Update (2026-06-13):** the live research frontier is now "the north" —
-> making Ψ a property of a real LLM's **own activations** and testing whether the
-> model can learn to **introspect** it (`src/zeta_life/introspection/`). See
-> "The North" below. The kernel remains the core substrate.
+> **Update (2026-06-13):** "the north" — making Ψ a property of a real LLM's
+> **own activations** and testing whether the model can learn to **introspect**
+> it (`src/zeta_life/introspection/`). See "The North" below.
+>
+> **Update (2026-07, current):** the north **closed as an honest negative**
+> (trained injected-concept detection is a *lookup*, not a general read — held-out
+> vectors at chance on both 0.6B and 8B). The live frontier moved to **El Útero**
+> (`src/zeta_life/utero/`, `docs/EL_UTERO.md`): a minimal self-rewriting substrate
+> — Conway-style, but the rules are part of the mutable state. All commits since
+> 2026-07-09 are this line. The kernel and the introspection code remain in the
+> tree as prior programs; they are not where new work is happening.
 
 ## What this project actually is
+
+Three research programs, in the order they were built. Only the third is live:
+
+1. **The Conscious Kernel** (`kernel/`) — the substrate; an active-inference unit
+   (below). Mature, tested, not the frontier.
+2. **The North** (`introspection/`) — Ψ over a real LLM's own activations.
+   **Closed 2026-07-02 as an honest negative.**
+3. **El Útero** (`utero/`) — **the live frontier**: the smallest universe where a
+   physics rewrites itself and only what sustains itself persists. See below.
+
+### Program 1 — the Conscious Kernel
 
 An **active-inference "Conscious Kernel"** for AI: a single adaptive unit that
 runs a perception→prediction→action→reflection→dream loop with a learned world
@@ -38,20 +56,22 @@ consolidation rhythm and in the cellular automata; optional in the kernel.
 ```
 zeta-life/
 ├── src/zeta_life/
-│   ├── kernel/          # CORE — active-inference Conscious Kernel (19 files)
+│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (3 modules)
+│   ├── kernel/          # active-inference Conscious Kernel (21 files)
 │   ├── bridge/          # Yvyra coupling — feed a live agent's experience to the kernel
-│   ├── introspection/   # THE NORTH — Psi over an LLM's activations; concept injection
+│   ├── introspection/   # the north (closed) — Psi over an LLM's activations
 │   ├── integration/     # formal_equations.py — the integration index Psi
 │   ├── instrumentation/ # TickLogger — paired per-tick logging (science pipeline)
 │   ├── datasets/        # real/synthetic signal loaders for Psi validation
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── kernel/          # kernel experiments (the live research)
+│   ├── utero/           # 8 experiments — the live line (Nivel 1/2, v1..v5, controls)
+│   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 34 test files (585 tests)
+├── tests/               # 41 test files (643 tests, ~105s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -63,16 +83,35 @@ zeta-life/
 ```bash
 # === INSTALL ===
 pip install -e .                 # makes `zeta_life` importable
-pip install -e ".[full]"         # with extras
+pip install -e ".[dev,full]"     # + pytest/ruff/black/mypy (same as `make install`)
+pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark experiments
 # (mpmath optional, for exact zeta zeros; otherwise hardcoded values are used)
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (643 tests, ~105s)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
+PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
+# `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
+
+# === LINT / FORMAT ===
+ruff check src/ tests/                              # `make lint` also runs mypy
+mypy src/zeta_life --ignore-missing-imports
+black src/ tests/ experiments/ && ruff check --fix src/ tests/   # `make format`
+# line-length 100; E501/F401/F841 intentionally ignored (see pyproject).
 
 # === EXPERIMENTS (self-pathing; run directly) ===
-# Kernel (the live research):
+# El Útero — THE LIVE LINE (docs/EL_UTERO.md; each writes results/<name>_run.txt + .png):
+PYTHONPATH=src python experiments/utero/exp_primer_latido.py    # Nivel 1: rewrite a rule's CONTENT
+PYTHONPATH=src python experiments/utero/exp_nivel2_latido.py    # Nivel 2: rewrite the rule's FORM
+PYTHONPATH=src python experiments/utero/exp_utero_creciente.py  # v1: async + self-opening space
+PYTHONPATH=src python experiments/utero/exp_utero_germinal.py   # v2: germinal variation
+PYTHONPATH=src python experiments/utero/exp_utero_toroidal.py   # v3: toroidal matter (sustained novelty)
+PYTHONPATH=src python experiments/utero/exp_utero_ruido_vs_funcion.py  # control: noise vs function (seed 13)
+PYTHONPATH=src python experiments/utero/exp_utero_motor.py      # v4: equilibrium-death (REFUTED)
+PYTHONPATH=src python experiments/utero/exp_utero_memoria.py    # v5: memory (first self-repair)
+
+# Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py
 PYTHONPATH=src python experiments/kernel/exp_agency.py
 PYTHONPATH=src python experiments/kernel/exp_zeta_vs_baselines.py    # zeta vs fourier/random/learned/rnn
@@ -85,15 +124,6 @@ PYTHONPATH=src python experiments/kernel/exp_epistemic_depth.py      # Phase 2: 
 PYTHONPATH=src python experiments/kernel/exp_yvyra_experiment.py     # Phases 3-5: Yvyra pipeline (simulated)
 # Datasets:
 PYTHONPATH=src python experiments/datasets/exp_real_data_psi.py
-# El Útero (sustrato auto-reescribiente, docs/EL_UTERO.md):
-PYTHONPATH=src python experiments/utero/exp_primer_latido.py    # Nivel 1: parámetros
-PYTHONPATH=src python experiments/utero/exp_nivel2_latido.py    # Nivel 2: reglas-programa
-PYTHONPATH=src python experiments/utero/exp_utero_creciente.py  # v1: async + espacio creciente
-PYTHONPATH=src python experiments/utero/exp_utero_germinal.py   # v2: variación germinal
-PYTHONPATH=src python experiments/utero/exp_utero_toroidal.py   # v3: materia toroidal (novedad sostenida)
-PYTHONPATH=src python experiments/utero/exp_utero_ruido_vs_funcion.py  # control: ruido vs funcion (seed 13)
-PYTHONPATH=src python experiments/utero/exp_utero_motor.py      # v4: muerte por equilibrio (refutada)
-PYTHONPATH=src python experiments/utero/exp_utero_memoria.py    # v5: memoria (auto-reparacion en regimen maduro)
 ```
 
 ### Introspection ("the north") — SEPARATE GPU venv
@@ -116,6 +146,51 @@ scripts monkeypatch `socket.getaddrinfo`) or pre-download datasets with `curl -4
 `numpy`, `torch`, `matplotlib`, `scipy` (required). `mpmath` optional.
 Introspection extras (GPU venv only): `transformers`, `peft`, `bitsandbytes`,
 `datasets`, `scikit-learn`, `accelerate`.
+
+## Architecture — El Útero (`src/zeta_life/utero/`) — THE LIVE LINE
+
+A minimal self-rewriting substrate. Conway-style (minimal local rules → undictated
+emergence) with one twist: **the rules are part of the mutable state**. Full design
++ the honest results ledger: `docs/EL_UTERO.md` (written in Spanish, like the code
+comments here — this line's prose is Spanish by design).
+
+**Three non-negotiable principles** (everything else is one concrete incarnation):
+1. **Rules-as-state** — no untouchable law outside. The law lives inside, mutable.
+2. **Closed loop (physics ↔ physics)** — a cell's rule acts on the world *and on
+   itself*: `(v', r') = APPLY(r_i, {v,r}_{i-1,i,i+1})`. Local, no outer level.
+3. **Persistence as the only filter** — no goal, no reward, no judge. A cell becomes
+   VOID if its next rule is degenerate (out of range, non-terminating, or blind to
+   matter under the probe). *Alive = what manages to keep being.*
+
+| Module | Role |
+|--------|------|
+| `nivel1.py` | `Utero1D` — rewrite a fixed law's **content** (parameters). Safe seed. |
+| `nivel2.py` | The **rule-as-program** VM: 10 ops incl. `MUTO`/`COPY` (self-rewrite) and `SPAWN` (colonization). `execute()`, `K`, `F`, `PROBE_EPS` are the primitives every later version reuses. |
+| `creciente.py` | `UteroCreciente` — the current substrate: a **line with borders** (not a ring), asynchronous seeded-random update, world grows only where a physics `SPAWN`s past the edge. |
+
+**Critical: v1→v5 are boolean flags on `UteroCreciente`, not separate classes.**
+All defaults `False` = v1, byte-identical to the committed v1 results. Each flag is
+one hypothesis about where the "cage" moved:
+
+| Flag | Version | Hypothesis |
+|------|---------|------------|
+| *(none)* | v1 | async + growing space |
+| `germinal=True` | v2 | offspring vary from the matter at birth (no RNG of ours) |
+| `toroidal=True` | v3 | matter on a circle (`v' = R3 mod 1`) — expansive maps become expressible. Also switches the death probe to irrational separation (0 / 0.618…), since 0 and 1 are the same point on the torus |
+| `muerte_equilibrio=True` (+`eq_eps`,`eq_window`) | v4 | still matter = dead standing |
+| `memoria=True` | v5 | each cell retains its raw `R3` (internal potential, pre-wrap) and re-injects it next tick — 2nd-order dynamics |
+
+**The novelty yardstick (anti-illusion):** with random ordering, "it didn't cycle"
+proves nothing. The honest measure is **never-before-seen genomes minted per
+segment** (`self.seen`), because new code can only come from write events
+(`MUTO`/`COPY`), never from the ordering RNG. Every experiment declares its
+"visible hands" (seeded order, `max_n` wall, probe thresholds) in its docstring.
+
+**Working discipline (same as the north):** define the yardstick *before* looking,
+and build the adversarial control before believing a result. This line's ledger has
+more refutations than wins — v2 dried up, v4 was **refuted** (desert, not
+self-repair), the v3 win survived a noise-vs-function ablation, v5's self-repair is
+n=1 seed. Keep it that way.
 
 ## Architecture — the Conscious Kernel (`src/zeta_life/kernel/`)
 
@@ -180,7 +255,8 @@ This session's experiments (and the project's own prior results) settled it:
 
 ## The North — Ψ-internal & trained introspection (`src/zeta_life/introspection/`)
 
-The frontier program: stop treating Ψ as an **external** index pointed *at* an
+**Status: closed as a negative (2026-07-02); kept for the record and the tooling.**
+The program: stop treating Ψ as an **external** index pointed *at* an
 agent, and make it a property of a real LLM's **own activations** — then test
 whether the model can learn to **introspect** it. Thesis: *adaptation, not scale*
 (a small model that learns to observe itself, per Fran's original vision).
@@ -207,11 +283,17 @@ whether the model can learn to **introspect** it. Thesis: *adaptation, not scale
   the "+0.18 vs a weak logreg M2" was an artifact; a strong blind M2 (Claude, 0.82)
   and the model's own softmax confidence (0.81) both beat the self-report (0.76).
   Verbalizes confidence, no robust *privileged* access (`results/{pik_binder,m2_claude}_run.txt`).
-- **Trained injected-concept detection** (LoRA; **constant prompt → non-textual by
-  construction**): **POSITIVE** — accuracy 1.000 (chance 0.091), 0 false positives.
-  The model reads a non-textual injected state and names it — closes the P(IK) hole.
-  Caveat: fixed 10-concept set may be a lookup; the 45-concept scaling test is
-  pending (`results/f3_inject_run.txt`).
+- **Trained injected-concept detection** (F3; LoRA, **constant prompt → non-textual
+  by construction**): **CLOSED as an honest negative (2026-07-02).** The apparent
+  win (10 concepts, acc 1.000 vs chance 0.091, 0 FP — `results/f3_inject_run.txt`)
+  did NOT survive the generalization control: at 45 concepts, in-distribution acc
+  0.909–0.953 but **held-out vectors at chance** (0.022 / 0.033, chance 0.022) on
+  **both** Qwen3-0.6B and 8B. Both models memorize the exact injected vectors;
+  neither reads the concept *direction*. Scale does not help.
+  (`results/f3_inject_{06b,8b}_scale_run.txt`)
+
+**Net verdict on the north: negative.** Do not cite F3 as a positive result. This is
+what motivated the 2026-07 pivot to El Útero.
 
 **Working discipline (critical):** every apparent positive here died or survived a
 control (weak vs strong M2, injection-vs-steering, softmax-confidence baseline).
@@ -222,8 +304,10 @@ Docs: `docs/{ANTHROPIC_NORTH, RESEARCH_PHASE_B, TARGET_SELECTION, TRAINED_INTROS
 
 ## Core vs Archived
 
-**Core (this is the whole project now):** `kernel/`, `bridge/` (Yvyra coupling),
-`introspection/` (the north), `integration/formal_equations.py`,
+**Live:** `utero/` (+ `experiments/utero/`, `tests/test_utero_*.py`).
+
+**Core, mature, not the frontier:** `kernel/`, `bridge/` (Yvyra coupling),
+`introspection/` (the north, closed), `integration/formal_equations.py`,
 `instrumentation/`, `datasets/`,
 `core/{zeta_constants,vertex,tetrahedral_space}.py`, `utils/`.
 
@@ -235,6 +319,9 @@ Docs: `docs/{ANTHROPIC_NORTH, RESEARCH_PHASE_B, TARGET_SELECTION, TRAINED_INTROS
 - `evolution/` — GA optimizer that only tuned IPUESA hyperparameters
 - `organism/` — Fi-Mi swarm artificial life (tangent to consciousness)
 - `core/{zeta_memory,zeta_rnn,zeta_resonance}.py` — effectively unused
+
+Note: `src/zeta_life/{psyche,evolution,organism}/` still exist on disk but contain
+**only stale `__pycache__`** — nothing is tracked there. They are leftovers, not code.
 
 The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchical
 `phi_global`) were archived with their packages. The canonical index is **Ψ**
@@ -267,6 +354,10 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
 
 ## Documentation
 
+- **`docs/EL_UTERO.md` — READ THIS FIRST.** The live line: design sketch, the three
+  principles, the two death modes, the open crossroads, and the **honest results
+  ledger** (Nivel 1 → v5, each entry written only after its adversarial control,
+  with the refutations kept in). Update its ledger when a new útero experiment lands.
 - `docs/AUDIT_FIXES_2026.md` — 11 audited kernel implementation fixes (with before/after metrics)
 - `docs/AGENCY_2026.md` — active-inference agency investigation (honest negative results)
 - `docs/YVYRA_BRIDGE.md` — contract for feeding a live agent's experience into the kernel; the zeta-life side is implemented in `src/zeta_life/bridge/` (demo: `experiments/kernel/exp_yvyra_bridge.py`)
@@ -276,7 +367,7 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
 - `docs/RELATED_WORK.md` — curated literature scan mapped to each kernel component (Dreamer, Plan2Explore, CLS, Butlin indicator properties, LLM+active-inference) with validate/inspire/SOTA-gap takeaways and a ranked "what to adopt" list
 - `docs/INDICATOR_PROPERTIES.md` — honest, conservative audit of the kernel against Butlin et al. (2023) consciousness *indicator properties* (strong on PP/agency/embodiment, partial on GWT/recurrence/HOT, absent AST/HOT-4/GWT-4); the rigorous framework replacing Ψ-as-consciousness. Explicitly: indicators ≠ consciousness
 - `docs/papers/zeta-life-framework-paper.md` — the original "zeta unification" paper (predates the kernel; its zeta thesis is partly falsified by the project's own evidence; superseded by the kernel paper)
-- `docs/REPORTE_ZETA_ORGANISM.md`, `docs/ZETA_PSYCHE.md` — legacy subsystem reports
+- `docs/theory/REPORTE_ZETA_ORGANISM.md`, `docs/theory/ZETA_PSYCHE.md` — legacy subsystem reports
 
 **The North (introspection program):**
 - `docs/PHASE_B_DESIGN.md` — the Yvyra Phase-B experiment (expose Ψ + sham control); why it came back inconclusive (Ψ saturation)
