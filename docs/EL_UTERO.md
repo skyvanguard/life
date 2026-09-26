@@ -666,6 +666,29 @@ sustrato distinto. Decisión abierta.
   para el plano. Queda lista para relanzar; el veredicto pre-registrado está en
   su docstring y no se tocó.
 
+- **Del orden a la inteligencia — el sol visible: NADA (2026-09-26).**
+  `docs/PLAN_INTELIGENCIA.md` fija la definición operativa (Ashby / Conant &
+  Ashby / Beer: regulación, anticipación, aprendizaje por recurrencia,
+  organización) y qué contaría como vestigio ANTES de mirar. `utero/sol.py`:
+  estaciones A→B→C en orden fijo (regularidad aprendible), duraciones de un
+  mapa logístico en [300, 900] (típicas pero impredecibles), un día dentro de
+  cada estación. `UteroCreciente(sol=)`: el VACÍO (interior y más allá) lleva
+  la materia del sol; verificado que un sol sólo en los dos extremos no cambia
+  la materia de la seed 13 en 600 ticks (sin superficie de contacto).
+  `utero/inteligencia.py`: las varas con nulos por permutación, testeadas con
+  un bump inyectado, con ruido y con un modelo reflejo. `exp_utero_sol.py`: 40
+  semillas × {sol, sin sol, sombra}, 20000 ticks, sustrato v6. **Resultado:**
+  R no negativa (vivas 248 vs 246; el sol *destraba* mundos: 18 semillas con
+  novedad madura contra 5 sin sol, aunque la mediana sigue en 0); **A: 2/40
+  con sol, 0 sin sol, 2 en la sombra; L: 1/40 con sol, 2 sin sol, 5 en la
+  sombra** — tasas de falsos positivos, no señal (p binomial 0.60 y 0.87).
+  Acople del borde con el sol 0.12, del interior 0.009. **Lectura:** el sol
+  es visible pero no CONSECUENTE: nada en la persistencia depende de él, y un
+  tejido que no necesita al entorno para seguir siendo no tiene por qué
+  modelarlo (Ashby: la regulación aparece cuando la perturbación amenaza las
+  variables esenciales). Siguiente paso, ya en el plan: que el clima cuente
+  para la sonda. (`results/utero_sol_run.txt`, `.png`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
