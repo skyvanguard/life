@@ -184,6 +184,15 @@ class UteroCreciente:
         """{coord: huella del genoma} de las celdas vivas (coord = índice − left_grown)."""
         return {int(i) - self.left_grown: huella(self.code[i]) for i in np.flatnonzero(self.alive)}
 
+    def superficie(self) -> tuple:
+        """(materia de las celdas vivas, máscara 'linda con vacío') alineadas."""
+        idx = np.flatnonzero(self.alive)
+        left = np.zeros(len(idx), dtype=bool)
+        right = np.zeros(len(idx), dtype=bool)
+        left[idx > 0] = self.alive[idx[idx > 0] - 1]
+        right[idx < self.n - 1] = self.alive[idx[idx < self.n - 1] + 1]
+        return self.v[idx], ~(left & right)
+
     def vaciar(self, coord: int) -> None:
         """Volver VACÍO la celda de esa coordenada (para ablaciones externas)."""
         i = int(coord) + self.left_grown

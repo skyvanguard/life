@@ -164,6 +164,14 @@ class UteroPlano:
         return {(int(r), int(c)): huella(self.code[r, c])
                 for r, c in zip(*np.nonzero(self.alive))}
 
+    def superficie(self) -> tuple:
+        """(materia de las celdas vivas, máscara 'linda con vacío o pared') alineadas."""
+        rs, cs = np.nonzero(self.alive)
+        pad = np.zeros((self.h + 2, self.w + 2), dtype=bool)
+        pad[1:-1, 1:-1] = self.alive
+        interior = (pad[rs, cs + 1] & pad[rs + 2, cs + 1] & pad[rs + 1, cs] & pad[rs + 1, cs + 2])
+        return self.v[rs, cs], ~interior
+
     def vaciar(self, coord: tuple) -> None:
         r, c = coord
         self.alive[r, c] = False

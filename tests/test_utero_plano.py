@@ -150,3 +150,15 @@ def test_plane_void_and_walls_carry_the_sun_and_surface_heats():
     ctx, vs = u._ctx(1, 1)
     assert all(abs(x - sol(0)) < 1e-12 for x in vs)   # los 4 vecinos son vacío iluminado
     assert abs(u.v[1, 1] - sol(0)) < 1e-12           # y la superficie quedó a la temperatura del sol
+
+
+def test_superficie_masks_and_series_on_the_plane():
+    from zeta_life.utero.inteligencia import correr_series
+    from zeta_life.utero.sol import Sol
+    u = UteroPlano(h=6, w=6, seed=0, bloque=3)
+    v, borde = u.superficie()
+    assert len(v) == 9 and borde.sum() == 8 and (~borde).sum() == 1      # bloque 3x3: 1 interior
+    ser = correr_series(seed=2, flags=dict(memoria=True), sol=Sol(seed=0, ticks=120), ticks=120,
+                        fabrica=lambda seed, shadow, **fl: UteroPlano(h=10, w=10, seed=seed, bloque=4,
+                                                                     log_events=True, shadow_deaths=shadow, **fl))
+    assert ser["vivas"].shape == (120,) and ser["n_borde"][0] > 0

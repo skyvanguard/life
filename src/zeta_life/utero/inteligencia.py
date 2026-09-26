@@ -46,19 +46,12 @@ def correr_series(seed: int, flags: dict, sol, ticks: int, shadow: list | None =
                 seen.add(g)
                 new += 1
         prev = cg
-        alive = u.alive
-        idx = np.flatnonzero(alive)
-        n = len(idx)
+        v, borde = u.superficie()
+        n = len(v)
         if n:
-            left_ok = np.zeros(n, dtype=bool)
-            right_ok = np.zeros(n, dtype=bool)
-            left_ok[idx > 0] = alive[idx[idx > 0] - 1]
-            right_ok[idx < u.n - 1] = alive[idx[idx < u.n - 1] + 1]
-            interior = left_ok & right_ok
-            v = u.v[idx]
-            out["v_int"][t] = v[interior].mean() if interior.any() else np.nan
-            out["v_borde"][t] = v[~interior].mean() if (~interior).any() else np.nan
-            out["n_borde"][t] = int((~interior).sum())
+            out["v_int"][t] = v[~borde].mean() if (~borde).any() else np.nan
+            out["v_borde"][t] = v[borde].mean() if borde.any() else np.nan
+            out["n_borde"][t] = int(borde.sum())
         else:
             out["v_int"][t] = out["v_borde"][t] = np.nan
         births = m["colonized"] + m.get("invaded", 0) + m.get("grown", 0)
