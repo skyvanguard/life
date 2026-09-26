@@ -689,6 +689,33 @@ sustrato distinto. Decisión abierta.
   variables esenciales). Siguiente paso, ya en el plan: que el clima cuente
   para la sonda. (`results/utero_sol_run.txt`, `.png`)
 
+- **El sol consecuente (`sol_sonda`): la regla pre-registrada disparó
+  "VESTIGIO" por anticipación en el umbral mínimo; NO se cree hasta replicar
+  (2026-09-26).** `sol_sonda=True`: la sonda de ceguera se referencia a la
+  materia actual del vacío (sol(t), sol(t)+h) en vez de (0, h): "una física que
+  no distingue el mundo de hoy de otro es ciega" — principio 3 con una
+  referencia menos arbitraria; byte-idéntico sin sol. Misma corrida de 40
+  semillas con cuatro brazos (visible, consecuente, sin sol, sombra del
+  consecuente). **Resultados:** R ok en ambos (vivas 248/246 vs 246; ambos
+  soles destraban 18 semillas con novedad madura contra 5; muertes/tick en
+  maduro **0.000**: el tejido maduro está congelado bajo el sol). **A:
+  visible 2/40 (0, 1), consecuente 3/40 (0, 1, 12), sin sol 0, sombra 1** →
+  la regla (≥3 y ≥2× control) disparó para el consecuente; p binomial contra
+  la tasa nominal 0.32 (esperado 2/40 al 5%). **L:** visible 1, consecuente 1,
+  sin sol 2, sombra 5 — nada. Un diagnóstico aparte (4 semillas) mostró que
+  la actividad es PLANA alrededor de los inicios de estación en todos los
+  brazos y que la superficie no sigue al sol (`v_borde` constante): el tejido
+  apenas siente el clima, con o sin sonda climática. **Lectura honesta:** el
+  umbral de 3/40 que pre-registré es débil (la tasa nominal ya da 2); las
+  semillas 0 y 1 son positivas también en el brazo visible; y un tejido que no
+  siente el clima no puede anticiparlo. Lo más probable es un falso positivo
+  del umbral. Por protocolo, antes de creerlo: réplica con otros dos
+  sembrados del sol y con el orden de estaciones permutado
+  (`exp_utero_sol_replica.py`, `Sol(orden="permutado")`), y en paralelo el sol
+  que CALIENTA (`sol_acople=κ`: la superficie recibe materia del sol, v ←
+  (1−κ)v' + κ·sol), con el que el diagnóstico sí mostró contacto (corr borde–
+  sol 0.89; muertes ×3–16 al inicio de estación). (`results/utero_sol_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

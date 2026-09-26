@@ -151,3 +151,15 @@ def test_sol_acople_makes_the_surface_follow_the_sun():
     u.step()
     assert abs(u.v[0] - sol(0)) < 1e-12 and abs(u.v[2] - sol(0)) < 1e-12   # superficie = sol
     assert abs(u.v[1] - 0.6) < 1e-12                                        # interior: su regla
+
+
+def test_sol_permutado_removes_the_fixed_order_but_keeps_everything_else():
+    a = Sol(seed=0, ticks=20000)
+    b = Sol(seed=0, ticks=20000, orden="permutado")
+    assert [i for _, i, _ in a.estaciones] == [i for _, i, _ in b.estaciones]   # mismas duraciones
+    na = [n for n, _, _ in a.estaciones]
+    nb = [n for n, _, _ in b.estaciones]
+    assert na != nb
+    assert all(x != y for x, y in zip(nb, nb[1:]))                              # nunca repite
+    assert (b.serie >= 0).all() and (b.serie < 1).all()
+    np.testing.assert_array_equal(b.serie, Sol(seed=0, ticks=20000, orden="permutado").serie)
