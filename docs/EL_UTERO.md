@@ -716,6 +716,25 @@ sustrato distinto. Decisión abierta.
   (1−κ)v' + κ·sol), con el que el diagnóstico sí mostró contacto (corr borde–
   sol 0.89; muertes ×3–16 al inicio de estación). (`results/utero_sol_run.txt`)
 
+- **Réplica del "vestigio": FALSO POSITIVO (2026-09-26).**
+  `exp_utero_sol_replica.py`: mismo sustrato y `sol_sonda`, 40 semillas, con
+  dos soles nuevos (seeds 1 y 2, mismo orden A→B→C), el sol 0 con el **orden
+  de estaciones permutado** (mismas duraciones, sucesor al azar: sin
+  regularidad aprendible), sin sol y sombra. **Anticipación positiva: sol1
+  3/40, sol2 2/40, permutado 6/40, sin sol 0, sombra 2.** El control sin
+  regularidad dio MÁS positivas que los soles con orden; acumulado en tres
+  soles 8/120 contra 6 esperados al azar (p 0.25). Aprendizaje: 3, 1, 1, 2,
+  2 — nada. Veredicto por la regla pre-registrada: **FALSO POSITIVO**; el
+  3/40 de la corrida 2 era la tasa nominal del umbral. La disciplina funcionó:
+  el hallazgo murió en su control antes de creerlo. Lecciones para la vara:
+  (1) un umbral de 3/40 al 5% es débil (esperado 2); el criterio útil es el p
+  binomial del conteo o la comparación pareada con el brazo permutado; (2) el
+  estadístico de anticipación dispara en tejidos que NO sienten el clima
+  (muertes 0 en maduro), así que mide fluctuaciones internas: la condición de
+  contacto debe ser previa a cualquier lectura. Con el sol que calienta
+  (`sol_acople`) el contacto sí existe; esa corrida es la que puede decir algo.
+  (`results/utero_sol_replica_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

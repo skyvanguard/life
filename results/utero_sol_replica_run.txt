@@ -1,0 +1,26 @@
+================================================================================
+REPLICA DEL VESTIGIO DE ANTICIPACION (sol consecuente): otros soles y orden permutado
+================================================================================
+flags {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'sol_sonda': True}; 40 semillas; 20000 ticks; previo: {'conteo': 3, 'n': 40, 'semillas': [0, 1, 12]}; workers=10
+predicciones y veredicto en el docstring, escritos antes de correr
+
+--------------------------------------------------------------------------------
+A. ANTICIPACION: positivas por brazo (p<0.05, stat>0)
+  sol1        3/40  [5, 35, 38]   p binomial vs 0.05: 0.323
+  sol2        2/40  [8, 17]   p binomial vs 0.05: 0.601
+  permutado   6/40  [13, 20, 21, 31, 35, 38]   p binomial vs 0.05: 0.014
+  sin         0/40  []   p binomial vs 0.05: 1.000
+  sombra      2/40  [22, 31]   p binomial vs 0.05: 0.601
+
+--------------------------------------------------------------------------------
+L. APRENDIZAJE POR RECURRENCIA: positivas por brazo (p<0.05)
+  sol1        3/40  [5, 19, 38]   p binomial vs 0.05: 0.323
+  sol2        1/40  [36]   p binomial vs 0.05: 0.871
+  permutado   1/40  [38]   p binomial vs 0.05: 0.871
+  sin         2/40  [18, 20]   p binomial vs 0.05: 0.601
+  sombra      2/40  [0, 25]   p binomial vs 0.05: 0.601
+
+  vivas mediana (maduro) por brazo: sol1 246, sol2 246, permutado 246, sin 246, sombra 236
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> FALSO POSITIVO: sol1 3, sol2 2, permutado 6, controles max 2; acumulado 3 soles 8/120 (esperado 6 al azar), p binomial 0.252
