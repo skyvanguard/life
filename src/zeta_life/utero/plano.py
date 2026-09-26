@@ -123,10 +123,15 @@ class UteroPlano:
     def __init__(self, h: int = 32, w: int = 32, seed: int = 0, bloque: int = 4,
                  memoria: bool = False, invasion: str | None = None,
                  recombina: bool = False, eq_eps: float = 1e-9, eq_window: int = 100,
-                 log_events: bool = False, shadow_deaths=None):
+                 log_events: bool = False, shadow_deaths=None,
+                 sol=None, sol_sonda: bool = False, sol_acople: float = 0.0):
         if invasion not in (None, "asentada", "siempre"):
             raise ValueError("invasion debe ser None, 'asentada' o 'siempre'")
         self.h, self.w = h, w
+        # el sol (docs/PLAN_INTELIGENCIA.md): el vacío —interior y paredes— lleva
+        # sol(t); sol_sonda referencia la sonda al clima; sol_acople=κ calienta
+        # la superficie (v ← (1−κ)v' + κ·sol en celdas que lindan con vacío).
+        self.sol, self.sol_sonda, self.sol_acople = sol, sol_sonda, float(sol_acople)
         self.memoria, self.invasion, self.recombina = memoria, invasion, recombina
         self.eq_eps, self.eq_window = eq_eps, eq_window
         self.log_events = log_events
@@ -175,8 +180,13 @@ class UteroPlano:
                 new += 1
         return new
 
+    def _vacio(self) -> float:
+        """Materia del vacío (interior y paredes): 0 (frío) o el sol."""
+        return 0.0 if self.sol is None else float(self.sol(self._tick - 1))
+
     def _ctx(self, r: int, c: int) -> tuple:
         codes, vs = [], []
+        vac = self._vacio()
         for dr, dc in DIRS:
             rr, cc = r + dr, c + dc
             if 0 <= rr < self.h and 0 <= cc < self.w and self.alive[rr, cc]:
@@ -184,14 +194,16 @@ class UteroPlano:
                 vs.append(float(self.v[rr, cc]))
             else:
                 codes.append(None)
-                vs.append(0.0)
+                vs.append(vac)
         codes.append(self.code[r, c])
         return tuple(codes), tuple(vs)
 
     def _blind(self, code, vs, v, ctx, mi) -> bool:
+        v0 = self._vacio() if self.sol_sonda else 0.0
+        h = (v0 + PROBE_HI) % 1.0 if self.sol_sonda else PROBE_HI
         out = _salida(code, vs, v, ctx, mi)
-        p1 = _salida(code, (0.0,) * 4, 0.0, ctx, mi)
-        p2 = _salida(code, (PROBE_HI,) * 4, PROBE_HI, ctx, mi)
+        p1 = _salida(code, (v0,) * 4, v0, ctx, mi)
+        p2 = _salida(code, (h,) * 4, h, ctx, mi)
         return bool(abs(out - p1) < PROBE_EPS and abs(out - p2) < PROBE_EPS
                     and abs(p1 - p2) < PROBE_EPS)
 
@@ -233,6 +245,8 @@ class UteroPlano:
                     self.eq_count[r, c] += 1
                 else:
                     self.eq_count[r, c] = 0
+            if self.sol is not None and self.sol_acople > 0.0 and any(cd is None for cd in ctx[:4]):
+                v_new = (1.0 - self.sol_acople) * v_new + self.sol_acople * self._vacio()
             self.v[r, c] = v_new
             self.code[r, c] = own_next
             self.mem[r, c] = raw

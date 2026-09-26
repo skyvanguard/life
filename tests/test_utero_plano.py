@@ -122,3 +122,31 @@ def test_medidas_and_ablacion_accept_the_plane():
     assert r["raw"].shape == (200,) and r["filt"].shape == (4,) and r["vivas"][-1] >= 0
     a = correr_ablacion(seed=2, memoria=True, ticks=120, ablate_at=60, fabrica=fabrica)
     assert a["novedad"].shape == (120,) and a["ablated"] >= 0
+
+
+# ------------------------------------------------------------- el sol en el plano
+def test_plane_sun_flags_off_are_byte_identical():
+    from zeta_life.utero.sol import Sol
+    a = UteroPlano(h=12, w=12, seed=7, bloque=4, memoria=True)
+    b = UteroPlano(h=12, w=12, seed=7, bloque=4, memoria=True, sol=None, sol_sonda=True, sol_acople=0.5)
+    for _ in range(100):
+        a.step()
+        b.step()
+    np.testing.assert_array_equal(a.code, b.code)
+    np.testing.assert_array_equal(a.v, b.v)
+    c = UteroPlano(h=12, w=12, seed=7, bloque=4, memoria=True, sol=Sol(seed=0, ticks=200))
+    for _ in range(100):
+        c.step()
+    assert not (np.array_equal(a.v, c.v) and np.array_equal(a.code, c.code))
+
+
+def test_plane_void_and_walls_carry_the_sun_and_surface_heats():
+    from zeta_life.utero.sol import Sol
+    sol = Sol(seed=1, ticks=50)
+    u = UteroPlano(h=3, w=3, seed=0, bloque=1, sol=sol, sol_acople=1.0)
+    u.code[1, 1] = prog((ADD, 4, 4, 5))          # R = 2v: no lee el vacío
+    u.v[1, 1] = 0.3
+    u.step()
+    ctx, vs = u._ctx(1, 1)
+    assert all(abs(x - sol(0)) < 1e-12 for x in vs)   # los 4 vecinos son vacío iluminado
+    assert abs(u.v[1, 1] - sol(0)) < 1e-12           # y la superficie quedó a la temperatura del sol
