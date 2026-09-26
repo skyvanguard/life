@@ -175,7 +175,7 @@ def main() -> None:
 
     # ---- A y L ----
     def conteo(vara: str, arm: str, signo: bool) -> list:
-        key = "estadistico" if vara == "A" else "rho"
+        key = "estadistico" if vara.startswith("A") else "rho"
         return [s for s in SEEDS if not np.isnan(res[s][(vara, arm)]["p"])
                 and res[s][(vara, arm)]["p"] < ALPHA and (res[s][(vara, arm)][key] > 0 or not signo)]
 

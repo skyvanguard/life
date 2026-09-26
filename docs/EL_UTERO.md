@@ -735,6 +735,28 @@ sustrato distinto. Decisión abierta.
   (`sol_acople`) el contacto sí existe; esa corrida es la que puede decir algo.
   (`results/utero_sol_replica_run.txt`)
 
+- **El sol que calienta (`sol_acople=0.5`, 40 semillas): SIN CONTACTO en la
+  semilla mediana — el tejido maduro es un cristal (2026-09-26).**
+  `exp_utero_sol_acople.py` (la corrida murió por un bug de indexación al
+  final —`KeyError: 'rho'` en la lectura A_m—; se rescató del log lo que
+  imprimió antes; bug corregido). Con κ=0.5 la superficie SÍ sigue al sol
+  (corr borde–sol **0.92**, contra 0.12 del sol visible): el contacto físico
+  existe. Pero **muertes/tick en maduro = 0.000 en la mediana**, muertes
+  post/pre al inicio de estación 0.60 (calor) y 1.00 (calor+sonda),
+  amortiguación 0.007: la superficie se mueve y el interior no se entera; nada
+  muere, nada cambia. R ok (vivas 227/222 vs 246; el calor destraba 22
+  semillas con novedad madura contra 5). Anticipación sobre actividad: calor
+  1, calor+sonda 2, sin sol 0, sombra 3 — azar. **Lectura:** el problema ya no
+  es la superficie de contacto sino la INERCIA del tejido maduro: es un
+  cristal con una bomba; el sol calienta la piel de un cristal. Un tejido sin
+  variables esenciales que el entorno amenace no tiene nada que regular
+  (Ashby), y la sonda de ceguera casi nunca muerde a un tejido maduro. Dos
+  caminos: darle al tejido una variable esencial que el clima amenace (una
+  mano nueva), o llevar el sol al PLANO, donde el tejido no es un cristal
+  (novedad y ecología altas en la mayoría de las semillas del sondeo) y la
+  superficie de contacto es grande (paredes + vacíos interiores). Se elige el
+  plano: es la línea del plan (§5.3) y no agrega manos.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
