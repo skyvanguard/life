@@ -9,10 +9,14 @@ el tejido MODELA su entorno y usa el modelo para seguir siendo.
 
 SUSTRATO: la mejor encarnación 1-D conocida (memoria + invasión asentada,
 eq_window=100), 40 semillas, 20000 ticks (~28 estaciones por corrida).
-BRAZOS: sol · sin sol (mismo tejido, vacío frío) · sombra (sol + muertes al
-azar en vez de sonda). Las varas se calculan en los TRES brazos con el mismo
-calendario del sol: en "sin sol" y "sombra" cualquier "efecto" es la tasa de
-falsos positivos del método.
+BRAZOS: sol VISIBLE (el vacío lleva la materia del sol) · sol CONSECUENTE
+(además `sol_sonda=True`: la sonda de ceguera se referencia a la materia actual
+del vacío, así cada estación mata físicas distintas y persistir exige
+regularse) · sin sol (vacío frío) · sombra del consecuente (muertes al azar).
+Las varas se calculan en los CUATRO brazos con el mismo calendario: en "sin
+sol" y "sombra" cualquier "efecto" es la tasa de falsos positivos del método.
+Corrida 1 (2026-09-26, sólo sol visible): NADA — el sol era visible pero no
+consecuente. Esta corrida agrega el brazo consecuente.
 
 VARAS (pre-registradas; ver `utero/inteligencia.py`):
   R. Regulación: vivas y novedad (maduro) con vs sin sol; amortiguación =
@@ -27,9 +31,9 @@ VARAS (pre-registradas; ver `utero/inteligencia.py`):
      régimen, promediado; nulo por permutación de ocurrencias. Positiva por
      semilla: p < 0.05 (se reporta el signo; negativo = habituación).
 VEREDICTO (escrito antes de correr):
-  VESTIGIO   si A o L son positivas en ≥ 3/40 semillas del brazo sol Y ese
-             conteo es ≥ 2× el máximo de los brazos control (sin sol, sombra)
-             Y R no es negativa. Además se reporta el p binomial del conteo
+  VESTIGIO   si A o L son positivas en ≥ 3/40 semillas de un brazo con sol
+             (visible o consecuente) Y ese conteo es ≥ 2× el máximo de los
+             brazos control (sin sol, sombra) Y R no es negativa en ese brazo. Además se reporta el p binomial del conteo
              contra la tasa nominal 0.05 (esperado 2/40).
   NADA       si los conteos de sol y controles son indistinguibles.
   SOL MATA   si R es negativa: el entorno destruye el tejido y no hay nada que
@@ -78,16 +82,24 @@ RESULTS = HERE.parents[1] / "results"
 NAME = "utero_sol"
 
 
+ARMS = ("visible", "consecuente", "sin", "sombra")
+SUN_ARMS = ("visible", "consecuente")
+
+
 def job(seed: int) -> tuple:
     sol = Sol(seed=SOL_SEED, ticks=TICKS)
-    con = correr_series(seed, FLAGS, sol, TICKS, n0=N0, max_n=MAX_N)
+    vis = correr_series(seed, FLAGS, sol, TICKS, n0=N0, max_n=MAX_N)
+    con = correr_series(seed, dict(FLAGS, sol_sonda=True), sol, TICKS, n0=N0, max_n=MAX_N)
     sin = correr_series(seed, FLAGS, None, TICKS, n0=N0, max_n=MAX_N)
-    som = correr_series(seed, FLAGS, sol, TICKS, shadow=list(con["muertes"].astype(int)),
-                        n0=N0, max_n=MAX_N)
-    out = {"R": regulacion(con, sin, sol, MATURE)}
-    for arm, ser in (("sol", con), ("sin", sin), ("sombra", som)):
+    som = correr_series(seed, dict(FLAGS, sol_sonda=True), sol, TICKS,
+                        shadow=list(con["muertes"].astype(int)), n0=N0, max_n=MAX_N)
+    out = {("R", "visible"): regulacion(vis, sin, sol, MATURE),
+           ("R", "consecuente"): regulacion(con, sin, sol, MATURE)}
+    for arm, ser in (("visible", vis), ("consecuente", con), ("sin", sin), ("sombra", som)):
         out[("A", arm)] = anticipacion(ser["actividad"], sol, rng_seed=seed)
         out[("L", arm)] = aprendizaje(ser["actividad"], sol, rng_seed=seed)
+        out[("act", arm)] = ser["actividad"]
+        out[("muertes", arm)] = ser["muertes"]
     out["act_sol"] = con["actividad"]
     out["act_sin"] = sin["actividad"]
     return seed, out
@@ -122,24 +134,25 @@ def main() -> None:
 
     # ---- R ----
     out("-" * 80)
-    out("R. REGULACION (regimen maduro [6000,20000))")
-    viv_sol = np.array([res[s]["R"]["vivas_sol"] for s in SEEDS])
-    viv_sin = np.array([res[s]["R"]["vivas_sin"] for s in SEEDS])
-    nov_sol = np.array([res[s]["R"]["novedad_sol"] for s in SEEDS])
-    nov_sin = np.array([res[s]["R"]["novedad_sin"] for s in SEEDS])
-    amort = np.array([res[s]["R"]["amortiguacion"] for s in SEEDS])
-    acop = np.array([res[s]["R"]["acople_borde"] for s in SEEDS])
-    out(f"  vivas mediana: sol {np.median(viv_sol):.0f}  sin sol {np.median(viv_sin):.0f}")
-    out(f"  novedad total maduro (mediana): sol {np.median(nov_sol):.0f}  sin sol {np.median(nov_sin):.0f}; "
-        f"semillas con novedad>0: sol {int((nov_sol > 0).sum())}, sin {int((nov_sin > 0).sum())}")
-    out(f"  amortiguacion var(interior)/var(sol): mediana {np.nanmedian(amort):.3f}  "
-        f"(1 = el interior copia al sol; <<1 = lo amortigua)")
-    out(f"  acople del borde corr(v_borde, sol): mediana {np.nanmedian(acop):+.2f}")
-    r_neg = np.median(viv_sol) < 0.5 * np.median(viv_sin)
-    out(f"  -> R {'NEGATIVA: el sol mata' if r_neg else 'no negativa'}")
+    out("R. REGULACION (regimen maduro [6000,20000))  -- por brazo con sol, contra 'sin sol'")
+    r_neg = {}
+    for arm in SUN_ARMS:
+        R = [res[s][("R", arm)] for s in SEEDS]
+        viv = np.array([r["vivas_sol"] for r in R])
+        viv0 = np.array([r["vivas_sin"] for r in R])
+        nov = np.array([r["novedad_sol"] for r in R])
+        nov0 = np.array([r["novedad_sin"] for r in R])
+        amort = np.array([r["amortiguacion"] for r in R])
+        acop = np.array([r["acople_borde"] for r in R])
+        muertes = np.array([res[s][("muertes", arm)][MATURE[0]:MATURE[1]].mean() for s in SEEDS])
+        r_neg[arm] = np.median(viv) < 0.5 * np.median(viv0)
+        out(f"  {arm:<12} vivas med {np.median(viv):.0f} (sin sol {np.median(viv0):.0f}); "
+            f"semillas con novedad madura>0: {int((nov > 0).sum())} (sin sol {int((nov0 > 0).sum())}); "
+            f"muertes/tick {np.median(muertes):.3f}; amortiguacion {np.nanmedian(amort):.3f}; "
+            f"acople borde {np.nanmedian(acop):+.2f} -> R {'NEGATIVA' if r_neg[arm] else 'ok'}")
 
     # ---- A y L ----
-    def conteo(vara: str, arm: str, signo: bool) -> tuple:
+    def conteo(vara: str, arm: str, signo: bool) -> list:
         ss = []
         for s in SEEDS:
             r = res[s][(vara, arm)]
@@ -150,54 +163,60 @@ def main() -> None:
                 ss.append(s)
         return ss
 
-    out("")
-    out("-" * 80)
-    out("A. ANTICIPACION (exceso de actividad en el instante esperado, estaciones largas)")
-    out(f"  {'seed':>4} | {'sol: n':>6} {'stat':>8} {'p':>6} | {'sin: stat':>9} {'p':>6} | {'sombra: stat':>12} {'p':>6}")
-    for s in SEEDS:
-        a, b, c = res[s][("A", "sol")], res[s][("A", "sin")], res[s][("A", "sombra")]
-        if np.isnan(a["p"]):
-            continue
-        out(f"  {s:>4} | {a['n']:>6} {a['estadistico']:>+8.4f} {a['p']:>6.3f} | {b['estadistico']:>+9.4f} {b['p']:>6.3f} "
-            f"| {c['estadistico']:>+12.4f} {c['p']:>6.3f}")
-    A = {arm: conteo("A", arm, True) for arm in ("sol", "sin", "sombra")}
-    n_eval = sum(1 for s in SEEDS if not np.isnan(res[s][("A", "sol")]["p"]))
-    out(f"  positivas (stat>0, p<{ALPHA}): sol {len(A['sol'])}/{n_eval} {A['sol']}  |  sin {len(A['sin'])}  |  sombra {len(A['sombra'])}"
-        f"  |  p binomial del conteo sol vs 0.05: {binom_p(len(A['sol']), n_eval, ALPHA):.3f}")
-
-    out("")
-    out("-" * 80)
-    out("L. APRENDIZAJE POR RECURRENCIA (Spearman ocurrencia vs respuesta; negativo = habituacion)")
-    out(f"  {'seed':>4} | {'sol: rho':>8} {'p':>6} | {'sin: rho':>8} {'p':>6} | {'sombra: rho':>11} {'p':>6}")
-    for s in SEEDS:
-        a, b, c = res[s][("L", "sol")], res[s][("L", "sin")], res[s][("L", "sombra")]
-        if np.isnan(a["p"]):
-            continue
-        out(f"  {s:>4} | {a['rho']:>+8.2f} {a['p']:>6.3f} | {b['rho']:>+8.2f} {b['p']:>6.3f} | {c['rho']:>+11.2f} {c['p']:>6.3f}")
-    L = {arm: conteo("L", arm, False) for arm in ("sol", "sin", "sombra")}
-    n_eval_l = sum(1 for s in SEEDS if not np.isnan(res[s][("L", "sol")]["p"]))
-    hab = [s for s in L["sol"] if res[s][("L", "sol")]["rho"] < 0]
-    out(f"  significativas (p<{ALPHA}): sol {len(L['sol'])}/{n_eval_l} {L['sol']} (habituacion {hab})  |  "
-        f"sin {len(L['sin'])}  |  sombra {len(L['sombra'])}  |  p binomial sol: {binom_p(len(L['sol']), n_eval_l, ALPHA):.3f}")
+    CA, CL = {}, {}
+    for vara, titulo, key, signo in (
+            ("A", "ANTICIPACION (exceso de actividad en el instante esperado)", "estadistico", True),
+            ("L", "APRENDIZAJE POR RECURRENCIA (rho ocurrencia vs respuesta)", "rho", False)):
+        out("")
+        out("-" * 80)
+        out(f"{vara}. {titulo}")
+        out(f"  {'seed':>4} | " + " | ".join(f"{arm:>12} {'p':>6}" for arm in ARMS))
+        for s in SEEDS:
+            if np.isnan(res[s][(vara, "visible")]["p"]):
+                continue
+            cells = [f"{res[s][(vara, arm)][key]:>+12.4f} {res[s][(vara, arm)]['p']:>6.3f}" for arm in ARMS]
+            out(f"  {s:>4} | " + " | ".join(cells))
+        n_eval = sum(1 for s in SEEDS if not np.isnan(res[s][(vara, "visible")]["p"]))
+        C = {arm: conteo(vara, arm, signo) for arm in ARMS}
+        out("  positivas (p<0.05" + (", stat>0" if signo else "") + "): "
+            + "  |  ".join(f"{arm} {len(C[arm])}" for arm in ARMS)
+            + f"  |  p binomial vs 0.05 (n={n_eval}): visible {binom_p(len(C['visible']), n_eval, ALPHA):.3f}, "
+              f"consecuente {binom_p(len(C['consecuente']), n_eval, ALPHA):.3f}")
+        out(f"  semillas: visible {C['visible']}  consecuente {C['consecuente']}  sin {C['sin']}  sombra {C['sombra']}")
+        if vara == "L":
+            hab = {arm: [s for s in C[arm] if res[s][("L", arm)]["rho"] < 0] for arm in SUN_ARMS}
+            out(f"  habituacion (rho<0): visible {hab['visible']}  consecuente {hab['consecuente']}")
+            CL = C
+        else:
+            CA = C
 
     # ---- veredicto ----
     out("")
     out("=" * 80)
     out("VEREDICTO (regla escrita antes de correr)")
-    ctrl_A = max(len(A["sin"]), len(A["sombra"]))
-    ctrl_L = max(len(L["sin"]), len(L["sombra"]))
-    vest_A = len(A["sol"]) >= MIN_SEEDS and len(A["sol"]) >= RATIO * max(ctrl_A, 1)
-    vest_L = len(L["sol"]) >= MIN_SEEDS and len(L["sol"]) >= RATIO * max(ctrl_L, 1)
-    if r_neg:
+    ctrl_A = max(len(CA["sin"]), len(CA["sombra"]))
+    ctrl_L = max(len(CL["sin"]), len(CL["sombra"]))
+    v = "NADA"
+    detalle = []
+    for arm in SUN_ARMS:
+        va = len(CA[arm]) >= MIN_SEEDS and len(CA[arm]) >= RATIO * max(ctrl_A, 1)
+        vl = len(CL[arm]) >= MIN_SEEDS and len(CL[arm]) >= RATIO * max(ctrl_L, 1)
+        if r_neg[arm]:
+            detalle.append(f"{arm}: SOL MATA")
+            continue
+        if va or vl:
+            v = "VESTIGIO"
+            detalle.append(f"{arm}: vestigio" + (" A" if va else "") + (" L" if vl else ""))
+        else:
+            detalle.append(f"{arm}: nada (A {len(CA[arm])} vs ctrl {ctrl_A}; L {len(CL[arm])} vs ctrl {ctrl_L})")
+    if all(r_neg[a] for a in SUN_ARMS):
         v = "SOL MATA"
-    elif vest_A or vest_L:
-        v = "VESTIGIO" + (" (A)" if vest_A else "") + (" (L)" if vest_L else "")
-    else:
-        v = "NADA"
-    out(f"=> {v}: A sol {len(A['sol'])} vs control {ctrl_A}; L sol {len(L['sol'])} vs control {ctrl_L}; "
-        f"R {'negativa' if r_neg else 'ok'}")
-    if v.startswith("VESTIGIO"):
+    out(f"=> {v}: " + "; ".join(detalle))
+    if v == "VESTIGIO":
         out("   ANTES DE CREERLO: replicar con otro sembrado del sol y con el orden de estaciones permutado.")
+    for s in SEEDS:                       # la figura usa el brazo consecuente como 'sol'
+        res[s][("A", "sol")] = res[s][("A", "consecuente")]
+        res[s][("L", "sol")] = res[s][("L", "consecuente")]
 
     # ---- figura: promedio alineado al instante esperado (sol vs sin), y p-values ----
     fig, axes = plt.subplots(1, 3, figsize=(15, 4.6))
@@ -226,7 +245,7 @@ def main() -> None:
     ax.axvspan(-W_ANT, W_ANT, color="tab:blue", alpha=0.08)
     ax.set_xlabel("ticks respecto del instante ESPERADO del cambio (que no ocurrió)")
     ax.set_ylabel("actividad (z respecto de -200..-100)")
-    ax.set_title("A: promedio alineado, estaciones largas")
+    ax.set_title("A: promedio alineado (consecuente vs sin sol)")
     ax.legend(fontsize=8)
     ax = axes[1]
     for arm, col in (("sol", "tab:red"), ("sin", "gray"), ("sombra", "tab:orange")):
