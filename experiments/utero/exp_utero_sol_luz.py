@@ -94,14 +94,18 @@ SEEDS = list(range(40))
 SOL_SEED = 0
 KAPPA = 0.5
 E_MANT, E_GAN, E_DIF, E_PARTO = 0.005, 0.02, 0.25, 0.5   # calibrado por vida media/contacto: e_mant/e_gan = 0.25 = distancia tipica en el toro (la unica config con acople a la estacion; el resto bifurca en extincion o inmortalidad)
+# Corrida 2 (declarada tras la extinción de la corrida 1): sin percepción (la
+# indexación mod 5 reordena la semántica de todos los genomas y baja la
+# viabilidad) y con reserva inicial e0=2.0 (400 ticks de margen; calibrada por
+# viabilidad, no por A/L).
 FLAGS = dict(memoria=True, invasion="asentada", eq_window=100,
-             energia=True, energia_luz=True, e_mant=E_MANT, e_gan=E_GAN, e_dif=E_DIF,
-             e_parto=E_PARTO, percepcion=True)
+             energia=True, energia_luz=True, e0=2.0, e_mant=E_MANT, e_gan=E_GAN, e_dif=E_DIF,
+             e_parto=E_PARTO, percepcion=False)
 ALPHA, MIN_SEEDS, RATIO, CONTACTO = 0.05, 5, 2.0, 1.2
 MATURE = (6000, 20000)
 WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
 RESULTS = HERE.parents[1] / "results"
-NAME = "utero_sol_luz"
+NAME = "utero_sol_luz2"
 ARMS = ("clima", "ciclo2", "permutado", "sin", "sombra")
 
 

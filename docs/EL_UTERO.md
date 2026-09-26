@@ -884,6 +884,17 @@ novedad pero no regulación. Ambas son decisiones de rumbo, no de ingeniería.
   de 4 semillas viven (202 y 189 celdas), con muertes moderadas (0.016 y
   0.50 por tick) y novedad alta (170k genomas en la 13). Se fija (0.005,
   0.02) y se corre `exp_utero_sol_luz.py` con la vara enmendada.
+  **Resultado (40 semillas × 5 brazos, con `percepcion=True`): EXTINCIÓN.**
+  Vivas mediana 0 en todos los brazos; las pocas lecturas positivas son las
+  de mundos casi vacíos. La calibración (sin percepción) daba 2/4 vivos; la
+  percepción reordena la semántica de todos los genomas (campos mod 5) y baja
+  la viabilidad inicial, y el punto de equilibrio en 0.25 hace morir de hambre
+  a la mitad de las celdas iniciales antes de que el tejido se organice: la
+  cascada extingue casi todo. Noveno diseño, noveno negativo, este confundido
+  por la extinción. Corrección declarada antes de la última corrida de la
+  sesión: sin percepción (semántica de v9) y con reserva inicial e0=2.0 (400
+  ticks de margen antes del hambre; mano calibrada por viabilidad).
+  (`results/utero_sol_luz_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

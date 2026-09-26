@@ -1,0 +1,37 @@
+================================================================================
+v11 FOTOSINTESIS BAJO EL SOL -- linea 1-D, luz sobre todo el tejido + energia legible
+================================================================================
+linea n0=16 max 256; flags {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'energia_luz': True, 'e_mant': 0.005, 'e_gan': 0.02, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': True}; 40 semillas; 20000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring; PLAN §6b)
+
+--------------------------------------------------------------------------------
+CONTACTO y ESTADO por brazo (mediana sobre semillas)
+  clima      muertes post/pre 0.632  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 2
+  ciclo2     muertes post/pre 0.346  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 1
+  permutado  muertes post/pre 0.458  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 2
+  sin        muertes post/pre 0.941  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 0
+  sombra     muertes post/pre 2.383  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 6
+
+--------------------------------------------------------------------------------
+R2. REGULACION POR ORDEN: muertes/tick en maduro, pareadas por semilla
+  clima   < permutado en 4/40 semillas (p signo 1.000); razon mediana 0.00 -> no
+  ciclo2  < permutado en 5/40 semillas (p signo 1.000); razon mediana 0.00 -> no
+  => sin regulacion por orden
+
+--------------------------------------------------------------------------------
+POSITIVAS POR LECTURA Y BRAZO (p<0.05; A con stat>0)
+  lectura       clima     ciclo2  permutado        sin     sombra   p_binom(clima)  cumple(2)  cumple(3)
+  A                 0          0          0          1          0           1.000      False      False
+  A_m               0          0          0          1          0           1.000      False      False
+  L                 0          0          0          0          0           1.000      False      False
+  L_m               1          0          0          0          0           0.871      False      False
+  A: clima []  permutado []  sin [26]  sombra []
+  A_m: clima []  permutado []  sin [26]  sombra []
+  L: clima []  permutado []  sin []  sombra []
+  L_m: clima [38]  permutado []  sin []  sombra []
+  habituacion en clima (L): []
+  habituacion en clima (L_m): []
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NADA (con contacto 0.63): ninguna lectura cumple; R2 no.
