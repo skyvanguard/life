@@ -895,6 +895,18 @@ novedad pero no regulación. Ambas son decisiones de rumbo, no de ingeniería.
   sesión: sin percepción (semántica de v9) y con reserva inicial e0=2.0 (400
   ticks de margen antes del hambre; mano calibrada por viabilidad).
   (`results/utero_sol_luz_run.txt`)
+  **Corrida 2 (sin percepción, e0=2.0): EXTINCIÓN otra vez.** Vivas mediana 0
+  en los cinco brazos; las lecturas positivas (clima 3/2/4/2) son de mundos
+  casi vacíos y no superan p binomial ni controles. Con el punto de equilibrio
+  en la distancia típica del toro la cascada de hambre inicial gana casi
+  siempre; con el punto de equilibrio más bajo el tejido es inmortal e inerte.
+  Décimo diseño del programa del sol, décimo negativo. **Se aplica la regla de
+  parada de `PLAN_INTELIGENCIA.md` §7**: el programa queda reportado como
+  negativo honesto, con su cadena de diagnósticos (inercia sin costo; recambio
+  total con costo por superficie; bifurcación extinción/inmortalidad con luz)
+  y sin vestigio de inteligencia en el sentido de Ashby. Lo que un intento
+  futuro debería cambiar está en `PLAN_INTELIGENCIA.md` §8; la decisión de
+  rumbo es de Fran. (`results/utero_sol_luz2_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
