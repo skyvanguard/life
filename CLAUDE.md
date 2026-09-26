@@ -66,12 +66,12 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 22 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
+│   ├── utero/           # 29 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 49 test files (703 tests + 1 opt-in slow, ~105s)
+├── tests/               # 51 test files (712 tests + 1 opt-in slow, ~110s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -89,7 +89,7 @@ pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite (703 tests, ~105s)
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (712 tests, ~110s)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
 PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
 # `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
@@ -122,7 +122,12 @@ PYTHONPATH=src python experiments/utero/exp_utero_plano.py          # v8: the 2-
 # The sun / intelligence program (docs/PLAN_INTELIGENCIA.md):
 PYTHONPATH=src python experiments/utero/exp_utero_sol.py            # visible + consequential sun vs no-sun/shadow, R/A/L (~50 min): visible NOTHING; consequential fired VESTIGIO at the minimum threshold (3/40, p_binom 0.32) -- not believed
 PYTHONPATH=src python experiments/utero/exp_utero_sol_replica.py    # replication: two other sun seeds + permuted season order (~40 min) -- see the ledger
-PYTHONPATH=src python experiments/utero/exp_utero_sol_acople.py     # the heating sun (kappa=0.5): contact check + A/L on activity and deaths (~40 min) -- see the ledger
+PYTHONPATH=src python experiments/utero/exp_utero_sol_acople.py     # the heating sun (kappa=0.5) in 1-D: NO CONTACT (border follows the sun at 0.92, deaths 0.000: the mature tissue is a crystal)
+PYTHONPATH=src python experiments/utero/exp_utero_sol_plano.py      # the sun on the 2-D plane, 5 arms incl. ciclo2 + R2 (~80 min): NOTHING (the plate saturates and goes inert)
+PYTHONPATH=src python experiments/utero/exp_utero_sol_equilibrio.py # dissolution death under the sun (~45 min): NO CONTACT
+PYTHONPATH=src python experiments/utero/exp_utero_sol_energia.py    # v9 metabolism under the sun (~45 min): environment essential, no vestige
+PYTHONPATH=src python experiments/utero/exp_utero_sol_percepcion.py # v10 perception under the sun (~45 min): NO CONTACT / NOTHING. Eight pre-registered designs, eight negatives
+PYTHONPATH=src python experiments/utero/exp_utero_sol_vara.py       # 1-D heating sun with the amended yardstick (not run: superseded by the plane/metabolism runs)
 PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness (~40 min): 1024 cells = same typicity; 120 seeds -> v5 4.2%, v6 5.8%. The rarity is intrinsic to 1-D
 
 # Kernel:
@@ -207,6 +212,9 @@ one hypothesis about where the "cage" moved:
 | `invasion="asentada"` (or `"siempre"`) | v6 | the void is no longer the only colonizable ground: a `SPAWN` aimed at a LIVING neighbour whose matter has been still for `eq_window` ticks REPLACES it (child code, mother's matter, no memory) — rule↔rule interaction with net effect in settled tissue; replacement, not death (v4's desert). `"siempre"` = any living neighbour (no threshold; control) |
 | `sol=Sol(...)` | env | the VOID (interior and beyond) carries `sol(t)` instead of 0: the sun lights everything that is not tissue. Visible only — NOTHING measurable (2026-09-26) |
 | `sol_sonda=True` | env | the climate counts for persistence: the blindness probe is referenced to `(sol(t), sol(t)+h)` instead of `(0, h)` |
+| `sol_eq_eps=ε, sol_eq_window=W` | env | "what becomes equal to the void is void": a cell whose matter matches the environment for W ticks is emptied. NO CONTACT (initial purge, then 0 deaths) |
+| `energia=True` (+ `e0, e_mant, e_gan, e_dif, e_parto`) | v9 | **minimal metabolism**: maintenance per tick, harvest at the surface from the disequilibrium with the void, conservative diffusion, energy share at birth, death at e≤0. Makes the environment essential (no sun = death); no vestige |
+| `percepcion=True` | v10 | the cell's energy enters its physics as a 5th read-only register (fields index mod 5): the only slow internal variable, readable. Requires `energia`. No vestige |
 | `sol_acople=κ` | env | the sun HEATS the surface: border cells get `v ← (1−κ)v' + κ·sol(t)` after their rule; the only variant with real contact (border–sun corr 0.89) |
 | `recombina=True` | v7 | **recombination at birth**: the child also takes instruction `b%K` (the SPAWN's locus field) from the mother's neighbour on the side opposite to the birth, if alive and of a different genome. Two parents, zero RNG — breaks the deterministic lethal fixed point of the germinal map that makes plains sterile (infant-mortality experiment) |
 
@@ -394,7 +402,7 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
   principles, the two death modes, the open crossroads, and the **honest results
   ledger** (Nivel 1 → v5, each entry written only after its adversarial control,
   with the refutations kept in). Update its ledger when a new útero experiment lands.
-- `docs/PLAN_INTELIGENCIA.md` — **the plan from order to intelligence**: operational definition (regulation, anticipation, learning-by-recurrence, organization), the sun, the pre-registered notion of "vestige", controls and honest stop rules. Read before touching the sun program.
+- `docs/PLAN_INTELIGENCIA.md` — **the plan from order to intelligence** (status §8: eight pre-registered designs, eight negatives, one replicated false positive; program provisionally closed as an honest negative): operational definition (regulation, anticipation, learning-by-recurrence, organization), the sun, the pre-registered notion of "vestige", controls and honest stop rules. Read before touching the sun program.
 - `docs/papers/utero-paper.md` — **working draft of the útero paper** (Spanish): what it takes and what is not enough to sustain structural novelty in a self-rewriting substrate — the chain of cages, the honest yardstick, the anatomy/fertility/mortality mechanism, the three mechanisms and their ceiling, v8 pending.
 - `docs/ESTADO_DEL_ARTE_UTERO.md` — **state of the art (2026-09-26)** for the útero line: BFF /
   Computational Life (+ its 2026 self-correction), Stringmol, AlChemy, Flow-Lenia, Evoloop,

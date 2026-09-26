@@ -1,0 +1,37 @@
+================================================================================
+v10 PERCEPCION BAJO EL SOL -- linea 1-D, calor + sonda climatica + energia + energia legible
+================================================================================
+linea n0=16 max 256; flags {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'sol_acople': 0.5, 'sol_sonda': True, 'energia': True, 'e_mant': 0.005, 'e_gan': 0.2, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': True}; 40 semillas; 20000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring; PLAN §6b)
+
+--------------------------------------------------------------------------------
+CONTACTO y ESTADO por brazo (mediana sobre semillas)
+  clima      muertes post/pre 1.025  vivas 124  muertes/tick 4.823  semillas con contacto>=1.2: 8
+  ciclo2     muertes post/pre 0.868  vivas 182  muertes/tick 7.866  semillas con contacto>=1.2: 0
+  permutado  muertes post/pre 0.983  vivas 202  muertes/tick 4.372  semillas con contacto>=1.2: 2
+  sin        muertes post/pre 0.999  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 1
+  sombra     muertes post/pre 1.130  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 9
+
+--------------------------------------------------------------------------------
+R2. REGULACION POR ORDEN: muertes/tick en maduro, pareadas por semilla
+  clima   < permutado en 14/40 semillas (p signo 0.981); razon mediana 0.92 -> no
+  ciclo2  < permutado en 15/40 semillas (p signo 0.960); razon mediana 0.93 -> no
+  => sin regulacion por orden
+
+--------------------------------------------------------------------------------
+POSITIVAS POR LECTURA Y BRAZO (p<0.05; A con stat>0)
+  lectura       clima     ciclo2  permutado        sin     sombra   p_binom(clima)  cumple(2)  cumple(3)
+  A                 1          3          1          1          3           0.871      False      False
+  A_m               1          1          0          2          3           0.871      False      False
+  L                 1          3          1          1          0           0.871      False      False
+  L_m               0          2          3          1          1           1.000      False      False
+  A: clima [30]  permutado [21]  sin [37]  sombra [0, 9, 21]
+  A_m: clima [21]  permutado []  sin [2, 37]  sombra [0, 9, 21]
+  L: clima [26]  permutado [12]  sin [26]  sombra []
+  L_m: clima []  permutado [12, 15, 30]  sin [26]  sombra [35]
+  habituacion en clima (L): [26]
+  habituacion en clima (L_m): []
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> SIN CONTACTO: muertes post/pre en clima = 1.02 dentro de [1/1.2, 1.2]. No se lee como 'sin inteligencia'.

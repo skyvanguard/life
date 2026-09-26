@@ -117,3 +117,18 @@ esperados). Para toda corrida posterior a esta enmienda:
 - Nunca se relaja una vara después de mirar. Si una vara resulta mal
   diseñada, se declara (como la cuota de v6) y se corrige en un experimento
   nuevo, no en el mismo.
+
+
+## 8. Estado al cierre de la sesión 2026-09-26
+
+Fases 1–3 ejecutadas y extendidas: ocho diseños pre-registrados (sol visible,
+sonda climática, réplica, calor, plano, disolución, metabolismo, percepción),
+todos negativos por sus propias reglas; un falso positivo detectado por la
+réplica; vara enmendada (§6b). Regla de parada de §7 aplicada: se reporta como
+negativo con el mismo cuidado que los anteriores. Lo que un intento futuro
+debería cambiar, según lo medido: (a) variables internas lentas y legibles
+diseñadas desde el sustrato, no añadidas; (b) un régimen que no sea ni cristal
+(sin costo) ni recambio total (con costo), calibrado por la escala temporal
+interna frente a la del clima; (c) el plano, por su superficie de contacto y
+su no-cristalización, como sustrato base del programa. Ver ledger en
+`EL_UTERO.md` y `results/utero_sol_*_run.txt`.

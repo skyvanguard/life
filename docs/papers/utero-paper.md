@@ -245,8 +245,22 @@ En el plano, donde el tejido no es un cristal —llena la placa, muere y acuña
 sin parar— y la superficie de contacto es grande, el humo mostró por primera
 vez respuesta al clima: bajo el orden permutado las muertes se triplican al
 inicio de cada estación y la tasa de muerte total es tres veces la del orden
-cíclico. *(Corrida completa de 20 semillas con cinco brazos, incluido un
-segundo orden cíclico como control de los tipos de transición: pendiente.)*
+cíclico. La corrida completa (20 semillas, cinco brazos, con un segundo orden cíclico
+como control de los tipos de transición) lo desmintió: la placa madura satura
+(1.024 vivas) y se vuelve inerte; contacto 0,82, regulación por orden 9/20 y
+10/20, lecturas al nivel de los controles.
+
+Tres diseños más cerraron el programa: **muerte por disolución** en el entorno
+("lo que se vuelve igual al vacío es vacío"): purga inicial y luego cero
+muertes; **metabolismo** (mantenimiento por tick, cosecha del desequilibrio con
+el sol, difusión, herencia de energía): el entorno se vuelve esencial —sin sol
+el tejido muere— y aun así ninguna vara supera a sus controles; **percepción**
+de la propia energía como quinto registro: recambio continuo sin estructura
+estacional. Un diagnóstico de escala temporal mostró la razón estructural: la
+memoria interna del tejido dura entre 6 y 150 ticks y las estaciones entre 300
+y 900. Ocho diseños pre-registrados, ocho negativos, un falso positivo
+detectado por su réplica. El programa se reporta como negativo honesto: este
+sustrato produce orden y novedad, no regulación.
 
 ## 5. Discusión
 

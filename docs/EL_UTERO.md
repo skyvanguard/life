@@ -831,6 +831,42 @@ sustrato distinto. Decisión abierta.
   la lea: PERCEPCIÓN del propio estado, la tercera dimensión del boceto que
   nunca se tocó. (`results/utero_sol_energia_run.txt`)
 
+- **v10 percepción bajo el sol (la energía como 5º registro legible): SIN
+  CONTACTO / NADA (2026-09-26).** `percepcion=True` (los campos indexan mod 5;
+  la física lee su reserva y puede condicionar materia, reescritura y parto en
+  ella; requiere `energia`); diagnóstico previo de escala temporal: la
+  memoria interna del tejido dura 6–150 ticks (materia interior), 4–42 (borde,
+  descontado el sol), contra estaciones de 300–900; la energía es la única
+  variable interna lenta (τ≈200). Viabilidad: 13/24 mundos sobreviven (el
+  cambio de indexación reordena la semántica de todos los genomas: las
+  semillas ya no son comparables una a una con v9). `exp_utero_sol_percepcion.py`,
+  40 semillas × 5 brazos. **Resultado:** vivas 124–202 con sol, 0 sin sol;
+  muertes/tick 4.4–7.9 (recambio continuo); contacto 1.02; R2 sin regulación
+  por orden (14/40, 15/40); A/A_m/L/L_m: clima 1/1/1/0 contra controles de
+  hasta 3. **Octavo diseño del programa del sol, octavo negativo.**
+
+**Cierre provisional del programa del sol (2026-09-26).** Ocho entornos y
+mecanismos, cada uno con vara escrita antes y controles (sin sol, sombra,
+orden permutado, segundo orden cíclico): sol visible; sonda climática;
+réplica (que desmontó el único "vestigio" como falso positivo del umbral);
+calor de superficie en la línea; el plano bajo el sol; muerte por disolución;
+metabolismo; percepción de la propia energía. Ningún vestigio de regulación,
+anticipación ni aprendizaje por recurrencia por encima de sus controles. Lo
+que sí se aprendió, en orden: (1) un tejido que no necesita al mundo se vuelve
+inerte a él en cuanto madura, en 1-D y en 2-D; (2) hacer que el mundo sea
+visible, o que la sonda lo mire, o que caliente la superficie, no lo vuelve
+consecuente; (3) el metabolismo sí lo vuelve esencial —sin sol el tejido
+muere— pero un tejido que *necesita* al mundo no por eso lo *modela*; (4) la
+escala temporal interna del tejido está uno o dos órdenes por debajo de la
+del clima, y darle una variable lenta legible no alcanzó en este régimen de
+recambio; (5) la disciplina funcionó: el único positivo murió en su réplica.
+La lectura honesta es que la inteligencia, en el sentido de Ashby, no es una
+propiedad que un flag más vaya a destapar en este sustrato: exige un rediseño
+donde variables lentas, percepción y costo de persistir se construyan juntos
+y desde el principio, o exige aceptar que este sustrato produce orden y
+novedad pero no regulación. Ambas son decisiones de rumbo, no de ingeniería.
+(`results/utero_sol_percepcion_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
