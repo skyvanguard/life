@@ -72,7 +72,7 @@ ARMS = {"p5": dict(memoria=True),
         "p6": dict(memoria=True, invasion="asentada", eq_window=100),
         "p67": dict(memoria=True, invasion="asentada", eq_window=100, recombina=True)}
 REF_1D_1024 = {"p5": 2, "p6": 4, "p67": 4}
-WORKERS = max(1, min(20, (os.cpu_count() or 4) - 4))
+WORKERS = max(1, min(10, (os.cpu_count() or 4) // 2))   # 2-D pesa: la mitad de obreros
 RESULTS = HERE.parents[1] / "results"
 NAME = "utero_plano"
 

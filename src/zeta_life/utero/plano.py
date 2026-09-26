@@ -54,6 +54,7 @@ from zeta_life.utero.nivel2 import (
     F,
     K,
     _clip,
+    huella,
 )
 
 NREG = 6                       # vN, vE, vS, vO, v, R (R = potencial interno / memoria)
@@ -155,7 +156,7 @@ class UteroPlano:
         return self.h * self.w
 
     def genomas(self) -> dict:
-        return {(int(r), int(c)): self.code[r, c].tobytes()
+        return {(int(r), int(c)): huella(self.code[r, c])
                 for r, c in zip(*np.nonzero(self.alive))}
 
     def vaciar(self, coord: tuple) -> None:

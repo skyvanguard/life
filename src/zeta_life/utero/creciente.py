@@ -37,7 +37,7 @@ import math
 
 import numpy as np
 
-from zeta_life.utero.nivel2 import PROBE_EPS, F, K, _output_only, execute
+from zeta_life.utero.nivel2 import PROBE_EPS, F, K, _output_only, execute, huella
 
 N0 = 16
 MAX_N = 256
@@ -154,8 +154,8 @@ class UteroCreciente:
         return len(self.v)
 
     def genomas(self) -> dict:
-        """{coord: genoma_bytes} de las celdas vivas (coord = índice − left_grown)."""
-        return {int(i) - self.left_grown: self.code[i].tobytes() for i in np.flatnonzero(self.alive)}
+        """{coord: huella del genoma} de las celdas vivas (coord = índice − left_grown)."""
+        return {int(i) - self.left_grown: huella(self.code[i]) for i in np.flatnonzero(self.alive)}
 
     def vaciar(self, coord: int) -> None:
         """Volver VACÍO la celda de esa coordenada (para ablaciones externas)."""
@@ -170,7 +170,7 @@ class UteroCreciente:
     def _register_genomes(self) -> int:
         new = 0
         for i in np.flatnonzero(self.alive):
-            g = self.code[i].tobytes()
+            g = huella(self.code[i])
             if g not in self.seen:
                 self.seen.add(g)
                 new += 1

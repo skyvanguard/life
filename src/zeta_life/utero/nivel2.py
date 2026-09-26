@@ -40,6 +40,7 @@ La variación viene SOLO de la sopa inicial y de la dinámica del código.
 
 from __future__ import annotations
 
+import hashlib
 import math
 
 import numpy as np
@@ -55,6 +56,14 @@ PROBE_EPS = 1e-12
 # Umbrales de OBSERVACIÓN (sólo describen el veredicto)
 THERMAL_ALIVE_FRAC = 0.05
 FROZEN_VALUE_EPS = 1e-7
+
+
+def huella(code: np.ndarray) -> bytes:
+    """Huella de 8 bytes de un genoma (blake2b). Sólo para OBSERVAR (conjuntos
+    de genomas vistos, linajes, ecología): un genoma de 16×4 enteros pesa 512
+    bytes y en 2-D se acuñan cientos de miles por corrida; con la huella la
+    vara honesta cabe en memoria. Colisión a 64 bits: despreciable."""
+    return hashlib.blake2b(code.tobytes(), digest_size=8).digest()
 
 
 def _clip(x: float) -> float:
