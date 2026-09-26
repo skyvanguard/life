@@ -345,6 +345,38 @@ sustrato distinto. Decisión abierta.
   en la dirección correcta — no un triunfo cerrado.*
   (`results/utero_memoria_run.txt`)
 
+- **Réplica de v5 en 40 semillas — INCONCLUSO por rareza del régimen; la
+  auto-reparación NO generaliza a la 2ª semilla madura (2026-09-26).**
+  `exp_utero_memoria_semillas.py`; protocolo de v5 extraído a
+  `utero/ablacion.py` y testeado contra sus números (543/3525/950 en la 13).
+  Semillas 0–39, memoria ON vs OFF, ablación a t=8000 y t=10000, más el
+  **control sin ablar** que a v5 le faltaba (cola/pre<1 podía ser deriva
+  natural de la novedad, no daño). Varas y regla de veredicto escritas en el
+  docstring ANTES de correr. Resultado: **INCONCLUSO** por la regla
+  pre-registrada — sólo 2/40 semillas llegan con motor vivo a t≥8000
+  (ON: 13 y 35; OFF: 13 y 23 a 8000, sólo la 13 a 10000), pareadas n=1. **El
+  cuello de botella no es la memoria sino la rareza del régimen maduro.**
+  Tres hechos que el n=1 de v5 no podía ver: (1) **la 13 replica** en
+  ambos tiempos con la vara nueva (R = cola ablada/cola sin ablar: 2.64 y
+  2.66 ON vs 0.11 y 0.02 OFF) — es real, no artefacto de la medida. (2) **La
+  35 con memoria es un contraejemplo:** motor mayor que el de la 13 (3.908
+  genomas nuevos en 1.000 ticks, sostenido a 14.000) que **no se repara**:
+  vaciar 66 de 198 celdas lo apaga para siempre (cola 0, vivas 137 al final).
+  La memoria no confiere auto-reparación por sí sola; en la 13 hay algo más
+  (geometría, borde, composición) que no sabemos nombrar. (3) **Reencendido
+  por perturbación** (observación post-hoc, no vara): 35-OFF llega a t=8000
+  con novedad 0 (201 celdas vivas, recurrente, sin acuñar) y vaciar 57 de
+  ellas lo *reenciende* — acuña 8.581 genomas en el pulso y 1.728/tramo en
+  la cola, más que cualquier motor vivo; se repite a t=10000 (764/tramo) y
+  en 23-OFF a t=10000 (pre≈1 → cola 399/tramo tras vaciar 27 celdas). El vacío abierto
+  desde afuera hace lo que el sustrato no logra solo: desatascar un mundo
+  recurrente. Es la señal más fuerte hasta ahora de que la jaula actual es la
+  **falta de perturbación endógena** (dirección (a) de v4: turbulencia como
+  atractor), no la falta de memoria. *Lectura honesta: v5 queda como n=1
+  verificado, no típico; la memoria ayuda a sostener (2/40 vs 1/40 a
+  t=10000, n irrelevante) pero no a reparar en general.*
+  (`results/utero_memoria_semillas_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

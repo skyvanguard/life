@@ -56,7 +56,7 @@ consolidation rhythm and in the cellular automata; optional in the kernel.
 ```
 zeta-life/
 ├── src/zeta_life/
-│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (3 modules)
+│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (4 modules)
 │   ├── kernel/          # active-inference Conscious Kernel (21 files)
 │   ├── bridge/          # Yvyra coupling — feed a live agent's experience to the kernel
 │   ├── introspection/   # the north (closed) — Psi over an LLM's activations
@@ -66,12 +66,12 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 8 experiments — the live line (Nivel 1/2, v1..v5, controls)
+│   ├── utero/           # 9 experiments — the live line (Nivel 1/2, v1..v5, controls, 40-seed replica)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 41 test files (643 tests, ~105s)
+├── tests/               # 42 test files (647 tests + 1 opt-in slow, ~105s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -89,7 +89,7 @@ pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite (643 tests, ~105s)
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (647 tests, ~105s)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
 PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
 # `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
@@ -110,6 +110,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_toroidal.py   # v3: toroidal m
 PYTHONPATH=src python experiments/utero/exp_utero_ruido_vs_funcion.py  # control: noise vs function (seed 13)
 PYTHONPATH=src python experiments/utero/exp_utero_motor.py      # v4: equilibrium-death (REFUTED)
 PYTHONPATH=src python experiments/utero/exp_utero_memoria.py    # v5: memory (first self-repair)
+PYTHONPATH=src python experiments/utero/exp_utero_memoria_semillas.py  # v5 replica, 40 seeds (~13 min, 20 procs): INCONCLUSIVE, seed 35 = counterexample
 
 # Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py
@@ -167,6 +168,7 @@ comments here — this line's prose is Spanish by design).
 | `nivel1.py` | `Utero1D` — rewrite a fixed law's **content** (parameters). Safe seed. |
 | `nivel2.py` | The **rule-as-program** VM: 10 ops incl. `MUTO`/`COPY` (self-rewrite) and `SPAWN` (colonization). `execute()`, `K`, `F`, `PROBE_EPS` are the primitives every later version reuses. |
 | `creciente.py` | `UteroCreciente` — the current substrate: a **line with borders** (not a ring), asynchronous seeded-random update, world grows only where a physics `SPAWN`s past the edge. |
+| `ablacion.py` | The **pump-ablation protocol** (kill every cell whose code changed in the last 200 ticks; measure the sustained TAIL at +1000..+3000, not the recolonization pulse). Extracted from v5 and regression-tested against its published numbers (`UTERO_SLOW=1`). |
 
 **Critical: v1→v5 are boolean flags on `UteroCreciente`, not separate classes.**
 All defaults `False` = v1, byte-identical to the committed v1 results. Each flag is
@@ -190,7 +192,10 @@ segment** (`self.seen`), because new code can only come from write events
 and build the adversarial control before believing a result. This line's ledger has
 more refutations than wins — v2 dried up, v4 was **refuted** (desert, not
 self-repair), the v3 win survived a noise-vs-function ablation, v5's self-repair is
-n=1 seed. Keep it that way.
+n=1 seed — and the 40-seed replica (2026-09-26) kept it there: INCONCLUSIVE by the
+pre-registered rule (only 2/40 seeds reach t≥8000 alive), seed 13 replicates, seed 35
+(bigger engine, memory ON) does NOT self-repair, and ablation *re-ignites* stalled
+memory-OFF worlds (35, 23). Keep it that way.
 
 ## Architecture — the Conscious Kernel (`src/zeta_life/kernel/`)
 

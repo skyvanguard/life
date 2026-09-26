@@ -1,0 +1,46 @@
+============================================================================
+EL UTERO -- replica de v5 (memoria) en 40 semillas: tipica o solo la 13?
+============================================================================
+n0=16 -> max 256  semillas=40  ablacion en (8000, 10000)  + control sin ablar (14000 ticks)
+varas pre-registradas: PRE_MIN=25/tramo  R_OK=0.5  (ver docstring)  workers=20
+
+----------------------------------------------------------------------------
+ABLACION EN t=8000
+  seed |  ON: pre  abl   cola    sin      R | OFF: pre  abl   cola    sin      R
+    13 |      543   82    950    360   2.64 |      302  122     54    470   0.11
+    23 |        0    0      0      0   0.00 |       50   28     19      0  19.25
+    35 |     1954   66      0   1547   0.00 |        0   57   1728      0 1728.00
+  (abl = celdas vaciadas; semillas muertas en ambas condiciones y
+   sin reencendido omitidas)
+
+  1. motor vivo al ablar (pre>=25): ON 2/40 [13, 35]   OFF 2/40 [13, 23]
+  2. vara v5 (cola/pre>1) entre vivas: ON 1/2 [13]   OFF 0/2 []
+  3. se repara (R>=0.5) entre vivas: ON 1/2 [13]   OFF 1/2 [23]
+  4. pareado (vivas en ambas): n=1 [13]  ON>OFF en 1  p(signos)=1.000
+  5. [POST-HOC, no pre-registrado] REENCENDIDO: motor muerto al ablar (pre<25) pero cola>=25 tras la perturbacion: ON []   OFF [35]
+
+----------------------------------------------------------------------------
+ABLACION EN t=10000
+  seed |  ON: pre  abl   cola    sin      R | OFF: pre  abl   cola    sin      R
+    13 |      347   82    814    306   2.66 |      592  122     15    821   0.02
+    23 |        0    0      0      0   0.00 |        1   27    399      0 399.00
+    35 |     1514   66      0   1364   0.00 |        0   57    764      0 764.50
+  (abl = celdas vaciadas; semillas muertas en ambas condiciones y
+   sin reencendido omitidas)
+
+  1. motor vivo al ablar (pre>=25): ON 2/40 [13, 35]   OFF 1/40 [13]
+  2. vara v5 (cola/pre>1) entre vivas: ON 1/2 [13]   OFF 0/1 []
+  3. se repara (R>=0.5) entre vivas: ON 1/2 [13]   OFF 0/1 []
+  4. pareado (vivas en ambas): n=1 [13]  ON>OFF en 1  p(signos)=1.000
+  5. [POST-HOC, no pre-registrado] REENCENDIDO: motor muerto al ablar (pre<25) pero cola>=25 tras la perturbacion: ON []   OFF [23, 35]
+
+============================================================================
+VEREDICTO (regla escrita antes de correr)
+  t=8000: INCONCLUSO  (pareadas=1, ON>OFF=1, p=1.000, se reparan solo-ON=[13])
+  t=10000: INCONCLUSO  (pareadas=1, ON>OFF=1, p=1.000, se reparan solo-ON=[13])
+
+=> INCONCLUSO: casi ninguna semilla llega con motor vivo a t>=8000.
+   El cuello de botella NO es la memoria sino la RAREZA del regimen
+   maduro. La afirmacion de v5 queda como n=1: honesta, no tipica.
+
+figura: results/utero_memoria_semillas.png
