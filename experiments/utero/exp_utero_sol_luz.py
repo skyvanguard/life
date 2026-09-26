@@ -93,7 +93,7 @@ TICKS = 20000
 SEEDS = list(range(40))
 SOL_SEED = 0
 KAPPA = 0.5
-E_MANT, E_GAN, E_DIF, E_PARTO = 0.005, 0.2, 0.25, 0.5    # calibrado 2026-09-26 por vivas/muertes (seeds 13, 35, 21): m.01 y g.1 matan mundos
+E_MANT, E_GAN, E_DIF, E_PARTO = 0.005, 0.02, 0.25, 0.5   # calibrado por vida media/contacto: e_mant/e_gan = 0.25 = distancia tipica en el toro (la unica config con acople a la estacion; el resto bifurca en extincion o inmortalidad)
 FLAGS = dict(memoria=True, invasion="asentada", eq_window=100,
              energia=True, energia_luz=True, e_mant=E_MANT, e_gan=E_GAN, e_dif=E_DIF,
              e_parto=E_PARTO, percepcion=True)
