@@ -629,6 +629,23 @@ sustrato distinto. Decisión abierta.
   cambiar de perspectiva, no de agregar otro flag.
   (`results/utero_recombina_run.txt`, `.png`)
 
+- **Robustez de escala — la rareza es intrínseca: ni el tamaño del mundo ni
+  el muestreo la explican (2026-09-26).** `exp_utero_escala.py`: (A) mundo
+  4× más grande (max_n=1024), semillas 0–39; (B) 80 semillas nuevas (40–119)
+  a 256; v5 y v6 (asentada-100); misma vara (linaje 500, ≥2× sombra).
+  **Resultados:** a 1024 celdas v5 = 2/40 (las mismas 13 y 35) y v6 = 4/40
+  (13, 21, 35, 37) — la pared no era jaula ni sostén. Con 80 semillas nuevas
+  a 256: v5 = 3/80 (47, 61, 103), v6 = 4/80 (47, 105, 108, 115); ambas
+  dentro del intervalo de Wilson del 40 previo. **Tasas combinadas (n=120): v5
+  5/120 = 4,2% [1,8–9,4], v6 7/120 = 5,8% [2,9–11,6].** La ecología de las
+  sostenidas se mantiene (5–7 bits). **Lectura:** el 2–3/40 no era suerte de
+  muestreo ni un artefacto de la placa: es la tasa del sustrato 1-D. Con
+  n=120 la mejora de v6 sobre v5 (5,8% vs 4,2%) es real pero pequeña y no
+  distinguible estadísticamente. Junto con v7, cierra la línea 1-D como
+  sustrato donde la novedad sostenida es posible pero rara (~5%), y justifica
+  el cambio de perspectiva a dos dimensiones (v8, `utero/plano.py`).
+  (`results/utero_escala_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

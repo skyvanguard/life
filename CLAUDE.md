@@ -118,7 +118,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_invasion.py       # v6: invasi
 PYTHONPATH=src python experiments/utero/exp_utero_invasion_control.py  # v6 control: invasion='siempre' (no threshold) + eq_window sweep 10/100/1000, 5 arms x 40 seeds (~25 min): THE HAND WORKS -- 'siempre' = 0/40 (pure churn, 245 invasions/tick), any eq_window 10..1000 = 3/40
 PYTHONPATH=src python experiments/utero/exp_utero_mortalidad_infantil.py  # follow every plain-born child 500 ticks (~3 min): 100% born BLIND, one lethal child genome, 0% survive across 6 seeds -- plains are sterile at steady state
 PYTHONPATH=src python experiments/utero/exp_utero_recombina.py      # v7: recombination at birth, 40 seeds x {v5, v7, v6+v7} (~20 min): NO EFFECT on typicity (3/40) -- children become viable (0% blind) but seed 35 collapses into a viable-clone monoculture
-PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness: max_n=1024 x 40 seeds and 80 new seeds at 256, v5 vs v6 (~40 min) -- see the ledger
+PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness (~40 min): 1024 cells = same typicity; 120 seeds -> v5 4.2%, v6 5.8%. The rarity is intrinsic to 1-D
 
 # Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py

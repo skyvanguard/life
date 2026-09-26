@@ -1,0 +1,21 @@
+==============================================================================
+EL UTERO -- robustez de escala: mundo 1024 y 80 semillas nuevas
+==============================================================================
+14000 ticks, memoria ON, linaje 500, maduro (8000, 12000), workers=20
+predicciones P1/P2 en el docstring, escritas antes de correr
+
+------------------------------------------------------------------------------
+  bloque         brazo sostenidas   tasa       Wilson 95% semillas                     eco med vivas med
+  1024x40        v5         2/40   0.050 [0.014, 0.165]  [13, 35]                        7.07        12
+  1024x40        v6         4/40   0.100 [0.040, 0.231]  [13, 21, 35, 37]                5.14      1014
+  256x80nuevas   v5         3/80   0.037 [0.013, 0.105]  [47, 61, 103]                   6.11       134
+  256x80nuevas   v6         4/80   0.050 [0.020, 0.122]  [47, 105, 108, 115]             6.47       247
+
+  referencia publicada (256, semillas 0-39): v5 2/40 = 0.050, v6 3/40 = 0.075
+
+==============================================================================
+PREDICCIONES
+  P1 v5: 80 semillas nuevas a 256 -> 3/80 = 0.037; Wilson del 40 previo [0.014, 0.165] -> dentro; tasa combinada 5/120 = 0.042 (0.017926452505837805, 0.0938421292954309)
+  P1 v6: 80 semillas nuevas a 256 -> 4/80 = 0.050; Wilson del 40 previo [0.026, 0.199] -> dentro; tasa combinada 7/120 = 0.058 (0.02854064663137293, 0.1155272594680315)
+  P2 v5: 1024 celdas -> 2/40 vs 2/40 a 256 (ratio 1.00) -> no baja
+  P2 v6: 1024 celdas -> 4/40 vs 3/40 a 256 (ratio 1.33) -> no baja
