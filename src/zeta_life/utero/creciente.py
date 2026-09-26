@@ -56,7 +56,8 @@ class UteroCreciente:
                  eq_window: int = 100, memoria: bool = False,
                  log_events: bool = False, shadow_deaths=None,
                  invasion: str | None = None, recombina: bool = False,
-                 sol=None, sol_sonda: bool = False, sol_acople: float = 0.0):
+                 sol=None, sol_sonda: bool = False, sol_acople: float = 0.0,
+                 sol_eq_eps: float = 0.0, sol_eq_window: int = 20):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -141,7 +142,19 @@ class UteroCreciente:
         que linda con el vacío recibe materia del sol tras aplicar su regla:
         v ← (1−κ)·v' + κ·sol(t). Acople físico, no lectura opcional: la
         superficie sigue al clima quiera o no, y el interior sólo a través de
-        las reglas. Mano declarada: κ. Sin sol o κ=0: byte-idéntico."""
+        las reglas. Mano declarada: κ. Sin sol o κ=0: byte-idéntico.
+
+        sol_eq_eps=ε, sol_eq_window=W (0 = apagado): LO QUE SE VUELVE IGUAL AL
+        VACÍO ES VACÍO. Una celda cuya materia coincide con la del entorno
+        (distancia en el toro < ε) durante más de W ticks seguidos deja de ser
+        distinguible del vacío y se vacía. Es la variable esencial que el clima
+        amenaza (Ashby): con el sol que calienta empujando la superficie hacia
+        sol(t), sólo persisten en la superficie las físicas que empujan de
+        vuelta, y como sol(t) cambia por estación, lo que es seguro cambia con
+        él. v4 mató la materia QUIETA (absoluto) y dejó un desierto; esto mata
+        la materia DISUELTA en el entorno (relativo). Manos: ε, W."""
+        self.sol_eq_eps, self.sol_eq_window = float(sol_eq_eps), int(sol_eq_window)
+        self.eq_sol_count = np.zeros(n0, dtype=np.int64)
         self.sol_acople = float(sol_acople)
         self.sol_sonda = sol_sonda
         self.sol = sol
@@ -202,6 +215,7 @@ class UteroCreciente:
             self.code[i] = 0
             self.eq_count[i] = 0
             self.mem[i] = 0.0
+            self.eq_sol_count[i] = 0
 
     def _register_genomes(self) -> int:
         new = 0
@@ -315,6 +329,17 @@ class UteroCreciente:
                          or (i == self.n - 1 or not self.alive[i + 1]))
                 if borde:
                     v_new = (1.0 - self.sol_acople) * v_new + self.sol_acople * self._vacio()
+            if self.sol is not None and self.sol_eq_eps > 0.0:
+                d = abs(v_new - self._vacio())
+                d = min(d, 1.0 - d) if self.toroidal else d
+                if d < self.sol_eq_eps:
+                    self.eq_sol_count[i] += 1
+                else:
+                    self.eq_sol_count[i] = 0
+                if self.eq_sol_count[i] > self.sol_eq_window:
+                    self.vaciar(i - lg)       # disuelta en el entorno: es vacío
+                    deaths += 1
+                    continue
             self.v[i] = v_new
             self.code[i] = own_next
             self.mem[i] = raw            # memoria: R3 crudo persistente
@@ -342,6 +367,7 @@ class UteroCreciente:
                 self.alive[t] = True
                 self.eq_count[t] = 0
                 self.mem[t] = 0.0           # la cría nace sin recuerdos
+                self.eq_sol_count[t] = 0
                 colonized += 1
                 self.spawns.append((i - lg, t - lg))
             elif self.invasion is not None and (
@@ -364,6 +390,7 @@ class UteroCreciente:
             self.alive = np.concatenate([self.alive, [True]])
             self.eq_count = np.concatenate([self.eq_count, [0]])
             self.mem = np.concatenate([self.mem, [0.0]])
+            self.eq_sol_count = np.concatenate([self.eq_sol_count, [0]])
             grown += 1
         if edge_left is not None and self.n < self.max_n:
             c, val, madre = edge_left
@@ -373,6 +400,7 @@ class UteroCreciente:
             self.alive = np.concatenate([[True], self.alive])
             self.eq_count = np.concatenate([[0], self.eq_count])
             self.mem = np.concatenate([[0.0], self.mem])
+            self.eq_sol_count = np.concatenate([[0], self.eq_sol_count])
             self.left_grown += 1
             grown += 1
             grew_left = True

@@ -170,3 +170,60 @@ def test_sol_ciclico_inverso_is_another_regularity():
     b = Sol(seed=0, ticks=20000, orden="ciclico_inverso")
     assert [i for _, i, _ in a.estaciones] == [i for _, i, _ in b.estaciones]
     assert [n for n, _, _ in b.estaciones][:6] == ["A", "C", "B", "A", "C", "B"]
+
+
+# --------------------------------- lo que se vuelve igual al vacío es vacío
+def test_sol_equilibrio_off_or_without_sun_is_byte_identical():
+    a = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True)
+    b = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True,
+                       sol_eq_eps=0.02, sol_eq_window=5)
+    for _ in range(300):
+        a.step()
+        b.step()
+    np.testing.assert_array_equal(a.code, b.code)
+    np.testing.assert_array_equal(a.v, b.v)
+
+
+def test_a_cell_that_dissolves_into_the_environment_dies_after_the_window():
+    sol = lambda t: 0.30                                    # noqa: E731
+    # celda sola: R3 = vl (copia el vacío) -> su materia = sol -> disuelta
+    u = UteroCreciente(n0=1, seed=0, max_n=1, toroidal=True, sol=sol, sol_eq_eps=0.02,
+                       sol_eq_window=5)
+    u.code[0] = prog((ADD, 0, 3, 3))                        # R3 = vl + R3(=0) = vl
+    u.v[0] = 0.9
+    vivos = []
+    for _ in range(10):
+        u.step()
+        vivos.append(bool(u.alive[0]))
+    assert vivos[:5] == [True] * 5 and not vivos[-1]         # vive W ticks igual al vacío, luego se vacía
+    # una celda que se mantiene DISTINTA del entorno no muere
+    u2 = UteroCreciente(n0=1, seed=0, max_n=1, toroidal=True, sol=sol, sol_eq_eps=0.02,
+                        sol_eq_window=5)
+    u2.code[0] = prog((ADD, 0, 0, 3))                       # R3 = 2·vl = 0.60 != 0.30
+    u2.v[0] = 0.9
+    for _ in range(30):
+        u2.step()
+    assert u2.alive[0]
+
+
+def test_equilibrium_counter_resets_when_the_environment_departs():
+    from zeta_life.utero.nivel2 import CONST, MUL, THR
+    # R3 = 0.75 si vl > 0.5, si no 0: coincide con el sol SOLO cuando el sol vale 0.75
+    code = prog((CONST, 10, 0, 2), (THR, 0, 2, 1), (CONST, 11, 0, 2), (MUL, 1, 2, 3))
+
+    def mundo(ticks):
+        u = UteroCreciente(n0=1, seed=0, max_n=1, toroidal=True,
+                           sol=lambda t: ticks[min(t, len(ticks) - 1)],
+                           sol_eq_eps=0.02, sol_eq_window=5)
+        u.code[0] = code
+        u.v[0] = 0.1
+        return u
+
+    u = mundo([0.75] * 4 + [0.25] + [0.75] * 4)
+    for _ in range(9):
+        u.step()
+    assert u.alive[0]                       # 4 iguales, 1 distinto (reset), 4 iguales: nunca > 5
+    u2 = mundo([0.75] * 9)
+    for _ in range(9):
+        u2.step()
+    assert not u2.alive[0]                  # 9 iguales seguidos: disuelta
