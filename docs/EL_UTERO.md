@@ -377,6 +377,46 @@ sustrato distinto. Decisión abierta.
   t=10000, n irrelevante) pero no a reparar en general.*
   (`results/utero_memoria_semillas_run.txt`)
 
+- **Anatomía comparada 13 vs 35 — lo que distingue es la FERTILIDAD DE LAS
+  LLANURAS, no la geometría ni la memoria (2026-09-26).**
+  `exp_utero_anatomia.py`: ambas semillas diseccionadas en t=8000 (memoria
+  ON) y seguidas 4000 ticks tras la ablación; seed 0 de referencia; seis
+  hipótesis H1–H6 con su medida y criterio (≥2×) escritas ANTES de correr,
+  dos más (H7, H8) añadidas post-hoc y marcadas así. **Lo que NO distingue
+  (refutado):** H1 geometría — misma fracción activa (0.33), mismo número
+  de segmentos (10 vs 11), llanura mayor 126 vs 117; H2 reservorio lento —
+  fracción 0.00 en ambas: la cadencia es bimodal (la bomba reescribe cada
+  <50 ticks, las llanuras nunca en >2000; ventanas 50–400 dan la MISMA
+  ablación); H3 capacidad — el 100% de los sobrevivientes de ambas portan
+  MUTO/COPY y SPAWN; y una prueba aparte refutó mi hipótesis de que la física
+  de las llanuras de la 35 necesitara su memoria para pasar la sonda (ciega
+  con mem=0: 0.01). H6 (|mem| en el borde 1.0 vs 0.5) roza el criterio con
+  15 vs 6 celdas: no lo cuento. **Lo que SÍ distingue:** H5 — la 35
+  sobrevive a una ablación ALEATORIA de 66 celdas (R 0.51/0.83/1.33) y muere
+  a la de la bomba (R=0): lo que la mata es perder la bomba, no perder
+  celdas. H4 — tras la ablación las llanuras de la 35 colonizan el hueco 6×
+  MÁS que las de la 13 (1.326 vs 201 en 1000 ticks) y las vivas no suben
+  (134→137): **crías que nacen y mueren.** H8 (post-hoc) lo mide: en la 13,
+  144 nacimientos, **80 genomas distintos**, vida mediana 4000 (llegan al
+  final), 76% supera 100 ticks; en la 35, 699 nacimientos, **6 genomas**,
+  vida mediana **1 tick**, 1% supera 100. Y el control sin ablar muestra que
+  la 35 YA paría así antes: 713 crías en la misma ventana, 35 genomas,
+  mediana 2 ticks — un churn perpetuo de nacidos muertos que la bomba
+  enmascaraba. H7 (post-hoc): las llanuras de la 13 cambian de código al
+  perder un vecino 3.5× más (0.07 vs 0.02) y parirían 43 crías distintas
+  contra 10. **Lectura:** la jaula de v2 («mutación determinista + materia
+  asentada = misma cría, parto tras parto») sigue viva DENTRO del mundo de
+  v5: las llanuras de la 35 son un útero estéril, y la bomba era su único
+  tejido fértil; en la 13 el tejido asentado sigue siendo fértil (crías
+  diversas y viables) y por eso re-nuclea la turbulencia en el borde del
+  hueco. La auto-reparación no la da la memoria: la da la fertilidad del
+  fondo. **Predicción a testear (no conclusión, n=2):** la fertilidad de las
+  llanuras —diversidad y viabilidad de sus crías, medible SIN ablar— predice
+  la auto-reparación; y la vía hacia un motor auto-reparable típico es hacer
+  fértil el tejido asentado (que la variación germinal no dependa de una
+  materia que ya no se mueve), no sumar memoria ni mortalidad.
+  (`results/utero_anatomia_run.txt`, `results/utero_anatomia.png`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

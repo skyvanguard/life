@@ -66,7 +66,7 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 9 experiments — the live line (Nivel 1/2, v1..v5, controls, 40-seed replica)
+│   ├── utero/           # 10 experiments — the live line (Nivel 1/2, v1..v5, controls, 40-seed replica, anatomy)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
@@ -111,6 +111,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_ruido_vs_funcion.py  # control
 PYTHONPATH=src python experiments/utero/exp_utero_motor.py      # v4: equilibrium-death (REFUTED)
 PYTHONPATH=src python experiments/utero/exp_utero_memoria.py    # v5: memory (first self-repair)
 PYTHONPATH=src python experiments/utero/exp_utero_memoria_semillas.py  # v5 replica, 40 seeds (~13 min, 20 procs): INCONCLUSIVE, seed 35 = counterexample
+PYTHONPATH=src python experiments/utero/exp_utero_anatomia.py   # anatomy 13 vs 35 (~3 min): self-repair = FERTILE plains (diverse, viable offspring), not geometry/memory
 
 # Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py
@@ -195,7 +196,10 @@ self-repair), the v3 win survived a noise-vs-function ablation, v5's self-repair
 n=1 seed — and the 40-seed replica (2026-09-26) kept it there: INCONCLUSIVE by the
 pre-registered rule (only 2/40 seeds reach t≥8000 alive), seed 13 replicates, seed 35
 (bigger engine, memory ON) does NOT self-repair, and ablation *re-ignites* stalled
-memory-OFF worlds (35, 23). Keep it that way.
+memory-OFF worlds (35, 23). The 13-vs-35 anatomy then showed what differs: the
+**fertility of the settled plains** (13: 80 distinct offspring genomes, 76% live >100
+ticks; 35: 6 genomes, median life 1 tick — the v2 cage alive inside v5). Geometry,
+slow reservoir, op capacity and memory-dependence were all refuted. Keep it that way.
 
 ## Architecture — the Conscious Kernel (`src/zeta_life/kernel/`)
 

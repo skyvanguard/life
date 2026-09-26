@@ -1,0 +1,85 @@
+==============================================================================
+EL UTERO -- anatomia comparada: que tiene la seed 13 que la 35 no?
+==============================================================================
+memoria ON, germinal+toroidal, ablacion en t=8000, post=4000, workers=20
+hipotesis H1..H6 y criterio (>=2x) escritos en el docstring ANTES de correr
+
+------------------------------------------------------------------------------
+ANATOMIA EN t=8000 (antes de ablar)          seed 13     seed 35   ref seed 0
+  vivas                                         249         198           2
+  activas (<=200)                                82          66           0
+  H1 fraccion activa                           0.33        0.33        0.00
+  H1 segmentos activos                           10          11           0
+  H1 segmento activo mayor                       48          23           0
+  H1 llanura mayor (viva, inactiva)             126         117           2
+  H1 bomba toca el borde del mundo             True       False       False
+  H2 frac. lentas (200<ultima<=2000)           0.00        0.00        0.00
+  H3 sobreviv. con SPAWN                       1.00        0.96        1.00
+  H3 sobreviv. con MUTO/COPY                   1.00        1.00        1.00
+     bomba con SPAWN                           1.00        0.48         nan
+     bomba con MUTO/COPY                       1.00        1.00         nan
+  H3 genomas distintos entre sobreviv.           44          16           2
+  H6 celdas de borde del hueco                   15           6           0
+  H6 |mem| mediana en el borde                1.000       0.500         nan
+  H6 frac |mem|>1 en el borde                  0.40        0.33         nan
+     |mem| mediana global                     0.000       0.000       0.000
+
+------------------------------------------------------------------------------
+H4 RECOLONIZACION tras ablar la bomba (win 200)
+  seed  abl vivas pre    +1  +500   fin colon<=1000 1a reescr.  primeras 100: borde/hueco/lejos
+    13   82       249   177   247   247         201          1         15/   74/   11  (n=100)
+    35   66       198   134   136   137        1326          2          0/   82/    0  (n=82)
+     0    0         2     2     2     2           0         -1          0/    0/    0  (n=0)
+
+------------------------------------------------------------------------------
+H5 DOSIS Y ESPECIFICIDAD (R = cola ablada / cola sin ablar; R>=0.5 = se reparo)
+  seed 13:  ablacion                abl    pre  pulso   cola      R
+           bomba win=50             82    543   3525    950   2.64
+           bomba win=100            82    543   3525    950   2.64
+           bomba win=200            82    543   3525    950   2.64
+           bomba win=400            82    543   3525    950   2.64
+           aleatoria n=82 k=0       82    543   2859   1610   4.48
+           aleatoria n=82 k=1       82    543   4908   1634   4.54
+           aleatoria n=82 k=2       82    543   2241    943   2.62
+  seed 35:  ablacion                abl    pre  pulso   cola      R
+           bomba win=50             65   1954     31      0   0.00
+           bomba win=100            66   1954     39      0   0.00
+           bomba win=200            66   1954     39      0   0.00
+           bomba win=400            66   1954     39      0   0.00
+           aleatoria n=66 k=0       66   1954   3466    790   0.51
+           aleatoria n=66 k=1       66   1954   2402   1281   0.83
+           aleatoria n=66 k=2       66   1954   3097   2054   1.33
+
+------------------------------------------------------------------------------
+H7 [POST-HOC] PLASTICIDAD EFECTIVA DE LAS LLANURAS en t=8000 (todas portan MUTO/COPY)
+  seed llanuras cambia ctx real cambia vecino vacio  paren crias distintas/parideras
+    13      167            0.00                0.07   1.00           43/167         
+    35      132            0.00                0.02   0.96           10/127         
+     0        2            0.00                0.00   1.00            2/2           
+
+H8 [POST-HOC] DESTINO DE LAS CRIAS nacidas en los 1000 ticks tras la ablacion
+   (control = misma ventana SIN ablar: el churn natural)
+  seed ablacion   nacim.  genomas  vida med   >=10  >=100 vivas al fin
+    13 bomba         144       80      4000   0.87   0.76           75
+    13 sin             0        0       nan    nan    nan            0
+    35 bomba         699        6         1   0.01   0.01            4
+    35 sin           713       35         2   0.04   0.01            0
+     0 bomba           0        0       nan    nan    nan            0
+     0 sin             0        0       nan    nan    nan            0
+
+==============================================================================
+QUE DISTINGUE (>=2x entre 13 y 35, direccion predicha; n=2 => PREDICCIONES)
+  no  H1 llanura mayor 13 > 35                           ratio=1.08
+  no  H1 fraccion activa 35 > 13                         ratio=1.01
+  no  H2 frac. lentas 13 > 35                            ratio=1.00
+  no  H3 sobreviv. con SPAWN 13 > 35                     ratio=1.04
+  no  H3 sobreviv. con MUTO/COPY 13 > 35                 ratio=1.00
+  SI  H6 |mem| borde 13 > 35                             ratio=2.00
+  no  H4 colonizaciones<=1000 13 > 35                    ratio=0.15
+  SI  H7 llanuras que cambian con vecino vacio 13 > 35   ratio=4.35
+  SI  H8 diversidad de crias (distintas/nacim.) 13 > 35  ratio=3.27
+  SI  H8 crias que llegan a 100 ticks 13 > 35            ratio=133.49
+  SI  H5 la 35 sobrevive a la ablacion ALEATORIA y muere a la de BOMBA:
+      lo que la mata es perder la bomba, no perder celdas.
+
+figura: results/utero_anatomia.png
