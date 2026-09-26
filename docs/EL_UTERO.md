@@ -867,6 +867,24 @@ y desde el principio, o exige aceptar que este sustrato produce orden y
 novedad pero no regulación. Ambas son decisiones de rumbo, no de ingeniería.
 (`results/utero_sol_percepcion_run.txt`)
 
+- **v11 fotosíntesis — la calibración por vida media revela una bifurcación
+  (2026-09-26, corrida de 40 semillas en curso).** Criterio de diseño nuevo,
+  derivado de los ocho negativos: sin costo el tejido queda demasiado frío
+  (cristal); con el metabolismo de v9/v10, demasiado caliente (vidas de 20–30
+  ticks: nada vive una estación) y el recambio lo ponía la geometría (sólo la
+  superficie comía). `energia_luz=True`: cada celda cosecha e_gan·|v − sol(t)|
+  — el ingreso depende de la materia propia frente a la estación, no del
+  lugar. Calibración en 4 semillas × 9 configuraciones **por vida mediana de
+  las celdas frente a la duración de la estación, contacto y vivas** (nunca
+  por A/L): los mundos **se bifurcan** — o mueren en los primeros cientos de
+  ticks (e_mant/e_gan ≥ 0.5: casi todos), o se vuelven inmortales (vida de las
+  vivas ≈ 9.700 de 10.000 ticks, muertes ≈ 0; e_mant/e_gan ≤ 0.1). El régimen
+  intermedio, donde la estación decide quién come, aparece sólo con el punto
+  de equilibrio e_mant/e_gan ≈ 0.25 = la distancia típica en el toro: allí 2
+  de 4 semillas viven (202 y 189 celdas), con muertes moderadas (0.016 y
+  0.50 por tick) y novedad alta (170k genomas en la 13). Se fija (0.005,
+  0.02) y se corre `exp_utero_sol_luz.py` con la vara enmendada.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
