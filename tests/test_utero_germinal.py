@@ -18,10 +18,11 @@ def test_spawn_carries_birth_variation_fields():
     # CONST 10 -> R0 = 0.5 ; SPAWN side=izq, b=0 (usa R0), c=9 (posición)
     code = prog((CONST, 10, 0, 0), (ADD, 1, 1, 3), (SPAWN, 0, 0, 9))
     _, _, spawn, _ = execute(code, 0.2, 0.5, 0.8, (None, code, None))
-    side, mpos, mop = spawn
+    side, mpos, mop, locus = spawn
     assert side == 0
     assert mpos == 9
     assert mop == int(0.5 * N_OPS) % N_OPS == 5
+    assert locus == 0                       # b%K: el sitio que la recombinación (v7) toma del otro progenitor
 
 
 def test_germinal_child_differs_in_exactly_one_instruction():

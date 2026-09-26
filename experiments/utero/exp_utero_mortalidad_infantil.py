@@ -80,9 +80,9 @@ def _blind_now(u: UteroCreciente, i: int) -> bool:
                 and abs(p1 - p2) < PROBE_EPS)
 
 
-def correr(seed: int) -> dict:
+def correr(seed: int, flags: dict | None = None) -> dict:
     u = UteroCreciente(n0=N0, seed=seed, max_n=MAX_N, germinal=True, toroidal=True,
-                       memoria=True, log_events=True)
+                       memoria=True, log_events=True, **(flags or {}))
     last_code: dict = {}
     last_change: dict = {}
     children: dict = {}          # coord -> registro de la cría viva en esa coord

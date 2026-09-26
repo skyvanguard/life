@@ -55,7 +55,7 @@ class UteroCreciente:
                  muerte_equilibrio: bool = False, eq_eps: float = 1e-9,
                  eq_window: int = 100, memoria: bool = False,
                  log_events: bool = False, shadow_deaths=None,
-                 invasion: str | None = None):
+                 invasion: str | None = None, recombina: bool = False):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -105,7 +105,20 @@ class UteroCreciente:
         Es interacción regla↔regla con efecto neto en tejido asentado, la
         pieza que la medición de interacción mostró ausente. "siempre":
         cualquier vecino vivo es reemplazable (sin umbral; control). None =
-        byte-idéntico a v5. Manos declaradas: eq_eps, eq_window (las de v4)."""
+        byte-idéntico a v5. Manos declaradas: eq_eps, eq_window (las de v4).
+
+        recombina=True (v7): RECOMBINACIÓN al nacer. La mortalidad infantil
+        mostró que la mutación germinal (v2) es un mapa determinista del
+        estado quieto de la madre y cae siempre en la misma cría, que es
+        letal: las llanuras son estériles en estado estacionario. Con
+        recombina, la cría toma además UNA instrucción del OTRO progenitor —
+        el vecino de la madre del lado opuesto al parto— en el locus b%K del
+        SPAWN, si ese vecino vive y su genoma difiere del de la madre. Dos
+        progenitores, cero RNG: la variación sale del contacto entre reglas
+        distintas (la respuesta de Evoloop/Sexyloop al mismo problema). En
+        una llanura clonal no cambia nada; en los bordes entre dominios, sí.
+        False = byte-idéntico."""
+        self.recombina = recombina
         if invasion not in (None, "asentada", "siempre"):
             raise ValueError("invasion debe ser None, 'asentada' o 'siempre'")
         self.invasion = invasion
@@ -243,10 +256,15 @@ class UteroCreciente:
             self.mem[i] = raw            # memoria: R3 crudo persistente
             if spawn is None:
                 continue
-            side, mpos, mop = spawn
+            side, mpos, mop, locus = spawn
             child = own_next.copy()
             if self.germinal:               # v2: nace con UNA instrucción
                 child[mpos, 0] = mop        # reescrita desde la materia
+            if self.recombina:              # v7: una instrucción del otro progenitor
+                o = i + 1 if side == 0 else i - 1
+                if 0 <= o < self.n and self.alive[o] and not np.array_equal(
+                        self.code[o], self.code[i]):
+                    child[locus] = self.code[o][locus]
             t = i - 1 if side == 0 else i + 1
             if t < 0:                       # escribe en el más-allá izquierdo
                 if edge_left is None:

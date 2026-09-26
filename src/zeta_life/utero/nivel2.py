@@ -70,7 +70,9 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
             stats: dict | None = None) -> tuple:
     """Ejecutar una regla. ctx = (code_izq|None, code_self, code_der|None).
 
-    Devuelve (v', own_next, spawn, r3_raw) con spawn=None o (lado, pos, opcode)
+    Devuelve (v', own_next, spawn, r3_raw) con spawn=None o (lado, pos, opcode,
+    locus) — locus = b%K, el sitio que la recombinación (v7) toma del otro
+    progenitor; nivel2/v1..v6 ignoran el cuarto campo —
     y r3_raw = el R3 crudo final (potencial interno, antes de envolver — la
     MEMORIA de la celda; distinto de la materia observable v', que es su
     proyección con pérdida). Total por construcción: nunca lanza, termina en K.
@@ -128,7 +130,7 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
             # cría (usada por la encarnación 'germinal'; nivel2/v1 la ignoran
             # y copian exacto): posición c%K, opcode nuevo desde |R[b]| en el
             # momento del parto — la misma función de MUTO, acoplada a materia.
-            spawn = (a % 2, c % K, int(abs(r[b % 4]) * N_OPS) % N_OPS)
+            spawn = (a % 2, c % K, int(abs(r[b % 4]) * N_OPS) % N_OPS, b % K)
         # NOP: nada
     raw = r[3]
     out = (raw % 1.0) if wrap else _sigmoid(raw)
