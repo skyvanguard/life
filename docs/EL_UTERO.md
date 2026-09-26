@@ -598,6 +598,37 @@ sustrato distinto. Decisión abierta.
   mantenida (v6 desconcentra, cuota 0.77–0.81, pero no alcanza).
   (`results/utero_mortalidad_infantil_run.txt`, `.png`)
 
+- **v7 recombinación al nacer — SIN EFECTO en tipicidad (3/40), pero el
+  mecanismo funciona y destapa la jaula siguiente: el barrido del clon
+  viable (2026-09-26).** Flag `recombina=True` (la cría toma UNA instrucción
+  del vecino de la madre del lado opuesto al parto, en el locus b%K del
+  SPAWN, si su genoma difiere; cero RNG; `False` byte-idéntico, 6 tests) y
+  `exp_utero_recombina.py`: v5 · v7 · v6+v7, 40 semillas, sombra, ablación y
+  seguimiento de crías. **Resultados:** (1) **la recombinación rompe el punto
+  fijo letal**: las crías de llanura de la 35 pasan de 100% ciegas al nacer a
+  **0%**; en v7 solo, la 35 y la 13 ya no paren a t=8000 porque el mundo se
+  llenó (las crías viables ocuparon el vacío). (2) Tipicidad filtrada: v7 solo
+  **1/40** (la 13 baja de 381 a 171 y **la 35 colapsa a 0**); v6+v7 **3/40**
+  (13, 21, 37), igual que v6. (3) **La 35 se vuelve monocultura**: ecología
+  0.07 bits en v6+v7 y 1.14 en v7; 2.386 crías de llanura con **un solo
+  genoma**. Liberada la fertilidad, un clon viable con ruta de copia
+  confiable barre el tejido — el atractor del copiador trivial, esta vez
+  sensible a la materia y por eso invisible para la sonda. Irónicamente, la
+  cría letal era lo que preservaba la diversidad de la 35. (4)
+  Auto-reparación mejora donde hay motor: v6+v7 repara 2/3 (13 R=3.64; **21
+  R=0.89, primera vez**); v7 solo no (13 R=0.19). **Lectura:** la cadena de
+  jaulas suma un eslabón — cristal → ciclos → monocultivo → materia congelada
+  → bomba frágil → llanura estéril (punto fijo letal) → **barrido del clon
+  viable**. Con tres mecanismos distintos (memoria, invasión, recombinación)
+  el techo es 3/40 y la 13 es la única que resiste todos. El límite ya no es
+  la variación (llega y es viable) sino el **mantenimiento de la
+  diversidad** contra el clon que barre — que en la literatura no lo resuelve
+  ningún filtro de persistencia sino la estructura espacial, la conservación
+  de un recurso o el parasitismo (MCC, Flow-Lenia, Stringmol). En una línea
+  1-D con dos vecinos la estructura espacial es mínima: es el momento de
+  cambiar de perspectiva, no de agregar otro flag.
+  (`results/utero_recombina_run.txt`, `.png`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

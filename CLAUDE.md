@@ -66,12 +66,12 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 16 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
+│   ├── utero/           # 18 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 45 test files (667 tests + 1 opt-in slow, ~105s)
+├── tests/               # 46 test files (673 tests + 1 opt-in slow, ~105s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -89,7 +89,7 @@ pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite (667 tests, ~105s)
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (673 tests, ~105s)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
 PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
 # `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
@@ -117,6 +117,8 @@ PYTHONPATH=src python experiments/utero/exp_utero_interaccion.py    # effective 
 PYTHONPATH=src python experiments/utero/exp_utero_invasion.py       # v6: invasion of settled tissue, 40 seeds x {v5, v6, v6-shadow} + ablations (~15 min): PARTIAL -- typicity 2/40 -> 3/40, no monoculture (9.3 bits), self-repair 1/3; keeps worlds alive but frozen
 PYTHONPATH=src python experiments/utero/exp_utero_invasion_control.py  # v6 control: invasion='siempre' (no threshold) + eq_window sweep 10/100/1000, 5 arms x 40 seeds (~25 min): THE HAND WORKS -- 'siempre' = 0/40 (pure churn, 245 invasions/tick), any eq_window 10..1000 = 3/40
 PYTHONPATH=src python experiments/utero/exp_utero_mortalidad_infantil.py  # follow every plain-born child 500 ticks (~3 min): 100% born BLIND, one lethal child genome, 0% survive across 6 seeds -- plains are sterile at steady state
+PYTHONPATH=src python experiments/utero/exp_utero_recombina.py      # v7: recombination at birth, 40 seeds x {v5, v7, v6+v7} (~20 min): NO EFFECT on typicity (3/40) -- children become viable (0% blind) but seed 35 collapses into a viable-clone monoculture
+PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness: max_n=1024 x 40 seeds and 80 new seeds at 256, v5 vs v6 (~40 min) -- see the ledger
 
 # Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py
@@ -183,7 +185,7 @@ comments here — this line's prose is Spanish by design).
 `u.spawns` (`[(mother_coord, child_coord)]`) each tick; `step()` returns `deaths`. `shadow_deaths=[...]`
 is the **Bedau shadow run**: the probe is switched off and that many random cells die per tick instead.
 
-**Critical: v1→v6 are flags on `UteroCreciente`, not separate classes.**
+**Critical: v1→v7 are flags on `UteroCreciente`, not separate classes.**
 All defaults `False` = v1, byte-identical to the committed v1 results. Each flag is
 one hypothesis about where the "cage" moved:
 
@@ -195,6 +197,7 @@ one hypothesis about where the "cage" moved:
 | `muerte_equilibrio=True` (+`eq_eps`,`eq_window`) | v4 | still matter = dead standing |
 | `memoria=True` | v5 | each cell retains its raw `R3` (internal potential, pre-wrap) and re-injects it next tick — 2nd-order dynamics |
 | `invasion="asentada"` (or `"siempre"`) | v6 | the void is no longer the only colonizable ground: a `SPAWN` aimed at a LIVING neighbour whose matter has been still for `eq_window` ticks REPLACES it (child code, mother's matter, no memory) — rule↔rule interaction with net effect in settled tissue; replacement, not death (v4's desert). `"siempre"` = any living neighbour (no threshold; control) |
+| `recombina=True` | v7 | **recombination at birth**: the child also takes instruction `b%K` (the SPAWN's locus field) from the mother's neighbour on the side opposite to the birth, if alive and of a different genome. Two parents, zero RNG — breaks the deterministic lethal fixed point of the germinal map that makes plains sterile (infant-mortality experiment) |
 
 **The novelty yardstick (anti-illusion):** with random ordering, "it didn't cycle"
 proves nothing. The honest measure is **never-before-seen genomes minted per

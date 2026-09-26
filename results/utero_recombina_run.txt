@@ -1,0 +1,43 @@
+==============================================================================
+EL UTERO -- v7: RECOMBINACION al nacer (una instruccion del otro progenitor)
+==============================================================================
+brazos ['v5', 'v7', 'v6+v7'], 40 semillas, 14000 ticks, memoria ON, linaje 500, maduro (8000, 12000), workers=20
+varas y veredicto pre-registrados en el docstring
+
+------------------------------------------------------------------------------
+POR BRAZO (regimen maduro [8000,12000))
+  brazo   sostenidas  semillas                       eco med vivas med parto%  reparan
+  v5            2/40  [13, 35]                          7.39        12     0%   1/2   
+  v7            1/40  [13]                              4.40        12     0%   0/1   
+  v6+v7         3/40  [13, 21, 37]                      4.34       250     1%   2/3   
+  referencia: v5 2/40, v6 (invasion sola) 3/40
+
+SEMILLAS CANDIDATAS (filtrada >= 5 en algun brazo): novedad con linaje / tramo
+  seed           v5           v7        v6+v7   ecologia (v7 / v6+v7)
+    13         380*         171*         615*   4.40 / 9.02
+    21           0            0          450*   0.94 / 3.65
+    35        1227*           0            0    1.14 / 0.07
+    37           0            0           13*   2.83 / 4.34
+  (* = sostenida)
+
+ABLACION (sostenidas, hasta 6 por brazo): R = cola ablada / cola sin ablar
+  v5      seed  13: abl   82  pre    543  cola    950  sin    360  R  2.64
+  v5      seed  35: abl   66  pre   1954  cola      0  sin   1547  R  0.00
+  v7      seed  13: abl   67  pre    300  cola     35  sin    180  R  0.19
+  v6+v7   seed  13: abl  119  pre    602  cola   3036  sin    833  R  3.64
+  v6+v7   seed  21: abl   80  pre   1633  cola    710  sin    802  R  0.89
+  v6+v7   seed  37: abl  237  pre     44  cola      0  sin     29  R  0.00
+
+CRIAS DE LLANURA (nacidas en [8000,9000), seguidas 500 ticks)
+  brazo   seed crias  ciega0  1a ejec  auto-mut  reempl  sobrev distintas
+  v5        35   674    100%      48%        0%     52%      0%        0%
+  v7        35     0  (sin nacimientos de llanura: mundo lleno)
+  v6+v7     35  2386      0%       0%        0%    100%      0%        0%
+  v7        13     0  (sin nacimientos de llanura: mundo lleno)
+  v6+v7     13  1299      0%       0%        0%    100%      0%        0%
+
+==============================================================================
+VEREDICTO (regla escrita antes de correr)
+=> SIN EFECTO: mejor brazo v6+v7 = 3/40 (v5 2/40, ref v6 3/40); ecologia 4.34 bits; auto-reparacion 2/3
+
+figura: results/utero_recombina.png
