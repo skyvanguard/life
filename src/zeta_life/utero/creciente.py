@@ -55,7 +55,8 @@ class UteroCreciente:
                  muerte_equilibrio: bool = False, eq_eps: float = 1e-9,
                  eq_window: int = 100, memoria: bool = False,
                  log_events: bool = False, shadow_deaths=None,
-                 invasion: str | None = None, recombina: bool = False):
+                 invasion: str | None = None, recombina: bool = False,
+                 sol=None):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -117,7 +118,15 @@ class UteroCreciente:
         progenitores, cero RNG: la variación sale del contacto entre reglas
         distintas (la respuesta de Evoloop/Sexyloop al mismo problema). En
         una llanura clonal no cambia nada; en los bordes entre dominios, sí.
-        False = byte-idéntico."""
+        False = byte-idéntico.
+
+        sol (plan de inteligencia): un ENTORNO. Si se pasa un `Sol` (callable
+        t -> materia en [0,1)), la materia del VACÍO —interior y más allá, que
+        hasta aquí vale 0 (frío)— sigue `sol(t)`: el sol ilumina todo lo que no
+        es tejido y el tejido se da sombra a sí mismo. El tejido no puede leer
+        código del sol ni saber cuándo cambia: sólo siente la materia donde
+        linda con el vacío. None = byte-idéntico (vacío = 0)."""
+        self.sol = sol
         self.recombina = recombina
         if invasion not in (None, "asentada", "siempre"):
             raise ValueError("invasion debe ser None, 'asentada' o 'siempre'")
@@ -176,12 +185,20 @@ class UteroCreciente:
                 new += 1
         return new
 
+    def _vacio(self) -> float:
+        """Materia del VACÍO (interior y más allá): 0 (frío) o el sol. El sol
+        ilumina todo lo que no es tejido; el tejido se da sombra a sí mismo. En
+        1-D el borde son dos celdas: sin esto el entorno casi no tendría
+        superficie de contacto (verificado: con sol sólo en los dos extremos la
+        materia de la seed 13 no cambia en 600 ticks)."""
+        return 0.0 if self.sol is None else float(self.sol(self._tick - 1))
+
     def _ctx(self, i: int) -> tuple:
         n = self.n
         cl = self.code[i - 1] if i > 0 and self.alive[i - 1] else None
         cr = self.code[i + 1] if i < n - 1 and self.alive[i + 1] else None
-        vl = float(self.v[i - 1]) if i > 0 and self.alive[i - 1] else 0.0
-        vr = float(self.v[i + 1]) if i < n - 1 and self.alive[i + 1] else 0.0
+        vl = float(self.v[i - 1]) if i > 0 and self.alive[i - 1] else self._vacio()
+        vr = float(self.v[i + 1]) if i < n - 1 and self.alive[i + 1] else self._vacio()
         return (cl, self.code[i], cr), vl, vr
 
     def step(self) -> dict:
