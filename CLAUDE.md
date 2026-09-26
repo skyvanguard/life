@@ -56,7 +56,7 @@ consolidation rhythm and in the cellular automata; optional in the kernel.
 ```
 zeta-life/
 ├── src/zeta_life/
-│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (6 modules)
+│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (7 modules; 1-D line + 2-D plane)
 │   ├── kernel/          # active-inference Conscious Kernel (21 files)
 │   ├── bridge/          # Yvyra coupling — feed a live agent's experience to the kernel
 │   ├── introspection/   # the north (closed) — Psi over an LLM's activations
@@ -66,12 +66,12 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 18 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
+│   ├── utero/           # 19 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 46 test files (673 tests + 1 opt-in slow, ~105s)
+├── tests/               # 47 test files (683 tests + 1 opt-in slow, ~105s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -89,7 +89,7 @@ pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite (673 tests, ~105s)
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (683 tests, ~105s)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
 PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
 # `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
@@ -118,6 +118,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_invasion.py       # v6: invasi
 PYTHONPATH=src python experiments/utero/exp_utero_invasion_control.py  # v6 control: invasion='siempre' (no threshold) + eq_window sweep 10/100/1000, 5 arms x 40 seeds (~25 min): THE HAND WORKS -- 'siempre' = 0/40 (pure churn, 245 invasions/tick), any eq_window 10..1000 = 3/40
 PYTHONPATH=src python experiments/utero/exp_utero_mortalidad_infantil.py  # follow every plain-born child 500 ticks (~3 min): 100% born BLIND, one lethal child genome, 0% survive across 6 seeds -- plains are sterile at steady state
 PYTHONPATH=src python experiments/utero/exp_utero_recombina.py      # v7: recombination at birth, 40 seeds x {v5, v7, v6+v7} (~20 min): NO EFFECT on typicity (3/40) -- children become viable (0% blind) but seed 35 collapses into a viable-clone monoculture
+PYTHONPATH=src python experiments/utero/exp_utero_plano.py          # v8: the 2-D plane, 40 seeds x {p5, p6, p67} + shadows/ablations (~60 min) -- see the ledger
 PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness (~40 min): 1024 cells = same typicity; 120 seeds -> v5 4.2%, v6 5.8%. The rarity is intrinsic to 1-D
 
 # Kernel:
@@ -178,7 +179,8 @@ comments here — this line's prose is Spanish by design).
 | `creciente.py` | `UteroCreciente` — the current substrate: a **line with borders** (not a ring), asynchronous seeded-random update, world grows only where a physics `SPAWN`s past the edge. |
 | `ablacion.py` | The **pump-ablation protocol** (kill every cell whose code changed in the last 200 ticks; measure the sustained TAIL at +1000..+3000, not the recolonization pulse). Extracted from v5 and regression-tested against its published numbers (`UTERO_SLOW=1`). |
 | `linaje.py` | `RastreadorLinaje` — the **MODES lineage-persistence filter**: a minted genome counts only if its line (cell continuity + SPAWN offspring) is still alive `t_filtro` ticks later. Fed per tick with `{coord: genome}` and `u.spawns`. |
-| `medidas.py` | `correr_medido(seed, flags, ticks, ...)` — **one run with the full honest yardstick**: raw novelty, lineage-filtered novelty, ecology (bits), dominant-genome share, deaths/invasions/alive per tick, minting cause (birth vs rewrite); `shadow=` makes it the Bedau shadow run. Every experiment since v6 uses it. |
+| `plano.py` | **v8 — `UteroPlano`, the same substrate in 2-D** (von Neumann; registers vN,vE,vS,vO,v,R; birth direction `(a + |R[b]|·4) % 4` modulated by matter; 32×32 plate with walls, 8×8 live block, colonizable void; all flags inherited). Same interface (`genomas()`, `vaciar()`, `spawns`, `events`) so the yardstick runs unchanged via `fabrica=`. |
+| `medidas.py` | `correr_medido(seed, flags, ticks, ..., fabrica=None)` — **one run with the full honest yardstick**: raw novelty, lineage-filtered novelty, ecology (bits), dominant-genome share, deaths/invasions/alive per tick, minting cause (birth vs rewrite); `shadow=` makes it the Bedau shadow run. Every experiment since v6 uses it. |
 
 **Observation hooks on `UteroCreciente` (byte-identical when off, tested):** `log_events=True` fills
 `u.events` (`{coord: {copy_writes, muto_writes, copy_distinct}}` from `execute(stats=)`) and
@@ -383,6 +385,7 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
   principles, the two death modes, the open crossroads, and the **honest results
   ledger** (Nivel 1 → v5, each entry written only after its adversarial control,
   with the refutations kept in). Update its ledger when a new útero experiment lands.
+- `docs/papers/utero-paper.md` — **working draft of the útero paper** (Spanish): what it takes and what is not enough to sustain structural novelty in a self-rewriting substrate — the chain of cages, the honest yardstick, the anatomy/fertility/mortality mechanism, the three mechanisms and their ceiling, v8 pending.
 - `docs/ESTADO_DEL_ARTE_UTERO.md` — **state of the art (2026-09-26)** for the útero line: BFF /
   Computational Life (+ its 2026 self-correction), Stringmol, AlChemy, Flow-Lenia, Evoloop,
   MODES / evolutionary activity, minimal-criterion (Soros/Stanley), Beer's autopoiesis. Table of
