@@ -1,0 +1,42 @@
+==============================================================================
+EL UTERO -- interaccion EFECTIVA regla<->regla (COPY / transferencia horizontal)
+==============================================================================
+memoria ON, germinal+toroidal, 12000 ticks, 40 semillas, workers=20
+predicciones P1..P4 y criterios en el docstring, escritos antes de correr
+
+------------------------------------------------------------------------------
+TASAS POR CELDA-TICK (regimen maduro t in [8000, 12000])  -- 13 vs 35, y seed 0 de ref.
+  seed zona     celda-ticks | BRUTAS: COPY      TH    MUTO | NETO cambio  con TH solo MUTO
+    13 bomba         328000 |       0.0433  0.0079  0.8252 |      0.7976   0.010     0.962
+    13 llanura       668000 |       0.0646  0.0000  0.0765 |      0.0000   0.000     0.000
+    13 todas         996000 |       0.0576  0.0026  0.3231 |      0.2627   0.010     0.962
+    35 bomba         262155 |       0.0270  0.0244  0.9342 |      0.9289   0.026     0.971
+    35 llanura       526691 |       0.0000  0.0000  0.0228 |      0.0000   0.000     0.000
+    35 todas         788846 |       0.0090  0.0081  0.3257 |      0.3087   0.026     0.971
+     0 bomba              0 |       0.0000  0.0000  0.0000 |      0.0000   0.000     0.000
+     0 llanura         8000 |       0.0000  0.0000  0.0000 |      0.0000   0.000     0.000
+     0 todas           8000 |       0.0000  0.0000  0.0000 |      0.0000   0.000     0.000
+  (brutas = por operacion; NETO = el genoma cambio al final del tick; 'con TH' y
+   'solo MUTO' son fracciones de los cambios netos)
+
+ATRIBUCION DE LOS GENOMAS NUEVOS (regimen maduro): % por causa
+  seed  nuevos       parto          TH  copia_clon        muto        otro
+    13    3044        0.0%        3.3%        0.1%       96.6%        0.0%
+    35   12450        0.4%       11.1%        2.5%       86.0%        0.0%
+     0       0        0.0%        0.0%        0.0%        0.0%        0.0%
+
+40 SEMILLAS: tasa de TH en [4000, 8000] vs novedad cruda tardia [8000, 12000]
+  Spearman TH(todas) vs novedad tardia: rho=+0.28 p=0.082
+  Spearman TH(llanuras) vs novedad tardia: rho=-0.10 p=0.519
+  semillas con TH>0 en [4000,8000): 11/40 ; con novedad tardia >=25/tramo: [13, 35]
+  top-8 por TH temprana: s18=0.1429(nov 0), s32=0.1429(nov 0), s28=0.1423(nov 0), s26=0.1249(nov 0), s21=0.0351(nov 0), s2=0.0293(nov 0), s31=0.0122(nov 0), s35=0.0083(nov 1556)
+
+==============================================================================
+PREDICCIONES (criterios pre-registrados)
+  P1 TH llanuras 13/35 = 0.0000/0.0000 = 1.00  -> no
+  P2 rho(TH temprana, novedad tardia) = +0.28  -> no
+  P3 fraccion de novedad por TH 13/35 = 3.3%/11.1% = 0.30  -> no
+  P4 seed 13: novedad por MUTO sola = 96.6%  -> MUTO domina: la interaccion NO es el motor
+  P4 seed 35: novedad por MUTO sola = 86.0%  -> MUTO domina: la interaccion NO es el motor
+
+figura: results/utero_interaccion.png

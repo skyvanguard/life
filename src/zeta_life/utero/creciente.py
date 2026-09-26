@@ -37,7 +37,7 @@ import math
 
 import numpy as np
 
-from zeta_life.utero.nivel2 import (F, K, PROBE_EPS, execute, _output_only)
+from zeta_life.utero.nivel2 import PROBE_EPS, F, K, _output_only, execute
 
 N0 = 16
 MAX_N = 256
@@ -53,7 +53,8 @@ class UteroCreciente:
     def __init__(self, n0: int = N0, seed: int = 0, max_n: int = MAX_N,
                  germinal: bool = False, toroidal: bool = False,
                  muerte_equilibrio: bool = False, eq_eps: float = 1e-9,
-                 eq_window: int = 100, memoria: bool = False):
+                 eq_window: int = 100, memoria: bool = False,
+                 log_events: bool = False, shadow_deaths=None):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -81,7 +82,24 @@ class UteroCreciente:
         como R3 inicial el tick siguiente. Recurrencia / integración temporal:
         estado oculto tipo potencial de membrana. Da dinámica de 2º orden, que
         ensancha el borde-del-caos. La cría nace SIN recuerdos (mem=0). Sin
-        manos nuevas."""
+        manos nuevas.
+
+        log_events=True: OBSERVACIÓN pura (byte-idéntico). Tras cada step(),
+        `self.events` = {coord: stats de execute()} para cada celda que actuó
+        y `self.spawns` = [(coord_madre, coord_cría)] de ese tick (interior y
+        borde). Coordenadas estables (índice − left_grown).
+
+        shadow_deaths: la CORRIDA SOMBRA (Bedau & Packard): lista con el número
+        de muertes por tick de una corrida real; en vez de la sonda (selección
+        por persistencia de la ley) mueren ESE número de celdas al azar por
+        tick (RNG propio, sembrado aparte: el orden de actuación queda igual).
+        Todo lo demás idéntico. Mide qué novedad produce la deriva sola."""
+        self.log_events = log_events
+        self.shadow = None if shadow_deaths is None else list(shadow_deaths)
+        self._shadow_rng = np.random.default_rng(seed + 7919)
+        self._tick = 0
+        self.events: dict = {}
+        self.spawns: list = []
         self.germinal = germinal
         self.toroidal = toroidal
         self.muerte_eq = muerte_equilibrio
@@ -132,35 +150,62 @@ class UteroCreciente:
         prev_code = self.code.copy()
         prev_alive = self.alive.copy()
 
-        edge_left = None   # (code_copy, v) — primer reclamo gana
+        edge_left = None   # (code_copy, v, coord_madre) — primer reclamo gana
         edge_right = None
         colonized = 0
+        deaths = 0
+        lg = self.left_grown             # constante dentro del bucle
+        self.events = {}
+        self.spawns = []
+        doomed: set = set()
+        if self.shadow is not None:      # sombra: muertes al azar, sin sonda
+            d = self.shadow[self._tick] if self._tick < len(self.shadow) else 0
+            alive_idx = np.flatnonzero(self.alive)
+            if d > 0 and len(alive_idx) > 0:
+                doomed = set(int(k) for k in self._shadow_rng.choice(
+                    alive_idx, size=min(int(d), len(alive_idx)), replace=False))
+        self._tick += 1
 
         for i in self.rng.permutation(np.flatnonzero(self.alive)):
             i = int(i)
             if not self.alive[i]:          # murió antes de su turno
                 continue
-            ctx, vl, vr = self._ctx(i)
-            mi = float(self.mem[i]) if self.memoria else 0.0
-            v_new, own_next, spawn, raw = execute(
-                self.code[i], vl, float(self.v[i]), vr, ctx,
-                wrap=self.toroidal, r3_init=mi)
-            # persistencia: la física ciega a la materia muere (sonda, misma
-            # memoria fija -> prueba de sensibilidad a la MATERIA sola)
-            h = self._probe_hi
-            p1 = _output_only(self.code[i], 0.0, 0.0, 0.0, ctx,
-                              wrap=self.toroidal, r3_init=mi)
-            p2 = _output_only(self.code[i], h, h, h, ctx,
-                              wrap=self.toroidal, r3_init=mi)
-            if (not math.isfinite(v_new)
-                    or (abs(v_new - p1) < PROBE_EPS
-                        and abs(v_new - p2) < PROBE_EPS
-                        and abs(p1 - p2) < PROBE_EPS)):
+            if i in doomed:
                 self.alive[i] = False
                 self.v[i] = 0.0
                 self.code[i] = 0
                 self.eq_count[i] = 0
                 self.mem[i] = 0.0
+                deaths += 1
+                continue
+            ctx, vl, vr = self._ctx(i)
+            mi = float(self.mem[i]) if self.memoria else 0.0
+            stats: dict | None = {} if self.log_events else None
+            v_new, own_next, spawn, raw = execute(
+                self.code[i], vl, float(self.v[i]), vr, ctx,
+                wrap=self.toroidal, r3_init=mi, stats=stats)
+            if stats is not None:
+                self.events[i - lg] = stats
+            # persistencia: la física ciega a la materia muere (sonda, misma
+            # memoria fija -> prueba de sensibilidad a la MATERIA sola)
+            if self.shadow is None:
+                h = self._probe_hi
+                p1 = _output_only(self.code[i], 0.0, 0.0, 0.0, ctx,
+                                  wrap=self.toroidal, r3_init=mi)
+                p2 = _output_only(self.code[i], h, h, h, ctx,
+                                  wrap=self.toroidal, r3_init=mi)
+                blind = (abs(v_new - p1) < PROBE_EPS
+                         and abs(v_new - p2) < PROBE_EPS
+                         and abs(p1 - p2) < PROBE_EPS)
+            else:
+                blind = False
+            if not math.isfinite(v_new) or blind:
+                self.alive[i] = False
+                self.v[i] = 0.0
+                self.code[i] = 0
+                self.eq_count[i] = 0
+                self.mem[i] = 0.0
+                deaths += 1
                 continue
             # v4: muerte por equilibrio — lo que deja de devenir, deja de ser
             if self.muerte_eq:
@@ -188,10 +233,10 @@ class UteroCreciente:
             t = i - 1 if side == 0 else i + 1
             if t < 0:                       # escribe en el más-allá izquierdo
                 if edge_left is None:
-                    edge_left = (child, v_new)
+                    edge_left = (child, v_new, i - lg)
             elif t >= self.n:               # más-allá derecho
                 if edge_right is None:
-                    edge_right = (child, v_new)
+                    edge_right = (child, v_new, i - lg)
             elif not self.alive[t]:         # vacío interior: colonización
                 self.code[t] = child
                 self.v[t] = v_new
@@ -199,12 +244,14 @@ class UteroCreciente:
                 self.eq_count[t] = 0
                 self.mem[t] = 0.0           # la cría nace sin recuerdos
                 colonized += 1
+                self.spawns.append((i - lg, t - lg))
 
         # crecimiento del mundo (fin de tick; tope = la placa de Petri)
         grown = 0
         grew_left = False
         if edge_right is not None and self.n < self.max_n:
-            c, val = edge_right
+            c, val, madre = edge_right
+            self.spawns.append((madre, self.n - lg))
             self.v = np.concatenate([self.v, [val]])
             self.code = np.concatenate([self.code, c[None]])
             self.alive = np.concatenate([self.alive, [True]])
@@ -212,7 +259,8 @@ class UteroCreciente:
             self.mem = np.concatenate([self.mem, [0.0]])
             grown += 1
         if edge_left is not None and self.n < self.max_n:
-            c, val = edge_left
+            c, val, madre = edge_left
+            self.spawns.append((madre, -(lg + 1)))
             self.v = np.concatenate([[val], self.v])
             self.code = np.concatenate([c[None], self.code])
             self.alive = np.concatenate([[True], self.alive])
@@ -242,6 +290,7 @@ class UteroCreciente:
             "value_change": value_change,
             "colonized": colonized,
             "grown": grown,
+            "deaths": deaths,
             "new_genomes": new_genomes,
             "diversity": (len({self.code[i].tobytes()
                                for i in np.flatnonzero(self.alive)})

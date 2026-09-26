@@ -66,7 +66,8 @@ def _sigmoid(x: float) -> float:
 
 
 def execute(code: np.ndarray, vl: float, v: float, vr: float,
-            ctx: tuple, wrap: bool = False, r3_init: float = 0.0) -> tuple:
+            ctx: tuple, wrap: bool = False, r3_init: float = 0.0,
+            stats: dict | None = None) -> tuple:
     """Ejecutar una regla. ctx = (code_izq|None, code_self, code_der|None).
 
     Devuelve (v', own_next, spawn, r3_raw) con spawn=None o (lado, pos, opcode)
@@ -82,7 +83,15 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
     r3_init: valor inicial de R3 (por defecto 0 = byte-idéntico). La
     encarnación con MEMORIA (v5) lo siembra con el R3 crudo del tick anterior
     de la celda — recurrencia / integración temporal.
+
+    stats: si se pasa un dict, se llena con contadores de OBSERVACIÓN (no
+    alteran nada): copy_writes / muto_writes = escrituras EFECTIVAS (la
+    instrucción cambió de verdad), copy_distinct = alguna COPY efectiva vino
+    de un vecino cuyo genoma completo difiere del propio (transferencia
+    horizontal real, no copia de sí mismo ni de un clon).
     """
+    if stats is not None:
+        stats.update(copy_writes=0, muto_writes=0, copy_distinct=False)
     r = [vl, v, vr, r3_init]
     own_next = code.copy()
     spawn = None
@@ -102,10 +111,17 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
             src = ctx[a % 3]
             r[c % 4] = float(src[b % K, 0]) / N_OPS if src is not None else 0.0
         elif op == MUTO:
-            own_next[a % K, 0] = int(abs(r[b % 4]) * N_OPS) % N_OPS
+            new_op = int(abs(r[b % 4]) * N_OPS) % N_OPS
+            if stats is not None and own_next[a % K, 0] != new_op:
+                stats["muto_writes"] += 1
+            own_next[a % K, 0] = new_op
         elif op == COPY:
             src = ctx[a % 3]
             if src is not None:
+                if stats is not None and not np.array_equal(own_next[c % K], src[b % K]):
+                    stats["copy_writes"] += 1
+                    if not np.array_equal(src, code):
+                        stats["copy_distinct"] = True
                 own_next[c % K] = src[b % K]
         elif op == SPAWN:
             # side=a%2; los campos b,c codifican la VARIACIÓN GERMINAL de la

@@ -425,6 +425,70 @@ sustrato distinto. Decisión abierta.
   materia que ya no se mueve), no sumar memoria ni mortalidad.
   (`results/utero_anatomia_run.txt`, `results/utero_anatomia.png`)
 
+- **Filtro de persistencia de linaje (MODES) + corrida SOMBRA (Bedau) en 40
+  semillas — el 2/40 es DEFENDIBLE con la vara de la literatura; sin la
+  sonda, el copiador trivial se apodera del mundo en <250 ticks (2026-09-26).**
+  `exp_utero_linaje_sombra.py`; ganchos de observación en `creciente.py`
+  (`log_events`, `shadow_deaths`, `deaths` en el retorno; byte-idéntico con
+  los flags apagados, testeado) y `utero/linaje.py` (`RastreadorLinaje`). El
+  estado del arte objetó nuestra vara por dos lados: cuenta acuñación y no
+  persistencia (se infla por deriva) y no tiene sombra neutral. Se aplicaron
+  ambas correcciones, con varas y veredicto pre-registrados. **Filtro:** un
+  genoma cuenta sólo si t_filtro ticks después sigue viva su LÍNEA (la celda
+  o sus crías por SPAWN); t_filtro ∈ {100, 500, 2000}. **Sombra:** misma
+  semilla y sustrato, mismo número de muertes por tick que la corrida real,
+  pero al azar en vez de por la sonda (la única selección). Resultado: (1) la
+  vara casi no estaba inflada en el régimen maduro — de la novedad cruda de la
+  13 persiste el **100%** y de la 35 el **79%**, insensible a t_filtro (100 a
+  2000 dan lo mismo); en el tramo inicial (la sopa) sí se pierde ~40–60%,
+  como MODES predice. (2) **Sostenido filtrado: las mismas 2/40 (13 y 35)**
+  con los tres t_filtro, y ninguna nueva. (3) **La sombra acuña CERO genomas
+  nuevos desde t≈500 en las 40 semillas**: verificado a mano en la 13 — a los
+  250 ticks un único genoma ocupa las 242 celdas vivas, `code_change` y
+  `value_change` exactamente 0. Sin la sonda, una física ciega a la materia
+  (que sobrevive porque nadie la mata) barre el mundo por SPAWN y lo congela:
+  el copiador trivial de Fontana (AlChemy 1994), reproducido. **Lectura:** el
+  principio 3 no es contabilidad neutra — la sonda es lo que impide la
+  monocultura y mantiene la materia en movimiento; TODA la novedad medida
+  es actividad por encima de la deriva (clase 2/3 de Bedau, no clase 1). La
+  ecología (Shannon de genomas persistentes por tramo) es 4.8 bits en la 13
+  y 10.0 en la 35, contra 0 en las sombras. Matiz honesto: la sombra es un
+  control de *selección*, no de *variación*; que la deriva sola dé cero no
+  dice que la novedad real sea adaptativa, sólo que no es deriva.
+  (`results/utero_linaje_sombra_run.txt`, `.png`)
+
+- **Interacción efectiva regla↔regla — NO existe en las llanuras; el motor
+  actual es MUTO (germinal), no ecológico; las 4 predicciones fallaron
+  (2026-09-26).** `exp_utero_interaccion.py`, con `execute(stats=)` y
+  `log_events` (observación pura). El estado del arte apuntaba a que el motor
+  sostenido es ecológico (parasitismo en Stringmol, colisión/sexo en
+  Evoloop); COPY entre vecinos de genoma distinto —transferencia horizontal,
+  TH— es esa interacción en potencia. Medido en 40 semillas (régimen maduro):
+  **P1 falla** — TH en las llanuras es **0.0000** en la 13 y en la 35; el
+  cambio NETO de código en las llanuras es 0 en ambas. **P2 falla** — la TH
+  temprana no predice la novedad tardía (Spearman ρ=+0.28, p=0.08); las
+  semillas con MÁS TH (18, 32, 28, 26: ~0.14 por celda-tick) tienen novedad
+  tardía **cero**: son bucles de copia entre dos genomas — interacción sin
+  variación = ciclo, no novedad. **P3 se invierte** — la fracción de novedad
+  atribuible a TH es 3.3% en la 13 y 11.1% en la 35. **P4** — la novedad viene
+  de MUTO sola: **96.6%** (13) y **86.0%** (35); de los cambios netos en la
+  bomba, 96–97% son sólo MUTO y 1–2.6% involucran TH. **Hallazgo colateral
+  (medida bruta vs neta):** las llanuras de la 13 ejecutan MUTO/COPY
+  efectivas en el 7.7%/6.5% de sus celda-ticks y aun así su código neto no
+  cambia nunca: **reescritura idempotente** — programas que se reescriben en
+  sí mismos dentro de una ejecución. La llanura no es un programa inerte sino
+  un punto fijo de la auto-reescritura; la bomba es donde la auto-reescritura
+  tiene efecto neto. **Lectura:** el Útero de hoy no tiene el motor que la
+  literatura señala; su novedad es auto-mutación acoplada a la materia (MUTO
+  escribe el opcode `int(|R|·10)`, y R es materia), lo que explica de raíz
+  que se seque cuando la materia se aquieta (v2) y que la fertilidad de las
+  llanuras sea la variable crítica (anatomía). La transferencia horizontal
+  existe en la bomba pero es marginal, y la fertilidad de la 13 NO se explica
+  por ella. Predicción para el próximo cruce: si se quiere un motor
+  ecológico, hay que hacer que COPY entre genomas distintos tenga efecto neto
+  en tejido asentado — hoy no lo tiene en ninguna semilla.
+  (`results/utero_interaccion_run.txt`, `.png`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

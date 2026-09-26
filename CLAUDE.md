@@ -56,7 +56,7 @@ consolidation rhythm and in the cellular automata; optional in the kernel.
 ```
 zeta-life/
 ├── src/zeta_life/
-│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (4 modules)
+│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (5 modules)
 │   ├── kernel/          # active-inference Conscious Kernel (21 files)
 │   ├── bridge/          # Yvyra coupling — feed a live agent's experience to the kernel
 │   ├── introspection/   # the north (closed) — Psi over an LLM's activations
@@ -66,12 +66,12 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 10 experiments — the live line (Nivel 1/2, v1..v5, controls, 40-seed replica, anatomy)
+│   ├── utero/           # 12 experiments — the live line (Nivel 1/2, v1..v5, controls, replica, anatomy, lineage/shadow, interaction)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 42 test files (647 tests + 1 opt-in slow, ~105s)
+├── tests/               # 43 test files (655 tests + 1 opt-in slow, ~105s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -89,7 +89,7 @@ pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite (647 tests, ~105s)
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (655 tests, ~105s)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
 PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
 # `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
@@ -112,6 +112,8 @@ PYTHONPATH=src python experiments/utero/exp_utero_motor.py      # v4: equilibriu
 PYTHONPATH=src python experiments/utero/exp_utero_memoria.py    # v5: memory (first self-repair)
 PYTHONPATH=src python experiments/utero/exp_utero_memoria_semillas.py  # v5 replica, 40 seeds (~13 min, 20 procs): INCONCLUSIVE, seed 35 = counterexample
 PYTHONPATH=src python experiments/utero/exp_utero_anatomia.py   # anatomy 13 vs 35 (~3 min): self-repair = FERTILE plains (diverse, viable offspring), not geometry/memory
+PYTHONPATH=src python experiments/utero/exp_utero_linaje_sombra.py  # MODES lineage filter + Bedau shadow, 40 seeds (~10 min): 2/40 DEFENSIBLE; shadow = 0 novelty (trivial copier takes over)
+PYTHONPATH=src python experiments/utero/exp_utero_interaccion.py    # effective rule<->rule interaction (COPY / horizontal transfer), 40 seeds (~4 min): novelty is MUTO-driven, TH ~0 in plains
 
 # Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py
@@ -170,6 +172,12 @@ comments here — this line's prose is Spanish by design).
 | `nivel2.py` | The **rule-as-program** VM: 10 ops incl. `MUTO`/`COPY` (self-rewrite) and `SPAWN` (colonization). `execute()`, `K`, `F`, `PROBE_EPS` are the primitives every later version reuses. |
 | `creciente.py` | `UteroCreciente` — the current substrate: a **line with borders** (not a ring), asynchronous seeded-random update, world grows only where a physics `SPAWN`s past the edge. |
 | `ablacion.py` | The **pump-ablation protocol** (kill every cell whose code changed in the last 200 ticks; measure the sustained TAIL at +1000..+3000, not the recolonization pulse). Extracted from v5 and regression-tested against its published numbers (`UTERO_SLOW=1`). |
+| `linaje.py` | `RastreadorLinaje` — the **MODES lineage-persistence filter**: a minted genome counts only if its line (cell continuity + SPAWN offspring) is still alive `t_filtro` ticks later. Fed per tick with `{coord: genome}` and `u.spawns`. |
+
+**Observation hooks on `UteroCreciente` (byte-identical when off, tested):** `log_events=True` fills
+`u.events` (`{coord: {copy_writes, muto_writes, copy_distinct}}` from `execute(stats=)`) and
+`u.spawns` (`[(mother_coord, child_coord)]`) each tick; `step()` returns `deaths`. `shadow_deaths=[...]`
+is the **Bedau shadow run**: the probe is switched off and that many random cells die per tick instead.
 
 **Critical: v1→v5 are boolean flags on `UteroCreciente`, not separate classes.**
 All defaults `False` = v1, byte-identical to the committed v1 results. Each flag is
