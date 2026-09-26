@@ -71,7 +71,7 @@ TICKS = 20000
 SEEDS = list(range(40))
 SOL_SEED = 0
 KAPPA = 0.5
-E_MANT, E_GAN, E_DIF, E_PARTO = 0.01, 0.2, 0.25, 0.5     # se fijan tras la calibración
+E_MANT, E_GAN, E_DIF, E_PARTO = 0.005, 0.2, 0.25, 0.5    # calibrado 2026-09-26 por vivas/muertes (seeds 13, 35, 21): m.01 y g.1 matan mundos
 FLAGS = dict(memoria=True, invasion="asentada", eq_window=100, sol_acople=KAPPA, sol_sonda=True,
              energia=True, e_mant=E_MANT, e_gan=E_GAN, e_dif=E_DIF, e_parto=E_PARTO)
 ALPHA, MIN_SEEDS, RATIO, CONTACTO = 0.05, 5, 2.0, 1.2
