@@ -1,0 +1,37 @@
+================================================================================
+EL SOL EN EL PLANO, CON LA VARA ENMENDADA (contacto previo, p binomial, brazo permutado)
+================================================================================
+plano 32x32 bloque 8; flags {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'sol_acople': 0.5, 'sol_sonda': True}; 20 semillas; 12000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring; PLAN §6b)
+
+--------------------------------------------------------------------------------
+CONTACTO y ESTADO por brazo (mediana sobre semillas)
+  clima      muertes post/pre 0.824  vivas 1024  muertes/tick 0.069  semillas con contacto>=1.2: 2
+  ciclo2     muertes post/pre 0.957  vivas 1024  muertes/tick 0.045  semillas con contacto>=1.2: 5
+  permutado  muertes post/pre 1.000  vivas 1024  muertes/tick 0.047  semillas con contacto>=1.2: 6
+  sin        muertes post/pre 0.907  vivas 1023  muertes/tick 0.039  semillas con contacto>=1.2: 0
+  sombra     muertes post/pre 0.800  vivas 1022  muertes/tick 0.061  semillas con contacto>=1.2: 1
+
+--------------------------------------------------------------------------------
+R2. REGULACION POR ORDEN: muertes/tick en maduro, pareadas por semilla
+  clima   < permutado en 9/20 semillas (p signo 0.748); razon mediana 1.05 -> no
+  ciclo2  < permutado en 10/20 semillas (p signo 0.588); razon mediana 0.88 -> no
+  => sin regulacion por orden
+
+--------------------------------------------------------------------------------
+POSITIVAS POR LECTURA Y BRAZO (p<0.05; A con stat>0)
+  lectura       clima     ciclo2  permutado        sin     sombra   p_binom(clima)  cumple(2)  cumple(3)
+  A                 0          1          4          5          1           1.000      False      False
+  A_m               2          4          1          1          2           0.264      False      False
+  L                 3          1          0          2          2           0.075      False      False
+  L_m               0          0          1          1          0           1.000      False      False
+  A: clima []  permutado [1, 10, 11, 12]  sin [0, 1, 5, 13, 19]  sombra [0]
+  A_m: clima [2, 11]  permutado [12]  sin [7]  sombra [2, 11]
+  L: clima [1, 6, 11]  permutado []  sin [3, 18]  sombra [10, 11]
+  L_m: clima []  permutado [18]  sin [1]  sombra []
+  habituacion en clima (L): [1, 6]
+  habituacion en clima (L_m): []
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NADA (con contacto 0.82): ninguna lectura cumple; R2 no.

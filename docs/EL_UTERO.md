@@ -757,6 +757,32 @@ sustrato distinto. Decisión abierta.
   superficie de contacto es grande (paredes + vacíos interiores). Se elige el
   plano: es la línea del plan (§5.3) y no agrega manos.
 
+- **El sol en el PLANO, con la vara enmendada: NADA (2026-09-26).**
+  `exp_utero_sol_plano.py`: placa 32×32, bloque 8×8, memoria + invasión,
+  sol que calienta (κ=0.5) + sonda climática; 20 semillas × 5 brazos (clima
+  A→B→C, ciclo2 A→C→B, permutado, sin sol, sombra), 12000 ticks; contacto
+  bilateral, p binomial, ≥2× controles y ≥2× permutado, y la lectura R2
+  (regulación por orden: muertes pareadas clima vs permutado, con ciclo2 como
+  control de los tipos de transición). Un humo temprano (2 semillas, 6000
+  ticks) había mostrado respuesta al clima —muertes ×2.7 al inicio de estación
+  bajo el orden permutado, ×0.45 bajo el cíclico, y tasa total triple en el
+  permutado—. **En la corrida madura desaparece:** la placa se llena (1024
+  vivas en todos los brazos), muertes/tick 0.04–0.07, contacto 0.82–1.00; R2:
+  clima < permutado en 9/20, ciclo2 en 10/20 (azar); lecturas A/A_m/L/L_m al
+  nivel de los controles (el brazo SIN sol tiene 5 positivas de anticipación:
+  la tasa de falsos positivos del método, como debe ser). **Lectura:** el
+  mismo cuadro que en la línea, un piso más arriba: mientras el tejido crece
+  y muere, siente el clima; cuando satura, se vuelve inerte a él, porque nada
+  esencial depende del entorno. Cierra la fase 3 del plan como negativo
+  honesto. El camino que queda es el (a) del ledger anterior: una variable
+  esencial que el clima amenace. La forma mínima consistente con el principio
+  3: **lo que se vuelve igual al vacío es vacío** — una celda cuya materia
+  coincide con la del entorno durante W ticks deja de ser distinguible de él y
+  se vacía. Con el sol que calienta empujando la superficie hacia s(t), sólo
+  persisten en la superficie las físicas que empujan de vuelta (el homeostato
+  de Ashby), y como s(t) cambia por estación, lo que es seguro cambia con él.
+  Manos declaradas: ε, W. (`results/utero_sol_plano_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
