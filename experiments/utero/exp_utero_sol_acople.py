@@ -72,7 +72,7 @@ KAPPA = 0.5
 ARMS = {"calor": dict(sol_acople=KAPPA),
         "calor+sonda": dict(sol_acople=KAPPA, sol_sonda=True)}
 ALPHA, MIN_SEEDS, RATIO, CONTACTO = 0.05, 3, 2.0, 1.2
-WORKERS = max(1, min(20, (os.cpu_count() or 4) - 4))
+WORKERS = max(1, min(10, (os.cpu_count() or 4) // 2))   # 4 corridas por semilla: la mitad de obreros
 RESULTS = HERE.parents[1] / "results"
 NAME = "utero_sol_acople"
 
