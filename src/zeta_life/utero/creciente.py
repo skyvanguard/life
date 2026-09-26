@@ -56,7 +56,7 @@ class UteroCreciente:
                  eq_window: int = 100, memoria: bool = False,
                  log_events: bool = False, shadow_deaths=None,
                  invasion: str | None = None, recombina: bool = False,
-                 sol=None):
+                 sol=None, sol_sonda: bool = False):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -125,7 +125,18 @@ class UteroCreciente:
         hasta aquí vale 0 (frío)— sigue `sol(t)`: el sol ilumina todo lo que no
         es tejido y el tejido se da sombra a sí mismo. El tejido no puede leer
         código del sol ni saber cuándo cambia: sólo siente la materia donde
-        linda con el vacío. None = byte-idéntico (vacío = 0)."""
+        linda con el vacío. None = byte-idéntico (vacío = 0).
+
+        sol_sonda=True: el clima CUENTA para la persistencia. La sonda de
+        ceguera deja de comparar contra referencias fijas (0 y h=0.618…) y
+        compara contra la materia ACTUAL del vacío, v0=sol(t), y v0+h (mod 1):
+        una física que no distingue estar inmersa en el mundo de hoy de estar
+        inmersa en otro es ciega. Sigue siendo el principio 3 (nada de meta ni
+        recompensa) con una referencia menos arbitraria que la razón áurea; la
+        consecuencia es que cada estación mata físicas distintas, y persistir a
+        través de las estaciones exige regularse (Ashby). Sin sol, v0=0 y la
+        sonda es la de siempre: byte-idéntico."""
+        self.sol_sonda = sol_sonda
         self.sol = sol
         self.recombina = recombina
         if invasion not in (None, "asentada", "siempre"):
@@ -249,8 +260,9 @@ class UteroCreciente:
             # persistencia: la física ciega a la materia muere (sonda, misma
             # memoria fija -> prueba de sensibilidad a la MATERIA sola)
             if self.shadow is None:
-                h = self._probe_hi
-                p1 = _output_only(self.code[i], 0.0, 0.0, 0.0, ctx,
+                v0 = self._vacio() if self.sol_sonda else 0.0
+                h = (v0 + self._probe_hi) % 1.0 if (self.sol_sonda and self.toroidal)                     else self._probe_hi
+                p1 = _output_only(self.code[i], v0, v0, v0, ctx,
                                   wrap=self.toroidal, r3_init=mi)
                 p2 = _output_only(self.code[i], h, h, h, ctx,
                                   wrap=self.toroidal, r3_init=mi)
