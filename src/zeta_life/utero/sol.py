@@ -36,7 +36,7 @@ class Sol:
     dur_min: int = 300
     dur_max: int = 900
     regimenes: tuple = REGIMENES
-    orden: str = "ciclico"          # "ciclico" (A→B→C, aprendible) | "permutado" (control)
+    orden: str = "ciclico"          # "ciclico" (A→B→C) | "ciclico_inverso" (A→C→B) | "permutado"
     estaciones: list = field(default_factory=list, init=False)   # (nombre, inicio, fin)
     _s: np.ndarray = field(default=None, init=False, repr=False)
 
@@ -50,6 +50,8 @@ class Sol:
             dur = int(self.dur_min + x * (self.dur_max - self.dur_min))
             if self.orden == "ciclico":
                 nombre = self.regimenes[k % len(self.regimenes)][0]
+            elif self.orden == "ciclico_inverso":                   # A→C→B: otra regularidad
+                nombre = self.regimenes[(-k) % len(self.regimenes)][0]
             else:                                                   # permutado: sin sucesor fijo
                 opciones = [r[0] for r in self.regimenes if r[0] != prev]
                 nombre = str(rng.choice(opciones))

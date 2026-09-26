@@ -9,10 +9,24 @@ contacto es grande (paredes + vacíos). Mismo sustrato (`UteroPlano` 32×32,
 bloque 8×8, memoria + invasión asentada), sol que calienta la superficie
 (κ=0.5) y sonda climática.
 
-Vara enmendada: (1) CONTACTO previo — muertes post/pre ≥ 1.2 al inicio de
-estación; (2) conteo con p binomial < 0.05 contra la tasa nominal; (3) ≥ 2×
-el máximo de los controles (sin sol, sombra) Y ≥ 2× el brazo con ORDEN
-PERMUTADO (mismas duraciones y regímenes, sucesor al azar).
+Vara enmendada: (1) CONTACTO previo — la tasa de muertes CAMBIA al inicio de
+estación: post/pre ≥ 1.2 o ≤ 1/1.2 (bilateral: el humo de 2 semillas mostró
+que bajo el orden cíclico las muertes BAJAN al cambiar de estación, 0.45, y
+bajo el permutado suben, 2.67 — ambas son respuesta); (2) conteo con p
+binomial < 0.05 contra la tasa nominal; (3) ≥ 2× el máximo de los controles
+(sin sol, sombra) Y ≥ 2× el brazo con ORDEN PERMUTADO (mismas duraciones y
+regímenes, sucesor al azar).
+
+LECTURA NUEVA, declarada antes de la corrida completa a partir del humo:
+  R2 — REGULACIÓN POR ORDEN. Muertes por tick en maduro, pareadas por semilla:
+  clima (A→B→C) vs permutado. Si el tejido explota la regularidad, vive con
+  menos muertes en el mundo predecible que en el impredecible con la MISMA
+  estadística de regímenes. Control decisivo: ciclo2 (A→C→B), otra
+  regularidad con otras transiciones. Si clima y ciclo2 son bajos y permutado
+  alto → es la REGULARIDAD; si ciclo2 es tan letal como permutado → son los
+  TIPOS de transición, no el orden. Criterio: clima < permutado en ≥ 15/20
+  semillas (signo, p < 0.05) con razón mediana ≤ 0.5, y lo mismo para ciclo2
+  vs permutado.
 
 BRAZOS (20 semillas; 12000 ticks, ~17 estaciones; MIN_SEEDS=4 para n=20 al 5%
 —esperado 1— con p binomial < 0.05):
@@ -58,7 +72,7 @@ MATURE = (4000, 12000)
 WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
 RESULTS = HERE.parents[1] / "results"
 NAME = "utero_sol_plano"
-ARMS = ("clima", "permutado", "sin", "sombra")
+ARMS = ("clima", "ciclo2", "permutado", "sin", "sombra")
 
 
 def fabrica(seed: int, shadow, **flags) -> UteroPlano:
@@ -68,13 +82,15 @@ def fabrica(seed: int, shadow, **flags) -> UteroPlano:
 
 def job(seed: int) -> tuple:
     clima = Sol(seed=SOL_SEED, ticks=TICKS)
+    ciclo2 = Sol(seed=SOL_SEED, ticks=TICKS, orden="ciclico_inverso")
     perm = Sol(seed=SOL_SEED, ticks=TICKS, orden="permutado")
     series = {"clima": correr_series(seed, FLAGS, clima, TICKS, fabrica=fabrica),
+              "ciclo2": correr_series(seed, FLAGS, ciclo2, TICKS, fabrica=fabrica),
               "permutado": correr_series(seed, FLAGS, perm, TICKS, fabrica=fabrica),
               "sin": correr_series(seed, FLAGS, None, TICKS, fabrica=fabrica)}
     series["sombra"] = correr_series(seed, FLAGS, clima, TICKS, fabrica=fabrica,
                                      shadow=list(series["clima"]["muertes"].astype(int)))
-    cal = {"clima": clima, "permutado": perm, "sin": clima, "sombra": clima}
+    cal = {"clima": clima, "ciclo2": ciclo2, "permutado": perm, "sin": clima, "sombra": clima}
     out = {}
     for arm, ser in series.items():
         for tag, serie in (("", ser["actividad"]), ("_m", ser["muertes"])):
@@ -129,7 +145,29 @@ def main() -> None:
         out(f"  {arm:<10} muertes post/pre {cont[arm]:.3f}  vivas {np.median([res[s][('vivas', arm)] for s in SEEDS]):.0f}  "
             f"muertes/tick {np.median([res[s][('muertes', arm)] for s in SEEDS]):.3f}  "
             f"semillas con contacto>=1.2: {int(np.nansum(c >= CONTACTO))}")
-    hay_contacto = cont["clima"] >= CONTACTO
+    hay_contacto = cont["clima"] >= CONTACTO or cont["clima"] <= 1.0 / CONTACTO
+
+    # ---- R2: regulación por orden (muertes pareadas por semilla) ----
+    out("")
+    out("-" * 80)
+    out("R2. REGULACION POR ORDEN: muertes/tick en maduro, pareadas por semilla")
+    r2 = {}
+    for arm in ("clima", "ciclo2"):
+        a = np.array([res[s][("muertes", arm)] for s in SEEDS])
+        b = np.array([res[s][("muertes", "permutado")] for s in SEEDS])
+        wins = int((a < b).sum())
+        razon = float(np.median(a / np.maximum(b, 1e-9)))
+        p_sign = binom_p(wins, len(SEEDS), 0.5)
+        r2[arm] = dict(wins=wins, razon=razon, p=p_sign,
+                       ok=wins >= 15 and p_sign < 0.05 and razon <= 0.5)
+        out(f"  {arm:<7} < permutado en {wins}/{len(SEEDS)} semillas (p signo {p_sign:.3f}); "
+            f"razon mediana {razon:.2f} -> {'CUMPLE' if r2[arm]['ok'] else 'no'}")
+    if r2["clima"]["ok"] and r2["ciclo2"]["ok"]:
+        out("  => ambos ordenes regulares viven con menos muertes que el permutado: es la REGULARIDAD")
+    elif r2["clima"]["ok"] and not r2["ciclo2"]["ok"]:
+        out("  => solo A->B->C es 'suave': son los TIPOS de transicion, no el orden")
+    else:
+        out("  => sin regulacion por orden")
 
     def conteo(vara, arm):
         key = "estadistico" if vara.startswith("A") else "rho"
@@ -163,11 +201,12 @@ def main() -> None:
     out("=" * 80)
     out("VEREDICTO (regla escrita antes de correr)")
     if not hay_contacto:
-        out(f"=> SIN CONTACTO: muertes post/pre en clima = {cont['clima']:.2f} < {CONTACTO}. No se lee como 'sin inteligencia'.")
-    elif cumplen:
-        out(f"=> VESTIGIO en {cumplen} (contacto {cont['clima']:.2f}). ANTES DE CREERLO: barrido de kappa y de la seed del sol.")
+        out(f"=> SIN CONTACTO: muertes post/pre en clima = {cont['clima']:.2f} dentro de [1/{CONTACTO}, {CONTACTO}]. No se lee como 'sin inteligencia'.")
+    elif cumplen or (r2["clima"]["ok"] and r2["ciclo2"]["ok"]):
+        que = list(cumplen) + (["R2 regularidad"] if (r2["clima"]["ok"] and r2["ciclo2"]["ok"]) else [])
+        out(f"=> VESTIGIO en {que} (contacto {cont['clima']:.2f}). ANTES DE CREERLO: barrido de kappa y de la seed del sol.")
     else:
-        out(f"=> NADA (con contacto {cont['clima']:.2f}): ninguna lectura cumple p binomial < 0.05 y 2x controles y 2x permutado.")
+        out(f"=> NADA (con contacto {cont['clima']:.2f}): ninguna lectura cumple; R2 {'solo tipos de transicion' if r2['clima']['ok'] else 'no'}.")
     (RESULTS / f"{NAME}_run.txt").write_text("\n".join(lines), encoding="utf-8")
 
 

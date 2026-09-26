@@ -163,3 +163,10 @@ def test_sol_permutado_removes_the_fixed_order_but_keeps_everything_else():
     assert all(x != y for x, y in zip(nb, nb[1:]))                              # nunca repite
     assert (b.serie >= 0).all() and (b.serie < 1).all()
     np.testing.assert_array_equal(b.serie, Sol(seed=0, ticks=20000, orden="permutado").serie)
+
+
+def test_sol_ciclico_inverso_is_another_regularity():
+    a = Sol(seed=0, ticks=20000)
+    b = Sol(seed=0, ticks=20000, orden="ciclico_inverso")
+    assert [i for _, i, _ in a.estaciones] == [i for _, i, _ in b.estaciones]
+    assert [n for n, _, _ in b.estaciones][:6] == ["A", "C", "B", "A", "C", "B"]
