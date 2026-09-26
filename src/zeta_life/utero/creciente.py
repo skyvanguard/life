@@ -60,7 +60,7 @@ class UteroCreciente:
                  sol_eq_eps: float = 0.0, sol_eq_window: int = 20,
                  energia: bool = False, e0: float = 1.0, e_mant: float = 0.01,
                  e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5,
-                 percepcion: bool = False):
+                 percepcion: bool = False, energia_luz: bool = False):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -178,7 +178,20 @@ class UteroCreciente:
         reescribe cada tick y las estaciones duran 300–900 ticks (medido: τ de
         la materia interior 6–150 ticks). Sin una variable que recuerde la
         estación y una física que la lea no hay anticipación posible.
-        Requiere energia=True. False: byte-idéntico."""
+        Requiere energia=True. False: byte-idéntico.
+
+        energia_luz=True (v11, FOTOSÍNTESIS): la luz cae sobre TODO el tejido,
+        no sólo sobre la superficie. Cada celda viva cosecha e_gan·|v − sol(t)|
+        (distancia en el toro entre su materia y la del clima). Con la cosecha
+        sólo en la superficie (v9) el interior se moría de hambre por
+        geometría y el recambio (3–7% por tick, vidas de 20–30 ticks) lo ponía
+        la forma del tejido, no el clima; así nada vivía una estación entera
+        (300–900 ticks) y no había qué aprender. Con luz en todas partes, lo
+        que decide el ingreso de cada celda es la relación entre SU materia y
+        LA ESTACIÓN: al cambiar la estación cambia quién come, con el retraso
+        de la reserva (τ≈e0/e_mant) — la muerte llega tras el cambio y la
+        anticipación tendría valor. Requiere energia=True. False: byte-idéntico."""
+        self.energia_luz = energia_luz
         self.percepcion = percepcion
         self.energia = energia
         self.e0, self.e_mant, self.e_gan = float(e0), float(e_mant), float(e_gan)
@@ -377,7 +390,7 @@ class UteroCreciente:
                 e = self.e[i] - self.e_mant
                 borde = ((i == 0 or not self.alive[i - 1])
                          or (i == self.n - 1 or not self.alive[i + 1]))
-                if borde:
+                if borde or self.energia_luz:
                     d = abs(v_new - self._vacio())
                     e += self.e_gan * (min(d, 1.0 - d) if self.toroidal else d)
                 if e <= 0.0:

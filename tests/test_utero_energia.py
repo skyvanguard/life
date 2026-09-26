@@ -68,3 +68,27 @@ def test_diffusion_is_conservative():
     assert u.alive.all()
     assert abs(u.e[u.alive].sum() - total) < 1e-9
     assert u.e.std() < 0.45                                 # se va homogeneizando (inicial 0.52)
+
+
+def test_energia_luz_off_is_byte_identical_and_on_feeds_the_interior():
+    a = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True, energia=True,
+                       e_mant=0.005)
+    b = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True, energia=True,
+                       e_mant=0.005, energia_luz=False)
+    for _ in range(200):
+        a.step()
+        b.step()
+    np.testing.assert_array_equal(a.code, b.code)
+    np.testing.assert_array_equal(a.e, b.e)
+    # tres celdas: la del medio es interior; sin luz no come (solo paga); con luz come
+    def mundo(luz):
+        u = UteroCreciente(n0=3, seed=0, max_n=3, toroidal=True, energia=True, e0=1.0,
+                           e_mant=0.01, e_gan=0.5, e_dif=0.0, energia_luz=luz)
+        for i in range(3):
+            u.code[i] = prog((CONST, 10, 0, 3), (ADD, 3, 1, 3))    # R3 = 0.5 + v : lejos del 0
+            u.v[i] = 0.0
+        return u
+    sin, con = mundo(False), mundo(True)
+    sin.step()
+    con.step()
+    assert sin.e[1] < 1.0 < con.e[1]
