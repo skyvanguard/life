@@ -93,6 +93,22 @@ devuelve `s(t)` en vez de 0. `sol=None` byte-idéntico (test).
   ni L por construcción; si nuestras medidas se lo atribuyen, están mal.
 - **Barrido de manos**: rango de duraciones y amplitudes del sol.
 
+## 6b. Enmienda (2026-09-26, tras la réplica): la vara del vestigio era débil
+
+La corrida 2 disparó "vestigio" con 3/40 al 5%: la tasa nominal ya da 2, y la
+réplica lo mostró falso positivo (sol1 3, sol2 2, permutado 6, 8/120 contra 6
+esperados). Para toda corrida posterior a esta enmienda:
+
+- **Vestigio por conteo** exige p binomial < 0.05 contra la tasa nominal
+  (≥ 5/40) Y ≥ 2× el máximo de los controles Y ≥ 2× el brazo con orden
+  permutado (el control que quita la regularidad y deja todo lo demás igual).
+- **Condición de contacto previa**: el estadístico de anticipación dispara en
+  tejidos que no sienten el clima (muertes 0 en maduro). Antes de leer A o L,
+  el brazo debe mostrar respuesta al inicio de estación (muertes post/pre ≥
+  1.2 en mediana); si no, el resultado se lee como "sin contacto".
+- Las corridas ya lanzadas conservan su regla pre-registrada; la enmienda se
+  aplica a las siguientes y se declara en cada docstring.
+
 ## 7. Reglas de parada honestas
 
 - Si tras las fases 2 y 3 no hay vestigio: se reporta como negativo con el
