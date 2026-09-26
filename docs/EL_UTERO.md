@@ -561,6 +561,43 @@ sustrato distinto. Decisión abierta.
   es mantener el tejido vivo y desconcentrado; lo que no hace es crear
   motores donde no los hay. (`results/utero_invasion_control_run.txt`, `.png`)
 
+- **Mortalidad infantil — las crías de llanura nacen CIEGAS (100%) y son
+  siempre la misma; la auto-mutilación queda refutada; en régimen
+  estacionario las llanuras de TODAS las semillas son estériles
+  (2026-09-26).** `exp_utero_mortalidad_infantil.py`: cada cría nacida en
+  [8000,9000) (v5, memoria ON) seguida 500 ticks y clasificada; cinco
+  hipótesis pre-registradas. Antes, un sondeo (no publicado) había refutado la
+  explicación genética: el 85–91% de los mutantes de un opcode de cualquier
+  genoma pasan la sonda en el contexto de la madre — nueve de cada diez crías
+  POSIBLES nacen viables (13: 85%, 35: 91%, 21: 83%). **Resultado:** (1) la 13
+  y la 21 **no paren** en la ventana: el mundo está lleno (249/256) y no hay
+  vacío junto a una paridera; su fertilidad sólo se manifiesta cuando la
+  ablación abre espacio. (2) La 35 pare 674 crías de llanura: **100% ciegas al
+  nacer** en su contexto real (mem=0), 48% mueren en la primera ejecución y
+  52% mueren y son recolonizadas en el mismo tick — es decir, todas mueren al
+  primer tick; **0% auto-mutilación** (H1 refutada); **1 solo genoma** en 674
+  nacimientos. La mutación germinal determinista (posición fija por el campo
+  c del SPAWN, opcode desde |R[b]| con registros quietos) cae SIEMPRE en el
+  mismo mutante, y ese mutante está entre el ~10% letal. Un **punto fijo
+  letal del mapa germinal**: la llanura se reproduce sin cesar hacia la muerte
+  y, como ninguna cría la desplaza, persiste — la esterilidad se
+  auto-preserva. (3) Agregado sobre las 6 semillas con ≥10 nacimientos de
+  llanura (5, 6, 27, 28, 34, 35; 3.743 crías): 71% ciegas al nacer, 36% mueren
+  en la primera ejecución, 49% reemplazadas, 15% auto-mutilación (concentrada
+  en las semillas 5 y 28, con k=1), **0% sobrevive 500 ticks, 0% de genomas
+  distintos**. La esterilidad de la llanura no es una propiedad de la 35: es
+  el estado estacionario del sustrato. **Lectura:** la fertilidad de la 13 tras
+  la ablación no era un tejido fértil en reposo sino un tejido DIVERSO (44
+  genomas de llanura contra 16) que, cuando se abre espacio, pare 80 hijos
+  distintos porque cada madre distinta cae en un mutante distinto y algunos
+  son viables. La variable no es "fertilidad" sino **diversidad de madres ×
+  determinismo del mapa germinal**. Dos consecuencias de diseño, ambas sin
+  RNG: (a) que el mapa germinal no dependa sólo del estado quieto de la madre
+  sino de un segundo progenitor — recombinación por contacto, la respuesta de
+  Evoloop/Sexyloop a este mismo problema; (b) que la diversidad de madres sea
+  mantenida (v6 desconcentra, cuota 0.77–0.81, pero no alcanza).
+  (`results/utero_mortalidad_infantil_run.txt`, `.png`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

@@ -1,0 +1,28 @@
+================================================================================
+EL UTERO -- mortalidad infantil: de que mueren las crias de las llanuras?
+================================================================================
+memoria ON, sin invasion (v5); crias nacidas en (8000, 9000), seguidas 500 ticks; 40 semillas; workers=20
+hipotesis H1..H5 y criterios en el docstring, escritos antes de correr
+
+--------------------------------------------------------------------------------
+DETALLE 13 / 35 / 21 (madre = llanura o bomba)
+  seed madre    crias  ciega0  1a ejec  auto-mut  k med  reempl  sobrev vida med distintas
+    13 llanura      0
+    13 bomba        0
+    35 llanura    674    100%      48%        0%    nan     52%      0%        1        0%
+    35 bomba      746     93%      47%        5%   18.0     48%      0%        1        6%
+    21 llanura      0
+    21 bomba        0
+
+AGREGADO 40 semillas (solo crias de LLANURA; semillas con >=10 nacimientos)
+     n madre    crias  ciega0  1a ejec  auto-mut  k med  reempl  sobrev vida med distintas
+     6 llanura   3743     71%      36%       15%    1.0     49%      0%        1        0%
+  semillas con >=10 crias de llanura en la ventana: [5, 6, 27, 28, 34, 35]
+  sobrevivencia de crias de llanura por semilla (top 8): s5=0%, s6=0%, s27=0%, s28=0%, s34=0%, s35=0%
+  auto-mutilacion por semilla (top 8): s5=54%, s28=49%, s34=15%, s6=0%, s27=0%, s35=0%
+
+================================================================================
+HIPOTESIS (criterios pre-registrados)
+  sin crias de llanura suficientes en 13 o 35 para evaluar H1-H5
+
+figura: results/utero_mortalidad_infantil.png
