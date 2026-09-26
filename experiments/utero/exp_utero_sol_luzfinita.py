@@ -29,6 +29,15 @@ tres condiciones en clima o en ciclo2; SIN CONTACTO si las muertes no cambian
 al entrar en A; NADA en otro caso. Si VESTIGIO: réplica con otro sembrado del
 sol y barrido de L0 antes de creerlo.
 
+CORRIDA 2 (réplica, declarada tras la corrida 1): A_e dio 9/40 (p<0.001) en
+clima pero los controles 3/5/4 (≥2× exige 10) y el brazo SIN SOL con 5 mostró
+que el estadístico sobre el NIVEL de energía está inflado por deriva. Cambios
+declarados antes de correr: sol seed 1; percepción ON (la variable lenta
+legible); A_e sobre la DERIVADA de la energía media (ritmo de ahorro). Mismo
+veredicto. Se compara con la corrida 1: si A_e vuelve a superar la tasa
+nominal en clima Y ahora supera 2× los controles, es vestigio; si no, la
+corrida 1 fue el sesgo del nivel.
+
     PYTHONPATH=src python experiments/utero/exp_utero_sol_luzfinita.py
 """
 
@@ -52,10 +61,10 @@ from zeta_life.utero.sol import Sol  # noqa: E402
 N0, MAX_N = 16, 256
 TICKS = 20000
 SEEDS = list(range(40))
-SOL_SEED = 0
+SOL_SEED = 1
 KAPPA = 0.5
 E_MANT, E_DIF, E_PARTO = 0.01, 0.25, 0.5
-L0, E0, PERCEPCION = 3.0, 2.0, False        # calibrado por capacidad de carga estacional, vida y contacto
+L0, E0, PERCEPCION = 3.0, 2.0, True         # corrida 2 (réplica): otro sol (seed 1), percepción ON, A_e sobre la derivada
 FLAGS = dict(memoria=True, invasion="asentada", eq_window=100,
              energia=True, luz_finita=L0, e0=E0, e_mant=E_MANT, e_dif=E_DIF,
              e_parto=E_PARTO, percepcion=PERCEPCION)
@@ -64,7 +73,7 @@ ALPHA, MIN_SEEDS, RATIO, CONTACTO = 0.05, 5, 2.0, 1.2
 MATURE = (6000, 20000)
 WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
 RESULTS = HERE.parents[1] / "results"
-NAME = "utero_sol_luzfinita"
+NAME = "utero_sol_luzfinita2"
 ARMS = ("clima", "ciclo2", "permutado", "sin", "sombra")
 
 
@@ -92,7 +101,8 @@ def job(seed: int) -> tuple:
         out[("A_n", arm)] = anticipacion(-ser["nacimientos"], cal[arm], rng_seed=seed,
                                          regimenes=PRECEDE_A[arm])
         em = np.nan_to_num(ser["e_media"], nan=0.0)
-        out[("A_e", arm)] = anticipacion(em, cal[arm], rng_seed=seed, regimenes=PRECEDE_A[arm])
+        dem = np.concatenate([[0.0], np.diff(em)])       # corrida 2: la DERIVADA (ritmo de ahorro), sin deriva
+        out[("A_e", arm)] = anticipacion(dem, cal[arm], rng_seed=seed, regimenes=PRECEDE_A[arm])
         out[("contacto", arm)] = contacto(ser["muertes"], cal[arm])
         out[("vivas", arm)] = float(np.median(ser["vivas"][MATURE[0]:]))
         out[("muertes", arm)] = float(ser["muertes"][MATURE[0]:].mean())

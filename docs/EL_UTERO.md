@@ -908,6 +908,33 @@ novedad pero no regulación. Ambas son decisiones de rumbo, no de ingeniería.
   futuro debería cambiar está en `PLAN_INTELIGENCIA.md` §8; la decisión de
   rumbo es de Fran. (`results/utero_sol_luz2_run.txt`)
 
+- **v12 luz finita (capacidad de carga estacional): el primer régimen
+  intermedio de la serie; veredicto NADA, con la lectura más cercana hasta
+  ahora (2026-09-26).** `luz_finita=L0`: la luz de cada tick, L0·sol(t), se
+  reparte entre las vivas según |v − sol|; N* = L/e_mant sigue a la estación
+  (A hambruna, B abundancia). Calibración por capacidad de carga, vida y
+  contacto (4 semillas × 12 configuraciones): con L0=3, e_mant=0.01 la
+  población de la 13 sigue a la estación (93/159/167 en A/B/C) y las muertes
+  se duplican al entrar en A; la percepción mata a la 13 y ayuda a la 35 y la
+  21 → corrida principal sin percepción. `exp_utero_sol_luzfinita.py`, 40
+  semillas × 5 brazos, con dos lecturas nuevas pre-registradas: **A_n** (los
+  nacimientos caen en el instante esperado de la hambruna, en las estaciones
+  largas que la preceden) y **A_e** (la energía media sube en ese instante:
+  ahorro). **Resultado:** vivas 50–95 con sol (la sombra muere entera; sin sol
+  70 pero con muertes 0.83/tick); contacto 0.60 (las muertes bajan al cambiar
+  de estación); R2 no (13/40). Lecturas: A 3, A_m 5 (p=0.048), L 3, L_m 4, A_n
+  4, **A_e 9/40 (p binomial < 0.001)** — pero permutado 3, sin sol 5, sombra 4:
+  el criterio exige ≥ 2× el máximo de los controles (10) y da 9. **Falla por
+  una semilla, y no se relaja.** Además el brazo SIN SOL con 5 positivas
+  muestra que el estadístico sobre una serie lenta (la energía media deriva)
+  está inflado. Lectura honesta: es la única vez que una lectura de
+  anticipación supera con holgura la tasa nominal, en la dirección predicha
+  (ahorro antes de la hambruna) y en el brazo con la regularidad; pero no
+  supera a sus controles. Por protocolo: réplica con otro sembrado del sol,
+  con percepción (la variable lenta legible) y con A_e sobre la DERIVADA de la
+  energía (declarado antes de correr, para quitar la deriva).
+  (`results/utero_sol_luzfinita_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
