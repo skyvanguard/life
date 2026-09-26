@@ -27,7 +27,7 @@ germinal determinista cae siempre en la misma cría, letal—; (4) tres
 mecanismos distintos (memoria recurrente, invasión de tejido asentado,
 recombinación al nacer) rompen jaulas nombradas sin mover el techo de
 tipicidad, y el último destapa la jaula siguiente, el barrido del clon
-viable; (5) *(v8, pendiente)* el paso a dos dimensiones. Discutimos qué
+viable; (5) el paso a dos dimensiones y el programa del sol: tres soles en la línea sin vestigio de inteligencia (visible: nada; consecuente: falso positivo replicado; que calienta: sin contacto, el tejido maduro es un cristal), y una primera respuesta al clima en el plano, pendiente de la corrida completa. Discutimos qué
 diferencia a este sustrato de BFF, Stringmol, Flow-Lenia y Evoloop, y qué
 de lo aquí medido no aparece en esa literatura.
 
@@ -213,6 +213,40 @@ auto-reescritura.
 *Pendiente: `results/utero_plano_run.txt`.* Placa 32×32, bloque 8×8, tres
 brazos, misma vara. La dirección del parto se modula con la materia porque con
 dirección fija el crecimiento avanza en rayos y la placa no se coloniza.
+
+### 4.8 Del orden a la inteligencia: el programa del sol
+
+La novedad es orden. Para preguntar por inteligencia adoptamos la línea Ashby
+→ Conant y Ashby → Beer: un tejido es inteligente en la medida en que su
+estado interno modela su entorno y usa ese modelo para seguir siendo. Cuatro
+varas con sus controles (regulación, anticipación, aprendizaje por
+recurrencia, organización), un entorno con estructura aprendible —estaciones
+en orden fijo, duraciones típicas pero impredecibles, un día dentro de cada
+estación— y una regla pre-registrada de qué contaría como vestigio
+(`docs/PLAN_INTELIGENCIA.md`).
+
+- **Sol visible** (el vacío lleva la materia del sol): nada. Anticipación
+  2/40 con sol contra 2 en la sombra; aprendizaje 1 contra 5. El tejido apenas
+  siente el clima (acople del borde 0,12).
+- **Sol consecuente** (la sonda de ceguera se referencia al clima): la regla
+  disparó "vestigio" de anticipación con 3/40, el umbral mínimo. La réplica
+  con dos soles nuevos y con el orden de estaciones permutado lo mostró falso
+  positivo: 3, 2 y 6 positivas respectivamente; 8/120 contra 6 esperados al
+  azar. El umbral de 3/40 al 5% era débil; la vara se enmendó (p binomial,
+  comparación con el brazo permutado, condición de contacto previa).
+- **Sol que calienta** (la superficie recibe materia del sol, κ=0,5): la
+  superficie sigue al sol (correlación 0,92) y nada muere ni cambia
+  (muertes 0,000 en régimen maduro). El tejido maduro de la línea es un
+  cristal con una bomba; el sol calienta la piel de un cristal.
+
+La lección es de Ashby: un tejido sin variables esenciales que el entorno
+amenace no tiene nada que regular. En la línea 1-D el sol no amenaza nada.
+En el plano, donde el tejido no es un cristal —llena la placa, muere y acuña
+sin parar— y la superficie de contacto es grande, el humo mostró por primera
+vez respuesta al clima: bajo el orden permutado las muertes se triplican al
+inicio de cada estación y la tasa de muerte total es tres veces la del orden
+cíclico. *(Corrida completa de 20 semillas con cinco brazos, incluido un
+segundo orden cíclico como control de los tipos de transición: pendiente.)*
 
 ## 5. Discusión
 
