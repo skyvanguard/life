@@ -189,6 +189,14 @@ de verdad.
 
 ---
 
+## Estado del arte
+
+Relevamiento verificado (2026-09-26) en `ESTADO_DEL_ARTE_UTERO.md`: qué ya
+hicieron BFF, Stringmol, AlChemy, Flow-Lenia, Evoloop y la teoría OEE, qué
+estaríamos repitiendo, dónde está el hueco, y qué métricas (filtro de
+persistencia de linaje, shadow emparejado) hacen falta para que un resultado
+de esta línea sea comparable. Leerlo antes de diseñar un mecanismo nuevo.
+
 ## Ledger honesto de resultados (cada uno tras su control adversarial)
 
 - **Nivel 1 — primer latido (2026-07-09):** `utero/nivel1.py`,

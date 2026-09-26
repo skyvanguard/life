@@ -367,6 +367,12 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
   principles, the two death modes, the open crossroads, and the **honest results
   ledger** (Nivel 1 → v5, each entry written only after its adversarial control,
   with the refutations kept in). Update its ledger when a new útero experiment lands.
+- `docs/ESTADO_DEL_ARTE_UTERO.md` — **state of the art (2026-09-26)** for the útero line: BFF /
+  Computational Life (+ its 2026 self-correction), Stringmol, AlChemy, Flow-Lenia, Evoloop,
+  MODES / evolutionary activity, minimal-criterion (Soros/Stanley), Beer's autopoiesis. Table of
+  who did what vs our three principles, **repetition risks**, **gaps**, what the literature says
+  about our open crossroads, and the metrics to adopt (lineage-persistence filter, shadow run).
+  Read before designing any new útero mechanism.
 - `docs/AUDIT_FIXES_2026.md` — 11 audited kernel implementation fixes (with before/after metrics)
 - `docs/AGENCY_2026.md` — active-inference agency investigation (honest negative results)
 - `docs/YVYRA_BRIDGE.md` — contract for feeding a live agent's experience into the kernel; the zeta-life side is implemented in `src/zeta_life/bridge/` (demo: `experiments/kernel/exp_yvyra_bridge.py`)
