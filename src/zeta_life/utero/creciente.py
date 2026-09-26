@@ -153,6 +153,20 @@ class UteroCreciente:
     def n(self) -> int:
         return len(self.v)
 
+    def genomas(self) -> dict:
+        """{coord: genoma_bytes} de las celdas vivas (coord = índice − left_grown)."""
+        return {int(i) - self.left_grown: self.code[i].tobytes() for i in np.flatnonzero(self.alive)}
+
+    def vaciar(self, coord: int) -> None:
+        """Volver VACÍO la celda de esa coordenada (para ablaciones externas)."""
+        i = int(coord) + self.left_grown
+        if 0 <= i < self.n and self.alive[i]:
+            self.alive[i] = False
+            self.v[i] = 0.0
+            self.code[i] = 0
+            self.eq_count[i] = 0
+            self.mem[i] = 0.0
+
     def _register_genomes(self) -> int:
         new = 0
         for i in np.flatnonzero(self.alive):

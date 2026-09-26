@@ -30,39 +30,39 @@ TAIL_TO = 3000         # ...y termina 3000 después (2000 ticks = 4 tramos)
 ACTIVE_WIN = 200       # "activa" = código reescrito en los últimos 200 ticks
 
 
-def _genomas_por_coord(u: UteroCreciente) -> dict:
-    return {i - u.left_grown: u.code[i].tobytes() for i in np.flatnonzero(u.alive)}
+def _genomas_por_coord(u) -> dict:
+    return u.genomas()
 
 
-def _ablar(u: UteroCreciente, last_change: dict, t: int, win: int) -> int:
+def _ablar(u, last_change: dict, t: int, win: int) -> int:
     """Vaciar toda celda cuyo código cambió en los últimos `win` ticks."""
     n_abl = 0
+    vivas = u.genomas()
     for coord, tc in list(last_change.items()):
-        if t - tc > win:
+        if t - tc > win or coord not in vivas:
             continue
-        i = coord + u.left_grown
-        if 0 <= i < u.n and u.alive[i]:
-            u.alive[i] = False
-            u.v[i] = 0.0
-            u.code[i] = 0
-            u.eq_count[i] = 0
-            u.mem[i] = 0.0
-            n_abl += 1
+        u.vaciar(coord)
+        n_abl += 1
     return n_abl
 
 
 def correr(seed: int, memoria: bool, ticks: int, ablate_at: int | None,
            n0: int = N0, max_n: int = MAX_N, germinal: bool = True,
-           toroidal: bool = True, win: int = ACTIVE_WIN, **flags) -> dict:
+           toroidal: bool = True, win: int = ACTIVE_WIN, fabrica=None, **flags) -> dict:
     """Correr `ticks` y (opcionalmente) ablar la zona-bomba en `ablate_at`.
 
     Devuelve {"novedad": genomas nuevos por tick, "vivas": celdas vivas por
     tick, "ablated": cuántas celdas mató la ablación (0 si no hubo)}.
     `ablate_at=None` = línea base sin ablación, mismas medidas. `**flags` se
-    pasan a `UteroCreciente` (p.ej. `invasion="asentada"` para v6).
+    pasan a `UteroCreciente` (p.ej. `invasion="asentada"` para v6). `fabrica(seed,
+    shadow, **flags)` construye otro sustrato con la misma interfaz
+    (`genomas()`, `vaciar()`, `step()`), p.ej. `UteroPlano` (v8).
     """
-    u = UteroCreciente(n0=n0, seed=seed, max_n=max_n, germinal=germinal,
-                       toroidal=toroidal, memoria=memoria, **flags)
+    if fabrica is not None:                     # otro sustrato (p.ej. UteroPlano, v8)
+        u = fabrica(seed, None, memoria=memoria, **flags)
+    else:
+        u = UteroCreciente(n0=n0, seed=seed, max_n=max_n, germinal=germinal,
+                           toroidal=toroidal, memoria=memoria, **flags)
     seen: set = set(u.seen)       # los genomas iniciales ya cuentan como vistos
     last_code: dict = {}
     last_change: dict = {}

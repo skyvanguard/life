@@ -22,12 +22,17 @@ from zeta_life.utero.linaje import RastreadorLinaje
 
 def correr_medido(seed: int, flags: dict, ticks: int, tranche: int = 500,
                   t_filtro: int = 500, shadow: list | None = None,
-                  n0: int = N0, max_n: int = MAX_N) -> dict:
+                  n0: int = N0, max_n: int = MAX_N, fabrica=None) -> dict:
     """Correr `ticks` con `flags` (p.ej. memoria=True, invasion="asentada") y
     devolver las series de la vara honesta. `shadow` = muertes por tick de una
-    corrida real → corrida sombra (muertes al azar, sin sonda)."""
-    u = UteroCreciente(n0=n0, seed=seed, max_n=max_n, germinal=True, toroidal=True,
-                       log_events=True, shadow_deaths=shadow, **flags)
+    corrida real → corrida sombra (muertes al azar, sin sonda). `fabrica(seed,
+    shadow, **flags)` construye otro sustrato con la misma interfaz (p.ej.
+    `UteroPlano`, v8); por defecto la línea 1-D `UteroCreciente`."""
+    if fabrica is not None:
+        u = fabrica(seed, shadow, **flags)
+    else:
+        u = UteroCreciente(n0=n0, seed=seed, max_n=max_n, germinal=True, toroidal=True,
+                           log_events=True, shadow_deaths=shadow, **flags)
     tr = RastreadorLinaje(t_filtro)
     seen: set = set(u.seen)
     nt = (ticks + tranche - 1) // tranche
@@ -41,7 +46,7 @@ def correr_medido(seed: int, flags: dict, ticks: int, tranche: int = 500,
         m = u.step()
         deaths[t], invaded[t], vivas[t] = m["deaths"], m["invaded"], int(u.alive.sum())
         born = {c for _, c in u.spawns}
-        cg = {int(i) - u.left_grown: u.code[i].tobytes() for i in np.flatnonzero(u.alive)}
+        cg = u.genomas()
         k = t // tranche
         for coord, g in cg.items():
             if g not in seen:
