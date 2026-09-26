@@ -809,6 +809,28 @@ sustrato distinto. Decisión abierta.
   ganancia, difusión): se declaran y se calibran por vivas, nunca por las
   varas. (`results/utero_sol_equilibrio_run.txt`)
 
+- **v9 metabolismo bajo el sol (e_mant=0.005, e_gan=0.2): el entorno por fin
+  es ESENCIAL, y aun así no hay vestigio (2026-09-26).** `energia=True`:
+  mantenimiento por tick, cosecha en la superficie según |v − sol(t)| en el
+  toro, difusión conservativa, cesión a la cría, vacío al agotarse; calibrado
+  en 3 semillas por vivas/muertes (m=0.01 o g=0.1 matan mundos enteros).
+  `exp_utero_sol_energia.py`, 40 semillas × 5 brazos, 20000 ticks. **Sin sol
+  el tejido MUERE** (vivas mediana 1: el vacío frío no alimenta) y con sol vive
+  (128–174) con muertes continuas (1.0–2.8 por tick): por primera vez la
+  persistencia depende del mundo. **Pero:** contacto 1.00 (las muertes son
+  continuas y los inicios de estación no sobresalen); R2 sin regulación por
+  orden (clima < permutado en 13/40; muchos pares 0/0 de mundos muertos);
+  lecturas A/A_m/L/L_m: clima 3/3/2/3 contra controles de hasta 4 — azar. La
+  sombra (muertes al azar) muere entera. **Séptimo entorno, veredicto SIN
+  CONTACTO / NADA.** Lectura: hicimos que el tejido *necesite* al mundo, no que
+  lo *modele*. Falta una pieza que ningún flag agregó: el tejido no tiene
+  variables internas LENTAS que sus reglas puedan leer. La memoria es un
+  registro que se reescribe cada tick; las estaciones duran 300–900 ticks; la
+  energía sí integra a esa escala (τ≈e0/e_mant=200) pero las reglas no la ven.
+  Anticipar una estación exige una variable que la recuerde y una física que
+  la lea: PERCEPCIÓN del propio estado, la tercera dimensión del boceto que
+  nunca se tocó. (`results/utero_sol_energia_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
