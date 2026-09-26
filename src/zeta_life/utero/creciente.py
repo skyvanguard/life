@@ -60,7 +60,8 @@ class UteroCreciente:
                  sol_eq_eps: float = 0.0, sol_eq_window: int = 20,
                  energia: bool = False, e0: float = 1.0, e_mant: float = 0.01,
                  e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5,
-                 percepcion: bool = False, energia_luz: bool = False):
+                 percepcion: bool = False, energia_luz: bool = False,
+                 luz_finita: float = 0.0):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -190,7 +191,22 @@ class UteroCreciente:
         que decide el ingreso de cada celda es la relación entre SU materia y
         LA ESTACIÓN: al cambiar la estación cambia quién come, con el retraso
         de la reserva (τ≈e0/e_mant) — la muerte llega tras el cambio y la
-        anticipación tendría valor. Requiere energia=True. False: byte-idéntico."""
+        anticipación tendría valor. Requiere energia=True. False: byte-idéntico.
+
+        luz_finita=L0 (v12, CAPACIDAD DE CARGA; 0 = apagado): la luz de cada tick
+        es FINITA, L = L0·sol(t) (sin sol, L0·0.25), y se reparte entre las
+        celdas vivas en proporción a w_i = |v_i − sol(t)| + 0.05 (la materia
+        lejos del clima absorbe más; el piso evita que nadie coma nada). Con
+        ingreso individual (energia_luz) el sistema sólo tiene dos destinos:
+        inmortalidad o extinción. Con un recurso compartido la población se
+        autorregula hacia N* = L/e_mant, la capacidad de carga, que cambia con
+        la estación: A (sol bajo) es hambruna, B abundancia. Mortandad al
+        entrar en A, floración en B, y valor selectivo real para quien guarde
+        energía o deje de parir ANTES de la hambruna. Es el escenario mínimo
+        de la ecología donde anticipar paga. Requiere energia=True. Manos: L0,
+        el piso 0.05. luz_finita=0: byte-idéntico."""
+        self.luz_finita = float(luz_finita)
+        self._ingreso = np.zeros(n0)
         self.energia_luz = energia_luz
         self.percepcion = percepcion
         self.energia = energia
@@ -311,6 +327,14 @@ class UteroCreciente:
                 doomed = set(int(k) for k in self._shadow_rng.choice(
                     alive_idx, size=min(int(d), len(alive_idx)), replace=False))
         self._tick += 1
+        if self.energia and self.luz_finita > 0.0:
+            vac = self._vacio()
+            luz = self.luz_finita * (vac if self.sol is not None else 0.25)
+            d = np.abs(self.v - vac)
+            w = (np.minimum(d, 1.0 - d) if self.toroidal else d) + 0.05
+            w = np.where(self.alive, w, 0.0)
+            tot = w.sum()
+            self._ingreso = luz * w / tot if tot > 0 else np.zeros(self.n)
 
         for i in self.rng.permutation(np.flatnonzero(self.alive)):
             i = int(i)
@@ -390,7 +414,9 @@ class UteroCreciente:
                 e = self.e[i] - self.e_mant
                 borde = ((i == 0 or not self.alive[i - 1])
                          or (i == self.n - 1 or not self.alive[i + 1]))
-                if borde or self.energia_luz:
+                if self.luz_finita > 0.0:
+                    e += float(self._ingreso[i])
+                elif borde or self.energia_luz:
                     d = abs(v_new - self._vacio())
                     e += self.e_gan * (min(d, 1.0 - d) if self.toroidal else d)
                 if e <= 0.0:
@@ -455,6 +481,7 @@ class UteroCreciente:
                 e_hija = self.e_parto * self.e[mi_]
                 self.e[mi_] -= e_hija
             self.e = np.concatenate([self.e, [e_hija]])
+            self._ingreso = np.concatenate([self._ingreso, [0.0]])
             self.v = np.concatenate([self.v, [val]])
             self.code = np.concatenate([self.code, c[None]])
             self.alive = np.concatenate([self.alive, [True]])
@@ -471,6 +498,7 @@ class UteroCreciente:
                 e_hija = self.e_parto * self.e[mi_]
                 self.e[mi_] -= e_hija
             self.e = np.concatenate([[e_hija], self.e])
+            self._ingreso = np.concatenate([[0.0], self._ingreso])
             self.v = np.concatenate([[val], self.v])
             self.code = np.concatenate([c[None], self.code])
             self.alive = np.concatenate([[True], self.alive])

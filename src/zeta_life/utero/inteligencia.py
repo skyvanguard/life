@@ -34,7 +34,7 @@ def correr_series(seed: int, flags: dict, sol, ticks: int, shadow: list | None =
     seen: set = set(u.seen)
     prev: dict = {}
     keys = ("vivas", "muertes", "reescrituras", "nacimientos", "novedad", "v_int", "v_borde",
-            "n_borde", "actividad")
+            "n_borde", "actividad", "e_media")
     out = {k: np.zeros(ticks) for k in keys}
     for t in range(ticks):
         m = u.step()
@@ -61,6 +61,8 @@ def correr_series(seed: int, flags: dict, sol, ticks: int, shadow: list | None =
         out["nacimientos"][t] = births
         out["novedad"][t] = new
         out["actividad"][t] = (rew + m["deaths"] + births) / max(n, 1)
+        e = getattr(u, "e", None)
+        out["e_media"][t] = float(e[u.alive].mean()) if (e is not None and n) else np.nan
     return out
 
 

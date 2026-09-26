@@ -92,3 +92,30 @@ def test_energia_luz_off_is_byte_identical_and_on_feeds_the_interior():
     sin.step()
     con.step()
     assert sin.e[1] < 1.0 < con.e[1]
+
+
+def test_luz_finita_off_is_byte_identical_and_on_self_regulates_population():
+    a = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True, energia=True,
+                       e_mant=0.005)
+    b = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True, energia=True,
+                       e_mant=0.005, luz_finita=0.0)
+    for _ in range(200):
+        a.step()
+        b.step()
+    np.testing.assert_array_equal(a.e, b.e)
+    # reparto: la luz total de un tick se reparte entera entre las vivas
+    u = UteroCreciente(n0=4, seed=0, max_n=4, toroidal=True, energia=True, e0=1.0, e_mant=0.0,
+                       e_gan=0.0, e_dif=0.0, luz_finita=1.0)
+    for i in range(4):
+        u.code[i] = prog((MUL, 1, 1, 3))
+        u.v[i] = 0.3 + 0.1 * i
+    u.step()
+    assert abs((u.e.sum() - 4.0) - 1.0 * 0.25) < 1e-9          # sin sol: L = L0*0.25, repartida
+    # capacidad de carga: con luz finita la poblacion no se vuelve inmortal ni se extingue
+    w = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True, energia=True,
+                       e0=2.0, e_mant=0.01, luz_finita=2.0)
+    vivas = []
+    for t in range(1500):
+        w.step()
+        vivas.append(int(w.alive.sum()))
+    assert 5 <= np.median(vivas[800:]) <= 250
