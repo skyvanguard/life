@@ -76,7 +76,7 @@ def _sigmoid(x: float) -> float:
 
 def execute(code: np.ndarray, vl: float, v: float, vr: float,
             ctx: tuple, wrap: bool = False, r3_init: float = 0.0,
-            stats: dict | None = None) -> tuple:
+            stats: dict | None = None, extra: float | None = None) -> tuple:
     """Ejecutar una regla. ctx = (code_izq|None, code_self, code_der|None).
 
     Devuelve (v', own_next, spawn, r3_raw) con spawn=None o (lado, pos, opcode,
@@ -103,26 +103,31 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
     """
     if stats is not None:
         stats.update(copy_writes=0, muto_writes=0, copy_distinct=False)
-    r = [vl, v, vr, r3_init]
+    # extra (v10, PERCEPCION): un 5o registro de solo lectura con una variable
+    # interna LENTA de la celda (su energia). Los campos a,b,c indexan mod 5 en
+    # vez de mod 4: la fisica puede leer su propia reserva y condicionar en ella.
+    # extra=None: byte-identico (4 registros).
+    r = [vl, v, vr, r3_init] if extra is None else [vl, v, vr, r3_init, float(extra)]
+    m = len(r)
     own_next = code.copy()
     spawn = None
     for k in range(K):
         op, a, b, c = int(code[k, 0]), int(code[k, 1]), int(code[k, 2]), int(code[k, 3])
         if op == ADD:
-            r[c % 4] = _clip(r[a % 4] + r[b % 4])
+            r[c % m] = _clip(r[a % m] + r[b % m])
         elif op == SUB:
-            r[c % 4] = _clip(r[a % 4] - r[b % 4])
+            r[c % m] = _clip(r[a % m] - r[b % m])
         elif op == MUL:
-            r[c % 4] = _clip(r[a % 4] * r[b % 4])
+            r[c % m] = _clip(r[a % m] * r[b % m])
         elif op == THR:
-            r[c % 4] = 1.0 if r[a % 4] > r[b % 4] else 0.0
+            r[c % m] = 1.0 if r[a % m] > r[b % m] else 0.0
         elif op == CONST:
-            r[c % 4] = (a - 8) / 4.0
+            r[c % m] = (a - 8) / 4.0
         elif op == READ:
             src = ctx[a % 3]
-            r[c % 4] = float(src[b % K, 0]) / N_OPS if src is not None else 0.0
+            r[c % m] = float(src[b % K, 0]) / N_OPS if src is not None else 0.0
         elif op == MUTO:
-            new_op = int(abs(r[b % 4]) * N_OPS) % N_OPS
+            new_op = int(abs(r[b % m]) * N_OPS) % N_OPS
             if stats is not None and own_next[a % K, 0] != new_op:
                 stats["muto_writes"] += 1
             own_next[a % K, 0] = new_op
@@ -139,7 +144,7 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
             # cría (usada por la encarnación 'germinal'; nivel2/v1 la ignoran
             # y copian exacto): posición c%K, opcode nuevo desde |R[b]| en el
             # momento del parto — la misma función de MUTO, acoplada a materia.
-            spawn = (a % 2, c % K, int(abs(r[b % 4]) * N_OPS) % N_OPS, b % K)
+            spawn = (a % 2, c % K, int(abs(r[b % m]) * N_OPS) % N_OPS, b % K)
         # NOP: nada
     raw = r[3]
     out = (raw % 1.0) if wrap else _sigmoid(raw)
@@ -147,9 +152,10 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
 
 
 def _output_only(code: np.ndarray, vl: float, v: float, vr: float,
-                 ctx: tuple, wrap: bool = False, r3_init: float = 0.0) -> float:
+                 ctx: tuple, wrap: bool = False, r3_init: float = 0.0,
+                 extra: float | None = None) -> float:
     """Ejecución fantasma (sin efectos): sólo la salida de materia."""
-    return execute(code, vl, v, vr, ctx, wrap=wrap, r3_init=r3_init)[0]
+    return execute(code, vl, v, vr, ctx, wrap=wrap, r3_init=r3_init, extra=extra)[0]
 
 
 class UteroNivel2:

@@ -59,7 +59,8 @@ class UteroCreciente:
                  sol=None, sol_sonda: bool = False, sol_acople: float = 0.0,
                  sol_eq_eps: float = 0.0, sol_eq_window: int = 20,
                  energia: bool = False, e0: float = 1.0, e_mant: float = 0.01,
-                 e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5):
+                 e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5,
+                 percepcion: bool = False):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -168,7 +169,17 @@ class UteroCreciente:
         sostenida sin juez. Seis entornos sin costo dieron tejidos maduros
         inertes a su mundo. Manos declaradas: e0, e_mant, e_gan, e_dif,
         e_parto — se calibran por vivas, nunca por las varas de inteligencia.
-        energia=False: byte-idéntico."""
+        energia=False: byte-idéntico.
+
+        percepcion=True (v10, la tercera dimensión del boceto: PERCEPCIÓN del
+        propio estado): la energía de la celda entra a su física como un 5º
+        registro de sólo lectura (los campos indexan mod 5). Es la única
+        variable interna LENTA del sustrato (τ≈e0/e_mant) — la memoria se
+        reescribe cada tick y las estaciones duran 300–900 ticks (medido: τ de
+        la materia interior 6–150 ticks). Sin una variable que recuerde la
+        estación y una física que la lea no hay anticipación posible.
+        Requiere energia=True. False: byte-idéntico."""
+        self.percepcion = percepcion
         self.energia = energia
         self.e0, self.e_mant, self.e_gan = float(e0), float(e_mant), float(e_gan)
         self.e_dif, self.e_parto = float(e_dif), float(e_parto)
@@ -303,9 +314,10 @@ class UteroCreciente:
             ctx, vl, vr = self._ctx(i)
             mi = float(self.mem[i]) if self.memoria else 0.0
             stats: dict | None = {} if self.log_events else None
+            xtra = float(self.e[i]) if (self.percepcion and self.energia) else None
             v_new, own_next, spawn, raw = execute(
                 self.code[i], vl, float(self.v[i]), vr, ctx,
-                wrap=self.toroidal, r3_init=mi, stats=stats)
+                wrap=self.toroidal, r3_init=mi, stats=stats, extra=xtra)
             if stats is not None:
                 self.events[i - lg] = stats
             # persistencia: la física ciega a la materia muere (sonda, misma
@@ -314,9 +326,9 @@ class UteroCreciente:
                 v0 = self._vacio() if self.sol_sonda else 0.0
                 h = (v0 + self._probe_hi) % 1.0 if (self.sol_sonda and self.toroidal)                     else self._probe_hi
                 p1 = _output_only(self.code[i], v0, v0, v0, ctx,
-                                  wrap=self.toroidal, r3_init=mi)
+                                  wrap=self.toroidal, r3_init=mi, extra=xtra)
                 p2 = _output_only(self.code[i], h, h, h, ctx,
-                                  wrap=self.toroidal, r3_init=mi)
+                                  wrap=self.toroidal, r3_init=mi, extra=xtra)
                 blind = (abs(v_new - p1) < PROBE_EPS
                          and abs(v_new - p2) < PROBE_EPS
                          and abs(p1 - p2) < PROBE_EPS)
