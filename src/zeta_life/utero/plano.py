@@ -20,7 +20,9 @@ Lo que se conserva (los tres principios y todas las lecciones):
   - actualización asincrónica en orden aleatorio sembrado; sin ruido de código.
 Lo que cambia: vecindario de von Neumann (N, E, S, O); registros
 [vN, vE, vS, vO, v, R] (seis; los campos a,b,c indexan mod 6); READ/COPY leen
-de (N, E, S, O, yo) con a mod 5; SPAWN hacia a mod 4. El espacio es una placa
+de (N, E, S, O, yo) con a mod 5; SPAWN hacia (a + |R[b]|·4) mod 4 — la dirección
+del parto la modula la materia, como el opcode germinal (si fuera fija por
+genoma, el crecimiento avanza en rayos y la placa no se coloniza). El espacio es una placa
 H×W con bordes (la pared de la placa de Petri); nace un bloque vivo en el
 centro y el resto es vacío colonizable — "el espacio se abre donde la física
 lo abre", como en v1, pero el crecimiento ES la colonización del vacío.
@@ -100,7 +102,12 @@ def execute_plano(code: np.ndarray, vs: tuple, v: float, ctx: tuple,
                         stats["copy_distinct"] = True
                 own_next[c % K] = src[b % K]
         elif op == SPAWN:
-            spawn = (a % 4, c % K, int(abs(r[b % NREG]) * N_OPS) % N_OPS, b % K)
+            # la DIRECCIÓN del parto la decide la física con la materia: base a%4
+            # girada por |R[b]| (misma función que el opcode germinal). Con
+            # dirección fija por genoma el crecimiento 2-D avanza en rayos y la
+            # placa no se coloniza (sondeo 2026-09-26: 160–320 vivas de 1024).
+            spawn = ((a + int(abs(r[b % NREG]) * 4)) % 4, c % K,
+                     int(abs(r[b % NREG]) * N_OPS) % N_OPS, b % K)
     raw = r[5]
     return raw % 1.0, own_next, spawn, raw
 
