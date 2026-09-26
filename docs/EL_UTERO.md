@@ -646,6 +646,26 @@ sustrato distinto. Decisión abierta.
   el cambio de perspectiva a dos dimensiones (v8, `utero/plano.py`).
   (`results/utero_escala_run.txt`)
 
+- **v8 el plano — sustrato construido y testeado; la corrida completa quedó
+  pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
+  con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
+  con bordes, bloque vivo inicial 8×8 (elegido porque con él la placa se
+  coloniza —250 a 800 vivas—, juzgado por vivas, no por novedad), dirección del
+  parto `(a + |R[b]|·4) mod 4` modulada por la materia (con dirección fija por
+  genoma el crecimiento avanza en rayos y la placa queda en 160–320 vivas), y
+  todos los flags heredados. Misma interfaz (`genomas()`, `vaciar()`) para que
+  la vara honesta corra sin cambios (`fabrica=`). 10 tests. **Sondeo (12
+  semillas, 2000 ticks, régimen inmaduro):** 5/12, 9/12 y 7/12 sostenidas en
+  los tres brazos, con ecología 9–10 bits — mucho más que la línea, pero a
+  t≈1000–1500, antes de que la novedad se seque. **La corrida completa
+  (`exp_utero_plano.py`, 3 brazos × 40 semillas × 14000 ticks) fue detenida
+  por el sistema por falta de memoria**: en 2-D se acuñan ~1e5 genomas por
+  corrida y la vara los guardaba enteros (512 bytes) en contadores por tramo,
+  ×20 procesos. Corregido: huellas de 8 bytes (`huella()`, blake2b) para toda
+  observación de genomas (dinámica intacta, 98 tests) y la mitad de obreros
+  para el plano. Queda lista para relanzar; el veredicto pre-registrado está en
+  su docstring y no se tocó.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
