@@ -57,7 +57,9 @@ class UteroCreciente:
                  log_events: bool = False, shadow_deaths=None,
                  invasion: str | None = None, recombina: bool = False,
                  sol=None, sol_sonda: bool = False, sol_acople: float = 0.0,
-                 sol_eq_eps: float = 0.0, sol_eq_window: int = 20):
+                 sol_eq_eps: float = 0.0, sol_eq_window: int = 20,
+                 energia: bool = False, e0: float = 1.0, e_mant: float = 0.01,
+                 e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -152,7 +154,25 @@ class UteroCreciente:
         sol(t), sólo persisten en la superficie las físicas que empujan de
         vuelta, y como sol(t) cambia por estación, lo que es seguro cambia con
         él. v4 mató la materia QUIETA (absoluto) y dejó un desierto; esto mata
-        la materia DISUELTA en el entorno (relativo). Manos: ε, W."""
+        la materia DISUELTA en el entorno (relativo). Manos: ε, W.
+
+        energia=True (v9, METABOLISMO): persistir CUESTA. Cada celda lleva una
+        energía e (nace con e0). Por tick paga mantenimiento e_mant; si linda
+        con el vacío cosecha e_gan·|v − vacío| (la distancia en el toro entre su
+        materia y la del entorno: sólo el DESEQUILIBRIO con el mundo alimenta;
+        con sol, el gradiente cambia por estación); la energía se difunde
+        entre vecinas vivas (intercambio simétrico con coeficiente e_dif,
+        conservativo); al parir, la madre cede e_parto de su energía a la
+        cría. e ≤ 0 → vacío. Es la conservación de Flow-Lenia/Kruszewski y el
+        decaimiento de Stringmol: la única presión que la literatura muestra
+        sostenida sin juez. Seis entornos sin costo dieron tejidos maduros
+        inertes a su mundo. Manos declaradas: e0, e_mant, e_gan, e_dif,
+        e_parto — se calibran por vivas, nunca por las varas de inteligencia.
+        energia=False: byte-idéntico."""
+        self.energia = energia
+        self.e0, self.e_mant, self.e_gan = float(e0), float(e_mant), float(e_gan)
+        self.e_dif, self.e_parto = float(e_dif), float(e_parto)
+        self.e = np.full(n0, float(e0))
         self.sol_eq_eps, self.sol_eq_window = float(sol_eq_eps), int(sol_eq_window)
         self.eq_sol_count = np.zeros(n0, dtype=np.int64)
         self.sol_acople = float(sol_acople)
@@ -216,6 +236,7 @@ class UteroCreciente:
             self.eq_count[i] = 0
             self.mem[i] = 0.0
             self.eq_sol_count[i] = 0
+            self.e[i] = 0.0
 
     def _register_genomes(self) -> int:
         new = 0
@@ -340,6 +361,18 @@ class UteroCreciente:
                     self.vaciar(i - lg)       # disuelta en el entorno: es vacío
                     deaths += 1
                     continue
+            if self.energia:
+                e = self.e[i] - self.e_mant
+                borde = ((i == 0 or not self.alive[i - 1])
+                         or (i == self.n - 1 or not self.alive[i + 1]))
+                if borde:
+                    d = abs(v_new - self._vacio())
+                    e += self.e_gan * (min(d, 1.0 - d) if self.toroidal else d)
+                if e <= 0.0:
+                    self.vaciar(i - lg)       # sin energía: es vacío
+                    deaths += 1
+                    continue
+                self.e[i] = e
             self.v[i] = v_new
             self.code[i] = own_next
             self.mem[i] = raw            # memoria: R3 crudo persistente
@@ -368,6 +401,9 @@ class UteroCreciente:
                 self.eq_count[t] = 0
                 self.mem[t] = 0.0           # la cría nace sin recuerdos
                 self.eq_sol_count[t] = 0
+                if self.energia:            # la madre cede parte de su energía
+                    self.e[t] = self.e_parto * self.e[i]
+                    self.e[i] -= self.e[t]
                 colonized += 1
                 self.spawns.append((i - lg, t - lg))
             elif self.invasion is not None and (
@@ -376,6 +412,9 @@ class UteroCreciente:
                 self.v[t] = v_new
                 self.eq_count[t] = 0
                 self.mem[t] = 0.0
+                if self.energia:
+                    self.e[t] = self.e_parto * self.e[i]
+                    self.e[i] -= self.e[t]
                 invaded += 1
                 self.spawns.append((i - lg, t - lg))
 
@@ -385,6 +424,12 @@ class UteroCreciente:
         if edge_right is not None and self.n < self.max_n:
             c, val, madre = edge_right
             self.spawns.append((madre, self.n - lg))
+            e_hija = 0.0
+            if self.energia:
+                mi_ = madre + lg
+                e_hija = self.e_parto * self.e[mi_]
+                self.e[mi_] -= e_hija
+            self.e = np.concatenate([self.e, [e_hija]])
             self.v = np.concatenate([self.v, [val]])
             self.code = np.concatenate([self.code, c[None]])
             self.alive = np.concatenate([self.alive, [True]])
@@ -395,6 +440,12 @@ class UteroCreciente:
         if edge_left is not None and self.n < self.max_n:
             c, val, madre = edge_left
             self.spawns.append((madre, -(lg + 1)))
+            e_hija = 0.0
+            if self.energia:
+                mi_ = madre + lg
+                e_hija = self.e_parto * self.e[mi_]
+                self.e[mi_] -= e_hija
+            self.e = np.concatenate([[e_hija], self.e])
             self.v = np.concatenate([[val], self.v])
             self.code = np.concatenate([c[None], self.code])
             self.alive = np.concatenate([[True], self.alive])
@@ -404,6 +455,15 @@ class UteroCreciente:
             self.left_grown += 1
             grown += 1
             grew_left = True
+
+        if self.energia and self.e_dif > 0.0:
+            # intercambio simétrico entre pares de vecinas vivas (conservativo)
+            a = self.alive
+            par = a[:-1] & a[1:]
+            flujo = np.zeros(self.n - 1)
+            flujo[par] = self.e_dif * 0.5 * (self.e[:-1][par] - self.e[1:][par])
+            self.e[:-1] -= flujo
+            self.e[1:] += flujo
 
         # métricas descriptivas (observar, no premiar) — comparar las celdas
         # que existían al inicio del tick (índices corridos si creció a la izq)
