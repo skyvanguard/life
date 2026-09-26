@@ -95,7 +95,8 @@ def _ventana_segura(ini: int, fin: int, esperado: int) -> tuple | None:
     return (lo, hi) if hi > lo + 10 else None
 
 
-def anticipacion(actividad: np.ndarray, sol, rng_seed: int = 0, n_perm: int = 500) -> dict:
+def anticipacion(actividad: np.ndarray, sol, rng_seed: int = 0, n_perm: int = 500,
+                 regimenes: tuple | None = None) -> dict:
     """En estaciones LARGAS (el cambio real llegó al menos 2·W_ANT ticks después
     del instante esperado = inicio + mediana de las duraciones ya vistas), ¿hay
     un exceso de actividad alrededor de ese instante esperado, sin que el sol
@@ -107,8 +108,8 @@ def anticipacion(actividad: np.ndarray, sol, rng_seed: int = 0, n_perm: int = 50
     est = sol.estaciones[:-1]
     eventos = []
     for k, (nombre, ini, fin) in enumerate(est):
-        if k < MIN_PREVIAS:
-            continue
+        if k < MIN_PREVIAS or (regimenes is not None and nombre not in regimenes):
+            continue                            # p.ej. sólo las estaciones que preceden a la hambruna
         previas = [f - i for _, i, f in est[:k]]
         esperado = ini + int(np.median(previas))
         if fin - esperado < 2 * W_ANT:          # el cambio real llegó >= 100 ticks DESPUÉS
