@@ -129,3 +129,25 @@ def test_sol_sonda_changes_who_dies_across_seasons():
         da += a.step()["deaths"]
         db += b.step()["deaths"]
     assert da != db
+
+
+# ------------------------------------------------ el sol calienta (sol_acople)
+def test_sol_acople_off_is_byte_identical():
+    a = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True)
+    b = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True, sol_acople=0.3)
+    for _ in range(300):
+        a.step()
+        b.step()
+    np.testing.assert_array_equal(a.code, b.code)
+    np.testing.assert_array_equal(a.v, b.v)
+
+
+def test_sol_acople_makes_the_surface_follow_the_sun():
+    sol = Sol(seed=2, ticks=200)
+    u = UteroCreciente(n0=3, seed=0, max_n=3, toroidal=True, sol=sol, sol_acople=1.0)
+    for i in range(3):
+        u.code[i] = prog((ADD, 1, 1, 3))          # R3 = 2v: no lee el vacío
+    u.v[:] = 0.3
+    u.step()
+    assert abs(u.v[0] - sol(0)) < 1e-12 and abs(u.v[2] - sol(0)) < 1e-12   # superficie = sol
+    assert abs(u.v[1] - 0.6) < 1e-12                                        # interior: su regla

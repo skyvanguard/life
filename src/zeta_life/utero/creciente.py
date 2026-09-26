@@ -56,7 +56,7 @@ class UteroCreciente:
                  eq_window: int = 100, memoria: bool = False,
                  log_events: bool = False, shadow_deaths=None,
                  invasion: str | None = None, recombina: bool = False,
-                 sol=None, sol_sonda: bool = False):
+                 sol=None, sol_sonda: bool = False, sol_acople: float = 0.0):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -135,7 +135,14 @@ class UteroCreciente:
         recompensa) con una referencia menos arbitraria que la razón áurea; la
         consecuencia es que cada estación mata físicas distintas, y persistir a
         través de las estaciones exige regularse (Ashby). Sin sol, v0=0 y la
-        sonda es la de siempre: byte-idéntico."""
+        sonda es la de siempre: byte-idéntico.
+
+        sol_acople=κ (0 = apagado): el sol CALIENTA la superficie. Una celda
+        que linda con el vacío recibe materia del sol tras aplicar su regla:
+        v ← (1−κ)·v' + κ·sol(t). Acople físico, no lectura opcional: la
+        superficie sigue al clima quiera o no, y el interior sólo a través de
+        las reglas. Mano declarada: κ. Sin sol o κ=0: byte-idéntico."""
+        self.sol_acople = float(sol_acople)
         self.sol_sonda = sol_sonda
         self.sol = sol
         self.recombina = recombina
@@ -294,6 +301,11 @@ class UteroCreciente:
                     self.mem[i] = 0.0
                     continue
             # async: efectos inmediatos
+            if self.sol is not None and self.sol_acople > 0.0:
+                borde = ((i == 0 or not self.alive[i - 1])
+                         or (i == self.n - 1 or not self.alive[i + 1]))
+                if borde:
+                    v_new = (1.0 - self.sol_acople) * v_new + self.sol_acople * self._vacio()
             self.v[i] = v_new
             self.code[i] = own_next
             self.mem[i] = raw            # memoria: R3 crudo persistente
