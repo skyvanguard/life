@@ -1,0 +1,44 @@
+==============================================================================
+EL UTERO -- control de v6: invasion='siempre' (sin umbral) + barrido de eq_window
+==============================================================================
+brazos ['v5', 'siempre', 'asentada-10', 'asentada-100', 'asentada-1000'], 40 semillas, 14000 ticks, memoria ON, linaje 500, maduro (8000, 12000), workers=20
+varas y veredicto pre-registrados en el docstring
+
+------------------------------------------------------------------------------
+POR BRAZO (regimen maduro [8000,12000))
+  brazo          sostenidas  semillas               eco med cuota/v5 vivas med inv/t med  reparan
+  v5                   2/40  [13, 35]                  7.39     1.00        12      0.00   1/2   
+  siempre              0/40  []                         nan      nan       247    245.00   0/0   
+  asentada-10          3/40  [13, 21, 35]              7.42     0.81       246     11.16   1/3   
+  asentada-100         3/40  [13, 21, 35]              9.31     0.77       246      0.80   1/3   
+  asentada-1000        3/40  [13, 35, 37]              5.42     0.80       246      0.02   2/3   
+  (cuota/v5 = cuota del genoma dominante relativa a la de v5 en la misma semilla)
+
+SEMILLAS CANDIDATAS (filtrada >= 5 en algun brazo): novedad con linaje / tramo
+  seed             v5        siempre    asentada-10   asentada-100  asentada-1000
+    13           380*             0           1595*           814*          1167*
+    21             0              0           3392*          1814*             0 
+    35          1227*             0          10073*           637*          1629*
+    37             0              0              0              2             15*
+  (* = sostenida: >= 5/tramo y >= 2x su sombra)
+
+ABLACION (sostenidas, hasta 6 por brazo): R = cola ablada / cola sin ablar
+  v5             seed  13: abl   82  pre    543  cola    950  sin    360  R  2.64
+  v5             seed  35: abl   66  pre   1954  cola      0  sin   1547  R  0.00
+  asentada-10    seed  13: abl  122  pre   1572  cola   1517  sin   1598  R  0.95
+  asentada-10    seed  21: abl   89  pre   6124  cola      0  sin   4964  R  0.00
+  asentada-10    seed  35: abl  128  pre  11537  cola     25  sin   9978  R  0.00
+  asentada-100   seed  13: abl  116  pre    780  cola   4496  sin   1034  R  4.35
+  asentada-100   seed  21: abl   68  pre   2742  cola      0  sin   2884  R  0.00
+  asentada-100   seed  35: abl  125  pre    884  cola    319  sin    684  R  0.47
+  asentada-1000  seed  13: abl  109  pre   1398  cola   1216  sin   1240  R  0.98
+  asentada-1000  seed  35: abl   91  pre   1778  cola    844  sin   1616  R  0.52
+  asentada-1000  seed  37: abl  237  pre      5  cola      0  sin     23  R  0.00
+
+==============================================================================
+VEREDICTO (regla escrita antes de correr)
+=> LA MANO TRABAJA: 'siempre' da 0/40 (asentada-100: 3/40), ecologia 0.00 bits, vivas mediana 247. Sin umbral la invasion no rinde igual.
+   DOSIS eq_window 10/100/1000 -> sostenidas [3, 3, 3]: NO monotona (insensible o ruidosa)
+   IDENTIDAD: sostenidas en TODOS los brazos con invasion: []; union: [13, 21, 35, 37]
+
+figura: results/utero_invasion_control.png

@@ -56,7 +56,7 @@ consolidation rhythm and in the cellular automata; optional in the kernel.
 ```
 zeta-life/
 ├── src/zeta_life/
-│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (5 modules)
+│   ├── utero/           # LIVE FRONTIER — self-rewriting substrate (6 modules)
 │   ├── kernel/          # active-inference Conscious Kernel (21 files)
 │   ├── bridge/          # Yvyra coupling — feed a live agent's experience to the kernel
 │   ├── introspection/   # the north (closed) — Psi over an LLM's activations
@@ -66,12 +66,12 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 13 experiments — the live line (Nivel 1/2, v1..v6, controls, replica, anatomy, lineage/shadow, interaction)
+│   ├── utero/           # 14 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 44 test files (662 tests + 1 opt-in slow, ~105s)
+├── tests/               # 45 test files (667 tests + 1 opt-in slow, ~105s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -89,7 +89,7 @@ pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite (662 tests, ~105s)
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (667 tests, ~105s)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
 PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
 # `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
@@ -115,6 +115,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_anatomia.py   # anatomy 13 vs 
 PYTHONPATH=src python experiments/utero/exp_utero_linaje_sombra.py  # MODES lineage filter + Bedau shadow, 40 seeds (~10 min): 2/40 DEFENSIBLE; shadow = 0 novelty (trivial copier takes over)
 PYTHONPATH=src python experiments/utero/exp_utero_interaccion.py    # effective rule<->rule interaction (COPY / horizontal transfer), 40 seeds (~4 min): novelty is MUTO-driven, TH ~0 in plains
 PYTHONPATH=src python experiments/utero/exp_utero_invasion.py       # v6: invasion of settled tissue, 40 seeds x {v5, v6, v6-shadow} + ablations (~15 min): PARTIAL -- typicity 2/40 -> 3/40, no monoculture (9.3 bits), self-repair 1/3; keeps worlds alive but frozen
+PYTHONPATH=src python experiments/utero/exp_utero_invasion_control.py  # v6 control: invasion='siempre' (no threshold) + eq_window sweep 10/100/1000, 5 arms x 40 seeds (~25 min): THE HAND WORKS -- 'siempre' = 0/40 (pure churn, 245 invasions/tick), any eq_window 10..1000 = 3/40
 
 # Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py
@@ -174,6 +175,7 @@ comments here — this line's prose is Spanish by design).
 | `creciente.py` | `UteroCreciente` — the current substrate: a **line with borders** (not a ring), asynchronous seeded-random update, world grows only where a physics `SPAWN`s past the edge. |
 | `ablacion.py` | The **pump-ablation protocol** (kill every cell whose code changed in the last 200 ticks; measure the sustained TAIL at +1000..+3000, not the recolonization pulse). Extracted from v5 and regression-tested against its published numbers (`UTERO_SLOW=1`). |
 | `linaje.py` | `RastreadorLinaje` — the **MODES lineage-persistence filter**: a minted genome counts only if its line (cell continuity + SPAWN offspring) is still alive `t_filtro` ticks later. Fed per tick with `{coord: genome}` and `u.spawns`. |
+| `medidas.py` | `correr_medido(seed, flags, ticks, ...)` — **one run with the full honest yardstick**: raw novelty, lineage-filtered novelty, ecology (bits), dominant-genome share, deaths/invasions/alive per tick, minting cause (birth vs rewrite); `shadow=` makes it the Bedau shadow run. Every experiment since v6 uses it. |
 
 **Observation hooks on `UteroCreciente` (byte-identical when off, tested):** `log_events=True` fills
 `u.events` (`{coord: {copy_writes, muto_writes, copy_distinct}}` from `execute(stats=)`) and

@@ -528,6 +528,39 @@ sustrato distinto. Decisión abierta.
   barrido de eq_window, para separar el efecto de la invasión del de la mano
   declarada. (`results/utero_invasion_run.txt`, `.png`)
 
+- **Control de v6 — LA MANO TRABAJA, pero no está afinada: sin umbral la
+  invasión destruye toda persistencia; con cualquier umbral entre 10 y 1000
+  ticks el resultado es el mismo 3/40 (2026-09-26).**
+  `exp_utero_invasion_control.py` (sobre `utero/medidas.py`, la corrida
+  medida compartida): cinco brazos × 40 semillas × 14000 ticks — v5,
+  `invasion="siempre"` (sin umbral), `asentada` con eq_window 10 / 100 / 1000;
+  sombra para las candidatas; ablación en las sostenidas. Vara igual que v6
+  menos el criterio de cuota absoluta (reemplazado por cuota RELATIVA a v5 y
+  monocultura por ecología — la lección de v6). **Resultados:** (1)
+  **"siempre" = 0/40**: 245 invasiones por tick de mediana (el mundo entero
+  se reescribe cada tick), ecología 0 bits, ningún genoma persiste 500 ticks;
+  mundos llenos (247 vivas) de churn puro. Sin umbral no hay persistencia y
+  sin persistencia no hay novedad que cuente. (2) **Dosis: 3/40 con
+  eq_window 10, 100 y 1000** — insensible al valor en tres órdenes de
+  magnitud; la identidad cambia en el margen (13 y 35 siempre; la tercera es
+  21 con 10 y 100, 37 con 1000), así que la tipicidad se lee como CONTEO. La
+  cuota dominante relativa a v5 es 0.77–0.81 en los tres: la invasión
+  desconcentra, no concentra. (3) Auto-reparación en las sostenidas: 1/3,
+  1/3, 2/3 (eq_window 1000: 13 R=0.98, **35 R=0.52** — cruza el umbral por
+  primera vez; 37 no). La R de la 13 varía 0.95–4.35 entre brazos: ruidosa,
+  n=1 por brazo. (4) Vivas al final 246 en todos los brazos con invasión
+  contra 12 en v5: el efecto "mantiene vivo" tampoco depende del umbral.
+  **Lectura:** el umbral de quietud no es un parámetro que haya que ajustar
+  sino una **condición cualitativa**: lo que sigue deviniendo no puede ser
+  reescrito; lo que dejó de devenir, sí. Es la formulación positiva del
+  principio 3 (v4 la formuló en negativo, como muerte, y dio un desierto;
+  como reemplazo, da tejido vivo y reescribible). Con eso, el v6 queda como
+  **PARCIAL robusto**: 3/40 estable frente al umbral, sin monocultura, con
+  auto-reparación intermitente — y sin resolver lo de fondo, que la llanura
+  convierta variación en crías viables y distintas. Lo que la invasión hace
+  es mantener el tejido vivo y desconcentrado; lo que no hace es crear
+  motores donde no los hay. (`results/utero_invasion_control_run.txt`, `.png`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

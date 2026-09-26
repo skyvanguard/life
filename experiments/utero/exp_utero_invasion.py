@@ -44,10 +44,8 @@ VEREDICTO (pre-registrado):
 
 from __future__ import annotations
 
-import math
 import os
 import sys
-from collections import Counter
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
@@ -61,8 +59,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
 from zeta_life.utero.ablacion import correr as correr_ablacion  # noqa: E402
 from zeta_life.utero.ablacion import medir_cola  # noqa: E402
-from zeta_life.utero.creciente import UteroCreciente  # noqa: E402
-from zeta_life.utero.linaje import RastreadorLinaje  # noqa: E402
+from zeta_life.utero.medidas import correr_medido  # noqa: E402
 
 N0, MAX_N = 16, 256
 TICKS = 14000
@@ -81,41 +78,9 @@ NAME = "utero_invasion"
 
 
 def correr(seed: int, flags: dict, shadow: list | None) -> dict:
-    u = UteroCreciente(n0=N0, seed=seed, max_n=MAX_N, germinal=True, toroidal=True,
-                       memoria=True, log_events=True, shadow_deaths=shadow, **flags)
-    tr = RastreadorLinaje(T_FILTRO)
-    seen: set = set(u.seen)
-    nt = TICKS // TRANCHE
-    raw = np.zeros(TICKS, dtype=np.int64)
-    deaths = np.zeros(TICKS, dtype=np.int64)
-    invaded = np.zeros(TICKS, dtype=np.int64)
-    vivas = np.zeros(TICKS, dtype=np.int64)
-    presence = [Counter() for _ in range(nt)]
-    causa = np.zeros((nt, 2), dtype=np.int64)          # [parto/invasión, otro]
-    for t in range(TICKS):
-        m = u.step()
-        deaths[t], invaded[t], vivas[t] = m["deaths"], m["invaded"], int(u.alive.sum())
-        born = {c for _, c in u.spawns}
-        cg = {int(i) - u.left_grown: u.code[i].tobytes() for i in np.flatnonzero(u.alive)}
-        k = t // TRANCHE
-        for coord, g in cg.items():
-            if g not in seen:
-                seen.add(g)
-                raw[t] += 1
-                causa[k, 0 if coord in born else 1] += 1
-        presence[k].update(cg.values())
-        tr.tick(t, cg, u.spawns)
-    filt = tr.novedad_filtrada(TRANCHE, TICKS)
-    ok = tr.resueltos()
-    eco, share = np.zeros(nt), np.zeros(nt)
-    for k, c in enumerate(presence):
-        kept = {g: n for g, n in c.items() if ok.get(g, False)}
-        tot = sum(kept.values())
-        if tot:
-            eco[k] = -sum(n / tot * math.log2(n / tot) for n in kept.values())
-        share[k] = (max(c.values()) / sum(c.values())) if c else 0.0   # mundo vacío = 0
-    return {"raw": raw, "filt": filt, "deaths": deaths, "invaded": invaded, "vivas": vivas,
-            "eco": eco, "share": share, "causa": causa}
+    """La corrida medida (vara honesta completa) — ver `utero/medidas.py`."""
+    return correr_medido(seed, dict(memoria=True, **flags), ticks=TICKS, tranche=TRANCHE,
+                         t_filtro=T_FILTRO, shadow=shadow, n0=N0, max_n=MAX_N)
 
 
 def job(seed: int) -> tuple:
