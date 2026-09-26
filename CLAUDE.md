@@ -66,12 +66,12 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 12 experiments — the live line (Nivel 1/2, v1..v5, controls, replica, anatomy, lineage/shadow, interaction)
+│   ├── utero/           # 13 experiments — the live line (Nivel 1/2, v1..v6, controls, replica, anatomy, lineage/shadow, interaction)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 43 test files (655 tests + 1 opt-in slow, ~105s)
+├── tests/               # 44 test files (662 tests + 1 opt-in slow, ~105s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -89,7 +89,7 @@ pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite (655 tests, ~105s)
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (662 tests, ~105s)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
 PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
 # `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
@@ -114,6 +114,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_memoria_semillas.py  # v5 repl
 PYTHONPATH=src python experiments/utero/exp_utero_anatomia.py   # anatomy 13 vs 35 (~3 min): self-repair = FERTILE plains (diverse, viable offspring), not geometry/memory
 PYTHONPATH=src python experiments/utero/exp_utero_linaje_sombra.py  # MODES lineage filter + Bedau shadow, 40 seeds (~10 min): 2/40 DEFENSIBLE; shadow = 0 novelty (trivial copier takes over)
 PYTHONPATH=src python experiments/utero/exp_utero_interaccion.py    # effective rule<->rule interaction (COPY / horizontal transfer), 40 seeds (~4 min): novelty is MUTO-driven, TH ~0 in plains
+PYTHONPATH=src python experiments/utero/exp_utero_invasion.py       # v6: invasion of settled tissue, 40 seeds x {v5, v6, v6-shadow} + ablations (~15 min): PARTIAL -- typicity 2/40 -> 3/40, no monoculture (9.3 bits), self-repair 1/3; keeps worlds alive but frozen
 
 # Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py
@@ -179,7 +180,7 @@ comments here — this line's prose is Spanish by design).
 `u.spawns` (`[(mother_coord, child_coord)]`) each tick; `step()` returns `deaths`. `shadow_deaths=[...]`
 is the **Bedau shadow run**: the probe is switched off and that many random cells die per tick instead.
 
-**Critical: v1→v5 are boolean flags on `UteroCreciente`, not separate classes.**
+**Critical: v1→v6 are flags on `UteroCreciente`, not separate classes.**
 All defaults `False` = v1, byte-identical to the committed v1 results. Each flag is
 one hypothesis about where the "cage" moved:
 
@@ -190,6 +191,7 @@ one hypothesis about where the "cage" moved:
 | `toroidal=True` | v3 | matter on a circle (`v' = R3 mod 1`) — expansive maps become expressible. Also switches the death probe to irrational separation (0 / 0.618…), since 0 and 1 are the same point on the torus |
 | `muerte_equilibrio=True` (+`eq_eps`,`eq_window`) | v4 | still matter = dead standing |
 | `memoria=True` | v5 | each cell retains its raw `R3` (internal potential, pre-wrap) and re-injects it next tick — 2nd-order dynamics |
+| `invasion="asentada"` (or `"siempre"`) | v6 | the void is no longer the only colonizable ground: a `SPAWN` aimed at a LIVING neighbour whose matter has been still for `eq_window` ticks REPLACES it (child code, mother's matter, no memory) — rule↔rule interaction with net effect in settled tissue; replacement, not death (v4's desert). `"siempre"` = any living neighbour (no threshold; control) |
 
 **The novelty yardstick (anti-illusion):** with random ordering, "it didn't cycle"
 proves nothing. The honest measure is **never-before-seen genomes minted per

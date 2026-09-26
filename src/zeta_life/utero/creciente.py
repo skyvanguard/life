@@ -54,7 +54,8 @@ class UteroCreciente:
                  germinal: bool = False, toroidal: bool = False,
                  muerte_equilibrio: bool = False, eq_eps: float = 1e-9,
                  eq_window: int = 100, memoria: bool = False,
-                 log_events: bool = False, shadow_deaths=None):
+                 log_events: bool = False, shadow_deaths=None,
+                 invasion: str | None = None):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -93,7 +94,21 @@ class UteroCreciente:
         de muertes por tick de una corrida real; en vez de la sonda (selección
         por persistencia de la ley) mueren ESE número de celdas al azar por
         tick (RNG propio, sembrado aparte: el orden de actuación queda igual).
-        Todo lo demás idéntico. Mide qué novedad produce la deriva sola."""
+        Todo lo demás idéntico. Mide qué novedad produce la deriva sola.
+
+        invasion (v6): el vacío deja de ser la única tierra colonizable.
+        "asentada": un SPAWN dirigido a una celda VIVA cuya materia lleva
+        eq_window ticks quieta (|Δv| < eq_eps) la REEMPLAZA (código de la
+        cría, materia de la madre, sin memoria) en vez de no hacer nada. Lo
+        que deja de devenir puede ser reescrito — reemplazo, no muerte (v4
+        mató las llanuras y dejó un desierto; aquí siguen siendo sustrato).
+        Es interacción regla↔regla con efecto neto en tejido asentado, la
+        pieza que la medición de interacción mostró ausente. "siempre":
+        cualquier vecino vivo es reemplazable (sin umbral; control). None =
+        byte-idéntico a v5. Manos declaradas: eq_eps, eq_window (las de v4)."""
+        if invasion not in (None, "asentada", "siempre"):
+            raise ValueError("invasion debe ser None, 'asentada' o 'siempre'")
+        self.invasion = invasion
         self.log_events = log_events
         self.shadow = None if shadow_deaths is None else list(shadow_deaths)
         self._shadow_rng = np.random.default_rng(seed + 7919)
@@ -154,6 +169,7 @@ class UteroCreciente:
         edge_right = None
         colonized = 0
         deaths = 0
+        invaded = 0
         lg = self.left_grown             # constante dentro del bucle
         self.events = {}
         self.spawns = []
@@ -208,12 +224,13 @@ class UteroCreciente:
                 deaths += 1
                 continue
             # v4: muerte por equilibrio — lo que deja de devenir, deja de ser
-            if self.muerte_eq:
+            # (v6 usa el mismo contador de quietud para decidir qué es invadible)
+            if self.muerte_eq or self.invasion is not None:
                 if abs(v_new - float(self.v[i])) < self.eq_eps:
                     self.eq_count[i] += 1
                 else:
                     self.eq_count[i] = 0
-                if self.eq_count[i] > self.eq_window:
+                if self.muerte_eq and self.eq_count[i] > self.eq_window:
                     self.alive[i] = False
                     self.v[i] = 0.0
                     self.code[i] = 0
@@ -244,6 +261,14 @@ class UteroCreciente:
                 self.eq_count[t] = 0
                 self.mem[t] = 0.0           # la cría nace sin recuerdos
                 colonized += 1
+                self.spawns.append((i - lg, t - lg))
+            elif self.invasion is not None and (
+                    self.invasion == "siempre" or self.eq_count[t] > self.eq_window):
+                self.code[t] = child        # v6: invasión de tejido asentado
+                self.v[t] = v_new
+                self.eq_count[t] = 0
+                self.mem[t] = 0.0
+                invaded += 1
                 self.spawns.append((i - lg, t - lg))
 
         # crecimiento del mundo (fin de tick; tope = la placa de Petri)
@@ -291,6 +316,7 @@ class UteroCreciente:
             "colonized": colonized,
             "grown": grown,
             "deaths": deaths,
+            "invaded": invaded,
             "new_genomes": new_genomes,
             "diversity": (len({self.code[i].tobytes()
                                for i in np.flatnonzero(self.alive)})

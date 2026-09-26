@@ -489,6 +489,45 @@ sustrato distinto. Decisión abierta.
   en tejido asentado — hoy no lo tiene en ninguna semilla.
   (`results/utero_interaccion_run.txt`, `.png`)
 
+- **v6 invasión de tejido asentado — la regla pre-registrada disparó
+  "ILUSIÓN" por un criterio mal diseñado; lectura honesta: PARCIAL, señal
+  débil, no un motor típico (2026-09-26).** Flag `invasion="asentada"` en
+  `creciente.py` (un SPAWN dirigido a una celda viva con materia quieta
+  eq_window=100 ticks la REEMPLAZA; reemplazo, no muerte; `None`
+  byte-idéntico a v5, 7 tests) y `exp_utero_invasion.py`: 40 semillas ×
+  {v5, v6, sombra de v6} + ablación en las sostenidas. **Resultados:** (1)
+  tipicidad filtrada (linaje 500, ≥2× sombra) **2/40 → 3/40**: entra la
+  seed 21 (0 → 1.814 genomas persistentes/tramo), la 13 sube (381 → 814) y
+  la 35 baja (1.227 → 637). (2) Ecología de las sostenidas 9.3 bits mediana
+  (mín 3.4): **no hay monocultura**. Pero la regla de veredicto usaba también
+  "cuota del genoma dominante < 0.5" y la mediana dio 0.500 → disparó
+  ILUSIÓN. **Ese criterio estaba mal diseñado:** la cuota la dominan las
+  llanuras, clonales por naturaleza, y la propia v5 la incumple (cuota v5:
+  13 = 0.498, 35 = 0.532, 21 = 0.902; v6: 0.500, 0.353, 0.691 — la invasión
+  la BAJA en dos de tres). Lo registro como falla mía de pre-registro, no la
+  reinterpreto como éxito. (3) Anti-ilusión de partos: 0% de la novedad
+  madura viene de parto/invasión — la invasión no acuña por sí misma, mueve
+  el tejido y MUTO acuña después. (4) **Auto-reparación: 1/3.** La 13 mejora
+  (R 2.64 → 4.35), la 35 pasa de 0.00 a 0.47 (justo bajo el umbral: el
+  primer indicio de reparación en esa semilla), la 21 no se repara (R=0). (5)
+  Efecto colateral grande: **v6 mantiene vivos los mundos** — vivas al final,
+  mediana de 40 semillas, 246 contra 12 en v5 (donde la mayoría muere
+  térmicamente) — pero vivos y **quietos**: sin novedad y con ecología 1–4
+  bits; la invasión convierte desiertos en cristales. (6) Aviso sobre la
+  vara: la sombra de v6 de la seed 33 acuña 3.310 genomas persistentes/tramo
+  con la real en 0 — con invasión, muerte-al-azar + reemplazo generan novedad
+  "persistente" por deriva; el criterio ≥2× sombra por semilla lo absorbe,
+  pero la sombra ya no es trivialmente cero como en v5. **Lectura:** la
+  interacción regla↔regla con efecto neto en tejido asentado existe ahora
+  (0.8 invasiones/tick mediana, 27/40 semillas) y ayuda donde ya había motor
+  (13, 35-reparación, 21-novedad), pero no crea motores donde no los había:
+  la tipicidad sigue siendo 3/40. Refuerza la lectura de la anatomía: lo que
+  falta no es que la variación LLEGUE a la llanura sino que la llanura la
+  CONVIERTA en crías viables y distintas (fertilidad). Próximo control
+  obligatorio antes de creer el 3/40: `invasion="siempre"` (sin umbral) y
+  barrido de eq_window, para separar el efecto de la invasión del de la mano
+  declarada. (`results/utero_invasion_run.txt`, `.png`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

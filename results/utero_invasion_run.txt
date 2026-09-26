@@ -1,0 +1,35 @@
+==============================================================================
+EL UTERO -- v6: INVASION de tejido asentado (SPAWN reemplaza celdas vivas quietas)
+==============================================================================
+40 semillas, 14000 ticks, memoria ON, germinal+toroidal, eq_window=100, linaje 500, maduro (8000, 12000), workers=20
+varas y veredicto pre-registrados en el docstring
+
+------------------------------------------------------------------------------
+REGIMEN MADURO [8000,12000): por semilla (solo las con novedad filtrada >=1 en algun brazo)
+  seed | v5 cruda v5 linaje   eco | v6 cruda v6 linaje   eco cuota  inv/t parto% vivas | sombra linaje
+    12 |      0.0       0.0  1.00 |      0.0       0.0  1.00  0.50   0.00     0%     2 |           4.6
+    13 |    380.5     380.5  4.81 |   1027.0     813.9  9.31  0.50   1.28     0%   248 |           0.0
+    21 |      0.0       0.0  4.31 |   2829.9    1813.6  3.39  0.69   1.58     0%   230 |           0.0
+    33 |      0.0       0.0  2.00 |      0.0       0.0  1.10  0.29   0.24     0%   250 |        3309.9
+    35 |   1556.2    1226.6  9.97 |    637.1     637.1 10.14  0.35   0.81     0%   209 |           0.0
+    37 |      0.0       0.0  2.83 |      3.9       1.6  3.74  0.15   0.03     3%   255 |           0.0
+
+1. TIPICIDAD FILTRADA: v5 2/40 [13, 35]   v6 3/40 [13, 21, 35]
+2. ANTI-MONOCULTURA (sostenidas v6): ecologia mediana 9.31 bits (min 3.39); cuota dominante mediana 0.50 (max 0.69)
+3. NOVEDAD POR PARTO/INVASION (sostenidas v6): mediana 0%  (v5 seeds 13/35: 0% / 0%)
+   invasiones por tick (maduro, 40 semillas): mediana 0.80, max 2.51; semillas con >0: 27/40
+   vivas al final v6 (mediana 40 semillas): 246  (v5: 12)
+
+------------------------------------------------------------------------------
+4. AUTO-REPARACION en v6: ablacion de la bomba en t=8000, R = cola ablada / cola sin ablar
+  seed  abl     pre    cola sin ablar      R  sostenida
+    13  116     780    4496      1034   4.35  si
+    35  125     884     319       684   0.47  si
+    21   68    2742       0      2884   0.00  si
+  se reparan (R>=0.5) entre las sostenidas abladas: 1/3 [13]
+
+==============================================================================
+VEREDICTO (regla escrita antes de correr)
+=> ILUSION (monocultura/ciclo): tipicidad v5 2/40 -> v6 3/40; ecologia mediana 9.31 bits, cuota 0.50; auto-reparacion 1/3
+
+figura: results/utero_invasion.png
