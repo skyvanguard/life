@@ -934,6 +934,16 @@ novedad pero no regulación. Ambas son decisiones de rumbo, no de ingeniería.
   con percepción (la variable lenta legible) y con A_e sobre la DERIVADA de la
   energía (declarado antes de correr, para quitar la deriva).
   (`results/utero_sol_luzfinita_run.txt`)
+  **Réplica (sol seed 1, percepción ON, A_e sobre la derivada): NADA.** A_e
+  2/40 en clima (tasa nominal), permutado 3, sin sol 2: el 9/40 de la corrida
+  1 era el artefacto de la deriva del nivel de energía, como delataba el brazo
+  sin sol. La percepción bajó la viabilidad (vivas 14 en clima, 1 en
+  permutado). Las demás lecturas al nivel de los controles. Duodécimo diseño,
+  duodécimo negativo. Queda una desambiguación limpia (la réplica cambió tres
+  cosas a la vez): sol seed 1 SIN percepción, A_e en nivel y en derivada a la
+  par, y una lectura de habituación específica de la hambruna (Spearman de
+  las muertes al entrar en A sobre sus ocurrencias), declaradas antes de
+  correr. (`results/utero_sol_luzfinita2_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

@@ -29,6 +29,13 @@ tres condiciones en clima o en ciclo2; SIN CONTACTO si las muertes no cambian
 al entrar en A; NADA en otro caso. Si VESTIGIO: réplica con otro sembrado del
 sol y barrido de L0 antes de creerlo.
 
+CORRIDA 3 (desambiguación, declarada tras la réplica): la réplica cambió tres
+cosas a la vez (sol, percepción, derivada) y la percepción bajó la viabilidad.
+Corrida 3: sol seed 1, SIN percepción, A_e en derivada Y en nivel (A_eN, control
+del artefacto de deriva: se espera que dispare en 'sin sol' igual que en
+clima), y L_A = habituación específica de la hambruna (Spearman de las muertes
+al entrar en A sobre sus ocurrencias). Mismo veredicto.
+
 CORRIDA 2 (réplica, declarada tras la corrida 1): A_e dio 9/40 (p<0.001) en
 clima pero los controles 3/5/4 (≥2× exige 10) y el brazo SIN SOL con 5 mostró
 que el estadístico sobre el NIVEL de energía está inflado por deriva. Cambios
@@ -64,7 +71,7 @@ SEEDS = list(range(40))
 SOL_SEED = 1
 KAPPA = 0.5
 E_MANT, E_DIF, E_PARTO = 0.01, 0.25, 0.5
-L0, E0, PERCEPCION = 3.0, 2.0, True         # corrida 2 (réplica): otro sol (seed 1), percepción ON, A_e sobre la derivada
+L0, E0, PERCEPCION = 3.0, 2.0, False        # corrida 3 (desambiguación): sol seed 1, SIN percepción, A_e en nivel y derivada, L_A
 FLAGS = dict(memoria=True, invasion="asentada", eq_window=100,
              energia=True, luz_finita=L0, e0=E0, e_mant=E_MANT, e_dif=E_DIF,
              e_parto=E_PARTO, percepcion=PERCEPCION)
@@ -73,7 +80,7 @@ ALPHA, MIN_SEEDS, RATIO, CONTACTO = 0.05, 5, 2.0, 1.2
 MATURE = (6000, 20000)
 WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
 RESULTS = HERE.parents[1] / "results"
-NAME = "utero_sol_luzfinita2"
+NAME = "utero_sol_luzfinita3"
 ARMS = ("clima", "ciclo2", "permutado", "sin", "sombra")
 
 
@@ -101,8 +108,13 @@ def job(seed: int) -> tuple:
         out[("A_n", arm)] = anticipacion(-ser["nacimientos"], cal[arm], rng_seed=seed,
                                          regimenes=PRECEDE_A[arm])
         em = np.nan_to_num(ser["e_media"], nan=0.0)
-        dem = np.concatenate([[0.0], np.diff(em)])       # corrida 2: la DERIVADA (ritmo de ahorro), sin deriva
+        dem = np.concatenate([[0.0], np.diff(em)])       # la DERIVADA (ritmo de ahorro), sin deriva
         out[("A_e", arm)] = anticipacion(dem, cal[arm], rng_seed=seed, regimenes=PRECEDE_A[arm])
+        out[("A_eN", arm)] = anticipacion(em, cal[arm], rng_seed=seed, regimenes=PRECEDE_A[arm])   # nivel (control del artefacto)
+        # L_A: habituación ESPECÍFICA de la hambruna — Spearman(ocurrencia k, muertes al entrar en A)
+        solA = type(cal[arm])(seed=cal[arm].seed, ticks=cal[arm].ticks, orden=cal[arm].orden)
+        solA.estaciones = [e for e in cal[arm].estaciones if e[0] == "A"] + [cal[arm].estaciones[-1]]
+        out[("L_A", arm)] = aprendizaje(ser["muertes"], solA, rng_seed=seed)
         out[("contacto", arm)] = contacto(ser["muertes"], cal[arm])
         out[("vivas", arm)] = float(np.median(ser["vivas"][MATURE[0]:]))
         out[("muertes", arm)] = float(ser["muertes"][MATURE[0]:].mean())
@@ -182,7 +194,7 @@ def main() -> None:
         return [s for s in SEEDS if not np.isnan(res[s][(vara, arm)]["p"])
                 and res[s][(vara, arm)]["p"] < ALPHA and (res[s][(vara, arm)][key] > 0 or not signo)]
 
-    lecturas = ("A", "A_m", "L", "L_m", "A_n", "A_e")
+    lecturas = ("A", "A_m", "L", "L_m", "A_n", "A_e", "A_eN", "L_A")
     C = {v: {arm: conteo(v, arm) for arm in ARMS} for v in lecturas}
     out("")
     out("-" * 80)
