@@ -783,6 +783,32 @@ sustrato distinto. Decisión abierta.
   de Ashby), y como s(t) cambia por estación, lo que es seguro cambia con él.
   Manos declaradas: ε, W. (`results/utero_sol_plano_run.txt`)
 
+- **"Lo que se vuelve igual al vacío es vacío" (`sol_eq_eps=0.02`, `W=20`):
+  SIN CONTACTO (2026-09-26).** `exp_utero_sol_equilibrio.py`: línea 1-D v6 +
+  sol que calienta + sonda climática + disolución, 40 semillas × 5 brazos,
+  20000 ticks, vara enmendada. Calibración previa (2 semillas, por vivas y
+  contacto, no por A/L): ε=0.02/W=20 mantiene vivo el tejido y produce muertes
+  medibles en la 35 y muertes concentradas en los inicios de estación en la
+  13; ε=0.05 disuelve demasiado. **Resultado en 40 semillas:** vivas 210–232
+  (sin sol 246), pero **muertes/tick en maduro 0.000 en la mediana** en los
+  tres brazos con sol; contacto 0.72–0.91; R2: clima < permutado en 11/40
+  (azar); lecturas A/A_m/L/L_m al nivel de los controles. **Lectura:** la
+  disolución purga al principio y luego no muerde: una celda de superficie
+  con salida propia v' queda en v ≈ (v'+s)/2 ≠ s, y sólo se disuelve si su
+  regla imita al sol, cosa rara; el tejido encuentra en pocos cientos de ticks
+  una configuración a salvo y desde ahí el clima no toca nada. **Sexto entorno,
+  el mismo muro**: con la persistencia como único filtro, el tejido maduro
+  converge a un estado que el entorno no puede amenazar, y un sistema al que
+  nada amenaza no tiene nada que regular ni anticipar. Lo que la teoría
+  señala y no probamos: que persistir CUESTE de forma continua — un
+  metabolismo mínimo (mantenimiento por tick, energía tomada del gradiente
+  con el sol en la superficie, difusión entre vecinas, muerte al agotarse).
+  Es la conservación de Kruszewski/Flow-Lenia y el decaimiento de Stringmol,
+  la única presión que la literatura muestra sostenida sin juez. Es un cambio
+  de perspectiva, no un flag más, y trae manos nuevas (e0, mantenimiento,
+  ganancia, difusión): se declaran y se calibran por vivas, nunca por las
+  varas. (`results/utero_sol_equilibrio_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
