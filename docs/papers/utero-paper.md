@@ -141,6 +141,9 @@ Cada encarnación nombró la jaula en la que cayó la anterior:
 | v5 | bomba frágil | rareza: auto-reparación en 1 semilla |
 | v6 | llanura inerte | 3/40 estable; mundos vivos pero quietos |
 | v7 | punto fijo letal | barrido del clon viable |
+| v9–v15 (sol) | contacto con el entorno | ninguna vara supera a sus controles en 18 corridas |
+| — (§4.9) | — | **clausura de operandos**: la variación reescribe 1 de 4 campos; los tríos (a,b,c) están congelados en la sopa |
+| v16 | clausura de operandos | (en curso) |
 
 ### 4.2 Novedad sostenida: rara, real, defendible
 
@@ -280,6 +283,38 @@ selecciona la anticipación. El programa se reporta como negativo con
 explicación: este sustrato produce orden, novedad y demografía estacional; la
 regulación en el sentido de Ashby es viable en él pero no es seleccionada.
 
+Dos regímenes más pusieron a prueba esa explicación con la evolución
+experimental como método (elegir el régimen es elegir la pregunta, no la
+respuesta): **hambruna dura con parto costoso** (dos sembrados del sol; una
+caída de partos 9/40 en el brazo de control no replicó: 2/40) y **tierra
+quemada** (el lugar de una celda muerta queda incolonizable una estación:
+selección K, para que sobrevivir a la hambruna sea la única forma de tener
+territorio). Ninguno movió la mortalidad en la hambruna bajo el orden regular
+respecto del permutado (razones 1,2–1,3: mata más, no menos). Dieciocho
+corridas pre-registradas, cero vestigios. La recolonización rápida no era el
+cuello de botella.
+
+### 4.9 La cuarta jaula: la variación no escribe operandos
+
+La explicación estaba en el VM, no en la ecología. Ningún operador de
+variación escribe los campos `a, b, c` de una instrucción: MUTO reescribe el
+opcode de la fila `a%K`, el germinal el opcode de la fila `c%K`, COPY traslada
+filas que ya existen y SPAWN copia. El conjunto de tríos de operandos de un
+mundo es exactamente el de su sopa inicial —248 de los 4096 posibles (6,06%)—
+y no cambia nunca: "la física que se reescribe" reescribía uno de sus cuatro
+campos. Medido sobre las 40 semillas del programa del sol, sólo 3 sopas
+contienen siquiera los operandos de las piezas del anticipador diseñado
+(cota superior; Monte Carlo poblacional 0,157), antes de reunirlas en una
+celda y en orden mediante filas COPY cuyos propios operandos —fila de origen,
+fila de destino— también están congelados. Los dieciocho negativos buscaron
+emergencia en un espacio con tres de cada cuatro campos fijos desde el tick
+0; el control positivo tuvo que escribirse a mano porque la variación no
+podía componerlo. Es la cuarta jaula de la cadena y la única que está en la
+variación misma. La respuesta (v16, `escritura_total`: MUTO y el germinal
+escriben la instrucción entera desde los registros, sin RNG) abre el espacio
+—84 veces más genomas nunca vistos por mundo, 52 tríos nuevos contra 0,
+viable en la misma ecología— y se corre con el mismo pre-registro.
+
 ## 5. Discusión
 
 **Qué hace falta.** Materia que pueda moverse (v3: sin el toro, todo es
@@ -312,6 +347,16 @@ regla como único filtro y su efecto anti-monocultura medido contra sombra;
 la auto-reparación sin objetivo anclada a la diversidad de crías; el
 mecanismo del secado (punto fijo letal del mapa germinal) medido cría por
 cría; la reescritura idempotente como estado del tejido asentado.
+
+**La lección metodológica más cara** de esta línea es la cuarta jaula: se
+buscó emergencia durante dieciocho corridas en un espacio que la variación no
+podía recorrer, y se atribuyó el silencio a la ecología (selección r, falta
+de contacto, escala temporal) cuando estaba en la expresividad del operador
+de variación. Un control positivo escrito a mano prueba que la función cabe
+en el sustrato, no que la variación pueda alcanzarla; la prueba de
+alcanzabilidad —¿qué campos puede escribir la variación y qué fracción del
+espacio de programas deja accesible?— debe preceder a cualquier búsqueda de
+emergencia.
 
 **Límites.** n=1 o 2 en varias anatomías; 40–120 semillas; la sonda y su
 umbral son constitutivos de lo que "vive" (Davis 2024); un genoma de largo
