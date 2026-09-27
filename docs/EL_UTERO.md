@@ -1197,6 +1197,18 @@ explicación, que es lo más que un negativo puede ser.
   vistos por mundo contra 198; 52 tríos nuevos contra 0); la semilla 13 se
   extingue con el flag. Mismos brazos, lecturas y veredicto que v14 corrida 2.
   `exp_utero_total.py`, 40 semillas × 5 brazos, 30000 ticks, sol seed 0.
+  **Resultado: SIN CONTACTO / NADA.** Con la variación abierta el tejido
+  recambia sin parar (muertes/tick 0.026 contra 0.016–0.020 cerrado) y la
+  hambruna ya no se destaca: muertes post/pre 0.92 en clima. R2_A no (clima <
+  permutado en 2/22, razón 1.30; ciclo2 7/21, 1.13). Ninguna lectura supera a
+  sus controles; en ciclo2 A_n 5/40 coincide semilla a semilla con su propio
+  control emparejado A_nB (misma lectura) y con A_eN (control de nivel), y
+  sin sol da 3: deriva de calendario, la misma que v14 corrida 1 con este
+  mismo sol seed 0. Adaptación refleja (L_A, mortalidad en hambrunas
+  sucesivas): 1/40 en clima. Abrir el espacio no bastó en 30000 ticks con ~30
+  vivas: ni regulación ni siquiera adaptación medible. Diecinueve corridas
+  pre-registradas, cero vestigios. Por el fallback declarado, la pregunta pasa
+  al tiempo y al tamaño de población. (`results/utero_total_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

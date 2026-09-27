@@ -277,3 +277,13 @@ genomas nunca vistos por mundo contra 198 (84×), 52 tríos de operandos nuevos
 contra 0. La semilla 13 se extingue con el flag (la apertura también hace
 letal la mutación). Lanzado tal cual, sin ajustar nada más:
 `exp_utero_total.py`.
+
+**Resultado v16: SIN CONTACTO / NADA.** Muertes post/pre 0.92 en clima (el
+recambio continuo de la variación abierta tapa la hambruna); R2_A no (2/22,
+1.30); L_A 1/40. Con el espacio abierto tampoco aparece adaptación medible en
+30000 ticks con ~30 vivas (~300 generaciones, ~9000 partos por mundo, ~15
+hambrunas). La evolución experimental real opera sobre 10³–10⁴ generaciones y
+poblaciones de 10³+. Siguiente (§16): antes de buscar regulación, establecer si
+el sustrato abierto EVOLUCIONA —adaptación refleja a la hambruna: la
+mortalidad en hambrunas sucesivas baja dentro de un mundo (L_A), visible en
+clima y permutado y no en sombra— con más tiempo y más población.

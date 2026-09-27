@@ -1,0 +1,53 @@
+================================================================================
+v16 ESCRITURA TOTAL -- v14 + MUTO/germinal escriben la instruccion entera (se rompe la clausura de operandos); lectura primaria R2_A
+================================================================================
+linea n0=16 max 256; flags {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 3.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0, 'escritura_total': True}; 40 semillas; 30000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring; PLAN §6b)
+
+--------------------------------------------------------------------------------
+CONTACTO y ESTADO por brazo (mediana sobre semillas)
+  clima      muertes post/pre 0.920  vivas 33  muertes/tick 0.026  semillas con contacto>=1.2: 6
+  ciclo2     muertes post/pre 1.000  vivas 20  muertes/tick 0.012  semillas con contacto>=1.2: 8
+  permutado  muertes post/pre 0.907  vivas 28  muertes/tick 0.018  semillas con contacto>=1.2: 7
+  sin        muertes post/pre 0.974  vivas 51  muertes/tick 0.000  semillas con contacto>=1.2: 0
+  sombra     muertes post/pre 1.100  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 9
+
+--------------------------------------------------------------------------------
+R2_A. REGULACION POR ORDEN EN LA HAMBRUNA: muertes/tick durante A, pareadas, entre mundos vivos
+  estructura de partos nacimientos_A / nacimientos_B (mediana entre vivos): clima 0.01  ciclo2 0.03  permutado 0.05
+  clima   < permutado en 2/22 pares con ambos vivos (p signo 1.000); razon mediana 1.30 -> no
+  ciclo2  < permutado en 7/21 pares con ambos vivos (p signo 0.961); razon mediana 1.13 -> no
+  => sin regulacion por orden en la hambruna
+
+--------------------------------------------------------------------------------
+POSITIVAS POR LECTURA Y BRAZO (p<0.05; A con stat>0)
+  lectura       clima     ciclo2  permutado        sin     sombra   p_binom(clima) c2 c3 | p_binom(ciclo2) c2 c3
+  A                 6          2          6          1          4           0.014  T  F           0.601  F  F
+  A_m               1          1          5          1          1           0.871  F  F           0.871  F  F
+  L                 0          4          0          1          2           1.000  F  F           0.138  F  T
+  L_m               0          1          1          1          2           1.000  F  F           0.871  F  F
+  A_n               3          5          0          3          0           0.323  F  F           0.048  T  F
+  A_nD              1          1          0          0          0           0.871  F  F           0.871  F  F
+  A_nB              0          5          0          0          0           1.000  F  F           0.048  T  T
+  A_nBD             0          1          0          0          0           1.000  F  F           0.871  F  F
+  A_e               0          4          0          2          0           1.000  F  F           0.138  F  T
+  A_eN              1          5          0          3          4           0.871  F  F           0.048  T  F
+  L_A               1          3          1          1          1           0.871  F  F           0.323  F  T
+  A: clima [8, 10, 16, 19, 35, 38]  ciclo2 [14, 16]  permutado [5, 11, 14, 24, 25, 29]  sin [38]  sombra [16, 20, 25, 32]
+  A_m: clima [14]  ciclo2 [2]  permutado [12, 18, 23, 24, 29]  sin [21]  sombra [11]
+  L: clima []  ciclo2 [11, 24, 32, 39]  permutado []  sin [19]  sombra [23, 38]
+  L_m: clima []  ciclo2 [23]  permutado [30]  sin [12]  sombra [21, 26]
+  A_n: clima [1, 6, 7]  ciclo2 [5, 20, 23, 27, 39]  permutado []  sin [6, 15, 16]  sombra []
+  A_nD: clima [1]  ciclo2 [27]  permutado []  sin []  sombra []
+  A_nB: clima []  ciclo2 [5, 20, 23, 27, 39]  permutado []  sin []  sombra []
+  A_nBD: clima []  ciclo2 [27]  permutado []  sin []  sombra []
+  A_e: clima []  ciclo2 [16, 19, 32, 39]  permutado []  sin [5, 33]  sombra []
+  A_eN: clima [11]  ciclo2 [16, 19, 24, 29, 39]  permutado []  sin [5, 14, 20]  sombra [17, 19, 23, 38]
+  L_A: clima [5]  ciclo2 [23, 24, 25]  permutado [19]  sin [4]  sombra [13]
+  habituacion en clima (L): []
+  habituacion en clima (L_m): []
+  habituacion en clima (L_A): []
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> SIN CONTACTO: muertes post/pre en clima = 0.92 dentro de [1/1.2, 1.2]. No se lee como 'sin inteligencia'.
