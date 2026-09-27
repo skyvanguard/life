@@ -560,3 +560,11 @@ HEREDABLE: primer candidato a vestigio de la línea (una población que, por
 herencia, muere menos en la hambruna sin que el rasgo de luz cambie); el
 paso siguiente sería identificar el mecanismo (partos, energía al entrar en
 A, invasión) y replicar con otro sol.
+
+**Resultado §31: DENSIDAD** (igualado 0.18 contra abierto 0.15, razón 0.79,
+7/12; la densidad sola da 11/12 contra el congelado). La señal de §30 era
+carga convertida en densidad. Sin vestigio. Cierre del diagnóstico: el único
+cuello no descartado es el paisaje (§28). §32: alcanzabilidad con escrituras
+INCREMENTALES (±1 en un solo campo) contra totales, con el arnés de §28; si
+dan una escalera más densa de pasos pequeños positivos, se implementa el
+operador incremental como flag y se corre la escalada (§33).

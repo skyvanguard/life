@@ -1564,6 +1564,19 @@ explicación, que es lo más que un negativo puede ser.
   igualaba la densidad (218 contra 137 vivas) y apagaba la sonda. Humo de
   una semilla con la versión final, sin valor de prueba: abierto 0.24,
   congelado igualado 0.57, congelado 1.28. `exp_utero_densidad.py`.
+  **Resultado: INTERMEDIO por la letra, DENSIDAD por la evidencia.**
+  Densidad igualada (138 contra 134 vivas). Mortalidad per cápita en A:
+  abierto 0.15, congelado igualado 0.18, congelado 0.96. Abierto < igualado
+  en 7/12 (p 0.39), razón mediana 0.79; abierto < congelado 12/12 (réplica
+  de §30, razón 0.18); igualado < congelado 11/12 (p 0.003, razón 0.24): la
+  densidad sola reproduce casi toda la ventaja. Caída tardío/temprano
+  abierto < igualado 9/12 (secundaria débil). **La señal de §30 era carga
+  mutacional convertida en densidad; no hay vestigio.** Con esto, todos los
+  cuellos posibles menos uno quedaron descartados esta noche (ecología,
+  clausura de operandos, oferta, bien común, posición, tasa, población,
+  gradiente, vara, densidad): queda el PAISAJE (§28), una meseta neutra donde
+  las escrituras enteras al azar casi nunca dan un paso pequeño en la
+  dirección premiada. (`results/utero_densidad_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

@@ -1,0 +1,25 @@
+================================================================================
+CONTROL DE DENSIDAD -- abierto p=0.02 vs congelado con la misma mortalidad de fondo (sombra fuera de A) vs congelado
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 14.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; N=512; 12 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo             vivas med vivas fin   pc_A pc_A t/t  nac_B  nac_A
+  abierto                 138       127   0.15     0.00   0.05   0.01
+  congelado_sombra        134       124   0.18     0.22   0.30   0.01
+  congelado               176       111   0.96     0.61   0.11   0.02
+
+--------------------------------------------------------------------------------
+PAREADO por semilla (mortalidad per capita en A, nivel)
+  abierto < congelado-sombra en 7/12 (p signo 0.387); razon mediana 0.79
+    por semilla (abierto | sombra): 0.00|0.09 0.02|0.05 0.03|0.02 0.33|0.29 0.06|0.16 0.55|0.42 0.45|0.83 0.04|0.13 0.05|0.09 0.81|0.38 0.42|0.44 0.25|0.20
+  abierto < congelado        en 12/12 (p signo 0.000); razon mediana 0.18   (replica de §30)
+  sombra  < congelado        en 11/12 (p signo 0.003); razon mediana 0.24   (la densidad sola)
+  caida tardio/temprano: abierto < sombra en 9/12
+  densidad igualada? vivas medias abierto 138, sombra 134, congelado 176
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> INTERMEDIO.
