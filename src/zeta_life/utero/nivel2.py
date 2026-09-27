@@ -74,9 +74,17 @@ def _sigmoid(x: float) -> float:
     return 1.0 / (1.0 + math.exp(-x))
 
 
+def _fila_desde_registros(r: list, b: int, m: int) -> np.ndarray:
+    """v16: una instrucción entera [op, a, b, c] leída de la materia (registros)."""
+    return np.array([int(abs(r[b % m]) * N_OPS) % N_OPS,
+                     int(abs(r[(b + 1) % m]) * ARG_RANGE) % ARG_RANGE,
+                     int(abs(r[(b + 2) % m]) * ARG_RANGE) % ARG_RANGE,
+                     int(abs(r[(b + 3) % m]) * ARG_RANGE) % ARG_RANGE], dtype=np.int64)
+
+
 def execute(code: np.ndarray, vl: float, v: float, vr: float,
             ctx: tuple, wrap: bool = False, r3_init: float = 0.0,
-            stats: dict | None = None, extra=None) -> tuple:
+            stats: dict | None = None, extra=None, total: bool = False) -> tuple:
     """Ejecutar una regla. ctx = (code_izq|None, code_self, code_der|None).
 
     Devuelve (v', own_next, spawn, r3_raw) con spawn=None o (lado, pos, opcode,
@@ -110,6 +118,12 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
     # extra: None (4 registros, byte-idéntico) | float (v10: la energía como 5º
     # registro) | list (v13: registros extra; al terminar, la lista recibe los
     # valores ESCRITOS por la regla, para que el sustrato aplique su dinámica lenta)
+    # total (v16, ESCRITURA TOTAL): MUTO y el germinal escriben la instrucción
+    # ENTERA desde los registros — opcode desde |R_b| como siempre, y a, b, c desde
+    # |R_{b+1}|, |R_{b+2}|, |R_{b+3}| (mod m) escalados a ARG_RANGE. Sin esto,
+    # ningún operador escribe operandos y los tríos (a,b,c) de un mundo quedan
+    # congelados en la sopa inicial (la cuarta jaula, PLAN §15). total=False:
+    # byte-idéntico.
     if extra is None:
         r = [vl, v, vr, r3_init]
     elif isinstance(extra, list):
@@ -135,10 +149,16 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
             src = ctx[a % 3]
             r[c % m] = float(src[b % K, 0]) / N_OPS if src is not None else 0.0
         elif op == MUTO:
-            new_op = int(abs(r[b % m]) * N_OPS) % N_OPS
-            if stats is not None and own_next[a % K, 0] != new_op:
-                stats["muto_writes"] += 1
-            own_next[a % K, 0] = new_op
+            if total:
+                fila = _fila_desde_registros(r, b, m)
+                if stats is not None and not np.array_equal(own_next[a % K], fila):
+                    stats["muto_writes"] += 1
+                own_next[a % K] = fila
+            else:
+                new_op = int(abs(r[b % m]) * N_OPS) % N_OPS
+                if stats is not None and own_next[a % K, 0] != new_op:
+                    stats["muto_writes"] += 1
+                own_next[a % K, 0] = new_op
         elif op == COPY:
             src = ctx[a % 3]
             if src is not None:
@@ -152,7 +172,8 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
             # cría (usada por la encarnación 'germinal'; nivel2/v1 la ignoran
             # y copian exacto): posición c%K, opcode nuevo desde |R[b]| en el
             # momento del parto — la misma función de MUTO, acoplada a materia.
-            spawn = (a % 2, c % K, int(abs(r[b % m]) * N_OPS) % N_OPS, b % K)
+            nuevo = _fila_desde_registros(r, b, m) if total else int(abs(r[b % m]) * N_OPS) % N_OPS
+            spawn = (a % 2, c % K, nuevo, b % K)
         # NOP: nada
     raw = r[3]
     if isinstance(extra, list):

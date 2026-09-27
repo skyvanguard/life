@@ -62,7 +62,7 @@ class UteroCreciente:
                  e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5,
                  percepcion: bool = False, energia_luz: bool = False,
                  luz_finita: float = 0.0, lentos: float = 0.0, e_costo: float = 0.0,
-                 refractario: int = 0):
+                 refractario: int = 0, escritura_total: bool = False):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -237,6 +237,12 @@ class UteroCreciente:
         como si el vecino estuviera ocupado (paga e_costo igual). T=0:
         byte-idéntico. Mano: T."""
         self.refractario = int(refractario)
+        # v16 (ESCRITURA TOTAL): MUTO y el germinal escriben la instrucción entera
+        # (op, a, b, c) desde los registros. Rompe la clausura de operandos (los
+        # tríos (a,b,c) de un mundo estaban congelados en la sopa inicial: la
+        # cuarta jaula, PLAN §15). Sin RNG nuestro: la materia escribe el programa
+        # completo. False: byte-idéntico.
+        self.escritura_total = bool(escritura_total)
         self.quemada = np.zeros(n0, dtype=np.int64)   # tick hasta el cual el lugar sigue quemado
         self.e_costo = float(e_costo)
         self.lentos = float(lentos)
@@ -398,7 +404,8 @@ class UteroCreciente:
             s_prev = list(xtra[-2:]) if self.lentos > 0.0 else None
             v_new, own_next, spawn, raw = execute(
                 self.code[i], vl, float(self.v[i]), vr, ctx,
-                wrap=self.toroidal, r3_init=mi, stats=stats, extra=xtra)
+                wrap=self.toroidal, r3_init=mi, stats=stats, extra=xtra,
+                total=self.escritura_total)
             if self.lentos > 0.0:
                 for k in range(2):        # escritura lenta: S <- S + λ(w - S) sólo si la regla escribió
                     w = xtra[-2 + k]
@@ -487,7 +494,10 @@ class UteroCreciente:
             side, mpos, mop, locus = spawn
             child = own_next.copy()
             if self.germinal:               # v2: nace con UNA instrucción
-                child[mpos, 0] = mop        # reescrita desde la materia
+                if self.escritura_total:    # v16: la instrucción ENTERA desde la materia
+                    child[mpos] = mop
+                else:
+                    child[mpos, 0] = mop    # reescrita desde la materia (sólo el opcode)
             if self.recombina:              # v7: una instrucción del otro progenitor
                 o = i + 1 if side == 0 else i - 1
                 if 0 <= o < self.n and self.alive[o] and not np.array_equal(
