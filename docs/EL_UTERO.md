@@ -646,6 +646,11 @@ sustrato distinto. Decisión abierta.
   el cambio de perspectiva a dos dimensiones (v8, `utero/plano.py`).
   (`results/utero_escala_run.txt`)
 
+- **§35 — réplica de §34, pre-registro (2026-09-27).** Mismo diseño y misma
+  regla; sol seed 1 y sopas 12–23. SE CREE si theta_s_solo ADAPTA otra vez
+  (w̄_A tardío/temprano y nivel > nulo en ≥ 75% de los pares, p signo <
+  0.05). `exp_utero_escala_replica.py`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
@@ -1657,6 +1662,11 @@ explicación, que es lo más que un negativo puede ser.
   pregunta del orden se puede hacer sobre él. **No se cree todavía:** §35
   replica con otro sol (seed 1) y otras doce sopas (12–23), misma regla.
   (`results/utero_escala_run.txt`)
+
+- **§35 — réplica de §34, pre-registro (2026-09-27).** Mismo diseño y misma
+  regla; sol seed 1 y sopas 12–23. SE CREE si theta_s_solo ADAPTA otra vez
+  (w̄_A tardío/temprano y nivel > nulo en ≥ 75% de los pares, p signo <
+  0.05). `exp_utero_escala_replica.py`.
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
