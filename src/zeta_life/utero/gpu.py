@@ -335,6 +335,13 @@ class UteroGPU:
         self.e = torch.where(energia, torch.zeros_like(self.e), self.e)
         self.S = torch.where(energia.unsqueeze(-1), torch.zeros_like(self.S), self.S)
 
+    def cortar(self, ini: int, fin: int) -> None:
+        """Ablación (§44): vacía el tramo [ini, fin) de TODOS los mundos, como un corte a mano en los
+        enjambres de Carrillo-Zapata. Las celdas cortadas quedan vacías, sin energía ni memoria."""
+        m = torch.zeros_like(self.alive)
+        m[:, ini:fin] = True                      # todo el tramo (también los huecos que ya había)
+        self._vaciar(m, energia=m)
+
     # ------------------------------------------------------------------ un tick
     @torch.no_grad()
     def step(self) -> dict:

@@ -135,3 +135,14 @@ def test_ultraestable_off_is_identical_and_gate_follows_the_energy_trend():
     assert vivos(0) <= inicial               # le va bien -> conserva su regla: ningún genoma nuevo
     assert not (vivos(1) <= inicial)         # invertido: reescribe justo cuando le va bien
     assert not (vivos(2) <= inicial)         # apagado: reescribe siempre
+
+
+def test_cortar_empties_the_block_and_the_tissue_can_regrow_into_it():
+    sol = np.tile(np.full(400, 0.6), (2, 1))
+    g = UteroGPU([3, 4], 64, sol, device="cpu", luz_finita=40.0, escritura_total=True)
+    g.correr(50)
+    g.cortar(20, 40)
+    assert not bool(g.alive[:, 20:40].any())
+    assert float(g.e[:, 20:40].abs().sum()) == 0.0
+    g.correr(350)
+    assert int(g.alive[:, 20:40].sum()) > 0          # el tejido vuelve a ocupar el tramo cortado
