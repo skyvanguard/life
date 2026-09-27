@@ -452,3 +452,11 @@ función del programa; por eso la selección no ve genomas y nada se adapta.
 §24 lo prueba barajando posiciones; si se confirma, el cambio necesario es
 estructural (cerrar la frontera para que la competencia sea interior, o
 cambiar la topología), no ecológico.
+
+## 24. Posición o programa (2026-09-27)
+
+Réplicas congeladas con posiciones barajadas (mismo conjunto de genomas,
+mismo orden), en frontera abierta y en frontera cerrada (n0 = max_n = 64).
+PROGRAMA / POSICIÓN / MIXTO por ecología, escritos antes de correr. Es la
+prueba directa de la hipótesis que sobrevivió a todo lo demás: en la línea
+con frontera abierta la reproducción es efecto fundador espacial.

@@ -1388,6 +1388,18 @@ explicación, que es lo más que un negativo puede ser.
   seleccionarse salvo "estar en el borde". §24: réplicas con las posiciones
   barajadas. (`results/utero_jardin_comun_run.txt`)
 
+- **§24 — ¿posición o programa?, pre-registro (2026-09-27).** Réplicas
+  congeladas que conservan el mismo conjunto de genomas y materias y el
+  mismo orden de actualización, pero con las POSICIONES barajadas. Dos
+  ecologías: abierta (n0 16, max_n 512: la frontera siempre abierta) y
+  cerrada (n0 = max_n = 64: la línea nace llena, la reproducción sólo hacia
+  lugares que abre la muerte o por invasión). 10 sopas × 5 réplicas, 30000
+  ticks, W de Kendall contra nulo por permutación. PROGRAMA si p_W < 0.05 en
+  ≥ 8/10; POSICIÓN si ≤ 3/10. Lectura conjunta declarada: abierta =
+  POSICIÓN y cerrada = PROGRAMA señala la frontera abierta como causa
+  estructural y traslada la evolvabilidad y la regulación a la ecología
+  cerrada. `exp_utero_posicion.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
