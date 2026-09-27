@@ -766,6 +766,27 @@ sustrato distinto. Decisión abierta.
   permutado. Espera la validación del motor (V2 de §38) y la indicación de
   Fran para usar la GPU. `exp_utero_trasplante_gpu.py`.
 
+- **§39b — modelo reducido de perillas: PREDICE NADA (2026-09-27).** NO es
+  el útero: conserva la ecología cerrada y las perillas heredables (θ, s, g)
+  y reemplaza la física por su estadística (salida iid uniforme; programas
+  congelados de salida pseudoaleatoria, §28). Numpy, un núcleo, 4 minutos.
+  Trasplante recíproco completo, 24 mundos por origen. Corrida 1 (criterio
+  "en casa contra fuera"): NADA por la letra, y el control permutado mostró
+  que el calendario clima es más benigno que ciclo2 para cualquier origen
+  (22/24): ese criterio confunde adaptación con calidad del entorno.
+  **Enmienda del pre-registro de §39, hecha antes de correrlo en el sustrato
+  real:** criterio primario LOCAL CONTRA FORÁNEO (Kawecki y Ebert 2004),
+  exigido en ambos destinos. Corrida 2 (ese criterio, post hoc para el
+  modelo): local < foráneo en 12/24 (clima, p 0.58) y 15/24 (ciclo2, p 0.15):
+  NADA. Las perillas evolucionan (s̄ 0.74–0.88) pero no codifican el orden.
+  Razón estructural: la tendencia de la energía da la MISMA señal en la
+  estación templada venga después hambruna o abundancia; lo que el orden
+  cambia es qué conviene HACER en la templada (guardar o parir). Siguiente
+  (§40): una perilla de historia de vida —propensión al parto condicionada
+  al nivel de ingreso—, primero en el modelo.
+  (`exp_utero_modelo_reducido.py`, `results/utero_modelo_reducido_run.txt`,
+  `results/utero_modelo_reducido_corrida1_run.txt`)
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32

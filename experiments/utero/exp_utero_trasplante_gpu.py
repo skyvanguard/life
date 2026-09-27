@@ -20,19 +20,25 @@ las perillas); θ, s, g heredables (ε = 0.05, ε_g = 0.05). 24 semillas.
     lo único que se conserva es el orden): cada población evolucionada se
     copia y se corre bajo clima y bajo ciclo2, con las perillas FIJAS
     (theta_fijo: se mide el desempeño, no se sigue evolucionando). 144 mundos.
-LECTURA PRIMARIA: mortalidad per cápita en la hambruna durante el ensayo
-(hambrunas con inicio ≥ 4000), pareada por semilla.
-  VENTAJA DE CASA (origen clima):  clima→clima  < clima→ciclo2.
-  VENTAJA DE CASA (origen ciclo2): ciclo2→ciclo2 < ciclo2→clima.
+LECTURA PRIMARIA (ENMENDADA antes de correr, tras el modelo reducido §39b):
+mortalidad per cápita en la hambruna durante el ensayo (hambrunas con inicio
+≥ 4000), pareada por semilla, con el criterio LOCAL CONTRA FORÁNEO (Kawecki y
+Ebert 2004): dentro de cada destino, la población que evolucionó allí contra
+la que evolucionó bajo el otro orden regular.
+  VENTAJA LOCAL (destino clima):  clima→clima   < ciclo2→clima.
+  VENTAJA LOCAL (destino ciclo2): ciclo2→ciclo2 < clima→ciclo2.
   Cada una cumple si se da en ≥ 75% de los pares vivos (n ≥ 8), p signo <
   0.05, razón mediana ≤ 0.8.
-  VESTIGIO  si AMBOS orígenes tienen ventaja de casa → las perillas
-            heredables codifican el orden de las estaciones (adaptación a la
-            regularidad, no a la estación). Réplica con otro sol antes de
-            creerlo.
-  ENTORNO   si en los dos ensayos gana el mismo calendario sea cual sea el
-            origen (un orden es más benigno que el otro): no es adaptación.
-  NADA      en otro caso.
+  VESTIGIO    si hay ventaja local en AMBOS destinos → las perillas
+              heredables codifican el orden de las estaciones. Réplica con
+              otro sol antes de creerlo.
+  ASIMÉTRICO  si sólo en un destino: adaptación a un orden, no demostrada
+              como adaptación AL orden; se reporta sin llamarla vestigio.
+  NADA        si en ninguno.
+Motivo de la enmienda: el criterio original (en casa contra fuera) confunde
+adaptación con calidad del entorno; el modelo reducido mostró que el
+calendario clima es más benigno que ciclo2 para cualquier origen (control
+permutado 22/24). Se sigue informando como secundaria.
 CONTROL: origen permutado ensayado bajo clima y ciclo2 (sin casa): fija
 cuánto de la diferencia entre calendarios es del entorno. SECUNDARIAS: la
 distribución de g y θ por origen al final de la fase 1 (¿difieren clima y
@@ -163,15 +169,28 @@ def main() -> None:
     kp = sum(1 for x, y in prp if x < y)
     out(f"  control (origen permutado, sin casa): clima < ciclo2 en {kp}/{len(prp)} (el efecto del ENTORNO solo)")
     out("")
+    out("-" * 80)
+    out("LOCAL CONTRA FORANEO (dentro de cada destino, pareado por semilla; criterio de Kawecki y Ebert 2004)")
+    local = {}
+    for d, foraneo in (("clima", "ciclo2"), ("ciclo2", "clima")):
+        pr = [(x, y) for x, y in zip(pc[(d, d)], pc[(foraneo, d)]) if not (np.isnan(x) or np.isnan(y))]
+        k = sum(1 for x, y in pr if x < y)
+        raz = float(np.median([x / y if y > 0 else np.nan for x, y in pr])) if pr else float("nan")
+        local[d] = len(pr) >= 8 and k / len(pr) >= 0.75 and signo_p(k, len(pr)) < 0.05 and raz <= 0.8
+        prp2 = [(x, y) for x, y in zip(pc[(d, d)], pc[("permutado", d)]) if not (np.isnan(x) or np.isnan(y))]
+        kp2 = sum(1 for x, y in prp2 if x < y)
+        out(f"  destino {d:<7}: local < foraneo ({foraneo}) en {k}/{len(pr)} (p signo {signo_p(k, len(pr)):.3f}); razon mediana {raz:.2f} "
+            f"-> {'si' if local[d] else 'no'};  local < origen permutado en {kp2}/{len(prp2)}")
+    out("")
     out("=" * 80)
-    out("VEREDICTO (regla escrita antes de correr)")
-    if casa["clima"] and casa["ciclo2"]:
+    out("VEREDICTO (regla escrita antes de correr; criterio primario: local contra foraneo en AMBOS destinos)")
+    if local["clima"] and local["ciclo2"]:
         out("=> VESTIGIO: a cada poblacion le va mejor bajo el orden en el que evoluciono, con otro calendario y las perillas fijas. "
             "Sus perillas heredables codifican el orden de las estaciones. ANTES DE CREERLO: replicar con otro sol.")
-    elif casa["clima"] != casa["ciclo2"]:
-        out("=> ENTORNO: gana el mismo calendario sea cual sea el origen; un orden es mas benigno, no hay adaptacion al orden.")
+    elif local["clima"] != local["ciclo2"]:
+        out("=> ASIMETRICO: ventaja local en un solo destino; adaptacion a un orden, no demostrada como adaptacion AL orden. No es vestigio.")
     else:
-        out("=> NADA: ninguna poblacion tiene ventaja de casa.")
+        out("=> NADA: ninguna poblacion tiene ventaja local.")
     (RESULTS / f"{NAME}_run.txt").write_text("\n".join(lines), encoding="utf-8")
 
 

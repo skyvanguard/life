@@ -1,0 +1,28 @@
+================================================================================
+MODELO REDUCIDO DE PERILLAS (no es el utero): trasplante reciproco predicho sin programas
+================================================================================
+N=256; L0=7.0; 24 mundos por origen; evolucion 120000 (sol 0), ensayo 40000 (sol 1); eps=0.05; eps_g=0.05; p_parto=0.02
+regla pre-registrada (docstring): la de §39
+
+fase 1 (evolucion): 2.4 min
+  origen      vivas  g media   g>0  s media  theta (media circular)  R_theta
+  clima         122   -0.021  0.42     0.88                    0.73     0.22
+  ciclo2        128    0.026  0.55     0.81                    0.03     0.29
+  permutado     140    0.067  0.61     0.74                    0.10     0.28
+
+fase 2 (ensayo, perillas fijas): 1.5 min
+  mortalidad per capita en la hambruna (mediana), origen -> destino:
+  origen         -> clima    -> ciclo2
+  clima             0.132        0.191
+  ciclo2            0.124        0.161
+  permutado         0.123        0.226
+
+--------------------------------------------------------------------------------
+VENTAJA DE CASA (pareado por mundo)
+  origen clima  : en casa < fuera en 22/24 (p signo 0.000); razon mediana 0.86 -> no
+  origen ciclo2 : en casa < fuera en 4/24 (p signo 1.000); razon mediana 1.13 -> no
+  control (origen permutado, sin casa): clima < ciclo2 en 22/24 (el efecto del ENTORNO solo)
+
+================================================================================
+PREDICCION (regla escrita antes de correr)
+=> PREDICE NADA: ninguna poblacion tiene ventaja de casa en el modelo.

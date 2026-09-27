@@ -667,3 +667,20 @@ orden de benignidad del entorno porque exige ventaja de casa en los DOS
 orígenes. Orden de ejecución pendiente, todo en GPU y reanudable: (1)
 completar V2 de §38; (2) §39. Ambos esperan la indicación de Fran: la corrida
 de V2 fue detenida por el sistema por memoria RAM crítica.
+
+**§39b, modelo reducido (numpy): PREDICE NADA** para el trasplante con las
+perillas θ, s, g (local < foráneo 12/24 y 15/24). Enmienda de §39 antes de
+correrlo: criterio local contra foráneo en ambos destinos.
+
+## 40. Una perilla de historia de vida (2026-09-27)
+
+La señal que recibe una perilla de tendencia de energía es la misma en la
+estación templada bajo cualquier orden; lo que el orden cambia es la acción
+que conviene allí. Perilla: propensión al parto condicionada al nivel de
+ingreso propio, tres valores heredables q_bajo, q_medio, q_alto ∈ [0, 1]
+(nacen en 1; ±ε al nacer). Predicción: bajo clima (a la templada le sigue la
+hambruna) la selección baja q_medio; bajo ciclo2 (le sigue la abundancia) no.
+El trasplante recíproco lo detecta con el criterio local contra foráneo.
+Primero en el modelo reducido (minutos, sin GPU); si el modelo predice
+VESTIGIO, la perilla se implementa en el motor de GPU y se corre en el
+sustrato real cuando haya memoria y Fran lo indique.
