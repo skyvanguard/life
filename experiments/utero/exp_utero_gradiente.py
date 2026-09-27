@@ -12,9 +12,15 @@ que mantenga su materia lejos del sol debe ganar en cuanto la luz escasee, y
 un programa de la misma forma pero sin ventaja de ingreso, no.
 
 PROGRAMAS SEMBRADOS (ambos pasan la sonda y no quedan quietos; sin MUTO):
-  ANTISOL  v' = 0.875 + 0.0625·vl  (materia en [0.875, 0.94]: distancia al sol
-           0.28–0.40 en las tres estaciones contra ≈0.25 al azar; sensible a la
-           materia por el término en vl).
+  ANTISOL  v' = 0.5625 + 0.0625·vl  (materia en [0.5625, 0.625]: distancia
+           toroidal al sol de la HAMBRUNA (A ≈ 0.08) de 0.48–0.50, el máximo,
+           contra ≈0.25 al azar: peso de luz 0.55 vs 0.30 cuando la luz escasea;
+           en B (0.55) queda casi pegado al sol, pero allí la luz sobra;
+           sensible a la materia por el término en vl).
+           NOTA HONESTA: la primera versión (0.875 + 0.0625·vl) estaba mal
+           calculada —en la hambruna quedaba a 0.18 del sol, PEOR que el azar—
+           y en el humo (3 semillas, 6000 ticks) dio 0/3; se corrigió antes de
+           la corrida completa y se deja registrado.
   ESPEJO   v' = vl + 0.5 (mod 1): misma estructura, legal, pero en cadena
            alterna sol+0.5 / sol: ingreso medio ≈ al azar. Control emparejado.
 DISEÑO. Ecología CERRADA (n0 = max_n = 64), CONGELADA (sin herencia de
@@ -80,12 +86,12 @@ def prog(*instrs) -> np.ndarray:
 ANTISOL = prog((CONST, 9, 0, 3),      # r3 = 0.25
                (MUL, 3, 3, 3),        # r3 = 0.0625
                (MUL, 3, 0, 3),        # r3 = 0.0625 * vl        (sensible a la materia)
-               (CONST, 11, 0, 0),     # r0 = 0.75
-               (ADD, 3, 0, 3),        # r3 += 0.75
+               (CONST, 10, 0, 0),     # r0 = 0.5
+               (ADD, 3, 0, 3),        # r3 += 0.5
                (CONST, 9, 0, 0),      # r0 = 0.25
-               (CONST, 10, 0, 2),     # r2 = 0.5
-               (MUL, 0, 2, 0),        # r0 = 0.125
-               (ADD, 3, 0, 3),        # r3 = 0.875 + 0.0625 * vl
+               (CONST, 9, 0, 2),      # r2 = 0.25
+               (MUL, 0, 2, 0),        # r0 = 0.0625
+               (ADD, 3, 0, 3),        # r3 = 0.5625 + 0.0625 * vl  -> materia en [0.5625, 0.625]
                (SPAWN, 1, 3, 15))     # pare a la derecha
 ESPEJO = prog((CONST, 10, 0, 3),      # r3 = 0.5
               (ADD, 0, 3, 3),         # r3 = vl + 0.5
