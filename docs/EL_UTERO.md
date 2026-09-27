@@ -1171,6 +1171,23 @@ explicación, que es lo más que un negativo puede ser.
   pre-registradas de emergencia, cero vestigios.
   (`results/utero_quemada_run.txt`)
 
+- **La cuarta jaula: clausura de operandos (2026-09-26).** Leído en
+  `nivel2.execute` y verificado por medida: **ningún operador de variación
+  escribe operandos.** MUTO escribe sólo el opcode de la fila `a%K`; el
+  germinal sólo el opcode de la fila `c%K`; COPY traslada filas que ya
+  existen; SPAWN copia. Los tríos `(a,b,c)` de un mundo son exactamente los
+  de su sopa inicial: 248 de 4096 (6.06%), y ese conjunto no cambia nunca. La
+  "física que se reescribe" reescribe 1 de sus 4 campos. Consecuencia medida
+  sobre las 40 semillas de v14/v15: sólo **3/40** sopas contienen siquiera los
+  operandos de las piezas del ahorrador (Monte Carlo poblacional 0.157), y
+  eso es una cota superior: reunirlas en una celda y en orden exige filas
+  COPY cuyos propios operandos (origen, destino) también están congelados.
+  Esto explica los 18 negativos y por qué el control positivo tuvo que
+  escribirse a mano: la anticipación no es que no se seleccione, es que la
+  variación no puede componerla. La jaula está en la VARIACIÓN, no en la
+  ecología. (`exp_utero_alcance_operandos.py`,
+  `results/utero_alcance_operandos_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

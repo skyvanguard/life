@@ -1,0 +1,59 @@
+MEDIDA 1: tríos distintos en la sopa (16 celdas x 16 filas = 256 filas; 4096 tríos posibles)
+  tríos distintos por sopa: mediana 248 / 4096 = 6.055% (esperado 6.059%); ese conjunto NO cambia nunca en el mundo
+
+MEDIDA 2: ¿la sopa contiene los operandos de cada pieza del ahorrador? (semillas 0..39 de v14/v15)
+  seed  0: faltan 2: THR S2>r0 ->r2, MUL r2*r0->r2
+  seed  1: faltan 1: ADD vr,R3->S2
+  seed  2: TODAS las piezas
+  seed  3: faltan 1: MUL r2*r0->r2
+  seed  4: faltan 2: CONST 0.75 ->r0, CONST 1.25 ->r0
+  seed  5: faltan 3: ADD vr,R3->S2, MUL r2*r0->r2, MUTO pos9 <- |r2|
+  seed  6: faltan 2: ADD vr,R3->S2, MUL r2*r0->r2
+  seed  7: faltan 1: THR S2>r0 ->r2
+  seed  8: faltan 2: THR S2>r0 ->r2, MUL v*v->R3
+  seed  9: faltan 1: MUL r2*r0->r2
+  seed 10: TODAS las piezas
+  seed 11: faltan 2: MUL r2*r0->r2, MUL v*v->R3
+  seed 12: faltan 1: ADD vr,R3->S2
+  seed 13: faltan 1: MUL r2*r0->r2
+  seed 14: faltan 4: THR S2>r0 ->r2, MUL r2*r0->r2, MUTO pos9 <- |r2|, MUL v*v->R3
+  seed 15: faltan 2: THR S2>r0 ->r2, MUL r2*r0->r2
+  seed 16: faltan 2: THR S2>r0 ->r2, MUL r2*r0->r2
+  seed 17: faltan 3: ADD vr,R3->S2, THR S2>r0 ->r2, MUL r2*r0->r2
+  seed 18: faltan 2: ADD vr,R3->S2, MUL v*v->R3
+  seed 19: faltan 3: ADD vr,R3->S2, CONST 0.5 ->r0, MUL r2*r0->r2
+  seed 20: faltan 2: ADD vr,R3->S2, THR S2>r0 ->r2
+  seed 21: faltan 1: ADD vr,R3->S2
+  seed 22: faltan 2: ADD vr,R3->S2, MUL r2*r0->r2
+  seed 23: TODAS las piezas
+  seed 24: faltan 1: ADD vr,R3->S2
+  seed 25: faltan 1: MUL r2*r0->r2
+  seed 26: faltan 1: MUL r2*r0->r2
+  seed 27: faltan 2: CONST 0.5 ->r0, THR S2>r0 ->r2
+  seed 28: faltan 1: ADD vr,R3->S2
+  seed 29: faltan 1: MUL r2*r0->r2
+  seed 30: faltan 1: ADD vr,R3->S2
+  seed 31: faltan 1: THR S2>r0 ->r2
+  seed 32: faltan 2: THR S2>r0 ->r2, MUL r2*r0->r2
+  seed 33: faltan 1: MUL r2*r0->r2
+  seed 34: faltan 3: THR S2>r0 ->r2, CONST 0.75 ->r0, MUL r2*r0->r2
+  seed 35: faltan 1: ADD vr,R3->S2
+  seed 36: faltan 1: THR S2>r0 ->r2
+  seed 37: faltan 2: ADD vr,R3->S2, MUL r2*r0->r2
+  seed 38: faltan 2: THR S2>r0 ->r2, MUL r2*r0->r2
+  seed 39: faltan 2: MUL r2*r0->r2, MUTO pos9 <- |r2|
+  sopas con todas las piezas: 3/40
+    ADD vr,R3->S2 (2,3,5)              presente en 25/40 sopas
+    CONST 0.5 ->r0 (a=10)              presente en 38/40 sopas
+    THR S2>r0 ->r2 (5,0,2)             presente en 26/40 sopas
+    CONST 0.75 ->r0 (a=11)             presente en 38/40 sopas
+    MUL r2*r0->r2 (2,0,2) x2           presente en 18/40 sopas
+    CONST 1.25 ->r0 (a=13)             presente en 39/40 sopas
+    MUTO pos9 <- |r2| (a=9,b=2)        presente en 37/40 sopas
+    MUL v*v->R3 (1,1,3)                presente en 36/40 sopas
+    SPAWN der,b=3,c en fila vacia      presente en 40/40 sopas
+
+MONTE CARLO poblacional (20000 sopas uniformes como las del útero):
+  P(la sopa contiene los operandos de TODAS las piezas) = 0.157
+  (cota superior: además hay que reunirlas en UNA celda y en ORDEN vía COPY, cuyos propios
+   operandos (b = fila origen, c = fila destino) también están congelados en la sopa)

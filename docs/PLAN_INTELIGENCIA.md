@@ -246,3 +246,27 @@ diseñado es viable y ventajoso; la pregunta es si alguna trayectoria de
 MUTO/COPY lo alcanza desde genomas aleatorios, o si las instrucciones que lo
 componen son individualmente neutras o letales (un valle). Eso se mide sin
 evolucionar: §15.
+
+## 15. La cuarta jaula: la variación no escribe operandos (2026-09-26)
+
+Hecho estructural, leído en el VM y medido: MUTO, el germinal, COPY y SPAWN
+sólo cambian opcodes o trasladan filas enteras que ya existen. Ningún camino
+escribe los campos a, b, c. El conjunto de tríos de operandos de un mundo es
+el de su sopa inicial —6.06% de los 4096 posibles— para siempre. Sobre las 40
+semillas de v14/v15, sólo 3 sopas contienen los operandos de todas las piezas
+del ahorrador (cota superior; Monte Carlo poblacional 0.157), antes de
+ensamblarlas con COPY, cuyos operandos también están congelados.
+
+Corrige la explicación mecánica de §12–§14: no es que la ecología no
+seleccione la anticipación ni que la recolonización la borre; es que la
+variación no puede componerla. Dieciocho corridas buscaron emergencia en un
+espacio donde tres de cada cuatro campos del programa estaban fijos desde el
+tick 0. La jaula está en la variación.
+
+Respuesta (v16, `escritura_total`): MUTO y el germinal escriben la
+instrucción ENTERA desde los registros —opcode desde |R_b| como siempre, y
+a, b, c desde |R_{b+1}|, |R_{b+2}|, |R_{b+3}| (mod m), escalados a 16—. Sigue
+sin haber RNG nuestro: la materia escribe el programa completo. Abre el
+espacio; no siembra ninguna respuesta. Pre-registro: misma ecología, brazos,
+lecturas y veredicto que v14 corrida 2; calibración previa por viabilidad
+(la apertura puede volver letal la mutación).
