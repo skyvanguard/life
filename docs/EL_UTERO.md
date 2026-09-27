@@ -1491,6 +1491,17 @@ explicación, que es lo más que un negativo puede ser.
   grande cada pocos miles de ticks: §27 debió verlo → viabilidad en
   contexto); SIN SALTOS si < 0.1% (sólo pasos pequeños, neutros con N ≈ 14 →
   población efectiva). `exp_utero_alcanzabilidad.py`.
+  **Resultado: SIN SALTOS.** 50 padres (w̄ mediana 0.305; 46 legales);
+  ANTISOL da 0.533 en el proxy. Escrituras totales de un paso: 81% legales,
+  Δw̄ mediana 0.000 y p90 0.000 (la mayoría de las escrituras no tocan la
+  salida), máximo +0.188, P(Δw̄ ≥ +0.1) = 0.19%, **P(Δw̄ ≥ +0.2) = 0** en
+  20000 variantes; sólo opcode: 0.07% y 0; dos pasos: 0.32% y 0. El paisaje
+  local del rasgo es una meseta neutra con escalones raros y pequeños; el
+  salto de 0.30 a 0.55 que barre en §26 no existe a uno ni a dos pasos. Con
+  ≈14 vivas, un escalón de +0.1 es casi neutro frente a la deriva y aparece
+  una vez cada ~19000 ticks por mundo. Por la regla: población efectiva.
+  §29: §27 con la línea cerrada ×8 (512 lugares, L0 = 14).
+  (`results/utero_alcanzabilidad_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

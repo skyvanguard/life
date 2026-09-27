@@ -520,3 +520,16 @@ pequeños que con N ≈ 14 son neutros: el paso constructivo es la población
 efectiva (línea cerrada grande o el plano), no otra ecología. Si hay saltos
 grandes y aun así no se fijan, hay que mirar la viabilidad en contexto de
 esas variantes (mueren al nacer por otra razón).
+
+## 28–29. Alcanzabilidad y población efectiva (2026-09-27)
+
+§28 (sin evolucionar): en 20000 escrituras totales sobre programas legales
+del tejido, ninguna mueve el rasgo premiado +0.2 y sólo el 0.19% lo mueve
++0.1; la mediana es 0. El paisaje es una meseta neutra con escalones raros y
+pequeños. Con N ≈ 14, esos escalones son neutros. §29: §27 con la línea
+cerrada de 512 lugares y L0 = 14 (misma luz por lugar), brazos abierto p = 1,
+cerrado y congelado, 12 semillas, 120000 ticks; misma lectura y regla que
+§27. Si el rasgo sube con N ×8, la evolución en el útero estaba limitada por
+la deriva, y el camino a la regulación es población y tiempo; si tampoco,
+queda el paisaje mismo (la meseta neutra) y hay que cambiar cómo la materia
+sale del programa, no la ecología.
