@@ -1641,6 +1641,22 @@ explicación, que es lo más que un negativo puede ser.
   s̄_A (baja si la atenuación se selecciona), R_θ, banda, mortalidad. Humo de
   una semilla, sin valor de prueba: s̄_A 0.92–0.94 contra 1.00.
   `exp_utero_escala.py`.
+  **Resultado: EVOLUCIONA (theta_s_solo), por la regla escrita antes de
+  correr.** w̄_A tardío/temprano > nulo en **10/12** (p signo 0.019) y nivel
+  > nulo en **10/12**; medianas 0.434 contra 0.385; s̄_A cae de 1.00 a 0.71;
+  banda anti-hambruna 0.54 contra 0.34; R_θ 0.73. theta_s_abierto va en la
+  misma dirección (0.420, s̄ 0.68, banda 0.52) pero no cumple (8/12, 6/12):
+  la carga de las escrituras de programa sigue pesando. **Primera adaptación
+  darwiniana medida en el útero en toda la línea:** con la expresión de la
+  física atenuable y heredable, la población se vuelve más quieta por fuera
+  y más lejos del sol de la hambruna, con la física interna todavía
+  sensible (la sonda no cambió). Lo que NO es: no es regulación, no es
+  anticipación, no es un vestigio de inteligencia; es evolución de dos
+  perillas heredables bajo un gradiente demostrado (§26). Lo que sí abre:
+  por primera vez hay un sustrato donde la selección tiene escalera, y la
+  pregunta del orden se puede hacer sobre él. **No se cree todavía:** §35
+  replica con otro sol (seed 1) y otras doce sopas (12–23), misma regla.
+  (`results/utero_escala_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

@@ -585,3 +585,19 @@ materia pseudoaleatoria; el rasgo premiado es la dispersión. v17b (`escala`):
 materia visible = (θ + s·salida) mod 1 con s heredable; la sonda sigue viendo
 la salida cruda. §34: mismo diseño que §33 con θ y s heredables contra el nulo
 (θ y s fijos); lectura primaria w̄_A, secundarias s̄ y R_θ.
+
+## 34–35. Primera evolución medida y su réplica (2026-09-27)
+
+**§34: EVOLUCIONA en theta_s_solo** (10/12 y 10/12, p 0.019; w̄_A 0.434
+contra 0.385; s̄ 0.71). La cadena de la noche encontró el cuello real y su
+respuesta: la selección era fuerte y el gradiente real, pero la variación no
+tenía escalera porque la materia de un programa legal es pseudoaleatoria y
+un cambio de programa no la mueve de a poco. Dos perillas heredables
+continuas sobre la EXPRESIÓN de la física —no sobre la física— bastan para
+que la selección actúe. Es evolución, no inteligencia: dos números que se
+ajustan a un gradiente fijo. §35 réplica (sol seed 1, sopas 12–23, misma
+regla): si replica, §36 vuelve a la pregunta original sobre este sustrato:
+¿un tejido que evoluciona desarrolla regulación según el ORDEN de las
+estaciones (R2_A, anticipación) y no sólo según la estación presente? Para
+eso θ y s tendrán que poder ser escritos por el programa (perillas de
+comportamiento, no sólo de herencia), lo que se decide después de la réplica.

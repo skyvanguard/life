@@ -1,21 +1,23 @@
-==============================================================================
-EL UTERO -- robustez de escala: mundo 1024 y 80 semillas nuevas
-==============================================================================
-14000 ticks, memoria ON, linaje 500, maduro (8000, 12000), workers=20
-predicciones P1/P2 en el docstring, escritas antes de correr
+================================================================================
+v17b THETA Y ESCALA HEREDABLES -- sube el rasgo premiado cuando la expresion de la fisica puede atenuarse? -- peso de luz de la materia durante la hambruna, variacion abierta vs congelado; cerrado, luz escasa
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 14.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; N=512; brazos ['theta_s_abierto', 'theta_s_solo', 'nulo']; 12 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
 
-------------------------------------------------------------------------------
-  bloque         brazo sostenidas   tasa       Wilson 95% semillas                     eco med vivas med
-  1024x40        v5         2/40   0.050 [0.014, 0.165]  [13, 35]                        7.07        12
-  1024x40        v6         4/40   0.100 [0.040, 0.231]  [13, 21, 35, 37]                5.14      1014
-  256x80nuevas   v5         3/80   0.037 [0.013, 0.105]  [47, 61, 103]                   6.11       134
-  256x80nuevas   v6         4/80   0.050 [0.020, 0.122]  [47, 105, 108, 115]             6.47       247
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo          vivas med vivas fin hambr w_A nivel  w_A t/t banda>=0.4 R_theta  R t/t   s_A  s t/t   pc_A pc_A t/t  genomas
+  theta_s_abierto       154       120    59     0.420     1.07       0.52    0.59   1.01  0.68   0.95   0.46     0.53    27764
+  theta_s_solo         172       124    59     0.434     1.04       0.54    0.73   1.22  0.71   0.94   0.52     0.72      512
+  nulo                 159       114    59     0.385     1.00       0.34    0.70   1.05  1.00   1.00   0.54     0.51      512
 
-  referencia publicada (256, semillas 0-39): v5 2/40 = 0.050, v6 3/40 = 0.075
+--------------------------------------------------------------------------------
+PAREADO por semilla contra NULO (theta fijo, programas congelados)
+  theta_s_abierto w_A tardio/temprano > nulo en 8/12 (p signo 0.194); nivel w_A > nulo en 6/12; medianas nivel 0.420 vs 0.385 -> no
+                 (secundaria) mortalidad per capita t/t < nulo en 7/12 (p signo 0.387)
+  theta_s_solo   w_A tardio/temprano > nulo en 10/12 (p signo 0.019); nivel w_A > nulo en 10/12; medianas nivel 0.434 vs 0.385 -> ADAPTA
+                 (secundaria) mortalidad per capita t/t < nulo en 4/12 (p signo 0.927)
 
-==============================================================================
-PREDICCIONES
-  P1 v5: 80 semillas nuevas a 256 -> 3/80 = 0.037; Wilson del 40 previo [0.014, 0.165] -> dentro; tasa combinada 5/120 = 0.042 (0.017926452505837805, 0.0938421292954309)
-  P1 v6: 80 semillas nuevas a 256 -> 4/80 = 0.050; Wilson del 40 previo [0.026, 0.199] -> dentro; tasa combinada 7/120 = 0.058 (0.02854064663137293, 0.1155272594680315)
-  P2 v5: 1024 celdas -> 2/40 vs 2/40 a 256 (ratio 1.00) -> no baja
-  P2 v6: 1024 celdas -> 4/40 vs 3/40 a 256 (ratio 1.33) -> no baja
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> EVOLUCIONA en theta_s_solo: con un mapa local, el rasgo premiado sube mas que en el nulo. Primera evolucion darwiniana medida en el utero; replicar con otro sol (§35).
