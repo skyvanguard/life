@@ -714,3 +714,19 @@ Consecuencias para el programa:
    (parir cuando la energía sube respecto de su historia) y q0 bajo
    (contenerse). Primero en el modelo; después en el motor de GPU, que
    necesita esa perilla, cuando haya memoria y Fran lo indique.
+
+## 42. Estado al cierre de la tanda (2026-09-27, tarde)
+
+Pre-registrado y SIN RESULTADO, en orden de ejecución:
+1. `exp_utero_modelo_historia.py` (§42, modelo, CPU, ~6 min): propensión al
+   parto como función heredable de la historia de energía; seis brazos;
+   control de densidad incluido.
+2. `exp_utero_gpu_validacion.py` (§38, GPU, ~30 min): falta V2; V1 en caché.
+3. Según (1) y (2): la perilla de historia en el motor de GPU y su corrida en
+   el sustrato real, con la vara de regulación (heredable contra nulo, regular
+   contra permutado).
+
+Bloqueo: el sistema detuvo dos corridas por memoria RAM crítica (3.7 GB
+libres de 31; la ocupan otros programas de la máquina). Por la regla del
+entorno no se relanzan sin indicación de Fran. El motor en GPU es reanudable:
+un corte cuesta como mucho 5000 ticks.

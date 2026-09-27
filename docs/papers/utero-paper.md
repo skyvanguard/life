@@ -146,6 +146,7 @@ Cada encarnación nombró la jaula en la que cayó la anterior:
 | v16 | clausura de operandos | no evoluciona: la variación abierta es carga; la mortalidad en la hambruna la fija la energía, no el programa |
 | — (§4.11) | — | **mapa programa→materia sin localidad**: 0/40.000 escrituras mueven el rasgo premiado +0,2 |
 | v17b | mapa sin localidad | **evoluciona** (replicado): perillas heredables de expresión (θ, s) suben el rasgo premiado; carga de programa en el brazo abierto |
+| perillas de comportamiento | expresión sólo heredable | no regula por el orden; en el modelo, el óptimo de orden existe (parir tras la hambruna) y ninguna perilla probada lo expresa |
 
 ### 4.2 Novedad sostenida: rara, real, defendible
 
@@ -370,6 +371,48 @@ sustrato: la población se vuelve más quieta por fuera y más lejos del sol de
 la hambruna, con la física interna todavía obligada a ser sensible. No es
 regulación ni inteligencia; es el sustrato sobre el que la pregunta original
 puede hacerse por primera vez con la evolución funcionando.
+
+### 4.12 La pregunta del orden: qué se midió y qué falta
+
+Sobre el sustrato que evoluciona se volvió a preguntar por regulación según
+el orden de las estaciones. Con las perillas escribibles por el programa y la
+energía como sentido de la estación, la hambruna no mata menos bajo el orden
+regular que bajo el permutado (5/12 y 3/12): el comportamiento existe, pero
+moldearlo exige evolución de programa, y ese paisaje es plano (§4.11).
+
+Las preguntas siguientes se contestaron en un **modelo reducido**, que no es
+el sustrato: conserva su ecología cerrada y las perillas heredables, y
+reemplaza la física por su estadística (salida independiente y uniforme,
+que es lo que un programa legal produce). Se usa para decidir qué vale la
+pena correr en el sustrato real; sus positivos son predicciones.
+
+- Una ganancia heredable sobre la tendencia de la energía propia es un
+  *reflejo*: reduce el hambre bajo cualquier orden, y más bajo el permutado.
+  No puede distinguir regularidad.
+- El trasplante recíproco (evolucionar bajo cada orden, ensayar bajo ambos
+  con otro calendario y las perillas fijas) no muestra adaptación local, ni
+  con perillas de expresión ni con propensiones al parto por nivel de
+  ingreso. El criterio "en casa contra fuera" resultó confundido por la
+  calidad del entorno —un calendario es más benigno que el otro para
+  cualquier origen— y se reemplazó, antes de correr nada en el sustrato, por
+  "local contra foráneo" (Kawecki y Ebert 2004).
+- **El entorno sí contiene un óptimo que depende del orden.** Con estrategias
+  que conocen la estación y sin mutación, parir sólo en la estación que sigue
+  a la hambruna gana en 45/48 mundos bajo un orden y pierde en 48/48 bajo el
+  otro; bajo el orden permutado ninguna domina. Parir siempre —lo que el
+  sustrato hace por defecto— es la peor de las ocho estrategias posibles.
+
+La lectura es doble. Los negativos del programa no se debían a que el orden
+no importe, sino a que ninguna perilla probada podía expresar "la hambruna
+acaba de pasar". Y esa señal se lee de la historia propia (energía que sube
+desde un mínimo), sin conocer el calendario: lo que el entorno premia no es
+anticipar el futuro sino recordar el pasado inmediato y contenerse.
+
+Queda sin medir si una regla heredable de historia propia evoluciona hacia
+ese óptimo, en el modelo y en el sustrato. Las corridas correspondientes
+están pre-registradas; la validación del motor en GPU quedó a la mitad (el
+control del gradiente reproduce el resultado de CPU, 19/20 contra 17/20; la
+reproducción de la primera evolución no se completó).
 
 ## 5. Discusión
 
