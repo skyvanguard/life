@@ -738,6 +738,17 @@ sustrato distinto. Decisión abierta.
   exactamente lo mismo que una sin cortes. V1 quedó en caché desde el
   resultado ya medido. En una máquina compartida un corte cuesta como mucho
   5000 ticks (~75 s).
+  **V2 completada: RECHAZADA por la letra, un par por debajo.** Nivel de
+  w̄_A > nulo en 11/12 (CPU 10/12 y 10/12); medianas 0.442 contra 0.380 (CPU
+  0.434/0.385 y 0.423/0.363); escala media 0.76 (CPU 0.71/0.75); banda
+  anti-hambruna 0.59 contra 0.37 (CPU 0.54/0.34 y 0.56/0.35). La tendencia
+  tardía/temprana superó al nulo en 9/12, p signo 0.073 (la regla pide p <
+  0.05). La magnitud coincide con CPU en todas las lecturas; falló la
+  significación con n = 12. **Motor no validado.** Réplica declarada antes de
+  correrla (§38b): 24 semillas nuevas, misma regla; si cumple, validado con
+  esta nota; si no, las preguntas nuevas vuelven a CPU. §43, que ya corría en
+  GPU, se reporta como provisional hasta entonces.
+  (`results/utero_gpu_validacion_run.txt`, `exp_utero_gpu_validacion_v2b.py`)
 
 - **§37b — campo medio: la ganancia g es un reflejo (2026-09-27).** Cálculo
   en numpy, sin GPU, hecho ANTES de gastar cómputo en §37: un linaje raro

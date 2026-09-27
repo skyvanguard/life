@@ -1,0 +1,40 @@
+================================================================================
+VALIDACION DEL MOTOR EN GPU (orden en damero) contra dos resultados establecidos en CPU
+================================================================================
+dispositivo: NVIDIA GeForce RTX 5070 Ti Laptop GPU; veredicto pre-registrado (docstring)
+
+V1 gradiente (N=64, congelado, L0=1.75, 30000 ticks, 20 semillas) -- 395 s [de cache]
+  seed  vivas  antisol  espejo  gana
+     0     15     1.00    0.00    si
+     1     15     1.00    0.00    si
+     2     17     1.00    0.00    si
+     3     14     1.00    0.00    si
+     4     15     1.00    0.00    si
+     5     15     0.93    0.00    si
+     6     15     1.00    0.00    si
+     7     13     1.00    0.00    si
+     8     15     1.00    0.00    si
+     9     18     0.39    0.00    si
+    10     14     1.00    0.00    si
+    11     13     1.00    0.00    si
+    12     15     1.00    0.00    si
+    13     16     1.00    0.00    si
+    14     14     1.00    0.00    si
+    15     16     1.00    0.00    si
+    16     15     1.00    0.00    si
+    17     15     0.00    0.00    no
+    18     16     1.00    0.00    si
+    19     14     1.00    0.00    si
+  ANTISOL gana en 19/20 (CPU §26: 17/20); medianas antisol 1.00, espejo 0.00
+  => V1 ACEPTADA
+
+V2 primera evolucion (N=512, L0=14.0, 120000 ticks, 12 semillas x 2 brazos) -- 3783 s
+  brazo         vivas med w_A nivel  w_A t/t  banda   s_A
+  theta_s_solo        184     0.442     1.06   0.59  0.76
+  nulo                186     0.380     1.01   0.37  1.00
+  w_A tardio/temprano > nulo en 9/12 (p signo 0.073); nivel > nulo en 11/12 (CPU §34: 10/12 y 10/12; §35: 10/12 y 10/12)
+  => V2 RECHAZADA
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> MOTOR NO VALIDADO (V1 ok, V2 falla): no se usa para preguntas nuevas hasta entender la diferencia.
