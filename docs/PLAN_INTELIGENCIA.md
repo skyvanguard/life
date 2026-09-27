@@ -218,3 +218,20 @@ hambruna no es menor bajo el orden regular. La población se derrumba en A y
 recoloniza en B sea cual sea el orden; sobrevivir a la hambruna no otorga
 descendencia porque el vacío se rellena igual de rápido desde cualquier
 superviviente.
+
+## 14. Tierra quemada: selección K (v15, 2026-09-26)
+
+La cadena de §12–§13 termina en una frase mecánica: sobrevivir a la hambruna
+no da descendencia porque el vacío se rellena igual de rápido desde cualquier
+superviviente. Si esa frase es la explicación, tiene una consecuencia
+comprobable: un mundo donde el vacío NO se rellena rápido —el lugar de una
+celda muerta queda quemado T ticks— debería convertir la supervivencia en
+territorio y, con ello, hacer seleccionable cualquier regulación interna que
+baje la mortalidad en la hambruna. Es un cambio del mundo, no del tejido, y
+sigue siendo una pregunta (¿emerge?), no una respuesta sembrada. `refractario`
+en `UteroCreciente`, byte-idéntico apagado, tests en `test_utero_refractario`.
+T = 300 declarado tras calibración (todas las T viables; 600 perdía el
+contacto). Mismos brazos, lecturas y veredicto que v14 corrida 2. Si NADA: la
+recolonización rápida no era el cuello de botella, y la explicación mecánica
+debe revisarse hacia el CAMINO mutacional (la anticipación diseñada es viable,
+pero ninguna trayectoria de MUTO/COPY la alcanza desde genomas aleatorios).

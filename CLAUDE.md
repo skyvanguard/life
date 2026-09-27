@@ -133,6 +133,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_sol_lentos.py     # v13 slow r
 PYTHONPATH=src python experiments/utero/exp_utero_control_positivo.py  # POSITIVE CONTROL: a hand-designed famine anticipator is viable (18/20), halves famine deaths; the A/L yardsticks don't see it, R2 does
 PYTHONPATH=src python experiments/utero/exp_utero_invasion_ahorrador.py # invasion from rare: the anticipator is NOT selected (4-5/20 takeovers, order-independent, with or without birth cost). Program closed with a mechanistic explanation
 PYTHONPATH=src python experiments/utero/exp_utero_hambruna.py          # v14: experimental evolution under a harsh famine + costly births, nothing seeded. Run 1 (sun seed 0): NADA on the primary R2_A; a post-hoc birth-drop signal in the ciclo2 control arm (A_n 9/40) triggered a declared replication (sun seed 1, detrended + season-matched controls): 2/40 -- a calendar false positive. 17 pre-registered emergence runs, zero vestiges
+PYTHONPATH=src python experiments/utero/exp_utero_quemada.py           # v15: v14 + scorched earth (refractario=300, K-selection), pre-registered; see the ledger
 PYTHONPATH=src python experiments/utero/exp_utero_sol_vara.py       # 1-D heating sun with the amended yardstick (not run: superseded by the plane/metabolism runs)
 PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness (~40 min): 1024 cells = same typicity; 120 seeds -> v5 4.2%, v6 5.8%. The rarity is intrinsic to 1-D
 
@@ -223,6 +224,7 @@ one hypothesis about where the "cage" moved:
 | `energia_luz=True` | v11 | photosynthesis: every cell harvests `e_gan·|v − sol(t)|` (income depends on matter vs season, not geometry). Lifetime calibration shows a bifurcation: extinction or immortality; the intermediate regime (break-even ≈ 0.25) collapses into extinction at n=40 |
 | `e_costo=c` | v12+ | births burn c energy (mother must hold > c). Did not change selection for the anticipator |
 | `lentos=λ` | v13 | two **slow registers** per cell the rule reads and can only push slowly (`S ← S + λ(w − S)`): clocks/integrators at the season scale (τ = 1/λ). Measured internal memory before this: 6–150 ticks vs seasons of 300–900 |
+| `refractario=T` | v15 | **scorched earth (K-selection)**: a dead cell's slot is uncolonizable (no colonization, no invasion) for T ticks; a SPAWN aimed at it fails like an occupied neighbour. Tests the mechanistic explanation of the sun program (fast recolonization makes famine survival worthless). T=0 byte-identical |
 | `luz_finita=L0` | v12 | finite shared light L0·sol(t) split among living cells by |v−sol| weight: a carrying capacity that follows the season (A famine, B feast). The only intermediate regime found; no vestige in 4 runs |
 | `percepcion=True` | v10 | the cell's energy enters its physics as a 5th read-only register (fields index mod 5): the only slow internal variable, readable. Requires `energia`. No vestige |
 | `sol_acople=κ` | env | the sun HEATS the surface: border cells get `v ← (1−κ)v' + κ·sol(t)` after their rule; the only variant with real contact (border–sun corr 0.89) |

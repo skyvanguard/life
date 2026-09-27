@@ -1145,6 +1145,21 @@ explicación, que es lo más que un negativo puede ser.
   caída de partos). Diecisiete corridas pre-registradas de emergencia, cero
   vestigios. (`results/utero_hambruna2_run.txt`)
 
+- **v15 — tierra quemada (selección K), pre-registro (2026-09-26).** La
+  explicación mecánica de §12, reforzada por v14: sobrevivir a la hambruna no
+  otorga descendencia porque el vacío se rellena igual de rápido desde
+  cualquier superviviente (selección r). v15 cambia una cosa del MUNDO, no del
+  tejido: `refractario=T`, el lugar de una celda muerta queda incolonizable
+  durante T ticks (ni colonización ni invasión; el borde no se toca; un SPAWN
+  hacia tierra quemada fracasa como ante un vecino ocupado). Conservar el
+  lugar durante la hambruna pasa a ser la única forma de tener territorio en
+  la abundancia. Calibración por viabilidad (6 semillas × T 0/100/300/600,
+  12000 ticks): todas viables; el criterio "T más largo viable" daría 600 pero
+  allí el contacto cayó a 0.62 (< 1.2), así que se declaró **T = 300** (una
+  estación mínima) antes de correr. Brazos, lecturas y veredicto idénticos a
+  v14 corrida 2 (R2_A primaria; A_nB como control emparejado).
+  `exp_utero_quemada.py`, 40 semillas × 5 brazos, 30000 ticks, sol seed 0.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
