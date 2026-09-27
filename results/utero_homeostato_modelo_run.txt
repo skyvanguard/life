@@ -1,0 +1,28 @@
+================================================================================
+HOMEOSTATO (modelo reducido, no es el utero): paso al azar en la expresion cuando la reserva de energia sale de rango; crias ingenuas
+================================================================================
+N=256; 24 mundos por brazo; brazos ['homeo_4', 'homeo_2', 'homeo_8', 'deriva', 'invertido', 'fijo']; delta=0.02; 120000 ticks; sol seed 0; veredicto pre-registrado (docstring)
+
+corrida: 4.5 min
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas; segunda mitad)
+  brazo       vivas  cosecha w  mort A ahorro rho  curva viejo-joven  s final
+  homeo_4       105      0.300   0.169       0.01              0.000     0.67
+  homeo_2       105      0.300   0.154       0.01              0.000     0.69
+  homeo_8       105      0.300   0.164       0.00             -0.000     0.58
+  deriva        106      0.300   0.180       0.01              0.000     0.54
+  invertido     106      0.300   0.181      -0.01             -0.000     0.53
+  fijo          104      0.300   0.139      -0.01             -0.000     1.00
+
+--------------------------------------------------------------------------------
+homeo_4 contra cada control (pareado por mundo)
+  vs deriva     cosecha mayor en 12/24 (p 0.581); mortalidad en A menor en 13/24 (p 0.419); vivas 0.99 -> no
+  vs invertido  cosecha mayor en 13/24 (p 0.419); mortalidad en A menor en 16/24 (p 0.076); vivas 1.00 -> no
+  vs fijo       cosecha mayor en 14/24 (p 0.271); mortalidad en A menor en 3/24 (p 1.000); vivas 1.01 -> no
+  P2 ahorro: rho homeo_4 > fijo en 15/24 (p 0.154) -> no
+  (secundario) homeo_2: cosecha mayor que fijo en 13/24
+  (secundario) homeo_8: cosecha mayor que fijo en 11/24
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> PREDICE NADA: el homeostato no supera a sus tres controles.

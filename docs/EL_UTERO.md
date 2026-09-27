@@ -887,6 +887,21 @@ sustrato distinto. Decisión abierta.
   que encontrar: es la quinta jaula (§28, §32) vista desde el aprendizaje en
   vida. (`results/utero_ultraestable_gpu_run.txt`)
 
+- **§44 — el homeostato sobre la expresión (modelo reducido): PREDICE NADA
+  (2026-09-27).** Crías ingenuas (sin herencia de θ, s); paso al azar en la
+  expresión cuando la reserva de energía cae bajo un umbral. La cosecha queda
+  en 0.300 en los seis brazos (el valor exacto de una expresión al azar: con
+  θ uniforme en la población, la distancia media al sol es 0.25 sea cual sea
+  s). homeo_4 contra deriva 12/24, contra invertido 13/24, contra fijo 14/24;
+  y el fijo es el que MENOS muere en la hambruna (0.139 contra 0.169): explorar
+  sin rumbo concentra la materia (s baja a 0.54–0.69) y aumenta el riesgo.
+  Por qué: (1) la reserva de energía es lenta (mediana 9–18) frente a lo que
+  la expresión cambia el ingreso (~0.005 por tick): la variable esencial casi
+  no se mueve por lo que la celda hace; (2) el blanco se mueve (el θ bueno en
+  la hambruna es malo en la abundancia), y (3) en la hambruna nadie puede
+  volver a rango. (`exp_utero_homeostato_modelo.py`,
+  `results/utero_homeostato_modelo_run.txt`)
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
