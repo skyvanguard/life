@@ -1510,6 +1510,19 @@ explicación, que es lo más que un negativo puede ser.
   misma regla que §27. Humo de una semilla y 14000 ticks, anotado antes de
   la corrida y sin valor de prueba: w̄_A 0.405 (abierto) y 0.422 (cerrado)
   contra 0.348 (congelado). `exp_utero_rasgo_grande.py`.
+  **Resultado: NO EVOLUCIONA en el rasgo.** ≈131–176 vivas; w̄_A abierto
+  0.369, cerrado 0.366, congelado 0.375 (pareado 5/12 y 7/12; nivel 3/12 y
+  4/12). Banda anti-hambruna: congelado **0.55**, cerrado 0.37, abierto 0.30:
+  la criba entre programas fijos acumula el rasgo y la herencia de cambios lo
+  arrastra de vuelta (umbral de error visto sobre el rasgo). **Dato
+  inesperado, registrado sin interpretarlo todavía:** mortalidad per cápita
+  en la hambruna abierto **0.14**, cerrado 0.29, congelado **0.96** (razón
+  t/t 0.30, 0.85, 0.61). Con el mismo w̄, el tejido con variación muere siete
+  veces menos en la hambruna. Hipótesis más económica: carga mutacional que
+  rompe SPAWN, baja la fecundidad y deja reserva para A (el gradiente
+  abierto < cerrado < congelado lo sugiere); alternativa: reproducción
+  regulada (sería vestigio). §30 las separa con partos per cápita por
+  estación y baja la tasa germinal. (`results/utero_rasgo_grande_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

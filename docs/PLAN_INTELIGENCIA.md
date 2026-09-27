@@ -533,3 +533,14 @@ cerrado y congelado, 12 semillas, 120000 ticks; misma lectura y regla que
 la deriva, y el camino a la regulación es población y tiempo; si tampoco,
 queda el paisaje mismo (la meseta neutra) y hay que cambiar cómo la materia
 sale del programa, no la ecología.
+
+**Resultado §29: NO EVOLUCIONA en el rasgo** (w̄_A 0.37 en los tres brazos
+con N ≈ 150); el congelado acumula más banda anti-hambruna (0.55) que los
+brazos con herencia: la variación arrastra el rasgo de vuelta. Secundaria
+inesperada: mortalidad per cápita en la hambruna 0.14 (abierto) contra 0.96
+(congelado), con cerrado intermedio (0.29). Dos lecturas: carga mutacional
+que baja la fecundidad y deja reserva (probable), o reproducción regulada
+(vestigio). §30: N = 512 con tasa germinal 0.02 y 0.005 (contra congelado),
+lectura primaria el rasgo; secundarias: partos per cápita por estación (B y
+A) y mortalidad; si la mortalidad baja con MENOS mutación (no más), no era
+carga.
