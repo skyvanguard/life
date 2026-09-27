@@ -14,13 +14,16 @@ mutacional puede bajar la mortalidad en A por esa vía sin regular nada.
 DISEÑO (por semilla, 12 semillas, N = 512, L0 = 14, 120000 ticks, sol seed 0):
   ABIERTO         escritura total, tasa germinal 0.02 (el brazo de §30); se
                   registran sus muertes por tick.
-  CONGELADO-SOMBRA congelado (sin herencia de cambios) con `shadow_deaths`: en
-                  cada tick FUERA de las estaciones A mueren al azar tantas
-                  celdas como murieron en el brazo abierto de la misma semilla
-                  en ese tick; DURANTE A no se impone ninguna muerte (las de A
-                  salen sólo de la energía). Misma densidad de fondo, ninguna
-                  herencia. (La sombra apaga la sonda de ceguera; en programas
-                  fijos legales el efecto es menor y se declara.)
+  CONGELADO-SOMBRA congelado (sin herencia de cambios) con la DENSIDAD
+                  IGUALADA POR TRAYECTORIA: antes de cada tick FUERA de las
+                  estaciones A, si tiene más vivas que el brazo abierto de la
+                  misma semilla en ese tick, se vacían al azar las que sobran
+                  (`vaciar`; la sonda sigue encendida); DURANTE A no se impone
+                  ninguna muerte (las de A salen sólo de la energía). Misma
+                  densidad al entrar en cada hambruna, ninguna herencia.
+                  (Primera versión, descartada en humo: copiar el conteo de
+                  muertes con `shadow_deaths` no igualó la densidad —218
+                  contra 137 vivas— y apagaba la sonda.)
   CONGELADO       el nulo de §30, para replicar 12/12.
 LECTURA PRIMARIA: mortalidad per cápita en la hambruna (muertes en A /
 vivas medias en A), nivel maduro, pareada ABIERTO contra CONGELADO-SOMBRA.
@@ -70,13 +73,21 @@ RESULTS = HERE.parents[1] / "results"
 NAME = "utero_densidad"
 
 
-def correr(seed: int, sol: Sol, shadow=None, **flags) -> dict:
-    u = UteroCreciente(n0=N, seed=seed, max_n=N, germinal=True, toroidal=True, sol=sol,
-                       shadow_deaths=shadow, **BASE, **flags)
+def correr(seed: int, sol: Sol, objetivo=None, enA=None, **flags) -> dict:
+    """objetivo: serie de vivas a igualar (control de densidad). Antes de cada tick FUERA de A,
+    si hay mas vivas que el objetivo se vacian al azar las que sobran (sonda encendida; nada
+    impuesto durante A). None: mundo normal."""
+    u = UteroCreciente(n0=N, seed=seed, max_n=N, germinal=True, toroidal=True, sol=sol, **BASE, **flags)
+    rng = np.random.default_rng(90_000 + seed)
     vivas = np.zeros(TICKS)
     muertes = np.zeros(TICKS)
     partos = np.zeros(TICKS)
     for t in range(TICKS):
+        if objetivo is not None and not enA[t]:
+            exceso = int(u.alive.sum() - objetivo[t])
+            if exceso > 0:
+                for i in rng.choice(np.flatnonzero(u.alive), exceso, replace=False):
+                    u.vaciar(int(i) - u.left_grown)
         r = u.step()
         vivas[t] = u.alive.sum()
         muertes[t] = r["deaths"]
@@ -95,7 +106,7 @@ def correr(seed: int, sol: Sol, shadow=None, **flags) -> dict:
             nB.append(float(partos[ini:fin].sum() / v / (fin - ini) * 100))
     h = len(pcA) // 2
     razon = float(np.mean(pcA[h:]) / np.mean(pcA[:h])) if (h >= MIN_HAMBRUNAS and np.mean(pcA[:h]) > 0) else float("nan")
-    return dict(muertes=muertes, pc_nivel=float(np.mean(pcA)) if pcA else float("nan"), pc_razon=razon,
+    return dict(vivas=vivas, pc_nivel=float(np.mean(pcA)) if pcA else float("nan"), pc_razon=razon,
                 nac_A=float(np.mean(nA)) if nA else float("nan"), nac_B=float(np.mean(nB)) if nB else float("nan"),
                 vivas_med=float(np.median(vivas[TRANSITORIO:])), vivas_fin=float(vivas[-1]))
 
@@ -107,11 +118,10 @@ def job(seed: int) -> tuple:
         if nombre == "A":
             enA[ini:min(fin, TICKS)] = True
     ab = correr(seed, sol, escritura_total=True, tasa_germinal=0.02)
-    shadow = [int(d) if not enA[t] else 0 for t, d in enumerate(ab["muertes"])]
-    som = correr(seed, sol, shadow=shadow, congelado=True)
+    som = correr(seed, sol, objetivo=ab["vivas"], enA=enA, congelado=True)
     con = correr(seed, sol, congelado=True)
     for r in (ab, som, con):
-        r.pop("muertes")
+        r.pop("vivas")
     return seed, {"abierto": ab, "congelado_sombra": som, "congelado": con}
 
 
