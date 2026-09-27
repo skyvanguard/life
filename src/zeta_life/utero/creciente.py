@@ -65,7 +65,8 @@ class UteroCreciente:
                  refractario: int = 0, escritura_total: bool = False,
                  congelado: bool = False, orden_seed: int | None = None,
                  tasa_germinal: float = 1.0, parametros: float = 0.0,
-                 theta_fijo: bool = False, escala: bool = False):
+                 theta_fijo: bool = False, escala: bool = False,
+                 perillas: bool = False):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -284,6 +285,13 @@ class UteroCreciente:
         # parametros > 0. theta_fijo también congela s. escala=False: byte-idéntico.
         self.escala = bool(escala)
         self.esc = np.ones(n0)
+        # §36 (PERILLAS ESCRIBIBLES): la física puede mover su propia expresión en
+        # vida: θ_eff = (θ + S1) mod 1 y s_eff = clip(s + S2, 0, 1), con S1, S2 los
+        # registros lentos (lentos > 0) que la regla empuja despacio. La herencia
+        # (θ, s) pone la línea de base; el comportamiento la desplaza según lo que la
+        # física siente (p.ej. su energía, con percepcion) y recuerda. Requiere
+        # parametros, escala y lentos. perillas=False: byte-idéntico.
+        self.perillas = bool(perillas)
         self.quemada = np.zeros(n0, dtype=np.int64)   # tick hasta el cual el lugar sigue quemado
         self.e_costo = float(e_costo)
         self.lentos = float(lentos)
@@ -483,7 +491,11 @@ class UteroCreciente:
                 continue
             if self.parametros > 0.0 and self.toroidal:     # v17: desplazamiento heredable
                 if self.escala:                                # v17b: y escala heredable
-                    v_new = (float(self.theta[i]) + float(self.esc[i]) * v_new) % 1.0
+                    th_eff, s_eff = float(self.theta[i]), float(self.esc[i])
+                    if self.perillas and self.lentos > 0.0:       # §36: la física mueve su expresión
+                        th_eff = (th_eff + float(self.S[i, 0])) % 1.0
+                        s_eff = min(1.0, max(0.0, s_eff + float(self.S[i, 1])))
+                    v_new = (th_eff + s_eff * v_new) % 1.0
                 else:
                     v_new = (v_new + float(self.theta[i])) % 1.0
             # v4: muerte por equilibrio — lo que deja de devenir, deja de ser

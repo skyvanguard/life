@@ -664,6 +664,20 @@ sustrato distinto. Decisión abierta.
   pregunta del orden (§6, §13) se puede hacer por primera vez con evolución
   funcionando. (`results/utero_escala_replica_run.txt`)
 
+- **§36 — la pregunta del orden sobre un sustrato que evoluciona,
+  pre-registro (2026-09-27).** Flag `perillas` (θ_eff = θ + S1, s_eff = s +
+  S2 vía registros lentos; byte-idéntico apagado; tests; suite 162 verdes) +
+  `percepcion` (la energía como registro: el sentido de la estación del
+  tejido interior). Ecología cerrada N = 512, L0 = 14, 120000 ticks, 12
+  semillas, sol seed 0; programas abiertos p = 0.02, θ y s heredables.
+  Brazos: clima, ciclo2, permutado, nulo (clima; θ, s fijos, programas
+  congelados). Primaria R2_A con la regla de v14 (clima < permutado en ≥ 75%
+  de los pares vivos, p signo < 0.05, razón ≤ 0.5; ídem ciclo2). VESTIGIO si
+  cumple en clima Y ciclo2 (regularidad, no tipo de transición); TIPOS DE
+  TRANSICIÓN si sólo en clima; NADA en otro caso. Secundarias: w̄_A y s̄_A
+  contra el nulo, partos A/B, uso de las perillas (sd en vida de S1, S2).
+  Si VESTIGIO: réplica con otro sol antes de creerlo. `exp_utero_orden.py`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
@@ -1693,6 +1707,20 @@ explicación, que es lo más que un negativo puede ser.
   abre: un sustrato donde la selección tiene escalera, sobre el que la
   pregunta del orden (§6, §13) se puede hacer por primera vez con evolución
   funcionando. (`results/utero_escala_replica_run.txt`)
+
+- **§36 — la pregunta del orden sobre un sustrato que evoluciona,
+  pre-registro (2026-09-27).** Flag `perillas` (θ_eff = θ + S1, s_eff = s +
+  S2 vía registros lentos; byte-idéntico apagado; tests; suite 162 verdes) +
+  `percepcion` (la energía como registro: el sentido de la estación del
+  tejido interior). Ecología cerrada N = 512, L0 = 14, 120000 ticks, 12
+  semillas, sol seed 0; programas abiertos p = 0.02, θ y s heredables.
+  Brazos: clima, ciclo2, permutado, nulo (clima; θ, s fijos, programas
+  congelados). Primaria R2_A con la regla de v14 (clima < permutado en ≥ 75%
+  de los pares vivos, p signo < 0.05, razón ≤ 0.5; ídem ciclo2). VESTIGIO si
+  cumple en clima Y ciclo2 (regularidad, no tipo de transición); TIPOS DE
+  TRANSICIÓN si sólo en clima; NADA en otro caso. Secundarias: w̄_A y s̄_A
+  contra el nulo, partos A/B, uso de las perillas (sd en vida de S1, S2).
+  Si VESTIGIO: réplica con otro sol antes de creerlo. `exp_utero_orden.py`.
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
