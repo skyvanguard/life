@@ -64,7 +64,8 @@ class UteroCreciente:
                  luz_finita: float = 0.0, lentos: float = 0.0, e_costo: float = 0.0,
                  refractario: int = 0, escritura_total: bool = False,
                  congelado: bool = False, orden_seed: int | None = None,
-                 tasa_germinal: float = 1.0):
+                 tasa_germinal: float = 1.0, parametros: float = 0.0,
+                 theta_fijo: bool = False):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -260,6 +261,19 @@ class UteroCreciente:
         # parto (≈1 mutación por generación: régimen de umbral de error). 1.0:
         # byte-idéntico.
         self.tasa_germinal = float(tasa_germinal)
+        # v17 (PARÁMETROS HEREDABLES; §32/§33): la quinta jaula es que el mapa
+        # programa→materia no tiene localidad (ningún cambio pequeño del programa
+        # produce un cambio pequeño y dirigido de la materia). Respuesta: un
+        # desplazamiento continuo heredable θ por celda, sumado a la salida de
+        # materia DESPUÉS de la sonda (v' = (salida + θ) mod 1; la sonda ve la
+        # salida cruda, así que θ no puede legalizar ni matar un programa). La
+        # cría hereda θ con una perturbación ε·(2·frac(|R3 madre|·131) − 1):
+        # determinista desde la materia, sin RNG nuestro. MUTO no lo toca; el
+        # theta_fijo lo copia exacto. Sólo con toroidal. parametros=0: byte-idéntico.
+        self.parametros = float(parametros)
+        # theta_fijo=True: θ presente (sorteado en la sopa) pero NUNCA perturbado: el
+        # nulo de v17 (misma materia inicial, sin herencia de cambios en θ).
+        self.theta_fijo = bool(theta_fijo)
         self.quemada = np.zeros(n0, dtype=np.int64)   # tick hasta el cual el lugar sigue quemado
         self.e_costo = float(e_costo)
         self.lentos = float(lentos)
@@ -301,9 +315,12 @@ class UteroCreciente:
         self.rng = np.random.default_rng(seed)
         self.v = self.rng.uniform(0.0, 1.0, size=n0)
         self._rng_orden = self.rng if orden_seed is None else np.random.default_rng(int(orden_seed))
+        self.theta = np.zeros(n0)
         self.code = np.zeros((n0, K, F), dtype=np.int64)
         self.code[:, :, 0] = self.rng.integers(0, 10, size=(n0, K))
         self.code[:, :, 1:] = self.rng.integers(0, 16, size=(n0, K, F - 1))
+        if self.parametros > 0.0:
+            self.theta = self.rng.uniform(0.0, 1.0, size=n0)
         self.alive = np.ones(n0, dtype=bool)
         self.left_grown = 0                # celdas añadidas por la izquierda
         self.seen: set = set()             # genomas vistos (para la novedad)
@@ -454,6 +471,8 @@ class UteroCreciente:
                 self.quemada[i] = self._tick + self.refractario
                 deaths += 1
                 continue
+            if self.parametros > 0.0 and self.toroidal:     # v17: desplazamiento heredable
+                v_new = (v_new + float(self.theta[i])) % 1.0
             # v4: muerte por equilibrio — lo que deja de devenir, deja de ser
             # (v6 usa el mismo contador de quietud para decidir qué es invadible)
             if self.muerte_eq or self.invasion is not None:
@@ -511,6 +530,9 @@ class UteroCreciente:
                 self.e[i] -= self.e_costo       # el parto cuesta, aunque el vecino esté ocupado
             side, mpos, mop, locus = spawn
             child = own_next.copy()
+            th = float(self.theta[i])
+            if self.parametros > 0.0 and not self.theta_fijo:
+                th = (th + self.parametros * (2.0 * ((abs(raw) * 131.0) % 1.0) - 1.0)) % 1.0
             escribe = self.tasa_germinal >= 1.0 or (abs(raw) * 97.0) % 1.0 < self.tasa_germinal
             if self.germinal and not self.congelado and escribe:   # v2: nace con UNA instrucción
                 if self.escritura_total:    # v16: la instrucción ENTERA desde la materia
@@ -525,10 +547,10 @@ class UteroCreciente:
             t = i - 1 if side == 0 else i + 1
             if t < 0:                       # escribe en el más-allá izquierdo
                 if edge_left is None:
-                    edge_left = (child, v_new, i - lg)
+                    edge_left = (child, v_new, i - lg, th)
             elif t >= self.n:               # más-allá derecho
                 if edge_right is None:
-                    edge_right = (child, v_new, i - lg)
+                    edge_right = (child, v_new, i - lg, th)
             elif not self.alive[t] and self.quemada[t] <= self._tick:   # vacío interior: colonización
                 # (v15: si el lugar está quemado, el SPAWN fracasa como ante un vecino ocupado)
                 self.code[t] = child
@@ -538,6 +560,7 @@ class UteroCreciente:
                 self.mem[t] = 0.0           # la cría nace sin recuerdos
                 self.eq_sol_count[t] = 0
                 self.S[t] = 0.0             # la cría nace sin reloj
+                self.theta[t] = th
                 if self.energia:            # la madre cede parte de su energía
                     self.e[t] = self.e_parto * self.e[i]
                     self.e[i] -= self.e[t]
@@ -550,6 +573,7 @@ class UteroCreciente:
                 self.eq_count[t] = 0
                 self.mem[t] = 0.0
                 self.S[t] = 0.0
+                self.theta[t] = th
                 if self.energia:
                     self.e[t] = self.e_parto * self.e[i]
                     self.e[i] -= self.e[t]
@@ -560,7 +584,7 @@ class UteroCreciente:
         grown = 0
         grew_left = False
         if edge_right is not None and self.n < self.max_n:
-            c, val, madre = edge_right
+            c, val, madre, th = edge_right
             self.spawns.append((madre, self.n - lg))
             e_hija = 0.0
             if self.energia:
@@ -570,6 +594,7 @@ class UteroCreciente:
             self.e = np.concatenate([self.e, [e_hija]])
             self._ingreso = np.concatenate([self._ingreso, [0.0]])
             self.S = np.concatenate([self.S, np.zeros((1, 2))])
+            self.theta = np.concatenate([self.theta, [th]])
             self.v = np.concatenate([self.v, [val]])
             self.code = np.concatenate([self.code, c[None]])
             self.alive = np.concatenate([self.alive, [True]])
@@ -579,7 +604,7 @@ class UteroCreciente:
             self.quemada = np.concatenate([self.quemada, [0]])
             grown += 1
         if edge_left is not None and self.n < self.max_n:
-            c, val, madre = edge_left
+            c, val, madre, th = edge_left
             self.spawns.append((madre, -(lg + 1)))
             e_hija = 0.0
             if self.energia:
@@ -589,6 +614,7 @@ class UteroCreciente:
             self.e = np.concatenate([[e_hija], self.e])
             self._ingreso = np.concatenate([[0.0], self._ingreso])
             self.S = np.concatenate([np.zeros((1, 2)), self.S])
+            self.theta = np.concatenate([[th], self.theta])
             self.v = np.concatenate([[val], self.v])
             self.code = np.concatenate([c[None], self.code])
             self.alive = np.concatenate([[True], self.alive])
