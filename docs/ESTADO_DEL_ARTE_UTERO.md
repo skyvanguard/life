@@ -213,6 +213,43 @@ resultados que consideramos nuestros ya están publicados con más n (ver §3).
 
 ---
 
+### 2.4 Morfogénesis y cognición basal: la inteligencia de las estructuras organizadas (agregado 2026-09-27)
+
+Frente que Fran señaló como el más alineado con lo que busca (recordaba "a
+Zapata"; la investigación original no está en el historial de sesiones de
+Claude Code: se identificó por búsqueda).
+
+- **Carrillo-Zapata, Sharpe, Winfield, Giuggioli, Hauert (2019). Toward
+  controllable morphogenesis in large robot swarms.** IEEE RA-L 4(4):3386. [V,
+  preprint leído] https://research-information.bris.ac.uk/ws/files/202534060/Towards_controllable_morphogenesis_in_large_robot_swarms_preprint.pdf
+  — 300 kilobots idénticos, SIN auto-localización, SIN mapa y SIN programa de
+  la forma, hacen crecer formas sólo con comunicación local (reacción-difusión
+  de "morfógenos" virtuales + gradientes locales), **regeneran las partes
+  que se les cortan a mano** y rodean obstáculos. Más de 2000 simulaciones y
+  3 enjambres reales. Tres parámetros dan un morfoespacio controlable.
+- **Slavkov, Carrillo-Zapata, …, Hauert, Sharpe (2018). Morphogenesis in
+  robot swarms.** Science Robotics 3(25):eaau9178. [V-p: existencia y
+  coautoría por búsqueda] — la primera demostración de morfogénesis
+  completamente auto-organizada en un enjambre real, inspirada en los
+  patrones de Turing del desarrollo (Sharpe estudia la formación de dedos).
+- **Levin (2022). TAME.** Frontiers in Systems Neuroscience, arXiv 2201.10346.
+  [V-p: resumen] — la cognición basal en células, tejidos y enjambres. Toma de
+  William James el criterio funcional de inteligencia: **alcanzar el mismo fin
+  por medios distintos**, con competencia ante lo nuevo; no depende de tener
+  cerebro.
+- **Ashby (1948/1952). Homeostato; Design for a Brain.** [conocido, no
+  consultado en esta sesión] — ultraestabilidad: reconfigurarse cuando las
+  variables esenciales salen de rango. Base de §43.
+
+*vs Útero.* Los robots de Carrillo-Zapata tienen reglas FIJAS e idénticas: la
+emergencia sale de la interacción, no de reescribirse. El útero tiene la regla
+como estado. Lo que ellos tienen y el útero casi no: **regeneración de la
+forma** (en el útero, auto-reparación en 1 de 40 semillas, v5). Lo que aporta
+para la vara: la regeneración es la prueba de James/Levin hecha medible —
+cortar, y ver si el tejido vuelve al MISMO estado por un camino distinto, y
+no a cualquier estado. Eso distingue una estructura organizada con algo
+parecido a una meta de un patrón que sólo se repite.
+
 ## 3. Riesgos de repetición (lo que ya está publicado)
 
 1. **"Replicadores emergen sin fitness y sin RNG"** — Computational Life 2024, y
