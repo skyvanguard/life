@@ -643,3 +643,13 @@ permutado, nulo (θ, s, g fijos). Primaria R2_A (regla de v14); secundarias
 ḡ_A por brazo (¿se selecciona un signo bajo los órdenes regulares y no bajo
 el permutado?), w̄_A, s̄_A. VESTIGIO si R2_A cumple en clima y ciclo2; réplica
 con otro sol antes de creerlo.
+
+## 38. El motor en GPU (2026-09-27)
+
+Por indicación de Fran los experimentos pasan a la GPU (la CPU se comparte
+con otras sesiones). `utero/gpu.py` corre todos los mundos de un experimento
+en un lote; el VM es exactamente el de CPU (test), el orden es en damero
+(declarado). Se valida reproduciendo §26 y §34 antes de usarlo. La corrida
+de §37 en CPU se detuvo sin resultado y se repite en GPU con 24 semillas
+(`exp_utero_reflejo_gpu.py`), mismo pre-registro. Si la validación falla, el
+motor no se usa para preguntas nuevas hasta entender qué cambia el damero.

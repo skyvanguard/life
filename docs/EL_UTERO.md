@@ -704,6 +704,26 @@ sustrato distinto. Decisión abierta.
   selecciona un signo bajo los órdenes regulares y no bajo el permutado?).
   Réplica con otro sol antes de creer cualquier positivo.
   `exp_utero_reflejo.py`.
+  **Corrida en CPU detenida sin resultado (2026-09-27):** la máquina se
+  comparte con otras sesiones y los lotes de 12 procesos la enlentecían. La
+  pregunta pasa al motor en GPU (abajo) con el mismo pre-registro.
+
+- **El motor en GPU y su validación, pre-registro (§38, 2026-09-27).**
+  `utero/gpu.py` (`UteroGPU`): todos los mundos de un experimento como
+  tensores (B mundos × N celdas). El VM vectorizado da EXACTAMENTE lo mismo
+  que `nivel2.execute` (test sobre 480 programas al azar en los cuatro modos
+  total/congelado: registros, código próximo y SPAWN idénticos) y la sopa es
+  la de `UteroCreciente` (test). **Mano declarada: el orden.** El orden
+  asincrónico celda por celda no se paraleliza; el motor actualiza en DAMERO
+  (dos medios pasos por tick, paridad inicial sorteada por mundo y tick) y
+  resuelve al azar los conflictos de parto. No es byte-idéntico a CPU: es
+  otra encarnación. Sólo mundos cerrados; sin percepción, perillas
+  escribibles, recombinación ni vara de genomas. Velocidad medida: 15 ms por
+  tick con 48 mundos × 512 celdas (30 min por 120000 ticks para todos a la
+  vez, 230 MB de VRAM, un núcleo de CPU). Validación antes de usarlo: V1
+  reproduce el gradiente de §26 (ACEPTA si ANTISOL gana en ≥ 15/20); V2
+  reproduce la primera evolución de §34 (ACEPTA si theta_s_solo ADAPTA por
+  la regla de §27). `exp_utero_gpu_validacion.py`.
 
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
