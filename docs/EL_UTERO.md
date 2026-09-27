@@ -1003,6 +1003,32 @@ parada aplicada. Decisión de rumbo: de Fran.
   única con régimen intermedio, con la vara de la corrida 4 (A_e sin deriva
   primaria, A_eN control, R2 entre vivos). Viabilidad 14/24. 4 tests;
   `execute(extra=list)` devuelve lo escrito. `exp_utero_sol_lentos.py`.
+  **Resultado (40 semillas × 5 brazos, 30000 ticks): NADA.** Vivas 46–72 con
+  sol; contacto 0.53. Anticipación sobre actividad: clima 5 y sobre muertes 6
+  (p 0.048 y 0.014) — pero **permutado 7 y 6**: el brazo sin regularidad
+  iguala o supera al brazo con regularidad. Energía (A_e sin deriva 3, A_eN 3)
+  contra **permutado 10 y 9**: el artefacto de acumulación vuelve a disparar
+  sólo en el control. R2 entre vivos 10/23 y 13/25. Los relojes a la escala de
+  la estación no produjeron anticipación ni habituación medibles.
+  Decimocuarta corrida pre-registrada, decimocuarta sin vestigio.
+  (`results/utero_sol_lentos_run.txt`)
+
+**Cierre (tercero y último de la sesión, 2026-09-26).** Catorce corridas
+pre-registradas sobre trece diseños. El programa recorrió, en orden y con
+controles, cada ingrediente que la teoría de la regulación exige: un entorno
+visible; un entorno que cuenta para la sonda; contacto físico (calor); la
+superficie grande del plano; una variable esencial amenazada (disolución);
+costo de persistir (metabolismo); percepción del propio estado; luz sobre
+todo el tejido; un recurso compartido con capacidad de carga estacional (el
+único régimen intermedio, cuatro corridas); y relojes internos a la escala de
+la estación. Ninguna lectura de regulación, anticipación ni aprendizaje por
+recurrencia superó a sus controles; cuatro señales tentadoras (3/40, 9/40,
+5/40 y 6/40) fueron desmontadas por réplica, por el estadístico sin deriva o
+por el brazo permutado. Lo que el sustrato SÍ muestra, y queda probado: orden,
+novedad estructural defendible, y demografía estacional. Lo que no muestra:
+un tejido que modele su mundo. La regla de parada del plan se aplica de forma
+definitiva para esta sesión; seguir sin una hipótesis nueva sólo produciría el
+falso positivo que la disciplina de esta línea existe para impedir.
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

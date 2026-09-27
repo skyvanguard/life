@@ -129,7 +129,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_sol_energia.py    # v9 metabol
 PYTHONPATH=src python experiments/utero/exp_utero_sol_percepcion.py # v10 perception under the sun (~45 min): NO CONTACT / NOTHING. Eight pre-registered designs, eight negatives
 PYTHONPATH=src python experiments/utero/exp_utero_sol_luz.py        # v11 photosynthesis (light on the whole tissue), break-even at the typical torus distance: EXTINCTION in both runs (with/without perception, e0 1 and 2). Tenth negative; program closed as an honest negative (PLAN §7)
 PYTHONPATH=src python experiments/utero/exp_utero_sol_luzfinita.py  # v12 finite light (seasonal carrying capacity): the only intermediate regime of the series; 4 runs (sun seeds 0/1/2, 20k-40k ticks): NOTHING; the 'saving before famine' signal was accumulation drift (15/40 in the permuted arm)
-PYTHONPATH=src python experiments/utero/exp_utero_sol_lentos.py     # v13 slow registers on the v12 ecology, 30000 ticks (~70 min) -- see the ledger
+PYTHONPATH=src python experiments/utero/exp_utero_sol_lentos.py     # v13 slow registers on the v12 ecology (~70 min): NOTHING (anticipation fires equally in the permuted arm). 14 runs, 13 designs, zero vestiges
 PYTHONPATH=src python experiments/utero/exp_utero_sol_vara.py       # 1-D heating sun with the amended yardstick (not run: superseded by the plane/metabolism runs)
 PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness (~40 min): 1024 cells = same typicity; 120 seeds -> v5 4.2%, v6 5.8%. The rarity is intrinsic to 1-D
 
@@ -408,7 +408,7 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
   principles, the two death modes, the open crossroads, and the **honest results
   ledger** (Nivel 1 → v5, each entry written only after its adversarial control,
   with the refutations kept in). Update its ledger when a new útero experiment lands.
-- `docs/PLAN_INTELIGENCIA.md` — **the plan from order to intelligence** (status §8–§9: thirteen pre-registered runs over twelve designs, zero vestiges, two tempting signals dismantled by their controls; program closed as an honest negative): operational definition (regulation, anticipation, learning-by-recurrence, organization), the sun, the pre-registered notion of "vestige", controls and honest stop rules. Read before touching the sun program.
+- `docs/PLAN_INTELIGENCIA.md` — **the plan from order to intelligence** (status §8–§10: fourteen pre-registered runs over thirteen designs, zero vestiges, four tempting signals dismantled by their controls; program closed as an honest negative): operational definition (regulation, anticipation, learning-by-recurrence, organization), the sun, the pre-registered notion of "vestige", controls and honest stop rules. Read before touching the sun program.
 - `docs/papers/utero-paper.md` — **working draft of the útero paper** (Spanish): what it takes and what is not enough to sustain structural novelty in a self-rewriting substrate — the chain of cages, the honest yardstick, the anatomy/fertility/mortality mechanism, the three mechanisms and their ceiling, v8 pending.
 - `docs/ESTADO_DEL_ARTE_UTERO.md` — **state of the art (2026-09-26)** for the útero line: BFF /
   Computational Life (+ its 2026 self-correction), Stringmol, AlChemy, Flow-Lenia, Evoloop,

@@ -265,8 +265,11 @@ sigue a la estación) dio por primera vez un régimen intermedio real, con la
 población siguiendo a la estación y las muertes concentradas en la hambruna,
 y dos lecturas de ahorro previo a la hambruna (9/40 y 5/40) que sus réplicas
 y el brazo con orden permutado desmontaron como artefacto de acumulación
-(15/40 en el brazo sin regularidad). Trece corridas pre-registradas sobre doce
-diseños, cero vestigios, dos señales tentadoras desmontadas por sus controles.
+(15/40 en el brazo sin regularidad). Un último diseño dio al sustrato
+**registros lentos** (relojes a la escala de la estación, la pieza que la
+medición de escala temporal mostró ausente): tampoco. Catorce corridas
+pre-registradas sobre trece diseños, cero vestigios, cuatro señales tentadoras
+desmontadas por sus controles.
 El programa se reporta como negativo honesto: este sustrato produce orden,
 novedad y hasta demografía estacional, pero no regulación en el sentido de
 Ashby.

@@ -1,0 +1,45 @@
+================================================================================
+v13 REGISTROS LENTOS -- capacidad de carga estacional + relojes a la escala de la estacion
+================================================================================
+linea n0=16 max 256; flags {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 3.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.0033333333333333335}; 40 semillas; 30000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring; PLAN §6b)
+
+--------------------------------------------------------------------------------
+CONTACTO y ESTADO por brazo (mediana sobre semillas)
+  clima      muertes post/pre 0.532  vivas 41  muertes/tick 0.010  semillas con contacto>=1.2: 3
+  ciclo2     muertes post/pre 0.219  vivas 55  muertes/tick 0.033  semillas con contacto>=1.2: 0
+  permutado  muertes post/pre 0.527  vivas 46  muertes/tick 0.017  semillas con contacto>=1.2: 0
+  sin        muertes post/pre 0.996  vivas 72  muertes/tick 0.782  semillas con contacto>=1.2: 1
+  sombra     muertes post/pre 0.388  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 1
+
+--------------------------------------------------------------------------------
+R2. REGULACION POR ORDEN: muertes/tick en maduro, pareadas por semilla
+  clima   < permutado en 10/23 pares con ambos vivos (p signo 0.798); razon mediana 0.81 -> no
+  ciclo2  < permutado en 13/25 pares con ambos vivos (p signo 0.500); razon mediana 0.73 -> no
+  => sin regulacion por orden
+
+--------------------------------------------------------------------------------
+POSITIVAS POR LECTURA Y BRAZO (p<0.05; A con stat>0)
+  lectura       clima     ciclo2  permutado        sin     sombra   p_binom(clima)  cumple(2)  cumple(3)
+  A                 5          4          7          2          1           0.048       True      False
+  A_m               6          5          6          3          1           0.014       True      False
+  L                 2          3          1          1          0           0.601      False       True
+  L_m               3          6          4          3          0           0.323      False      False
+  A_n               3          5          1          1          0           0.323      False       True
+  A_e               3          0         10          2          0           0.323      False      False
+  A_eN              3          1          9          2          2           0.323      False      False
+  L_A               3          6          4          3          0           0.323      False      False
+  A: clima [0, 12, 15, 18, 39]  permutado [0, 1, 4, 14, 18, 32, 35]  sin [1, 20]  sombra [6]
+  A_m: clima [0, 12, 15, 18, 30, 39]  permutado [5, 11, 12, 13, 14, 18]  sin [1, 11, 20]  sombra [6]
+  L: clima [4, 39]  permutado [19]  sin [25]  sombra []
+  L_m: clima [19, 25, 32]  permutado [2, 19, 31, 39]  sin [11, 17, 25]  sombra []
+  A_n: clima [2, 26, 36]  permutado [2]  sin [31]  sombra []
+  A_e: clima [11, 31, 32]  permutado [2, 4, 9, 13, 14, 18, 29, 30, 35, 39]  sin [8, 23]  sombra []
+  A_eN: clima [10, 11, 16]  permutado [4, 10, 12, 16, 18, 19, 30, 32, 39]  sin [21, 35]  sombra [29, 38]
+  L_A: clima [5, 18, 21]  permutado [5, 20, 21, 23]  sin [11, 18, 39]  sombra []
+  habituacion en clima (L): []
+  habituacion en clima (L_m): []
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NADA (con contacto 0.53): ninguna lectura cumple; R2 no.

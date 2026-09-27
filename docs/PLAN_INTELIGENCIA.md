@@ -145,3 +145,15 @@ añadida a §6b: toda lectura sobre una serie que se acumula dentro de la
 estación (energía, población) debe usarse SIN deriva (residuo respecto de la
 tendencia previa) y compararse contra el brazo permutado, no sólo contra sin
 sol y sombra.
+
+## 10. Cierre definitivo de la sesión 2026-09-26
+
+v13 (registros lentos, τ = 300, sobre la ecología de v12): NADA; la
+anticipación sobre actividad dispara igual en el brazo permutado (7 vs 5) y las
+lecturas de energía sólo en él (10 y 9). Catorce corridas, trece diseños, cero
+vestigios, cuatro señales desmontadas. Lo que un programa futuro debería
+cambiar no es un mecanismo más sino la pregunta: buscar la regulación en
+entidades (estructuras itinerantes, Beer) y no en el tejido entero, con un
+entorno cuya regularidad tenga la escala temporal de esas entidades; y
+construir primero el POSITIVO CONTROL —un organismo diseñado a mano que sí
+anticipe en este sustrato— para saber que las varas pueden verlo.
