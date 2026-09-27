@@ -1416,6 +1416,23 @@ explicación, que es lo más que un negativo puede ser.
   gradiente. §25: evolvabilidad (protocolo de §17) en la ecología cerrada.
   (`results/utero_posicion_run.txt`)
 
+- **§25 — evolvabilidad en la ecología cerrada: SIN CONTACTO (2026-09-27).**
+  El veredicto impreso es NO EVOLUCIONA (abierto 7/13, cerrado 9/16 pares por
+  debajo del congelado), pero la mortalidad per cápita en la hambruna es
+  0.004–0.006 en los tres brazos: con 42–44 vivas repartiéndose L0 = 9 la
+  hambruna no mata a nadie, y la vara no tenía qué medir. Se lee como sin
+  contacto, no como negativo de evolución. Hipótesis de fondo, ahora
+  nombrable y falsable: **la sonda de ceguera aplana el gradiente de
+  ingreso**. Mata a todo programa cuya salida no dependa de la materia; los
+  programas legales tienen materia efectivamente pseudoaleatoria y su peso
+  de luz |v − sol| promedia lo mismo para todos, así que no hay varianza
+  heredable de aptitud en lo que el sol mide (coherente con §18: la energía
+  predice, el genoma apenas; con §17/§20/§22: nada que seleccionar; con §21/
+  §24: lo que la selección ve es otra cosa, robustez y colonización). Una
+  excepción legal existe (v = vecino + 0.5: sensible a la materia y anti-sol
+  en el borde, el doble de ingreso). §26: control positivo del gradiente en
+  la ecología cerrada con luz escasa. (`results/utero_evoluciona_cerrado_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

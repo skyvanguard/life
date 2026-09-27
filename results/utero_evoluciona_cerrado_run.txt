@@ -1,0 +1,27 @@
+================================================================================
+EVOLUCIONA EN LA ECOLOGIA CERRADA (n0 = max_n = 64)? -- mortalidad PER CAPITA en hambrunas tardias vs tempranas, contra un brazo CONGELADO
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 9.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; brazos ['abierto', 'cerrado', 'congelado']; 20 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo      vivas med vivas fin hambrunas pc media A razon t/t tendencia  genomas
+  abierto           42        42        59      0.004      0.74      0.58     2020
+  cerrado           44        42        59      0.006      0.96      0.59      582
+  congelado         44        44        59      0.005      0.95      0.69        0
+
+--------------------------------------------------------------------------------
+PAREADO por semilla contra CONGELADO (razon tardia/temprana de la mortalidad per capita)
+  abierto    razon < congelado en 7/13 pares (p signo 0.500); medianas 0.79 vs 1.01 -> no
+    por semilla (abierto | congelado): 0.70|1.02 0.00|4.55 0.59|1.01 0.14|0.33 1.06|0.53 1.19|1.25 1.95|0.00 0.48|1.59 1.44|1.24 1.65|0.50 1.03|0.36 0.69|0.00 0.79|3.11
+  cerrado    razon < congelado en 9/16 pares (p signo 0.402); medianas 0.95 vs 0.79 -> no
+    por semilla (cerrado | congelado): 0.17|1.02 1.04|1.16 0.97|4.55 1.06|1.01 1.72|0.33 1.10|0.69 0.00|0.53 0.00|1.25 0.00|0.32 0.00|0.88 0.94|0.00 1.04|1.59 0.13|1.24 1.35|0.50 1.14|0.36 0.74|0.00
+
+  mortalidad per capita media en A, pareada contra congelado (menor = el brazo vivo muere menos):
+    abierto    menor que congelado en 9/20 (p signo 0.748)
+    cerrado    menor que congelado en 11/20 (p signo 0.412)
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NO EVOLUCIONA: lo que baja, baja igual en el brazo congelado (ecologia, no herencia). Con 23 variantes viables/1000 ticks, la seleccion no tiene sobre que actuar en esta vara.

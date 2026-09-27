@@ -469,3 +469,12 @@ apunta a un techo de aptitud bajo y alcanzable al azar en la frontera abierta
 ranking reproducible: allí la competencia es interior y puede haber gradiente.
 §25: §17 en la ecología cerrada (n0 = max_n = 64), brazos abierto p = 0.02,
 cerrado, congelado; misma lectura primaria y regla.
+
+**Resultado §25: SIN CONTACTO** (mortalidad per cápita en A 0.004–0.006: la
+hambruna no mata en la ecología cerrada con L0 = 9). Hipótesis de fondo: la
+sonda aplana el gradiente de ingreso (los programas legales tienen materia
+pseudoaleatoria → mismo ingreso esperado). §26: (a) calibrar luz escasa en la
+ecología cerrada hasta que la hambruna muerda; (b) control positivo del
+gradiente: sembrar un programa anti-sol legal (v = vecino + 0.5) en mundos
+congelados y ver si gana; (c) si gana, evolvabilidad con variación abierta en
+esa ecología; si no gana, el gradiente no existe y hay que cambiar el filtro.
