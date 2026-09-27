@@ -133,7 +133,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_sol_lentos.py     # v13 slow r
 PYTHONPATH=src python experiments/utero/exp_utero_control_positivo.py  # POSITIVE CONTROL: a hand-designed famine anticipator is viable (18/20), halves famine deaths; the A/L yardsticks don't see it, R2 does
 PYTHONPATH=src python experiments/utero/exp_utero_invasion_ahorrador.py # invasion from rare: the anticipator is NOT selected (4-5/20 takeovers, order-independent, with or without birth cost). Program closed with a mechanistic explanation
 PYTHONPATH=src python experiments/utero/exp_utero_hambruna.py          # v14: experimental evolution under a harsh famine + costly births, nothing seeded. Run 1 (sun seed 0): NADA on the primary R2_A; a post-hoc birth-drop signal in the ciclo2 control arm (A_n 9/40) triggered a declared replication (sun seed 1, detrended + season-matched controls): 2/40 -- a calendar false positive. 17 pre-registered emergence runs, zero vestiges
-PYTHONPATH=src python experiments/utero/exp_utero_quemada.py           # v15: v14 + scorched earth (refractario=300, K-selection), pre-registered; see the ledger
+PYTHONPATH=src python experiments/utero/exp_utero_quemada.py           # v15: v14 + scorched earth (refractario=300, K-selection): NADA (R2_A ratio 1.29; L_A 6/40 vs controls 3-4). Fast recolonization was NOT the bottleneck. 18 pre-registered emergence runs, zero vestiges
 PYTHONPATH=src python experiments/utero/exp_utero_sol_vara.py       # 1-D heating sun with the amended yardstick (not run: superseded by the plane/metabolism runs)
 PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness (~40 min): 1024 cells = same typicity; 120 seeds -> v5 4.2%, v6 5.8%. The rarity is intrinsic to 1-D
 

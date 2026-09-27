@@ -1159,6 +1159,17 @@ explicación, que es lo más que un negativo puede ser.
   estación mínima) antes de correr. Brazos, lecturas y veredicto idénticos a
   v14 corrida 2 (R2_A primaria; A_nB como control emparejado).
   `exp_utero_quemada.py`, 40 semillas × 5 brazos, 30000 ticks, sol seed 0.
+  **Resultado: NADA.** R2_A no: clima < permutado en 5/25 pares vivos, razón
+  1.29 (la hambruna mata MÁS bajo el orden regular); ciclo2 7/25, 1.16. Partos
+  A/B 0.01–0.02 en todos los brazos. Las dos lecturas con conteo alto en clima
+  —L_A 6/40 (p 0.014) y A_m 6/40— tienen controles al mismo nivel (L_A:
+  permutado 3, sombra 4; A_m: permutado 8) y no pasan la condición de 2×. Vivas
+  25–26 con sol, 51 sin sol, sombra 0. La selección K (territorio como premio
+  a sobrevivir) no hizo emerger regulación por orden. Por el fallback declarado
+  en PLAN §14: la recolonización rápida NO era el cuello de botella; la
+  explicación mecánica pasa al CAMINO mutacional. Dieciocho corridas
+  pre-registradas de emergencia, cero vestigios.
+  (`results/utero_quemada_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

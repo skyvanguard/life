@@ -235,3 +235,14 @@ contacto). Mismos brazos, lecturas y veredicto que v14 corrida 2. Si NADA: la
 recolonización rápida no era el cuello de botella, y la explicación mecánica
 debe revisarse hacia el CAMINO mutacional (la anticipación diseñada es viable,
 pero ninguna trayectoria de MUTO/COPY la alcanza desde genomas aleatorios).
+
+**Resultado v15: NADA.** R2_A no en clima (5/25, razón 1.29) ni en ciclo2
+(7/25, 1.16); L_A 6/40 y A_m 6/40 en clima con controles a 3–8. Con esto la
+explicación "sobrevivir no da descendencia porque el vacío se rellena rápido"
+queda refutada como cuello de botella único: aun cuando el lugar se conserva
+sólo sobreviviendo, no emerge nada que baje la mortalidad en la hambruna bajo
+el orden regular. Queda en pie la otra mitad de §12: el CAMINO. El anticipador
+diseñado es viable y ventajoso; la pregunta es si alguna trayectoria de
+MUTO/COPY lo alcanza desde genomas aleatorios, o si las instrucciones que lo
+componen son individualmente neutras o letales (un valle). Eso se mide sin
+evolucionar: §15.
