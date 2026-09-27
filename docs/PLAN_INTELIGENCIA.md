@@ -333,3 +333,15 @@ el abierto y no en el cerrado, la cuarta jaula era el cuello y la línea sigue
 viables por 1000 ticks, las variantes no difieren en lo que la hambruna mide:
 lo siguiente es medir qué rasgo heredable varía entre linajes (fenotipo), no
 correr más.
+
+**Resultado §17: NO EVOLUCIONA.** Razón tardía/temprana per cápita: congelado
+0.19, abierto 0.45, cerrado 0.62; abierto < congelado en 3/14 pares, cerrado
+6/16. La caída es ecológica y la variación heredable no la mejora: en el brazo
+abierto la mortalidad per cápita en A es mayor (0.73 vs 0.60). Conclusión de
+método para toda la línea: **el sustrato no evoluciona bajo esta ecología**,
+con o sin la cuarta jaula abierta. La búsqueda de inteligencia presuponía
+evolución; la evolución presupone un fenotipo heredable con varianza sobre el
+que el filtro discrimine. §18 mide eso directamente: entre las celdas vivas
+al empezar cada hambruna, ¿la supervivencia se predice por el genoma (ICC
+entre portadores del mismo genoma contra un nulo por permutación de destinos)
+y se repite para el mismo genoma en hambrunas sucesivas?

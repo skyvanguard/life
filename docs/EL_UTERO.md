@@ -1259,6 +1259,21 @@ explicación, que es lo más que un negativo puede ser.
   pareada por semilla contra el congelado. EVOLUCIONA si razón < congelado en
   ≥ 75% de los pares vivos (n ≥ 8), p signo < 0.05, y mediana ≤ 0.7× la del
   congelado. `exp_utero_evoluciona.py`.
+  **Resultado: NO EVOLUCIONA.** 59 hambrunas maduras por mundo, ~82 vivas
+  en los tres brazos. La mortalidad per cápita en la hambruna baja con las
+  hambrunas sucesivas en todos, y baja MÁS en el congelado (razón mediana
+  0.19) que en el abierto (0.45) o el cerrado (0.62): abierto < congelado en
+  3/14 pares, cerrado 6/16. Mortalidad per cápita media en A: abierto 0.73,
+  congelado 0.60, cerrado 0.51 (cerrado < congelado en 13/19, p 0.08). Lo que
+  baja es ecología —la población se asienta— y la herencia de cambios no
+  añade adaptación: en el brazo abierto es carga (muere más). Con 23
+  variantes viables por 1000 ticks (§16b), la selección no encuentra nada que
+  difiera en lo que la hambruna mide. **Éste es el hallazgo que reordena el
+  programa:** antes de la inteligencia falta la evolución; antes de la
+  evolución falta un fenotipo heredable sobre el que la hambruna discrimine.
+  Siguiente (§18): medir si la supervivencia a la hambruna es una propiedad
+  del genoma (repetible entre portadores y entre hambrunas) o del lugar y el
+  estado. (`results/utero_evoluciona_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
