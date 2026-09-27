@@ -1552,6 +1552,19 @@ explicación, que es lo más que un negativo puede ser.
   (muertes al azar fuera de A igualadas al brazo abierto, ninguna impuesta
   en A). (`results/utero_tasa_grande_run.txt`)
 
+- **§31 — control de densidad, pre-registro (2026-09-27).** Por semilla:
+  abierto p = 0.02 (el brazo de §30); congelado con la densidad igualada por
+  trayectoria (antes de cada tick fuera de A se vacían al azar las celdas que
+  sobren respecto de las vivas del abierto en ese tick, sonda encendida;
+  nada impuesto durante A); congelado normal. 12 semillas, N = 512, L0 = 14,
+  120000 ticks. HEREDABLE si la mortalidad per cápita en A del abierto es
+  menor que la del congelado igualado en ≥ 75% de los pares (p signo < 0.05)
+  con razón mediana ≤ 0.5; DENSIDAD si ≤ 50%. Primera versión del control
+  (copiar el conteo de muertes con `shadow_deaths`) descartada en humo: no
+  igualaba la densidad (218 contra 137 vivas) y apagaba la sonda. Humo de
+  una semilla con la versión final, sin valor de prueba: abierto 0.24,
+  congelado igualado 0.57, congelado 1.28. `exp_utero_densidad.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
