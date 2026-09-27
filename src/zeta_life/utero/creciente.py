@@ -61,7 +61,8 @@ class UteroCreciente:
                  energia: bool = False, e0: float = 1.0, e_mant: float = 0.01,
                  e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5,
                  percepcion: bool = False, energia_luz: bool = False,
-                 luz_finita: float = 0.0, lentos: float = 0.0, e_costo: float = 0.0):
+                 luz_finita: float = 0.0, lentos: float = 0.0, e_costo: float = 0.0,
+                 refractario: int = 0):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -223,7 +224,20 @@ class UteroCreciente:
         La invasión desde raro mostró que, con partos gratis, "reproducirse en
         la crisis" le gana a "ahorrar antes de la crisis" (34 partos/100 ticks
         en la hambruna). En ecología la latencia y el ahorro sólo evolucionan
-        cuando reproducirse cuesta. Requiere energia=True. Mano: c."""
+        cuando reproducirse cuesta. Requiere energia=True. Mano: c.
+
+        refractario=T (v15, TIERRA QUEMADA; 0 = apagado): el lugar de una celda
+        que muere queda incolonizable durante T ticks (ni colonización ni
+        invasión; el crecimiento por los bordes no se toca). Motivo (PLAN §12–
+        §14): en esta ecología sobrevivir a la hambruna no otorga descendencia
+        porque el vacío se rellena igual de rápido desde cualquier
+        superviviente; con el vacío refractario, conservar el lugar durante la
+        hambruna es la única forma de tener territorio en la abundancia
+        (selección K en vez de r). Un SPAWN dirigido a tierra quemada fracasa
+        como si el vecino estuviera ocupado (paga e_costo igual). T=0:
+        byte-idéntico. Mano: T."""
+        self.refractario = int(refractario)
+        self.quemada = np.zeros(n0, dtype=np.int64)   # tick hasta el cual el lugar sigue quemado
         self.e_costo = float(e_costo)
         self.lentos = float(lentos)
         self.S = np.zeros((n0, 2))
@@ -300,6 +314,7 @@ class UteroCreciente:
             self.eq_sol_count[i] = 0
             self.e[i] = 0.0
             self.S[i] = 0.0
+            self.quemada[i] = self._tick + self.refractario
 
     def _register_genomes(self) -> int:
         new = 0
@@ -369,6 +384,7 @@ class UteroCreciente:
                 self.code[i] = 0
                 self.eq_count[i] = 0
                 self.mem[i] = 0.0
+                self.quemada[i] = self._tick + self.refractario
                 deaths += 1
                 continue
             ctx, vl, vr = self._ctx(i)
@@ -410,6 +426,7 @@ class UteroCreciente:
                 self.code[i] = 0
                 self.eq_count[i] = 0
                 self.mem[i] = 0.0
+                self.quemada[i] = self._tick + self.refractario
                 deaths += 1
                 continue
             # v4: muerte por equilibrio — lo que deja de devenir, deja de ser
@@ -425,6 +442,7 @@ class UteroCreciente:
                     self.code[i] = 0
                     self.eq_count[i] = 0
                     self.mem[i] = 0.0
+                    self.quemada[i] = self._tick + self.refractario
                     continue
             # async: efectos inmediatos
             if self.sol is not None and self.sol_acople > 0.0:
@@ -482,7 +500,8 @@ class UteroCreciente:
             elif t >= self.n:               # más-allá derecho
                 if edge_right is None:
                     edge_right = (child, v_new, i - lg)
-            elif not self.alive[t]:         # vacío interior: colonización
+            elif not self.alive[t] and self.quemada[t] <= self._tick:   # vacío interior: colonización
+                # (v15: si el lugar está quemado, el SPAWN fracasa como ante un vecino ocupado)
                 self.code[t] = child
                 self.v[t] = v_new
                 self.alive[t] = True
@@ -528,6 +547,7 @@ class UteroCreciente:
             self.eq_count = np.concatenate([self.eq_count, [0]])
             self.mem = np.concatenate([self.mem, [0.0]])
             self.eq_sol_count = np.concatenate([self.eq_sol_count, [0]])
+            self.quemada = np.concatenate([self.quemada, [0]])
             grown += 1
         if edge_left is not None and self.n < self.max_n:
             c, val, madre = edge_left
@@ -546,6 +566,7 @@ class UteroCreciente:
             self.eq_count = np.concatenate([[0], self.eq_count])
             self.mem = np.concatenate([[0.0], self.mem])
             self.eq_sol_count = np.concatenate([[0], self.eq_sol_count])
+            self.quemada = np.concatenate([[0], self.quemada])
             self.left_grown += 1
             grown += 1
             grew_left = True
