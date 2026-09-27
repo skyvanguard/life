@@ -270,3 +270,10 @@ sin haber RNG nuestro: la materia escribe el programa completo. Abre el
 espacio; no siembra ninguna respuesta. Pre-registro: misma ecología, brazos,
 lecturas y veredicto que v14 corrida 2; calibración previa por viabilidad
 (la apertura puede volver letal la mutación).
+
+**Calibración v16** (6 semillas × {apagado, encendido}, 12000 ticks): viable
+(5/6 vivas, N_A 29 vs 22, contacto conservado) y abierto de verdad: 16656
+genomas nunca vistos por mundo contra 198 (84×), 52 tríos de operandos nuevos
+contra 0. La semilla 13 se extingue con el flag (la apertura también hace
+letal la mutación). Lanzado tal cual, sin ajustar nada más:
+`exp_utero_total.py`.

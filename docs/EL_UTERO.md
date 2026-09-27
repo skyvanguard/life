@@ -1188,6 +1188,16 @@ explicación, que es lo más que un negativo puede ser.
   ecología. (`exp_utero_alcance_operandos.py`,
   `results/utero_alcance_operandos_run.txt`)
 
+- **v16 — escritura total, pre-registro (2026-09-26).** `escritura_total=True`:
+  MUTO y el germinal escriben la instrucción entera `(op,a,b,c)` desde los
+  registros (sin RNG nuestro). Test directo: sin el flag los tríos de un mundo
+  son subconjunto de su sopa a los 3000 ticks; con el flag aparecen tríos
+  nuevos. Calibración sobre la ecología de v14 (6 semillas, 12000 ticks):
+  viable (5/6, N_A 29, contacto conservado) y abierto (16656 genomas nunca
+  vistos por mundo contra 198; 52 tríos nuevos contra 0); la semilla 13 se
+  extingue con el flag. Mismos brazos, lecturas y veredicto que v14 corrida 2.
+  `exp_utero_total.py`, 40 semillas × 5 brazos, 30000 ticks, sol seed 0.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
