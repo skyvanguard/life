@@ -1,0 +1,28 @@
+================================================================================
+LA PREGUNTA DEL ORDEN sobre un sustrato que evoluciona -- clima vs ciclo2 vs permutado vs nulo; perillas escribibles + percepcion
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 14.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': True, 'lentos': 0.02, 'e_costo': 1.0, 'parametros': 0.05, 'escala': True, 'perillas': True}; vivo {'escritura_total': True, 'tasa_germinal': 0.02}; nulo {'congelado': True, 'theta_fijo': True}; N=512; 12 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo      vivas med vivas fin   pc_A  nac_B  nac_A    w_A   s_A  sd S1  sd S2  genomas
+  clima            150       132   0.29   0.05   0.00  0.399  0.76  0.244  0.307    44815
+  ciclo2           154       122   0.58   0.03   0.01  0.409  0.75  0.374  0.434    36687
+  permutado        140       136   0.42   0.04   0.00  0.413  0.83  0.129  0.215    45622
+  nulo             162       115   0.47   0.06   0.01  0.368  1.00  0.268  0.452      512
+
+--------------------------------------------------------------------------------
+R2_A. REGULACION POR ORDEN: mortalidad per capita en A, pareada contra permutado, entre mundos vivos
+  clima    < permutado en 5/12 (p signo 0.806); razon mediana 1.38 -> no
+    por semilla (clima | permutado): 0.39|0.49 0.26|0.05 0.71|0.24 0.33|0.22 0.30|0.85 0.80|0.43 0.24|0.17 0.14|0.98 0.17|0.41 0.25|0.64 0.70|0.53 0.29|0.05
+  ciclo2   < permutado en 3/12 (p signo 0.981); razon mediana 1.65 -> no
+    por semilla (ciclo2 | permutado): 0.96|0.49 0.28|0.05 0.93|0.24 0.64|0.22 0.98|0.85 0.63|0.43 0.31|0.17 0.82|0.98 0.24|0.41 0.02|0.64 0.54|0.53 0.34|0.05
+
+  EVOLUCIONA aqui? w_A del brazo vivo contra el nulo (clima):
+    clima w_A > nulo en 8/12 (p signo 0.194); medianas 0.399 vs 0.368
+  USO de las perillas (sd en vida de S1, S2 entre vivas, mediana): clima 0.244/0.307; nulo 0.268/0.452
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NADA: la hambruna no mata menos bajo el orden regular.

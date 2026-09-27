@@ -622,3 +622,24 @@ w̄_A, s̄_A, partos A/B, uso de las perillas (varianza de S1, S2 en vida).
 VESTIGIO si R2_A cumple en clima y ciclo2; si sólo en clima, tipos de
 transición; NADA en otro caso. Si VESTIGIO: replicar con otro sol antes de
 creerlo.
+
+**Resultado §36: NADA** (R2_A 5/12 y 3/12; razones 1.38 y 1.65). El
+sustrato evoluciona pero no regula por el orden; las perillas se usan igual
+con y sin herencia. Moldear comportamiento exige evolución de programa, y ese
+paisaje es plano.
+
+## 37. Una perilla de historia propia (2026-09-27)
+
+Lo que evoluciona en el útero son perillas continuas heredables sobre la
+expresión (§34–§35). La regulación por el orden necesita una cuya entrada sea
+la historia de la celda: `reflejo=ε_g`: θ_eff = θ + g·tanh((ē − e)/e0), con ē
+una media lenta de la energía propia (τ = 200) y g una ganancia heredable
+continua (nace en 0, ±ε_g desde la materia de la madre, recortada a [−2, 2]).
+Cuando la energía cae respecto de su historia, la expresión se desplaza; el
+signo y la magnitud del desplazamiento son heredables. Bajo el orden regular
+(C precede a A) la caída anuncia la hambruna; bajo el permutado no. Diseño:
+programas CONGELADOS (sin carga), θ, s y g heredables; brazos clima, ciclo2,
+permutado, nulo (θ, s, g fijos). Primaria R2_A (regla de v14); secundarias
+ḡ_A por brazo (¿se selecciona un signo bajo los órdenes regulares y no bajo
+el permutado?), w̄_A, s̄_A. VESTIGIO si R2_A cumple en clima y ciclo2; réplica
+con otro sol antes de creerlo.

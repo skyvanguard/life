@@ -677,6 +677,20 @@ sustrato distinto. Decisión abierta.
   TRANSICIÓN si sólo en clima; NADA en otro caso. Secundarias: w̄_A y s̄_A
   contra el nulo, partos A/B, uso de las perillas (sd en vida de S1, S2).
   Si VESTIGIO: réplica con otro sol antes de creerlo. `exp_utero_orden.py`.
+  **Resultado: NADA.** R2_A: clima < permutado en 5/12 (razón mediana 1.38),
+  ciclo2 3/12 (1.65). Mortalidad per cápita en A: clima 0.29, ciclo2 0.58,
+  permutado 0.42, nulo 0.47. El brazo vivo sigue por encima del nulo en el
+  rasgo (w̄_A 0.399 contra 0.368, 8/12; s̄ 0.76) pero sin cumplir la regla,
+  como en los brazos con programas abiertos de §34–§35 (carga). Uso de las
+  perillas: sd en vida de S1/S2 0.24/0.31 en clima y 0.27/0.45 en el nulo:
+  la física mueve su expresión, pero igual con y sin herencia; nada la
+  moldea. Lectura: moldear un comportamiento exige evolución de PROGRAMA, y
+  el paisaje de programa es plano (§28, §32). Siguiente (§37): una perilla
+  heredable continua cuya entrada sea la historia propia —una ganancia g
+  que desplace la expresión según la tendencia de la energía de la celda—,
+  con programas congelados para medirla sin carga. Bajo el orden regular la
+  estación templada precede siempre a la hambruna; bajo el permutado no.
+  (`results/utero_orden_run.txt`)
 
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
@@ -1721,6 +1735,20 @@ explicación, que es lo más que un negativo puede ser.
   TRANSICIÓN si sólo en clima; NADA en otro caso. Secundarias: w̄_A y s̄_A
   contra el nulo, partos A/B, uso de las perillas (sd en vida de S1, S2).
   Si VESTIGIO: réplica con otro sol antes de creerlo. `exp_utero_orden.py`.
+  **Resultado: NADA.** R2_A: clima < permutado en 5/12 (razón mediana 1.38),
+  ciclo2 3/12 (1.65). Mortalidad per cápita en A: clima 0.29, ciclo2 0.58,
+  permutado 0.42, nulo 0.47. El brazo vivo sigue por encima del nulo en el
+  rasgo (w̄_A 0.399 contra 0.368, 8/12; s̄ 0.76) pero sin cumplir la regla,
+  como en los brazos con programas abiertos de §34–§35 (carga). Uso de las
+  perillas: sd en vida de S1/S2 0.24/0.31 en clima y 0.27/0.45 en el nulo:
+  la física mueve su expresión, pero igual con y sin herencia; nada la
+  moldea. Lectura: moldear un comportamiento exige evolución de PROGRAMA, y
+  el paisaje de programa es plano (§28, §32). Siguiente (§37): una perilla
+  heredable continua cuya entrada sea la historia propia —una ganancia g
+  que desplace la expresión según la tendencia de la energía de la celda—,
+  con programas congelados para medirla sin carga. Bajo el orden regular la
+  estación templada precede siempre a la hambruna; bajo el permutado no.
+  (`results/utero_orden_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
