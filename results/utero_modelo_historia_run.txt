@@ -1,0 +1,28 @@
+================================================================================
+MODELO REDUCIDO (no es el utero): propension al parto como funcion heredable de la historia de energia propia
+================================================================================
+N=256; 24 semillas; 120000 ticks; brazos {clima, ciclo2, permutado} x {heredable, nulo}; predicciones pre-registradas (docstring)
+
+corrida: 8.4 min
+  calendario brazo       vivas   pc_A    q0      k      c     partos A/B/C
+  clima      heredable     138  0.098  0.78  -0.02  -0.13  0.20/0.40/0.41
+  clima      nulo          104  0.143  1.00   0.00   0.00  0.18/0.40/0.42
+  ciclo2     heredable     140  0.086  0.78  -0.02  -0.15  0.24/0.43/0.32
+  ciclo2     nulo          107  0.156  1.00   0.00   0.00  0.22/0.43/0.35
+  permutado  heredable     138  0.086  0.76   0.05  -0.10  0.15/0.46/0.40
+  permutado  nulo          108  0.158  1.00   0.00   0.00  0.16/0.45/0.39
+
+--------------------------------------------------------------------------------
+REGULA? heredable contra nulo del mismo calendario (pareado por semilla)
+  clima      mortalidad heredable < nulo en 22/24 (p signo 0.000); razon mediana 0.65; vivas heredable/nulo 1.33; k > 0 en 11/24 -> REGULA
+  ciclo2     mortalidad heredable < nulo en 24/24 (p signo 0.000); razon mediana 0.45; vivas heredable/nulo 1.30; k > 0 en 11/24 -> REGULA
+  permutado  mortalidad heredable < nulo en 23/24 (p signo 0.000); razon mediana 0.50; vivas heredable/nulo 1.28; k > 0 en 16/24 -> REGULA
+
+  la mejora bajo clima es mayor que bajo el permutado en 10/24 (p signo 0.846)
+  la mejora bajo ciclo2 es mayor que bajo el permutado en 14/24 (p signo 0.271)
+  clima: fraccion de partos en la estacion que sigue a la hambruna (B): heredable 0.40 vs nulo 0.40; mayor en 11/24
+  ciclo2: fraccion de partos en la estacion que sigue a la hambruna (C): heredable 0.32 vs nulo 0.35; mayor en 2/24
+
+================================================================================
+PREDICCION (regla escrita antes de correr)
+=> PREDICE REGULACION SIN ORDEN: regula en los tres calendarios por igual (la regla de historia no necesita regularidad).

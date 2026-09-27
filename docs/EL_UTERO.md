@@ -825,6 +825,20 @@ sustrato distinto. Decisión abierta.
   (`exp_utero_orden_oraculo.py`, `exp_utero_orden_torneo.py`,
   `exp_utero_orden_confirmatoria.py`, `results/utero_orden_*_run.txt`)
 
+- **§42 — modelo reducido con regla de historia propia: REGULACIÓN SIN
+  ORDEN (2026-09-27).** NO es el útero. Propensión al parto q = clip(q0 +
+  k·tanh((e − ē)/e0) + c·tanh(ē/e0 − 1)) con q0, k, c heredables, seis
+  brazos, 24 semillas. La mortalidad per cápita en la hambruna del brazo
+  heredable es menor que la del nulo en 22/24 (clima, razón 0.65), 24/24
+  (ciclo2, 0.45) y 23/24 (permutado, 0.50), y SIN pagar con densidad: tiene
+  MÁS vivas (1.28–1.33×). Lo que evoluciona es contención general (q0 0.76–
+  0.78) con un sesgo leve a parir cuando la historia de energía es baja (c ≈
+  −0.13); k ≈ 0. La mejora no es mayor bajo los órdenes regulares que bajo
+  el permutado (10/24 y 14/24) y la fracción de partos en la estación que
+  sigue a la hambruna no sube. En el modelo, regular la reproducción se
+  selecciona y paga; codificar el orden, no.
+  (`exp_utero_modelo_historia.py`, `results/utero_modelo_historia_run.txt`)
+
 - **Cambio de rumbo: del tejido que evoluciona al ser que aprende en vida
   (2026-09-27).** Fran, al ver las capas que se fueron agregando (sol,
   energía, hambruna, herencia, historia de vida): "¿estamos emulando
