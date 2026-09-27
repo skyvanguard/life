@@ -1352,6 +1352,18 @@ explicación, que es lo más que un negativo puede ser.
   escritura germinal en cada parto su descendencia lo pierde antes de que la
   selección lo fije (umbral de error). §22 lo prueba.
   (`results/utero_seleccion_replicas_run.txt`)
+  **Resultado §22: NO EVOLUCIONA con ninguna tasa (por la regla).** Razón
+  tardía/temprana per cápita: p=1 0.45, p=0.1 0.41, p=0.02 0.14, congelado
+  0.19; pareado: 3/14, 7/15, 8/16 pares por debajo del congelado (p 0.99,
+  0.70, 0.60). Tendencia graduada en la dirección predicha, reportada sin
+  inflarla: la mortalidad per cápita media en A cae con la tasa (0.73, 0.69,
+  0.49 contra 0.60 del congelado) y con p=0.02 el brazo vivo muere menos que
+  el congelado en 12/18 (p 0.12). La CARGA desaparece al bajar la tasa; la
+  ADAPTACIÓN medible en esta vara no aparece. Con §21 (la selección barre
+  programas fijos) la hipótesis restante es que la vara mide el rasgo
+  equivocado: lo que la ecología selecciona es capacidad competitiva
+  (colonización), no supervivencia a la hambruna. §23: competencia en jardín
+  común, evolucionado contra ancestro. (`results/utero_tasa_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

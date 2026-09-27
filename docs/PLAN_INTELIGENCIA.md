@@ -423,3 +423,12 @@ en 9/10 sopas (share 1.00). La selección sobre programas fijos es
 determinista y fuerte. Con §17 (sin adaptación bajo herencia de cambios) la
 inferencia es directa: la variación destruye lo que la selección construye.
 Predicción para §22: con p = 0.1 o 0.02 el brazo abierto evoluciona.
+
+**Resultado §22: NO EVOLUCIONA por la regla**; tendencia graduada (la carga
+cae con la tasa: 0.73 → 0.69 → 0.49 contra 0.60 congelado; p=0.02 menor que
+congelado en 12/18, p 0.12). La tasa explica la carga, no la ausencia de
+adaptación en la vara de hambruna. Hipótesis restante y decisiva: la vara.
+§21 muestra selección fuerte sobre programas fijos, y lo que barre es
+seguramente el mejor colonizador. La adaptación, si existe, es en capacidad
+competitiva. §23 la mide como la evolución experimental: competencia en
+jardín común del genoma evolucionado contra su ancestro.

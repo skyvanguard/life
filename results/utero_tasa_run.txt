@@ -1,0 +1,31 @@
+================================================================================
+TASA DE MUTACION -- escritura germinal rara (p=0.1, 0.02) vs cada parto (p=1) vs congelado; mortalidad PER CAPITA en hambrunas tardias vs tempranas, contra un brazo CONGELADO
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 9.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; brazos ['abierto_p1', 'abierto_p0.1', 'abierto_p0.02', 'congelado']; 20 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo      vivas med vivas fin hambrunas pc media A razon t/t tendencia  genomas
+  abierto_p1        82        64        59      0.731      0.45     -0.53     1016
+  abierto_p0.1        89        76        59      0.687      0.41     -0.43     2799
+  abierto_p0.02        84        76        59      0.488      0.14     -0.63     1306
+  congelado         87        78        59      0.602      0.19     -0.83        0
+
+--------------------------------------------------------------------------------
+PAREADO por semilla contra CONGELADO (razon tardia/temprana de la mortalidad per capita)
+  abierto_p1 razon < congelado en 3/14 pares (p signo 0.994); medianas 0.45 vs 0.19 -> no
+    por semilla (abierto_p1 | congelado): 0.03|0.12 1.12|0.00 0.19|0.03 0.00|0.00 1.18|0.73 0.32|0.25 1.06|0.13 1.03|0.54 0.08|0.77 0.45|0.36 1.01|0.44 0.90|0.00 0.45|0.40 0.03|0.04
+  abierto_p0.1 razon < congelado en 7/15 pares (p signo 0.696); medianas 0.41 vs 0.36 -> no
+    por semilla (abierto_p0.1 | congelado): 0.00|0.57 0.41|0.12 0.00|0.00 0.37|0.46 0.22|0.03 0.62|0.73 1.05|0.25 1.06|0.13 0.22|0.54 0.70|0.77 0.48|0.36 0.35|0.44 0.90|0.00 1.00|0.40 0.02|0.04
+  abierto_p0.02 razon < congelado en 8/16 pares (p signo 0.598); medianas 0.14 vs 0.31 -> no
+    por semilla (abierto_p0.02 | congelado): 0.00|0.57 0.10|0.12 0.00|0.00 0.86|0.46 0.08|0.03 0.20|0.00 0.00|0.73 0.70|0.25 0.17|0.13 0.00|0.54 0.52|0.77 0.00|0.36 0.40|0.44 0.90|0.00 0.91|0.40 0.02|0.04
+
+  mortalidad per capita media en A, pareada contra congelado (menor = el brazo vivo muere menos):
+    abierto_p1 menor que congelado en 6/16 (p signo 0.895)
+    abierto_p0.1 menor que congelado en 11/18 (p signo 0.240)
+    abierto_p0.02 menor que congelado en 12/18 (p signo 0.119)
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NO EVOLUCIONA con ninguna tasa: la tasa de mutacion no era la causa.
