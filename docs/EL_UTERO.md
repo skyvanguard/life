@@ -1481,6 +1481,17 @@ explicación, que es lo más que un negativo puede ser.
   vivas todo Δw̄ pequeño es neutro frente a la deriva (s < 1/N ≈ 0.07) y
   sólo un salto grande sería visible. (`results/utero_rasgo_run.txt`)
 
+- **§28 — alcanzabilidad del rasgo, pre-registro (2026-09-27).** Sin
+  evolucionar: ≈50 programas legales del tejido evolucionado (abierto p = 1,
+  cerrado, L0 = 1.75, 6000 ticks); por cada uno, 400 escrituras totales de
+  una fila al azar, 400 sólo de opcode y 100 pares de escrituras totales.
+  Fenotipo proxy w̄ = distancia toroidal media de la salida al sol de la
+  hambruna (0.08) sobre 200 entradas uniformes, + 0.05 (ANTISOL ≈ 0.55);
+  legalidad por la sonda. SALTOS si P(legal y Δw̄ ≥ +0.2) ≥ 1% (un salto
+  grande cada pocos miles de ticks: §27 debió verlo → viabilidad en
+  contexto); SIN SALTOS si < 0.1% (sólo pasos pequeños, neutros con N ≈ 14 →
+  población efectiva). `exp_utero_alcanzabilidad.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
