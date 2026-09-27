@@ -1,0 +1,7 @@
+CALIBRACION con sol constante 0.3: cosecha media (segunda mitad) por brazo
+  eta=0.01  sigma=0.1  plastico 0.531/208  invertido 0.145/161  barajado 0.316/202  sin_plasticidad 0.327/203
+  eta=0.01  sigma=0.3  plastico 0.524/210  invertido 0.076/200  barajado 0.319/201  sin_plasticidad 0.326/204
+  eta=0.05  sigma=0.1  plastico 0.528/208  invertido 0.234/197  barajado 0.308/204  sin_plasticidad 0.326/204
+  eta=0.05  sigma=0.3  plastico 0.524/209  invertido 0.201/195  barajado 0.307/203  sin_plasticidad 0.327/204
+  eta=0.2   sigma=0.1  plastico 0.478/203  invertido 0.288/206  barajado 0.301/206  sin_plasticidad 0.327/203
+  eta=0.2   sigma=0.3  plastico 0.493/206  invertido 0.239/202  barajado 0.302/205  sin_plasticidad 0.323/204

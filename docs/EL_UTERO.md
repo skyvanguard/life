@@ -902,6 +902,26 @@ sustrato distinto. Decisión abierta.
   volver a rango. (`exp_utero_homeostato_modelo.py`,
   `results/utero_homeostato_modelo_run.txt`)
 
+- **§45 — tejido plástico (prototipo fuera del útero), calibración y
+  pre-registro (2026-09-27).** Respuesta al diagnóstico de §44–§45: una
+  regla CONTINUA por celda (red mínima de pesos: lee su materia y la de sus
+  vecinas —el sol en un hueco— y dos variables internas; mueve su materia,
+  actualiza su memoria, decide parir) que cambia en vida por perturbación de
+  nodo, con la señal del propio ingreso de la celda frente a su propio
+  promedio. Herencia de W con ruido chico en todos los brazos (la evolución
+  actúa igual en todos). **Calibración con sol constante (control positivo de
+  la regla):** en los seis puntos probados el brazo plástico cosecha 0.48–0.53
+  (máximo posible 0.55) contra 0.32–0.33 sin plasticidad y 0.30–0.32 con la
+  señal barajada; con la señal invertida aprende lo contrario (0.08–0.29). La
+  celda aprende en vida, de su propio bienestar, dónde poner su materia.
+  Parámetros fijados antes de la prueba: η = 0.05, σ = 0.3. **Prueba con
+  estaciones** (sol que cambia: el blanco se mueve): APRENDE EN VIDA si el
+  plástico supera en cosecha al invertido, al barajado y al sin plasticidad
+  en ≥ 75% de los pares (p < 0.05) sin pagar con densidad; Y GENERALIZA si
+  además llega a cada estación nueva sabiendo qué hacer (G ≥ 0.8 en ≥ 75% de
+  los mundos). `exp_utero_tejido_plastico.py`,
+  `results/utero_tejido_plastico_calibracion_run.txt`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
