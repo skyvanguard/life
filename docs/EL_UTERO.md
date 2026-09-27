@@ -1433,6 +1433,19 @@ explicación, que es lo más que un negativo puede ser.
   en el borde, el doble de ingreso). §26: control positivo del gradiente en
   la ecología cerrada con luz escasa. (`results/utero_evoluciona_cerrado_run.txt`)
 
+- **§26 — control positivo del gradiente, pre-registro (2026-09-27).**
+  Ecología cerrada (n0 = max_n = 64), congelada, luz escasa L0 = 1.75
+  (calibración ruidosa: 1.25 → 0.13, 1.5 → 0.82, 1.75 → 0.29 de mortalidad
+  per cápita en A; se declaró 1.75). Se siembran 4 ANTISOL (v' = 0.5625 +
+  0.0625·vl: a distancia toroidal 0.5 del sol de la hambruna, peso de luz
+  0.55 contra 0.30 al azar; legal y no quieta) y 4 ESPEJO (v' = vl + 0.5:
+  misma forma, ingreso al azar; control emparejado) entre 56 al azar, 20
+  semillas, 30000 ticks. GRADIENTE si ANTISOL gana (≥ 0.25 y ≥ 2× ESPEJO) en
+  ≥ 15/20; SIN GRADIENTE si ≤ 5/20. Error propio registrado: la primera
+  versión de ANTISOL (0.875) quedaba a 0.18 del sol de la hambruna, peor que
+  el azar; el humo dio 0/3 y se corrigió antes de la corrida completa.
+  `exp_utero_gradiente.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

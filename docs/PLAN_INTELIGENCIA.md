@@ -478,3 +478,15 @@ ecología cerrada hasta que la hambruna muerda; (b) control positivo del
 gradiente: sembrar un programa anti-sol legal (v = vecino + 0.5) en mundos
 congelados y ver si gana; (c) si gana, evolvabilidad con variación abierta en
 esa ecología; si no gana, el gradiente no existe y hay que cambiar el filtro.
+
+## 26. Control positivo del gradiente de ingreso (2026-09-27)
+
+¿Un programa legal con más ingreso de luz gana cuando la luz escasea? ANTISOL
+(materia a distancia 0.5 del sol de la hambruna) contra ESPEJO (misma forma,
+ingreso al azar), 4 + 4 sembrados entre 56 al azar en la ecología cerrada,
+congelada, con L0 = 1.75. GRADIENTE / SIN GRADIENTE / MIXTO escritos antes de
+correr. Si hay gradiente, la ausencia de adaptación es de camino (la
+variación no llega a programas así) o de vara, y lo siguiente es medir la
+alcanzabilidad de ANTISOL desde la sopa con escritura total; si no lo hay,
+la sonda aplana el ingreso o el ingreso no manda, y hay que cambiar el
+filtro o la ecología.
