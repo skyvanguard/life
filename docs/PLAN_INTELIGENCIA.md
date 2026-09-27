@@ -743,3 +743,43 @@ original del útero, sin perillas añadidas, contra tres controles: reescribir
 siempre, reescribir al revés, no reescribir. El control decisivo es el
 último: sólo si el tejido ultraestable supera a la criba entre reglas fijas
 se puede decir que lo hallado en vida es mejor que lo que ya había.
+
+## 44–45. Diagnóstico de la tanda y la siguiente apuesta (2026-09-27, noche)
+
+**Qué dicen juntos §28, §32, §43 y §44.** Para que un ser aprenda de lo que
+le pasa hacen falta cuatro cosas, y el útero actual no tiene ninguna:
+1. **Localidad.** Un cambio chico en la regla tiene que producir un cambio
+   chico y dirigido en lo que la regla hace. En el VM discreto con materia
+   toroidal, la salida de cualquier programa legal es pseudoaleatoria: 0 de
+   40.000 escrituras mueven el rasgo premiado +0.2 (§28, §32), y reescribir
+   la regla "cuando va mal" no encuentra nada mejor (§43: cosecha 0.30 en
+   todos los brazos).
+2. **Una señal rápida y propia.** La consecuencia tiene que llegar a lo que
+   cambia a la escala de lo que cambia. La reserva de energía es lenta frente
+   a lo que una acción mueve el ingreso (§44).
+3. **Algo que sentir.** Para no tener que re-aprender cada estación, el ser
+   necesita leer el entorno y aprender una relación (dónde está el sol →
+   dónde poner mi materia), no un número fijo.
+4. **Consecuencias en vida.** Si todo lo bueno se aprende en vida, lo que se
+   aprende tiene que pagar dentro de la vida, no sólo en la descendencia.
+
+**La apuesta (§45, prototipo, SIN tocar el útero todavía).** Un tejido
+plástico: cada celda tiene una regla continua (una red mínima de pesos que
+lee su materia, la de sus vecinas —que en un hueco es el sol— y dos
+variables internas, y mueve su materia, actualiza su memoria y decide parir).
+La regla es estado; cambia en vida por **perturbación de nodo** (Williams
+1992; Fiete y Seung 2006): la celda prueba variaciones chicas de su acción y
+refuerza la dirección que coincidió con que su propio ingreso subiera respecto
+de su propio promedio. Sin maestro, sin datos, sin objetivo externo: la señal
+es su propio bienestar. Cumple los tres principios: la regla es estado, el
+lazo es interno, persistir es el único filtro. Es territorio conocido en
+parte (redes plásticas evolucionadas: Soltoggio, Risi y Stanley; Najarro y
+Risi 2020); lo propio es el sustrato cerrado sin objetivo y la vara.
+
+**La vara que importa: generalizar.** Seguir al sol re-aprendiendo cada
+estación es reaccionar. Aprender la relación "mi materia lejos del sol que
+siento" y usarla en la estación siguiente SIN re-aprender es entender algo
+del mundo. Se mide como la cosecha en los primeros ticks de cada estación
+nueva frente a la del final de la anterior, contra un tejido sin plasticidad
+(sólo evolución), uno con la señal invertida y uno con la señal barajada
+(misma cantidad de cambio, sin crédito).
