@@ -1248,6 +1248,18 @@ explicación, que es lo más que un negativo puede ser.
   herencia de cambios), el único nulo real para "¿evoluciona?".
   (`results/utero_escala_evo_run.txt`)
 
+- **§17 — ¿evoluciona?, pre-registro (2026-09-27).** Nuevo flag `congelado`
+  (MUTO y COPY inertes, germinal sin escribir: la misma física y ecología sin
+  herencia de cambios; byte-idéntico apagado; test: un mundo congelado no
+  acuña ningún genoma en 2000 ticks; en humo vive con ≈120 celdas). Tres
+  brazos con la misma sopa por semilla: abierto (v16), cerrado (v14),
+  congelado. 120000 ticks, L0 = 9, 20 semillas, sol seed 0 cíclico. Lectura
+  primaria: mortalidad PER CÁPITA en cada hambruna madura (muertes / vivas
+  medias en A); razón segunda mitad / primera mitad de las hambrunas;
+  pareada por semilla contra el congelado. EVOLUCIONA si razón < congelado en
+  ≥ 75% de los pares vivos (n ≥ 8), p signo < 0.05, y mediana ≤ 0.7× la del
+  congelado. `exp_utero_evoluciona.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

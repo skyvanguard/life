@@ -319,3 +319,17 @@ misma ecología con MUTO y COPY inertes y sin germinal, es decir, sin herencia
 de cambios. Si la mortalidad per cápita en hambrunas tardías baja en el brazo
 abierto y no en el congelado, el sustrato evoluciona; si baja igual en ambos,
 es ecología (recambio, densidad), no evolución. §17.
+
+## 17. ¿Evoluciona? El nulo congelado (2026-09-27)
+
+`congelado=True`: MUTO y COPY inertes, el germinal no escribe. Misma sopa,
+misma física actuando sobre la materia, misma ecología y demografía; nada
+nuevo se hereda. Es el único nulo real para "¿evoluciona?" (la sombra se
+extingue; el permutado también puede adaptarse). Lectura primaria: mortalidad
+per cápita en la hambruna, tardía / temprana, pareada por semilla contra el
+congelado, en el brazo abierto (v16) y en el cerrado (v14). Si EVOLUCIONA en
+el abierto y no en el cerrado, la cuarta jaula era el cuello y la línea sigue
+(más tiempo, luego regulación). Si NO EVOLUCIONA en ninguno con 23 variantes
+viables por 1000 ticks, las variantes no difieren en lo que la hambruna mide:
+lo siguiente es medir qué rasgo heredable varía entre linajes (fenotipo), no
+correr más.

@@ -84,7 +84,8 @@ def _fila_desde_registros(r: list, b: int, m: int) -> np.ndarray:
 
 def execute(code: np.ndarray, vl: float, v: float, vr: float,
             ctx: tuple, wrap: bool = False, r3_init: float = 0.0,
-            stats: dict | None = None, extra=None, total: bool = False) -> tuple:
+            stats: dict | None = None, extra=None, total: bool = False,
+            frozen: bool = False) -> tuple:
     """Ejecutar una regla. ctx = (code_izq|None, code_self, code_der|None).
 
     Devuelve (v', own_next, spawn, r3_raw) con spawn=None o (lado, pos, opcode,
@@ -124,6 +125,10 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
     # ningún operador escribe operandos y los tríos (a,b,c) de un mundo quedan
     # congelados en la sopa inicial (la cuarta jaula, PLAN §15). total=False:
     # byte-idéntico.
+    # frozen (§17, CONGELADO): MUTO y COPY no escriben (el código de la celda es
+    # inmutable). Es el NULO de "¿evoluciona?": la misma física, la misma
+    # ecología y la misma demografía, sin herencia de cambios. frozen=False:
+    # byte-idéntico.
     if extra is None:
         r = [vl, v, vr, r3_init]
     elif isinstance(extra, list):
@@ -149,7 +154,9 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
             src = ctx[a % 3]
             r[c % m] = float(src[b % K, 0]) / N_OPS if src is not None else 0.0
         elif op == MUTO:
-            if total:
+            if frozen:
+                pass
+            elif total:
                 fila = _fila_desde_registros(r, b, m)
                 if stats is not None and not np.array_equal(own_next[a % K], fila):
                     stats["muto_writes"] += 1
@@ -161,7 +168,7 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
                 own_next[a % K, 0] = new_op
         elif op == COPY:
             src = ctx[a % 3]
-            if src is not None:
+            if src is not None and not frozen:
                 if stats is not None and not np.array_equal(own_next[c % K], src[b % K]):
                     stats["copy_writes"] += 1
                     if not np.array_equal(src, code):
