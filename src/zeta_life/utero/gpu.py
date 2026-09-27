@@ -351,16 +351,54 @@ class UteroGPU:
             self.e[:, 1:] += flujo
         return dict(muertes=muertes, partos=partos, vac=vac.squeeze(1))
 
+    # ------------------------------------------------------------------ puntos de control
+    _ESTADO = ("v", "code", "theta", "alive", "mem", "e", "e_lenta", "S", "esc", "g", "eq")
+
+    def estado(self) -> dict:
+        """Todo lo necesario para reanudar exactamente: tensores, tick y el estado del sorteo."""
+        d = {k: getattr(self, k).cpu() for k in self._ESTADO}
+        d["tick"] = self.tick
+        d["gen"] = self.gen.get_state().cpu()
+        return d
+
+    def restaurar(self, d: dict) -> None:
+        for k in self._ESTADO:
+            setattr(self, k, d[k].to(self.device))
+        self.tick = int(d["tick"])
+        self.gen.set_state(d["gen"])
+
     # ------------------------------------------------------------------ correr con lecturas
     @torch.no_grad()
-    def correr(self, ticks: int, banda: float = 0.4) -> dict:
+    def correr(self, ticks: int, banda: float = 0.4, checkpoint: str | None = None, cada: int = 5000) -> dict:
         """Corre `ticks` y devuelve series (T, B) en numpy: vivas, muertes, partos, w (peso de luz
         medio de las vivas), banda (fracción a distancia >= banda del sol), s, g, gpos, R (concentración
-        circular de theta)."""
+        circular de theta).
+
+        checkpoint: ruta de un punto de control. Si existe, la corrida se REANUDA desde él (estado
+        exacto + series acumuladas); cada `cada` ticks se reescribe de forma atómica. En una máquina
+        compartida un corte cuesta como mucho `cada` ticks. El resultado es idéntico al de una
+        corrida sin cortes (test)."""
         nombres = ("vivas", "muertes", "partos", "w", "banda", "s", "g", "gpos", "R")
         ser = {k: torch.full((ticks, self.b), float("nan"), dtype=torch.float32, device=self.device)
                for k in nombres}
-        for t in range(ticks):
+        t_ini = 0
+        ruta = None
+        if checkpoint is not None:
+            from pathlib import Path
+            ruta = Path(checkpoint)
+            if ruta.exists():
+                ck = torch.load(ruta, map_location="cpu", weights_only=False)
+                assert ck["ticks"] == ticks and ck["b"] == self.b and ck["n"] == self.n, "punto de control de otra corrida"
+                self.restaurar(ck["estado"])
+                t_ini = int(ck["t"])
+                for k in nombres:
+                    ser[k][:t_ini] = ck["series"][k].to(self.device)
+        for t in range(t_ini, ticks):
+            if ruta is not None and t > t_ini and t % cada == 0:
+                tmp = ruta.with_suffix(ruta.suffix + ".tmp")
+                torch.save(dict(estado=self.estado(), t=t, ticks=ticks, b=self.b, n=self.n,
+                                series={k: v[:t].cpu() for k, v in ser.items()}), tmp)
+                tmp.replace(ruta)
             r = self.step()
             al = self.alive
             n = al.sum(dim=1).to(self.dt)

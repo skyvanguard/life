@@ -99,3 +99,19 @@ def test_same_seed_same_run():
     a.correr(120)
     b.correr(120)
     assert torch.equal(a.code, b.code) and torch.equal(a.v, b.v)
+
+
+def test_checkpoint_resume_is_identical_to_an_uninterrupted_run(tmp_path):
+    sol = np.tile(np.linspace(0.1, 0.5, 200), (2, 1))
+    kw = dict(device="cpu", escritura_total=True, parametros=0.05, escala=True, reflejo=0.05)
+    entera = UteroGPU([5, 6], 48, sol, **kw)
+    ref = entera.correr(200)
+    ck = tmp_path / "ck.pt"
+    a = UteroGPU([5, 6], 48, sol, **kw)
+    a.correr(200, checkpoint=str(ck), cada=60)            # deja el punto de control del tick 180
+    assert ck.exists()
+    b = UteroGPU([5, 6], 48, sol, **kw)                   # proceso nuevo: reanuda desde el disco
+    rea = b.correr(200, checkpoint=str(ck), cada=60)
+    assert torch.equal(b.code, entera.code) and torch.equal(b.v, entera.v) and torch.equal(b.e, entera.e)
+    for k in ref:
+        np.testing.assert_array_equal(rea[k], ref[k])

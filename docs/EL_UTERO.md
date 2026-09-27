@@ -731,6 +731,13 @@ sustrato distinto. Decisión abierta.
   revisar). No es un fallo del experimento. **El motor no está validado
   hasta completar V2** y no se usa para preguntas nuevas. No se relanzó.
   (`results/utero_gpu_validacion_parcial_run.txt`)
+  **Motor reanudable (mismo día):** `UteroGPU.correr(checkpoint=, cada=)`
+  guarda cada 5000 ticks el estado exacto (tensores, tick, estado del
+  sorteo) y las series acumuladas, con escritura atómica, y reanuda desde el
+  disco; test: una corrida cortada y retomada en un proceso nuevo da
+  exactamente lo mismo que una sin cortes. V1 quedó en caché desde el
+  resultado ya medido. En una máquina compartida un corte cuesta como mucho
+  5000 ticks (~75 s).
 
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
