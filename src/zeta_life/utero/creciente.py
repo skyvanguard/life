@@ -61,7 +61,7 @@ class UteroCreciente:
                  energia: bool = False, e0: float = 1.0, e_mant: float = 0.01,
                  e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5,
                  percepcion: bool = False, energia_luz: bool = False,
-                 luz_finita: float = 0.0, lentos: float = 0.0):
+                 luz_finita: float = 0.0, lentos: float = 0.0, e_costo: float = 0.0):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -216,7 +216,15 @@ class UteroCreciente:
         estado a esa escala no hay anticipación posible). Como el VM no tiene
         condicionales, la regla puede usar S vía MUTO (reescribir su propio
         SPAWN según |S|): control de flujo por auto-reescritura. La cría nace
-        con S=0. Los campos indexan mod (4 + extras). λ=0: byte-idéntico."""
+        con S=0. Los campos indexan mod (4 + extras). λ=0: byte-idéntico.
+
+        e_costo=c (0 = apagado): PARIR CUESTA. La madre quema c de energía en
+        cada parto (además de ceder e_parto a la cría); si no tiene c, no pare.
+        La invasión desde raro mostró que, con partos gratis, "reproducirse en
+        la crisis" le gana a "ahorrar antes de la crisis" (34 partos/100 ticks
+        en la hambruna). En ecología la latencia y el ahorro sólo evolucionan
+        cuando reproducirse cuesta. Requiere energia=True. Mano: c."""
+        self.e_costo = float(e_costo)
         self.lentos = float(lentos)
         self.S = np.zeros((n0, 2))
         self.luz_finita = float(luz_finita)
@@ -454,6 +462,10 @@ class UteroCreciente:
             self.mem[i] = raw            # memoria: R3 crudo persistente
             if spawn is None:
                 continue
+            if self.energia and self.e_costo > 0.0:
+                if self.e[i] <= self.e_costo:
+                    continue                    # sin energía para parir: no pare
+                self.e[i] -= self.e_costo       # el parto cuesta, aunque el vecino esté ocupado
             side, mpos, mop, locus = spawn
             child = own_next.copy()
             if self.germinal:               # v2: nace con UNA instrucción

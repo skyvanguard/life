@@ -1065,6 +1065,28 @@ falso positivo que la disciplina de esta línea existe para impedir.
   ahorrador cuando compite con el tejido evolucionado? Eso se prueba con una
   invasión desde raro. (`results/utero_control_positivo{,2}_run.txt`)
 
+- **Invasión desde raro — el anticipador NO es seleccionado (2026-09-26).**
+  `exp_utero_invasion_ahorrador.py`: 2 ahorradores entre 14 celdas aleatorias,
+  20 semillas, bajo clima regular, permutado y sin sol. Toma (firma ≥ 0.5 al
+  final): clima 4/20, permutado 4/20; extinción 14/20 y 15/20. Sin sol el
+  ahorrador nunca pare y sobrevive inmóvil mientras el resto muere (no es un
+  control válido de toma). **La ventaja individual (mitad de muertes en la
+  hambruna) no se traduce en propagación, y la regularidad del orden no
+  cambia nada.** La razón está en la tabla del control positivo: el tejido
+  evolucionado pare 34 veces por 100 ticks DURANTE la hambruna (0 en C) y
+  recoloniza los huecos más rápido de lo que el ahorrador los ocupa; parir es
+  gratis (sólo reparte energía), así que la estrategia "reproducirse en la
+  crisis" gana a "ahorrar antes de la crisis". Esto cierra el círculo de los
+  catorce negativos con una explicación mecánica y no con una ausencia:
+  **anticipar la hambruna es viable y beneficioso para el individuo, pero
+  esta ecología no lo selecciona.** En ecología, la condición conocida para
+  que evolucione la latencia o el ahorro es que la reproducción CUESTE. Es la
+  hipótesis que queda, derivada del dato y no de un tanteo: un costo fijo de
+  parto (`e_costo`) que haga inviable parir en la hambruna, primero con la
+  invasión desde raro (¿ahora sí hay selección?) y sólo si la hay, con el
+  tejido evolucionado sin sembrar (¿emerge?).
+  (`results/utero_invasion_ahorrador_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

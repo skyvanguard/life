@@ -119,3 +119,27 @@ def test_luz_finita_off_is_byte_identical_and_on_self_regulates_population():
         w.step()
         vivas.append(int(w.alive.sum()))
     assert 5 <= np.median(vivas[800:]) <= 250
+
+
+def test_e_costo_off_is_byte_identical_and_on_burns_energy_per_birth():
+    a = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True, energia=True,
+                       e_mant=0.005)
+    b = UteroCreciente(n0=16, seed=13, germinal=True, toroidal=True, memoria=True, energia=True,
+                       e_mant=0.005, e_costo=0.0)
+    for _ in range(200):
+        a.step()
+        b.step()
+    np.testing.assert_array_equal(a.e, b.e)
+    u = UteroCreciente(n0=3, seed=0, max_n=3, toroidal=True, energia=True, e0=1.0, e_mant=0.0,
+                       e_gan=0.0, e_dif=0.0, e_parto=0.5, e_costo=0.3)
+    u.alive[:] = False
+    u.alive[1] = True
+    u.code[1] = prog((MUL, 1, 1, 3), (SPAWN, 1, 0, 0))
+    u.v[1] = 0.3
+    u.step()
+    # paga 0.3 y cede la mitad del resto: madre 0.35, cría 0.35; total 0.7 (0.3 quemado)
+    assert u.alive[2] and abs(u.e[1] - 0.35) < 1e-12 and abs(u.e[2] - 0.35) < 1e-12
+    u.e[1] = 0.2                                            # sin energía suficiente: no pare
+    u.alive[2] = False
+    u.step()
+    assert not u.alive[2] and abs(u.e[1] - 0.2) < 1e-12

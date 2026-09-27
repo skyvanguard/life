@@ -1,0 +1,15 @@
+================================================================================
+INVASION DESDE RARO -- 2 ahorradores entre 14 celdas aleatorias: se propagan?
+================================================================================
+flags {'memoria': False, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 3.0, 'e0': 2.0, 'e_mant': 0.01, 'lentos': 0.02}; 20 semillas; 20000 ticks; veredicto en el docstring
+
+  brazo      firma@1000 firma@5000 firma maduro firma fin toma(>=0.5) persiste(>0)  extinto vivas fin
+  clima            0.00       0.00         0.00      0.00        4/20         6/20    14/20        84
+  permutado        0.00       0.00         0.00      0.00        4/20         5/20    15/20        70
+  sin              0.01       0.01         0.01      0.01        7/20        10/20    10/20        70
+  por semilla (firma final) clima: 0.50 0.15 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.33 0.00 0.00 0.00 0.00 1.00 0.00
+  por semilla (firma final) perm.: 0.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.28 1.00 0.00 0.00 0.00 1.00 0.00
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> MIXTO: leer la tabla  (clima toma 4, persiste 6, extinto 14; permutado toma 4; sin sol extinto 10)
