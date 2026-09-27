@@ -499,3 +499,13 @@ poblaciones con variación abierta contra el congelado, en la ecología cerrada
 con luz escasa: si sube, el sustrato evoluciona y la vara de mortalidad era
 ciega; si no sube, la variación no alcanza el rasgo (camino) y lo siguiente es
 medir la alcanzabilidad de la materia anti-hambruna desde programas legales.
+
+## 27. ¿Sube el rasgo premiado? (2026-09-27)
+
+Primera medida de evolución sobre un rasgo que la selección premia de forma
+demostrada (§26). Peso de luz de la materia durante la hambruna, tardío /
+temprano y nivel, pareado contra el congelado, cuatro brazos. ADAPTA / NO
+escritos antes de correr. Si sube: el sustrato evoluciona y la vara de
+mortalidad era ciega; la regulación por el orden se vuelve a medir aquí. Si
+no: camino —la variación no alcanza la materia anti-hambruna—, y se mide la
+alcanzabilidad desde programas legales.

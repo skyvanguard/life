@@ -1458,6 +1458,16 @@ explicación, que es lo más que un negativo puede ser.
   tejido evolucionado: la distancia toroidal de la materia al sol de la
   hambruna. §27. (`results/utero_gradiente_run.txt`)
 
+- **§27 — ¿sube el rasgo premiado?, pre-registro (2026-09-27).** Ecología
+  cerrada con luz escasa (L0 = 1.75), 120000 ticks, 20 semillas, brazos
+  abierto p = 0.02, abierto p = 1, cerrado, congelado; nada sembrado. Rasgo:
+  peso de luz medio de la materia viva durante cada hambruna madura (w̄_A =
+  distancia toroidal media a sol(t) + 0.05; ANTISOL ≈ 0.55, azar ≈ 0.30).
+  ADAPTA si w̄_A tardío/temprano supera al del congelado en ≥ 75% de los
+  pares (p signo < 0.05) y el nivel w̄_A también en ≥ 75%. Secundarias:
+  mortalidad per cápita en A, fracción en la banda anti-hambruna (≥ 0.4).
+  `exp_utero_rasgo.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
