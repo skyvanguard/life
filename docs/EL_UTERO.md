@@ -1399,6 +1399,22 @@ explicación, que es lo más que un negativo puede ser.
   POSICIÓN y cerrada = PROGRAMA señala la frontera abierta como causa
   estructural y traslada la evolvabilidad y la regulación a la ecología
   cerrada. `exp_utero_posicion.py`.
+  **Resultado: PROGRAMA en ambas ecologías.** Abierta: p_W < 0.05 en 9/9
+  sopas evaluables; el mismo genoma barre al 100% desde posiciones barajadas
+  en 4–5/5 réplicas en 7/9 sopas. Cerrada: p_W = 0.001 en 10/10, sin barrido
+  (share dominante 0.26–0.59, 5–11 genomas coexistiendo con ranking
+  reproducible). La hipótesis posicional queda refutada: la selección ve
+  programas, y con fuerza. Relectura de §23: A y E eran dos programas
+  competitivamente equivalentes y la posición sólo desempató. Síntesis de la
+  noche: selección fuerte sobre programas (§21, §24), oferta mutacional
+  suficiente (§16b), y aun así la evolución abierta no produce adaptación
+  (§17, §20, §22) ni nada mejor que el mejor programa de 16 al azar (§23).
+  Hipótesis que queda: el techo de aptitud en la línea con frontera abierta
+  es bajo y lo alcanzan muchos programas al azar (colonizar cada tick), así
+  que no hay gradiente que subir; en la ecología cerrada, donde coexisten
+  genomas con ranking reproducible, la competencia es interior y puede haber
+  gradiente. §25: evolvabilidad (protocolo de §17) en la ecología cerrada.
+  (`results/utero_posicion_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

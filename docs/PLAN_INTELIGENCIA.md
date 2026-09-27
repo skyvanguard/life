@@ -460,3 +460,12 @@ mismo orden), en frontera abierta y en frontera cerrada (n0 = max_n = 64).
 PROGRAMA / POSICIÓN / MIXTO por ecología, escritos antes de correr. Es la
 prueba directa de la hipótesis que sobrevivió a todo lo demás: en la línea
 con frontera abierta la reproducción es efecto fundador espacial.
+
+**Resultado §24: PROGRAMA en ambas** (abierta 9/9, cerrada 10/10). La
+selección ve programas; la posición sólo desempata entre iguales (§23). Con
+oferta mutacional suficiente y selección fuerte, la ausencia de adaptación
+apunta a un techo de aptitud bajo y alcanzable al azar en la frontera abierta
+(colonizar cada tick). En la ecología cerrada coexisten 5–11 genomas con
+ranking reproducible: allí la competencia es interior y puede haber gradiente.
+§25: §17 en la ecología cerrada (n0 = max_n = 64), brazos abierto p = 0.02,
+cerrado, congelado; misma lectura primaria y regla.

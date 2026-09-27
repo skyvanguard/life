@@ -1,0 +1,40 @@
+================================================================================
+POSICION O PROGRAMA? -- replicas congeladas con las POSICIONES barajadas; frontera abierta vs cerrada
+================================================================================
+ecologia base {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 9.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0, 'congelado': True}; ecologias {'abierta': {'n0': 16, 'max_n': 512}, 'cerrada': {'n0': 64, 'max_n': 64}}; 10 sopas x 5 replicas; 30000 ticks; permutaciones 1000; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ECOLOGIA abierta {'n0': 16, 'max_n': 512}
+  sopa  vivas      W     p_W mismo dominante share dom genomas vivos
+     0     11   0.62   0.001            2/5      0.60             5
+     1     75   0.12   0.001            4/5      1.00             1
+     2     75   0.12   0.001            4/5      1.00             1
+     3     68   0.18   0.001            5/5      1.00             1
+     4     54   0.18   0.001            5/5      1.00             1
+     5     71   0.12   0.001            4/5      1.00             1
+     6     78   0.07   0.025            3/5      1.00             1
+     7     73   0.12   0.002            4/5      1.00             1
+     8     73   (alguna replica extinta: no evaluable)
+     9     59   0.18   0.001            5/5      1.00             1
+  sopas evaluables 9/10; con p_W < 0.05: 9
+
+--------------------------------------------------------------------------------
+ECOLOGIA cerrada {'n0': 64, 'max_n': 64}
+  sopa  vivas      W     p_W mismo dominante share dom genomas vivos
+     0     47   0.28   0.001            2/5      0.30             7
+     1     39   0.36   0.001            2/5      0.26            11
+     2     38   0.27   0.001            2/5      0.48             8
+     3     36   0.28   0.001            2/5      0.38             8
+     4     42   0.15   0.001            2/5      0.43             7
+     5     46   0.29   0.001            3/5      0.35             8
+     6     41   0.17   0.001            2/5      0.59             5
+     7     47   0.16   0.001            3/5      0.47             6
+     8     42   0.25   0.001            2/5      0.36             7
+     9     48   0.27   0.001            1/5      0.34             8
+  sopas evaluables 10/10; con p_W < 0.05: 10
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> abierta: PROGRAMA
+=> cerrada: PROGRAMA
