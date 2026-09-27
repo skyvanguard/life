@@ -1,0 +1,24 @@
+================================================================================
+ULTRAESTABILIDAD (GPU): reescribir la propia regla solo cuando a la celda le va mal -- aprende en vida?
+================================================================================
+N=512; L0=14.0; 24 semillas x 4 brazos = 96 mundos; 120000 ticks; sol seed 0; escritura total, sin germinal, sin perillas; dispositivo NVIDIA GeForce RTX 5070 Ti Laptop GPU
+veredicto pre-registrado (docstring)
+
+corrida: 55.7 min
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas; segunda mitad de la corrida)
+  brazo       vivas vivas fin  cosecha w  w en A w 1a mitad  muerte/celda/tick partos/100t
+  ultra         136       118      0.305   0.374      0.306            0.00008       0.021
+  siempre       148       123      0.305   0.339      0.305            0.00023       0.030
+  invertido     139       123      0.303   0.380      0.303            0.00013       0.020
+  nunca         144       116      0.309   0.388      0.309            0.00024       0.038
+
+--------------------------------------------------------------------------------
+ULTRA contra cada control (pareado por semilla)
+  vs siempre    cosecha mayor en 13/24 (p 0.419); muerte menor en 12/24 (p 0.581); vivas ultra/control 0.92 -> no
+  vs invertido  cosecha mayor en 15/24 (p 0.154); muerte menor en 15/24 (p 0.154); vivas ultra/control 0.98 -> no
+  vs nunca      cosecha mayor en 9/24 (p 0.924); muerte menor en 17/24 (p 0.032); vivas ultra/control 0.95 -> no
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NADA: reescribir segun la propia situacion no mejora al tejido con esta vara.

@@ -879,6 +879,13 @@ sustrato distinto. Decisión abierta.
   las del control. APRENDE EN VIDA si supera a los tres; COMPUERTA si supera
   a siempre e invertido pero no a nunca; NADA en otro caso.
   `exp_utero_ultraestable_gpu.py`.
+  **Resultado (PROVISIONAL: motor en GPU aún sin validar): NADA.** Cosecha
+  de luz 0.303–0.309 en los cuatro brazos: el valor de una materia al azar.
+  Ultra contra siempre 13/24 y 12/24; contra invertido 15/24 y 15/24; contra
+  nunca 9/24 (cosecha) y 17/24 (muerte, p 0.032). Ninguna regla cosecha mejor
+  que otra, así que reescribir la regla "cuando va mal" no tiene nada mejor
+  que encontrar: es la quinta jaula (§28, §32) vista desde el aprendizaje en
+  vida. (`results/utero_ultraestable_gpu_run.txt`)
 
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
