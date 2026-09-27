@@ -653,3 +653,17 @@ en un lote; el VM es exactamente el de CPU (test), el orden es en damero
 de §37 en CPU se detuvo sin resultado y se repite en GPU con 24 semillas
 (`exp_utero_reflejo_gpu.py`), mismo pre-registro. Si la validación falla, el
 motor no se usa para preguntas nuevas hasta entender qué cambia el damero.
+
+## 39. Trasplante recíproco (2026-09-27)
+
+El campo medio de §37 (numpy, sin GPU) mostró que la ganancia g es un reflejo
+sobre el estado presente: paga con cualquier orden y más bajo el permutado,
+así que R2_A no puede distinguir regularidad con esa perilla; §37 no se
+corre. Mostró también que el orden decide cuál g conviene. La pregunta
+correcta es de adaptación local: ¿a una población le va mejor bajo el orden
+en el que evolucionó que bajo el otro, con un calendario nuevo y las perillas
+fijas? Es el test clásico (trasplante recíproco), y separa adaptación al
+orden de benignidad del entorno porque exige ventaja de casa en los DOS
+orígenes. Orden de ejecución pendiente, todo en GPU y reanudable: (1)
+completar V2 de §38; (2) §39. Ambos esperan la indicación de Fran: la corrida
+de V2 fue detenida por el sistema por memoria RAM crítica.

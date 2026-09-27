@@ -1,0 +1,32 @@
+================================================================================
+CAMPO MEDIO de §37 -- ingreso de un linaje con ganancia g relativo al residente (g = 0), por calendario
+================================================================================
+modelo: L0=14.0, N = equilibrio de energia, e_mant=0.01, tau=200.0, s=0.7; theta residente = 0.24 (maximo de peso en la hambruna)
+
+  fraccion de la hambruna sin energia (menor = mejor), e ingreso total relativo, por g:
+       g     clima hambre      clima ing    ciclo2 hambre     ciclo2 ing permutado hambre  permutado ing
+   -2.00            0.005          1.061            0.008          1.036            0.009          1.056
+   -1.75            0.000          1.092            0.002          1.068            0.000          1.088
+   -1.50            0.000          1.124            0.000          1.104            0.000          1.120
+   -1.25            0.000          1.158            0.000          1.136            0.000          1.151
+   -1.00            0.000          1.194            0.000          1.145            0.000          1.172
+   -0.75            0.000          1.204            0.006          1.053            0.000          1.137
+   -0.50            0.000          1.122            0.154          0.958            0.046          1.026
+   -0.25            0.016          1.014            0.164          0.956            0.118          0.980
+    0.00            0.025          1.000            0.020          1.000            0.071          1.000
+    0.25            0.011          1.029            0.000          1.097            0.009          1.062
+    0.50            0.000          1.089            0.000          1.149            0.000          1.120
+    0.75            0.000          1.228            0.000          1.113            0.000          1.162
+    1.00            0.000          1.228            0.003          1.062            0.000          1.144
+    1.25            0.000          1.181            0.013          1.024            0.000          1.105
+    1.50            0.000          1.139            0.025          0.997            0.000          1.072
+    1.75            0.000          1.107            0.068          0.983            0.004          1.046
+    2.00            0.000          1.119            0.003          1.063            0.000          1.065
+
+  clima      N_eq 611; hambre con g=0: 0.025; mejor g -1.75 con hambre 0.000 (reduccion 0.025); ingreso total de esa g 1.092
+  ciclo2     N_eq 622; hambre con g=0: 0.020; mejor g -1.50 con hambre 0.000 (reduccion 0.020); ingreso total de esa g 1.104
+  permutado  N_eq 632; hambre con g=0: 0.071; mejor g -1.75 con hambre 0.000 (reduccion 0.071); ingreso total de esa g 1.088
+
+================================================================================
+LECTURA (regla escrita antes de calcular; ventaja = reduccion del hambre en la hambruna)
+=> REFLEJO: la mejor g paga parecido con y sin regularidad (clima 0.025, ciclo2 0.020, permutado 0.071); §37 no puede dar VESTIGIO por R2_A con esta perilla.

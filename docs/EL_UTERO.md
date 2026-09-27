@@ -739,6 +739,33 @@ sustrato distinto. Decisión abierta.
   resultado ya medido. En una máquina compartida un corte cuesta como mucho
   5000 ticks (~75 s).
 
+- **§37b — campo medio: la ganancia g es un reflejo (2026-09-27).** Cálculo
+  en numpy, sin GPU, hecho ANTES de gastar cómputo en §37: un linaje raro
+  con ganancia g entre residentes sin ella, en equilibrio de energía, bajo
+  los tres calendarios. (Primera versión descartada y registrada: con N =
+  150 la energía nunca caía y g actuaba como corrimiento fijo; modelo
+  degenerado.) Resultado: la mejor g lleva el hambre a 0 y sube el ingreso
+  9–23% en los TRES calendarios, y donde más reduce el hambre es bajo el
+  permutado (0.071 contra 0.025 en clima y 0.020 en ciclo2). Es un reflejo
+  sobre el estado presente: **§37 no puede dar vestigio por R2_A** y no se
+  corre. Pero el orden decide CUÁL g conviene: g = −0.5 pasa 0% de la
+  hambruna sin energía bajo clima, 15% bajo ciclo2 y 5% bajo el permutado.
+  Eso lleva a un test mejor (§39): trasplante recíproco.
+  (`exp_utero_reflejo_campo_medio.py`, `results/utero_reflejo_campo_medio_run.txt`)
+
+- **§39 — trasplante recíproco, pre-registro (2026-09-27; escrito, SIN
+  CORRER).** Fase 1: evolución 120000 ticks bajo clima, ciclo2 y permutado
+  (programas congelados; θ, s, g heredables; 24 semillas; sol seed 0). Fase
+  2: cada población se copia y se ensaya 40000 ticks bajo clima y bajo
+  ciclo2 con OTRO calendario (sol seed 1: otras duraciones, mismo orden) y
+  las perillas FIJAS. Primaria: mortalidad per cápita en la hambruna del
+  ensayo, pareada por semilla. VENTAJA DE CASA si en casa < fuera en ≥ 75%
+  de los pares, p signo < 0.05, razón ≤ 0.8. VESTIGIO si AMBOS orígenes la
+  tienen (las perillas codifican el orden); ENTORNO si gana el mismo
+  calendario sea cual sea el origen; NADA en otro caso. Control: origen
+  permutado. Espera la validación del motor (V2 de §38) y la indicación de
+  Fran para usar la GPU. `exp_utero_trasplante_gpu.py`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
