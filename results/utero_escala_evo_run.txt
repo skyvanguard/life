@@ -1,0 +1,33 @@
+================================================================================
+ESCALA (v16 abierto): 4x tiempo, ~3x poblacion -- evoluciona algo? adaptacion refleja y R2_A
+================================================================================
+linea n0=16 max 512; flags {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 9.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0, 'escritura_total': True}; 20 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo      vivas med vivas fin muertes/t  mort A contacto  genomas
+  clima             82        64     0.032   0.094     0.47     1016
+  permutado         80        80     0.014   0.038     0.00     1106
+  sombra             0         0     0.004   0.012     0.00       64
+
+--------------------------------------------------------------------------------
+ADAPTACION REFLEJA: mortalidad en A, segunda mitad / primera mitad (razon < 1 = adapta)
+  clima      razon mediana 0.40; adapta en 10/14 (p signo 0.090)
+  permutado  razon mediana 0.12; adapta en 13/14 (p signo 0.001)
+  sombra     razon mediana 0.00; adapta en 10/10 (p signo 0.001)
+  con sol 23/28 (0.82, p signo 0.000); sombra 10/10 (1.00) -> no
+
+  L_A (habituacion: rho<0, p<0.05) por brazo:
+    clima      0/20  []
+    permutado  0/20  []
+    sombra     1/20  [11]
+    con sol 0/40 (p binomial 1.000) vs sombra 1/20 -> no
+
+--------------------------------------------------------------------------------
+R2_A. REGULACION POR ORDEN: mortalidad en A pareada, clima vs permutado, entre mundos vivos
+  clima < permutado en 2/14 pares vivos (p signo 0.999); razon mediana nan -> no
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NADA: ni adaptacion refleja (sol 0.82 vs sombra 1.00; L_A 0/40) ni regulacion (R2_A 2/14, razon nan).

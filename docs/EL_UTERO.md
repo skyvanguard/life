@@ -1232,6 +1232,21 @@ explicación, que es lo más que un negativo puede ser.
   crías distintas vive (65% a 100 ticks) y una de cada cinco se asienta. Si
   la escala da NADA, no será por falta de variantes.
   (`exp_utero_dfe.py`, `results/utero_dfe_run.txt`)
+  **Resultado §16: NADA, y una vara defectuosa.** 120000 ticks, ~80 vivas.
+  R2_A no (clima < permutado en 2/14; la hambruna vuelve a matar MÁS bajo el
+  orden regular: 0.094 contra 0.038 por tick, un efecto de tipo de transición
+  —en clima A sigue siempre a la estación escasa C— no de regularidad). L_A
+  0/40. La razón tardía/temprana de mortalidad en la hambruna bajó en 23/28
+  mundos con sol… y en 10/10 de la sombra: la sombra se EXTINGUE (vivas 0) y
+  las muertes por tick caen con la población. La medida debía ser per cápita.
+  Dos defectos propios registrados: (1) la lectura de adaptación era
+  confundible con demografía; (2) el brazo sombra lleva cuatro corridas
+  (v14, v15, v16, §16) extinto en régimen maduro, de modo que la condición
+  "≥ 2× sombra" era vacía en todas ellas (los conteos de sombra venían de la
+  fase inicial). Siguiente: adaptación PER CÁPITA contra un brazo
+  **congelado** (MUTO y COPY inertes, sin germinal: la misma ecología sin
+  herencia de cambios), el único nulo real para "¿evoluciona?".
+  (`results/utero_escala_evo_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

@@ -308,3 +308,14 @@ crías distintas sobreviven 500 ticks; 71% de los cambios tocan operandos);
 cerrado = 9 (99% sólo opcode, 5% sobreviven). La oferta mutacional existe: si
 §16 da NADA, hay que medir el EFECTO de las variantes sobre la mortalidad en
 la hambruna, no la oferta.
+
+**Resultado §16: NADA** (R2_A 2/14; L_A 0/40) y la lectura de adaptación
+resultó confundible: la razón tardía/temprana de muertes por tick baja también
+en la sombra porque la sombra se extingue. Corrección de método, declarada:
+(a) mortalidad en la hambruna PER CÁPITA (muertes / vivas medias en A);
+(b) el nulo de "¿evoluciona?" no es la sombra (extinta en v14–§16) ni el orden
+permutado (allí también puede haber adaptación), sino un brazo CONGELADO: la
+misma ecología con MUTO y COPY inertes y sin germinal, es decir, sin herencia
+de cambios. Si la mortalidad per cápita en hambrunas tardías baja en el brazo
+abierto y no en el congelado, el sustrato evoluciona; si baja igual en ambos,
+es ecología (recambio, densidad), no evolución. §17.
