@@ -1578,6 +1578,16 @@ explicación, que es lo más que un negativo puede ser.
   las escrituras enteras al azar casi nunca dan un paso pequeño en la
   dirección premiada. (`results/utero_densidad_run.txt`)
 
+- **§32 — alcanzabilidad con escrituras incrementales, pre-registro
+  (2026-09-27).** El arnés de §28 con un modo nuevo: ±1 en un solo campo
+  de una fila al azar (opcode mod 10, operando mod 16), a uno y dos pasos,
+  contra la escritura entera. ESCALERA si P(legal y Δw̄ ≥ +0.05) incremental
+  ≥ 1% y ≥ 3× la total → base para un operador incremental y una corrida de
+  escalada (§33); SIN ESCALERA en otro caso → el mapa programa→materia es
+  plano también para pasos de un campo y la evolvabilidad exige otro mapa.
+  Humo (2 mundos, 40 variantes por padre): total 0.0075, incremental 0.0000.
+  `exp_utero_alcanzabilidad_inc.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
