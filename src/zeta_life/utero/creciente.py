@@ -63,7 +63,8 @@ class UteroCreciente:
                  percepcion: bool = False, energia_luz: bool = False,
                  luz_finita: float = 0.0, lentos: float = 0.0, e_costo: float = 0.0,
                  refractario: int = 0, escritura_total: bool = False,
-                 congelado: bool = False):
+                 congelado: bool = False, orden_seed: int | None = None,
+                 tasa_germinal: float = 1.0):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -249,6 +250,16 @@ class UteroCreciente:
         # ecología y demografía que el brazo vivo; el único nulo real para
         # "¿evoluciona?". False: byte-idéntico.
         self.congelado = bool(congelado)
+        # §21 (orden_seed): RNG aparte para el ORDEN de actualización, dejando la
+        # sopa inicial fija por `seed`. Permite réplicas del mismo mundo con otro
+        # azar de orden (¿gana el mismo genoma?). None: byte-idéntico.
+        self.orden_seed = orden_seed
+        # §22 (tasa_germinal = p): la cría recibe la escritura germinal sólo si
+        # frac(|R3 crudo de la madre| · 97) < p — determinista desde la materia,
+        # sin RNG nuestro; mano declarada. Con p = 1 la escritura ocurre en cada
+        # parto (≈1 mutación por generación: régimen de umbral de error). 1.0:
+        # byte-idéntico.
+        self.tasa_germinal = float(tasa_germinal)
         self.quemada = np.zeros(n0, dtype=np.int64)   # tick hasta el cual el lugar sigue quemado
         self.e_costo = float(e_costo)
         self.lentos = float(lentos)
@@ -289,6 +300,7 @@ class UteroCreciente:
         self.max_n = max_n
         self.rng = np.random.default_rng(seed)
         self.v = self.rng.uniform(0.0, 1.0, size=n0)
+        self._rng_orden = self.rng if orden_seed is None else np.random.default_rng(int(orden_seed))
         self.code = np.zeros((n0, K, F), dtype=np.int64)
         self.code[:, :, 0] = self.rng.integers(0, 10, size=(n0, K))
         self.code[:, :, 1:] = self.rng.integers(0, 16, size=(n0, K, F - 1))
@@ -386,7 +398,7 @@ class UteroCreciente:
             tot = w.sum()
             self._ingreso = luz * w / tot if tot > 0 else np.zeros(self.n)
 
-        for i in self.rng.permutation(np.flatnonzero(self.alive)):
+        for i in self._rng_orden.permutation(np.flatnonzero(self.alive)):
             i = int(i)
             if not self.alive[i]:          # murió antes de su turno
                 continue
@@ -499,7 +511,8 @@ class UteroCreciente:
                 self.e[i] -= self.e_costo       # el parto cuesta, aunque el vecino esté ocupado
             side, mpos, mop, locus = spawn
             child = own_next.copy()
-            if self.germinal and not self.congelado:   # v2: nace con UNA instrucción
+            escribe = self.tasa_germinal >= 1.0 or (abs(raw) * 97.0) % 1.0 < self.tasa_germinal
+            if self.germinal and not self.congelado and escribe:   # v2: nace con UNA instrucción
                 if self.escritura_total:    # v16: la instrucción ENTERA desde la materia
                     child[mpos] = mop
                 else:
