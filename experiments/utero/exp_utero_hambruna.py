@@ -38,9 +38,17 @@ B sin que nadie anticipe nada; A_eN, la lectura de nivel que es control de ese
 artefacto, también dio 8/40 en ciclo2).
 CORRIDA 2 (réplica, escrita antes de correr): sol seed 1 (otro calendario);
 A_nD = A_n sin deriva (residuo de la tendencia lineal previa a la ventana)
-declarada como lectura primaria adicional. Se cree A_n sólo si A_n Y A_nD
-cumplen otra vez en ciclo2; si A_n cumple y A_nD no, era saturación; si
-ninguna cumple, la corrida 1 fue un falso positivo de calendario.
+declarada como lectura primaria adicional. Además, control EMPAREJADO por
+estación: A_n en ciclo2 mira las B largas (PRECEDE_A["ciclo2"] = B) mientras
+los otros brazos miran C o todas las estaciones, así que 9 vs 0/2/3 no
+compara iguales. A_nB / A_nBD = la misma lectura sobre B largas en TODOS los
+brazos; en clima, permutado y sin sol a B no le sigue la hambruna, de modo que
+un A_nB alto allí es saturación dentro de B. Regla: A_n / A_nD en ciclo2
+cumplen sólo si además son ≥ 2× el máximo de A_nB / A_nBD en clima, permutado
+y sin sol. Se cree sólo si A_n Y A_nD cumplen otra vez en ciclo2 con esa
+regla; si A_n cumple y A_nD no, era deriva; si A_nB en los otros brazos es
+igual de alto, era saturación; si nada cumple, la corrida 1 fue un falso
+positivo de calendario.
 
 VEREDICTO: VESTIGIO (regulación por orden emergente) si R2_A cumple en clima y
 no es explicable por tipos de transición (ciclo2 también cumple), o si una
@@ -117,6 +125,14 @@ def job(seed: int) -> tuple:
         # lineal previa a la ventana (sin deriva): si A_n cumple y A_nD no, era saturación.
         out[("A_nD", arm)] = anticipacion(-ser["nacimientos"], cal[arm], rng_seed=seed,
                                           regimenes=PRECEDE_A[arm], detrend=True)
+        # corrida 2: control EMPAREJADO por estación. A_n en ciclo2 mira las B largas
+        # (PRECEDE_A), donde la población satura; los otros brazos miran C o todas. A_nB
+        # es la misma lectura sobre B largas en TODOS los brazos: en clima/permutado/sin a
+        # B no le sigue la hambruna, así que un A_nB alto allí es saturación, no anticipación.
+        out[("A_nB", arm)] = anticipacion(-ser["nacimientos"], cal[arm], rng_seed=seed,
+                                          regimenes=("B",))
+        out[("A_nBD", arm)] = anticipacion(-ser["nacimientos"], cal[arm], rng_seed=seed,
+                                           regimenes=("B",), detrend=True)
         em = np.nan_to_num(ser["e_media"], nan=0.0)
         # corrida 4: A_e = exceso de energía media en el instante esperado respecto de la
         # tendencia lineal ajustada ANTES de la ventana y extrapolada (sin deriva);
@@ -223,7 +239,7 @@ def main() -> None:
         return [s for s in SEEDS if not np.isnan(res[s][(vara, arm)]["p"])
                 and res[s][(vara, arm)]["p"] < ALPHA and (res[s][(vara, arm)][key] > 0 or not signo)]
 
-    lecturas = ("A", "A_m", "L", "L_m", "A_n", "A_nD", "A_e", "A_eN", "L_A")
+    lecturas = ("A", "A_m", "L", "L_m", "A_n", "A_nD", "A_nB", "A_nBD", "A_e", "A_eN", "L_A")
     PRIMARIAS = ("A", "A_m", "L", "L_m", "A_n", "A_nD", "A_e", "L_A")   # A_eN es control, no cuenta
     C = {v: {arm: conteo(v, arm) for arm in ARMS} for v in lecturas}
     out("")
@@ -241,6 +257,13 @@ def main() -> None:
             c2 = k >= MIN_SEEDS and pb < 0.05
             c3 = (k >= RATIO * max(len(C[v]["sin"]), len(C[v]["sombra"]), 1)
                   and k >= RATIO * max(len(C[v]["permutado"]), 1))
+            if v in ("A_n", "A_nD"):
+                # control emparejado: la misma lectura sobre B largas en los brazos donde a
+                # B no le sigue la hambruna (clima, permutado, sin). Si allí es igual de
+                # alta, es saturación demográfica dentro de B.
+                vb = v.replace("A_n", "A_nB")
+                sat = max(len(C[vb][a_]) for a_ in ("clima", "permutado", "sin"))
+                c3 = c3 and k >= RATIO * max(sat, 1)
             if c2 and c3 and v in PRIMARIAS:
                 cumplen.append(f"{v}@{brazo}")
             fila += f"   {pb:>13.3f} {str(c2)[0]:>2} {str(c3)[0]:>2}"
