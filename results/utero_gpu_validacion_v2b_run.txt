@@ -1,0 +1,15 @@
+================================================================================
+VALIDACION DEL MOTOR EN GPU -- replica de V2 con 24 semillas nuevas (12-35), misma regla
+================================================================================
+dispositivo: NVIDIA GeForce RTX 5070 Ti Laptop GPU; regla pre-registrada (docstring)
+
+V2 primera evolucion (N=512, L0=14.0, 120000 ticks, 24 semillas x 2 brazos) -- 1981 s
+  brazo         vivas med w_A nivel  w_A t/t  banda   s_A
+  theta_s_solo        156     0.421     1.03   0.52  0.76
+  nulo                167     0.383     1.00   0.37  1.00
+  w_A tardio/temprano > nulo en 16/24 (p signo 0.076); nivel > nulo en 20/24 (CPU §34: 10/12 y 10/12; §35: 10/12 y 10/12)
+  => V2 RECHAZADA
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> MOTOR NO VALIDADO: tampoco con 24 semillas nuevas.

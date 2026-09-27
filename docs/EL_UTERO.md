@@ -749,6 +749,21 @@ sustrato distinto. Decisión abierta.
   esta nota; si no, las preguntas nuevas vuelven a CPU. §43, que ya corría en
   GPU, se reporta como provisional hasta entonces.
   (`results/utero_gpu_validacion_run.txt`, `exp_utero_gpu_validacion_v2b.py`)
+  **§38b, réplica con 24 semillas nuevas: RECHAZADA por la letra.** Nivel
+  de w̄_A > nulo en **20/24** (0.421 contra 0.383; banda 0.52 contra 0.37;
+  escala 0.76); tendencia tardía/temprana > nulo en 16/24 (0.67, p 0.076).
+  Balance del motor en GPU (orden en damero), sin redondear: reproduce el
+  control del gradiente (19/20 contra 17/20 en CPU) y el NIVEL de la primera
+  evolución (11/12 y 20/24, contra 10/12 y 10/12 en CPU), pero no la
+  TENDENCIA dentro de la corrida con la regla exigida (9/12 y 16/24 en GPU
+  contra 10/12 y 10/12 en CPU; 69% contra 83%, diferencia no significativa
+  con estos n, pero la regla dice no validado). **Política que queda:** el
+  motor en GPU se usa, porque la CPU se comparte, con lecturas primarias de
+  NIVEL; todo positivo que salga de él se confirma en CPU (un núcleo, escala
+  reducida) antes de creerlo; sus resultados se rotulan "encarnación en
+  damero". §43 queda en NADA provisional (un negativo no necesita esa
+  confirmación para no ser creído como positivo).
+  (`results/utero_gpu_validacion_v2b_run.txt`)
 
 - **§37b — campo medio: la ganancia g es un reflejo (2026-09-27).** Cálculo
   en numpy, sin GPU, hecho ANTES de gastar cómputo en §37: un linaje raro
