@@ -989,6 +989,21 @@ recambio total con costo por superficie; bifurcación extinción/inmortalidad
 con luz individual; régimen intermedio con luz compartida, sin señal. Regla de
 parada aplicada. Decisión de rumbo: de Fran.
 
+- **v13 registros lentos — la pieza estructural que ninguna versión tuvo
+  (2026-09-26, corrida en curso).** Tras la orden de seguir: no otro flag de
+  entorno, sino un cambio en la máquina. `lentos=λ`: dos registros por celda
+  que la física LEE como cualquier registro y a los que sólo puede EMPUJAR
+  despacio (S ← S + λ(w − S) si la regla escribe w; sin cambio si no escribe):
+  una regla que escribe una constante carga S exponencialmente con τ = 1/λ =
+  300 ticks — un reloj o un integrador a la escala de la estación, que es lo
+  que la medición de escala temporal mostró ausente (memoria interna 6–150
+  ticks). Como el VM no tiene condicionales, la regla puede usar S vía MUTO
+  sobre su propio SPAWN (control de flujo por auto-reescritura). Se prueba
+  sobre la ecología de v12 (luz finita, L0=3, e_mant=0.01, sin percepción), la
+  única con régimen intermedio, con la vara de la corrida 4 (A_e sin deriva
+  primaria, A_eN control, R2 entre vivos). Viabilidad 14/24. 4 tests;
+  `execute(extra=list)` devuelve lo escrito. `exp_utero_sol_lentos.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
