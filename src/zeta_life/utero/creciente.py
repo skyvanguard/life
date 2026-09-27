@@ -65,7 +65,7 @@ class UteroCreciente:
                  refractario: int = 0, escritura_total: bool = False,
                  congelado: bool = False, orden_seed: int | None = None,
                  tasa_germinal: float = 1.0, parametros: float = 0.0,
-                 theta_fijo: bool = False):
+                 theta_fijo: bool = False, escala: bool = False):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -274,6 +274,16 @@ class UteroCreciente:
         # theta_fijo=True: θ presente (sorteado en la sopa) pero NUNCA perturbado: el
         # nulo de v17 (misma materia inicial, sin herencia de cambios en θ).
         self.theta_fijo = bool(theta_fijo)
+        # v17b (ESCALA; §33/§34): un desplazamiento no cambia la distancia media al
+        # sol de una materia pseudoaleatoria; el rasgo que el gradiente premia es la
+        # DISPERSIÓN. Con escala=True la materia visible es (θ + s·salida) mod 1, con
+        # s ∈ [0, 1] heredable (nace en 1: byte-idéntico a sólo-θ hasta que varía),
+        # perturbado al nacer con ±ε·(2·frac(|R3 madre|·173) − 1) y recortado a [0, 1].
+        # La sonda sigue viendo la salida cruda: la física sigue obligada a ser
+        # sensible; sólo su expresión en la materia puede atenuarse. Requiere
+        # parametros > 0. theta_fijo también congela s. escala=False: byte-idéntico.
+        self.escala = bool(escala)
+        self.esc = np.ones(n0)
         self.quemada = np.zeros(n0, dtype=np.int64)   # tick hasta el cual el lugar sigue quemado
         self.e_costo = float(e_costo)
         self.lentos = float(lentos)
@@ -472,7 +482,10 @@ class UteroCreciente:
                 deaths += 1
                 continue
             if self.parametros > 0.0 and self.toroidal:     # v17: desplazamiento heredable
-                v_new = (v_new + float(self.theta[i])) % 1.0
+                if self.escala:                                # v17b: y escala heredable
+                    v_new = (float(self.theta[i]) + float(self.esc[i]) * v_new) % 1.0
+                else:
+                    v_new = (v_new + float(self.theta[i])) % 1.0
             # v4: muerte por equilibrio — lo que deja de devenir, deja de ser
             # (v6 usa el mismo contador de quietud para decidir qué es invadible)
             if self.muerte_eq or self.invasion is not None:
@@ -531,8 +544,11 @@ class UteroCreciente:
             side, mpos, mop, locus = spawn
             child = own_next.copy()
             th = float(self.theta[i])
+            sc = float(self.esc[i])
             if self.parametros > 0.0 and not self.theta_fijo:
                 th = (th + self.parametros * (2.0 * ((abs(raw) * 131.0) % 1.0) - 1.0)) % 1.0
+                if self.escala:
+                    sc = min(1.0, max(0.0, sc + self.parametros * (2.0 * ((abs(raw) * 173.0) % 1.0) - 1.0)))
             escribe = self.tasa_germinal >= 1.0 or (abs(raw) * 97.0) % 1.0 < self.tasa_germinal
             if self.germinal and not self.congelado and escribe:   # v2: nace con UNA instrucción
                 if self.escritura_total:    # v16: la instrucción ENTERA desde la materia
@@ -547,10 +563,10 @@ class UteroCreciente:
             t = i - 1 if side == 0 else i + 1
             if t < 0:                       # escribe en el más-allá izquierdo
                 if edge_left is None:
-                    edge_left = (child, v_new, i - lg, th)
+                    edge_left = (child, v_new, i - lg, th, sc)
             elif t >= self.n:               # más-allá derecho
                 if edge_right is None:
-                    edge_right = (child, v_new, i - lg, th)
+                    edge_right = (child, v_new, i - lg, th, sc)
             elif not self.alive[t] and self.quemada[t] <= self._tick:   # vacío interior: colonización
                 # (v15: si el lugar está quemado, el SPAWN fracasa como ante un vecino ocupado)
                 self.code[t] = child
@@ -561,6 +577,7 @@ class UteroCreciente:
                 self.eq_sol_count[t] = 0
                 self.S[t] = 0.0             # la cría nace sin reloj
                 self.theta[t] = th
+                self.esc[t] = sc
                 if self.energia:            # la madre cede parte de su energía
                     self.e[t] = self.e_parto * self.e[i]
                     self.e[i] -= self.e[t]
@@ -574,6 +591,7 @@ class UteroCreciente:
                 self.mem[t] = 0.0
                 self.S[t] = 0.0
                 self.theta[t] = th
+                self.esc[t] = sc
                 if self.energia:
                     self.e[t] = self.e_parto * self.e[i]
                     self.e[i] -= self.e[t]
@@ -584,7 +602,7 @@ class UteroCreciente:
         grown = 0
         grew_left = False
         if edge_right is not None and self.n < self.max_n:
-            c, val, madre, th = edge_right
+            c, val, madre, th, sc = edge_right
             self.spawns.append((madre, self.n - lg))
             e_hija = 0.0
             if self.energia:
@@ -595,6 +613,7 @@ class UteroCreciente:
             self._ingreso = np.concatenate([self._ingreso, [0.0]])
             self.S = np.concatenate([self.S, np.zeros((1, 2))])
             self.theta = np.concatenate([self.theta, [th]])
+            self.esc = np.concatenate([self.esc, [sc]])
             self.v = np.concatenate([self.v, [val]])
             self.code = np.concatenate([self.code, c[None]])
             self.alive = np.concatenate([self.alive, [True]])
@@ -604,7 +623,7 @@ class UteroCreciente:
             self.quemada = np.concatenate([self.quemada, [0]])
             grown += 1
         if edge_left is not None and self.n < self.max_n:
-            c, val, madre, th = edge_left
+            c, val, madre, th, sc = edge_left
             self.spawns.append((madre, -(lg + 1)))
             e_hija = 0.0
             if self.energia:
@@ -615,6 +634,7 @@ class UteroCreciente:
             self._ingreso = np.concatenate([[0.0], self._ingreso])
             self.S = np.concatenate([np.zeros((1, 2)), self.S])
             self.theta = np.concatenate([[th], self.theta])
+            self.esc = np.concatenate([[sc], self.esc])
             self.v = np.concatenate([[val], self.v])
             self.code = np.concatenate([c[None], self.code])
             self.alive = np.concatenate([[True], self.alive])

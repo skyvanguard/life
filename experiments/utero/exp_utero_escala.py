@@ -1,22 +1,28 @@
 """
-El Útero — robustez de escala: ¿el 2–3/40 es un artefacto del tamaño del mundo
-o del número de semillas?
+§34 — v17b: θ Y ESCALA HEREDABLES. ¿Evoluciona el útero cuando la expresión
+de la física en la materia puede atenuarse? (docs/PLAN_INTELIGENCIA.md §34;
+ledger 2026-09-27)
 
-Todo el arco corrió con max_n=256 (la pared de la placa de Petri) y 40
-semillas. Un revisor va a preguntar por las dos cosas. Este experimento repite
-la vara honesta (linaje 500 + sombra para candidatas) en:
-  A. mundo 4× más grande (max_n=1024), semillas 0–39, v5 y v6 (asentada-100);
-  B. mundo 256, semillas 40–119 (80 nuevas), v5 y v6 — ¿la tasa 2/40 y 3/40
-     se sostiene con n mayor?
+MOTIVO. §33: un desplazamiento heredable θ no cambia la distancia media al
+sol de una materia pseudoaleatoria (error de diseño registrado). El rasgo
+que el gradiente premia (§26) es la DISPERSIÓN: materia quieta y lejos del
+sol. Eso choca con la sonda, que exige física sensible. v17b separa la física
+de su expresión: la sonda ve la salida cruda; la materia visible es (θ +
+s·salida) mod 1 con s ∈ [0, 1] heredable, nacido en 1, perturbado ±ε desde la
+materia de la madre. Predicción si la selección medida en §26 actúa sobre
+perillas heredables: s cae, θ se concentra frente al sol de la hambruna
+(≈ 0.58) y w̄_A sube por encima del nulo.
 
-VARAS (mismas que v6 y su control): sostenida = ≥ 5 genomas persistentes/tramo
-en [8000,12000) y ≥ 2× su sombra. Se reportan tasas con intervalo binomial
-(Wilson 95%) para comparar 40 vs 120 semillas, y la tipicidad a 1024 vs 256.
-PREDICCIONES — antes de mirar:
-  P1 La tasa a 256 con 120 semillas queda dentro del Wilson de la tasa a 40
-     (el 2–3/40 no era suerte de muestreo).
-  P2 A 1024 la tipicidad NO baja (la pared no era lo que sostenía la novedad);
-     si SUBE ≥2×, el tamaño era una jaula y hay que mover la placa.
+DISEÑO. Como §33 (N = 512, L0 = 14, 12 semillas, 120000 ticks, ε = 0.05), con
+escala activa en los tres brazos: theta_s_abierto (programas con escritura
+total p = 0.02 + θ, s heredables), theta_s_solo (programas congelados + θ, s
+heredables), nulo (programas congelados, θ y s fijos). Regla de §27 sobre
+w̄_A pareado contra el nulo. Secundarias: s̄_A (escala media de las vivas en
+A: baja si la atenuación se selecciona), R_θ, banda, mortalidad.
+VEREDICTO: EVOLUCIONA si algún brazo heredable ADAPTA → primera evolución
+darwiniana medida en el útero, hacia dinámica interna viva con estado externo
+estable; se replica con otro sol y la regulación por el orden se pregunta
+sobre este sustrato (§35). NO EVOLUCIONA si ninguno.
 
     PYTHONPATH=src python experiments/utero/exp_utero_escala.py
 """
@@ -31,40 +37,85 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[1] / "src"))
 
-from zeta_life.utero.medidas import correr_medido, media_ventana  # noqa: E402
+from zeta_life.utero.creciente import UteroCreciente  # noqa: E402
+from zeta_life.utero.sol import REGIMENES, Sol  # noqa: E402
 
-TICKS = 14000
-TRANCHE = 500
-T_FILTRO = 500
-MATURE = (8000, 12000)
-FILT_MIN, SHADOW_X = 5.0, 2.0
-ARMS = {"v5": {}, "v6": dict(invasion="asentada", eq_window=100)}
-BLOQUES = {"1024x40": dict(max_n=1024, seeds=list(range(40))),
-           "256x80nuevas": dict(max_n=256, seeds=list(range(40, 120)))}
-PREVIO_256 = {"v5": (2, 40), "v6": (3, 40)}       # resultados publicados
-WORKERS = max(1, min(20, (os.cpu_count() or 4) - 4))
-RESULTS = Path(__file__).resolve().parents[2] / "results"
+N = 512
+TICKS = 120000
+SEEDS = list(range(12))
+SOL_SEED = 0
+L0 = 14.0               # = 1.75 x 8: misma luz por lugar que §27
+REGS = (("A", 0.08, 0.02, 40),) + REGIMENES[1:]
+BASE = dict(memoria=True, invasion="asentada", eq_window=100, energia=True, luz_finita=L0,
+            e0=2.0, e_mant=0.01, e_dif=0.25, e_parto=0.5, percepcion=False, lentos=0.02, e_costo=1.0)
+EPS = 0.05
+ARMS = {"theta_s_abierto": dict(escritura_total=True, tasa_germinal=0.02, parametros=EPS, escala=True),
+        "theta_s_solo": dict(congelado=True, parametros=EPS, escala=True),
+        "nulo": dict(congelado=True, parametros=EPS, escala=True, theta_fijo=True)}
+TRANSITORIO = 6000
+MIN_HAMBRUNAS = 4
+BANDA = 0.4
+WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
+RESULTS = HERE.parents[1] / "results"
 NAME = "utero_escala"
 
 
-def job(args: tuple) -> tuple:
-    bloque, arm, seed, shadow = args
-    r = correr_medido(seed, dict(memoria=True, **ARMS[arm]), ticks=TICKS, tranche=TRANCHE,
-                      t_filtro=T_FILTRO, shadow=shadow, max_n=BLOQUES[bloque]["max_n"])
-    return bloque, arm, seed, media_ventana(r["filt"], MATURE, TRANCHE), list(r["deaths"]), \
-        media_ventana(r["eco"], MATURE, TRANCHE), int(r["vivas"][-1])
+def correr(seed: int, arm: str) -> dict:
+    sol = Sol(seed=SOL_SEED, ticks=TICKS, regimenes=REGS)
+    u = UteroCreciente(n0=N, seed=seed, max_n=N, germinal=True, toroidal=True, sol=sol, **BASE, **ARMS[arm])
+    w = np.full(TICKS, np.nan)
+    banda = np.full(TICKS, np.nan)
+    conc = np.full(TICKS, np.nan)
+    escm = np.full(TICKS, np.nan)
+    vivas = np.zeros(TICKS)
+    muertes = np.zeros(TICKS)
+    for t in range(TICKS):
+        r = u.step()
+        alive = u.alive
+        n = int(alive.sum())
+        vivas[t] = n
+        muertes[t] = r["deaths"]
+        if n:
+            d = np.abs(u.v[alive] - float(sol(t)))
+            d = np.minimum(d, 1.0 - d)
+            w[t] = float(d.mean() + 0.05)
+            banda[t] = float((d >= BANDA).mean())
+            conc[t] = float(abs(np.mean(np.exp(2j * np.pi * u.theta[alive]))))
+            escm[t] = float(u.esc[alive].mean())
+    wA, pcA, bA, cA, sA = [], [], [], [], []
+    for nombre, ini, fin in sol.estaciones:
+        if nombre != "A" or ini < TRANSITORIO or fin > TICKS:
+            continue
+        v = vivas[ini:fin].mean()
+        if v <= 0 or np.all(np.isnan(w[ini:fin])):
+            continue
+        wA.append(float(np.nanmean(w[ini:fin])))
+        bA.append(float(np.nanmean(banda[ini:fin])))
+        cA.append(float(np.nanmean(conc[ini:fin])))
+        sA.append(float(np.nanmean(escm[ini:fin])))
+        pcA.append(float(muertes[ini:fin].sum() / v))
+
+    def razon(x):
+        h = len(x) // 2
+        return float(np.mean(x[h:]) / np.mean(x[:h])) if (h >= MIN_HAMBRUNAS and np.mean(x[:h]) > 0) else float("nan")
+
+    return dict(seed=seed, arm=arm, n_h=len(wA), w_nivel=float(np.mean(wA)) if wA else float("nan"),
+                w_razon=razon(wA), pc_nivel=float(np.mean(pcA)) if pcA else float("nan"), pc_razon=razon(pcA),
+                banda_nivel=float(np.mean(bA)) if bA else float("nan"),
+                conc_nivel=float(np.mean(cA)) if cA else float("nan"), conc_razon=razon(cA),
+                esc_nivel=float(np.mean(sA)) if sA else float("nan"), esc_razon=razon(sA),
+                vivas_med=float(np.median(vivas[TRANSITORIO:])), vivas_fin=float(vivas[-1]), genomas=len(u.seen))
 
 
-def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
-    if n == 0:
-        return (0.0, 0.0)
-    p = k / n
-    d = 1 + z * z / n
-    c = (p + z * z / (2 * n)) / d
-    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
-    return (max(0.0, c - h), min(1.0, c + h))
+def job(a):
+    return correr(*a)
+
+
+def signo_p(k: int, n: int) -> float:
+    return float(sum(math.comb(n, j) * 0.5 ** n for j in range(k, n + 1))) if n > 0 else 1.0
 
 
 def main() -> None:
@@ -74,62 +125,55 @@ def main() -> None:
         print(s, flush=True)
         lines.append(s)
 
-    out("=" * 78)
-    out("EL UTERO -- robustez de escala: mundo 1024 y 80 semillas nuevas")
-    out("=" * 78)
-    out(f"{TICKS} ticks, memoria ON, linaje {T_FILTRO}, maduro {MATURE}, workers={WORKERS}")
-    out("predicciones P1/P2 en el docstring, escritas antes de correr")
+    out("=" * 80)
+    out("v17b THETA Y ESCALA HEREDABLES -- sube el rasgo premiado cuando la expresion de la fisica puede atenuarse? -- peso de luz de la materia durante la hambruna, variacion abierta vs congelado; cerrado, luz escasa")
+    out("=" * 80)
+    out(f"ecologia {BASE}; N={N}; brazos {list(ARMS)}; {len(SEEDS)} semillas; {TICKS} ticks; sol seed {SOL_SEED}; workers={WORKERS}")
+    out("veredicto pre-registrado (docstring)")
     out("")
-    jobs = [(b, a, s, None) for b, cfg in BLOQUES.items() for a in ARMS for s in cfg["seeds"]]
-    filt: dict = {}
-    deaths: dict = {}
-    eco: dict = {}
-    vivas: dict = {}
+    res: dict = {a: {} for a in ARMS}
     with ProcessPoolExecutor(max_workers=WORKERS) as ex:
-        for i, (b, a, s, f, d, e, v) in enumerate(ex.map(job, jobs), 1):
-            filt[(b, a, s)], deaths[(b, a, s)], eco[(b, a, s)], vivas[(b, a, s)] = f, d, e, v
-            if i % 40 == 0:
-                print(f"  ... {i}/{len(jobs)} corridas", flush=True)
-        cand = [(b, a, s, deaths[(b, a, s)]) for (b, a, s), f in filt.items() if f >= FILT_MIN]
-        sh: dict = {}
-        for b, a, s, f, _, _, _ in ex.map(job, cand):
-            sh[(b, a, s)] = f
+        for r in ex.map(job, [(s, a) for a in ARMS for s in SEEDS]):
+            res[r["arm"]][r["seed"]] = r
 
-    out("-" * 78)
-    out(f"  {'bloque':<14} {'brazo':<4} {'sostenidas':>10} {'tasa':>6} {'Wilson 95%':>16} "
-        f"{'semillas':<28} {'eco med':>7} {'vivas med':>9}")
-    tasas = {}
-    for b, cfg in BLOQUES.items():
-        for a in ARMS:
-            ss = [s for s in cfg["seeds"] if filt[(b, a, s)] >= FILT_MIN
-                  and filt[(b, a, s)] >= SHADOW_X * sh.get((b, a, s), 0.0)]
-            n = len(cfg["seeds"])
-            lo, hi = wilson(len(ss), n)
-            tasas[(b, a)] = (len(ss), n)
-            e = float(np.median([eco[(b, a, s)] for s in ss])) if ss else float("nan")
-            v = float(np.median([vivas[(b, a, s)] for s in cfg["seeds"]]))
-            out(f"  {b:<14} {a:<4} {len(ss):>7}/{n:<3} {len(ss)/n:>6.3f} [{lo:.3f}, {hi:.3f}]  "
-                f"{str(ss):<28} {e:>7.2f} {v:>9.0f}")
+    def med(arm, k):
+        v = [res[arm][s][k] for s in SEEDS]
+        v = [x for x in v if not (isinstance(x, float) and np.isnan(x))]
+        return float(np.median(v)) if v else float("nan")
+
+    out("-" * 80)
+    out("ESTADO por brazo (medianas)")
+    out(f"  {'brazo':<14} {'vivas med':>9} {'vivas fin':>9} {'hambr':>5} {'w_A nivel':>9} {'w_A t/t':>8} {'banda>=0.4':>10} {'R_theta':>7} {'R t/t':>6} {'s_A':>5} {'s t/t':>6} {'pc_A':>6} {'pc_A t/t':>8} {'genomas':>8}")
+    for arm in ARMS:
+        out(f"  {arm:<14} {med(arm, 'vivas_med'):>9.0f} {med(arm, 'vivas_fin'):>9.0f} {med(arm, 'n_h'):>5.0f} {med(arm, 'w_nivel'):>9.3f} "
+            f"{med(arm, 'w_razon'):>8.2f} {med(arm, 'banda_nivel'):>10.2f} {med(arm, 'conc_nivel'):>7.2f} {med(arm, 'conc_razon'):>6.2f} {med(arm, 'esc_nivel'):>5.2f} {med(arm, 'esc_razon'):>6.2f} {med(arm, 'pc_nivel'):>6.2f} {med(arm, 'pc_razon'):>8.2f} {med(arm, 'genomas'):>8.0f}")
     out("")
-    out("  referencia publicada (256, semillas 0-39): v5 2/40 = 0.050, v6 3/40 = 0.075")
+    out("-" * 80)
+    out("PAREADO por semilla contra NULO (theta fijo, programas congelados)")
+    veredictos = {}
+    for arm in [a for a in ARMS if a != "nulo"]:
+        pr = [(res[arm][s]["w_razon"], res["nulo"][s]["w_razon"]) for s in SEEDS
+              if not np.isnan(res[arm][s]["w_razon"]) and not np.isnan(res["nulo"][s]["w_razon"])]
+        pn = [(res[arm][s]["w_nivel"], res["nulo"][s]["w_nivel"]) for s in SEEDS
+              if not np.isnan(res[arm][s]["w_nivel"]) and not np.isnan(res["nulo"][s]["w_nivel"])]
+        kr = sum(1 for a, b in pr if a > b)
+        kn = sum(1 for a, b in pn if a > b)
+        ok = len(pr) >= 8 and kr / len(pr) >= 0.75 and signo_p(kr, len(pr)) < 0.05 and len(pn) >= 8 and kn / len(pn) >= 0.75
+        veredictos[arm] = ok
+        out(f"  {arm:<14} w_A tardio/temprano > nulo en {kr}/{len(pr)} (p signo {signo_p(kr, max(len(pr), 1)):.3f}); "
+            f"nivel w_A > nulo en {kn}/{len(pn)}; medianas nivel {np.median([a for a, _ in pn]) if pn else float('nan'):.3f} vs "
+            f"{np.median([b for _, b in pn]) if pn else float('nan'):.3f} -> {'ADAPTA' if ok else 'no'}")
+        pm = [(res[arm][s]["pc_razon"], res["nulo"][s]["pc_razon"]) for s in SEEDS
+              if not np.isnan(res[arm][s]["pc_razon"]) and not np.isnan(res["nulo"][s]["pc_razon"])]
+        km = sum(1 for a, b in pm if a < b)
+        out(f"  {'':<14} (secundaria) mortalidad per capita t/t < nulo en {km}/{len(pm)} (p signo {signo_p(km, max(len(pm), 1)):.3f})")
     out("")
-    out("=" * 78)
-    out("PREDICCIONES")
-    for a in ARMS:
-        k0, n0 = PREVIO_256[a]
-        k1, n1 = tasas[("256x80nuevas", a)]
-        k, n = k0 + k1, n0 + n1
-        lo, hi = wilson(k0, n0)
-        p1 = k1 / n1
-        out(f"  P1 {a}: 80 semillas nuevas a 256 -> {k1}/{n1} = {p1:.3f}; Wilson del 40 previo "
-            f"[{lo:.3f}, {hi:.3f}] -> {'dentro' if lo <= p1 <= hi else 'FUERA'}; "
-            f"tasa combinada {k}/{n} = {k/n:.3f} {wilson(k, n)}")
-    for a in ARMS:
-        k0, n0 = PREVIO_256[a]
-        k2, n2 = tasas[("1024x40", a)]
-        r = (k2 / n2) / max(k0 / n0, 1e-9)
-        out(f"  P2 {a}: 1024 celdas -> {k2}/{n2} vs {k0}/{n0} a 256 (ratio {r:.2f}) -> "
-            f"{'SUBE >=2x: la pared era jaula' if r >= 2 else ('no baja' if r >= 1 else 'BAJA')}")
+    out("=" * 80)
+    out("VEREDICTO (regla escrita antes de correr)")
+    if any(veredictos.values()):
+        out("=> EVOLUCIONA en " + ", ".join(a for a, v in veredictos.items() if v) + ": con un mapa local, el rasgo premiado sube mas que en el nulo. Primera evolucion darwiniana medida en el utero; replicar con otro sol (§35).")
+    else:
+        out("=> NO EVOLUCIONA: ni con theta y escala heredables; la seleccion medida en §26 no actua sobre perillas heredables.")
     (RESULTS / f"{NAME}_run.txt").write_text("\n".join(lines), encoding="utf-8")
 
 
