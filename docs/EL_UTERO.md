@@ -1305,6 +1305,18 @@ explicación, que es lo más que un negativo puede ser.
   proxy de posición; ninguna de las dos se separa sin registrar por celda.
   (`results/utero_heredabilidad_run.txt`)
 
+- **§20 — ¿evoluciona sin el bien común?, pre-registro (2026-09-27).**
+  Decisión autónoma de rumbo: en lugar de sólo registrar por celda, una
+  hipótesis falsable. La ecología tiene difusión conservativa de energía
+  entre vecinas (e_dif = 0.25): la reserva es un bien común local, la
+  ventaja de ingreso de un programa se socializa con sus vecinas y la
+  selección individual sobre el ingreso se neutraliza (polizón). Eso
+  explicaría a la vez que la energía prediga la supervivencia (§18), que el
+  genoma pese poco, y que no haya adaptación (§17). Predicción: con e_dif =
+  0 la mortalidad per cápita en la hambruna baja MÁS con variación que en el
+  congelado. §17 repetido con esa única diferencia (viabilidad en humo: los
+  tres brazos ≈120 vivas). `exp_utero_evoluciona2.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

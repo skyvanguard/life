@@ -382,3 +382,14 @@ programa.
 - Errores de método propios registrados: veredicto de un solo brazo, lectura
   de nivel confundida con demografía, sombra extinta como control, denominador
   con extinciones.
+
+## 20. El bien común: ¿la difusión de energía neutraliza la selección? (2026-09-27)
+
+Hipótesis que une §17 y §18: con difusión conservativa de energía (e_dif =
+0.25) la reserva de cada celda es en buena parte la de su vecindario; un
+programa que ingresa más reparte la ganancia y la hambruna mata según la
+reserva local, no según el programa. Selección individual neutralizada por
+un bien común. Prueba: §17 con e_dif = 0. Si EVOLUCIONA, el sustrato sí
+evoluciona cuando la reserva es privada, y la línea vuelve a la regulación
+con esa ecología; si NO, la difusión no era la causa y quedan el canje
+supervivencia/fecundidad y la posición, que sí exigen registro por celda.
