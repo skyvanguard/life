@@ -1327,6 +1327,20 @@ explicación, que es lo más que un negativo puede ser.
   régimen de umbral de error; la carga de §17 lo sugiere). §21 y §22.
   (`results/utero_evoluciona2_run.txt`)
 
+- **§21 y §22, pre-registro (2026-09-27).** Dos flags nuevos, byte-idénticos
+  apagados, con tests: `orden_seed` (RNG aparte para el orden de
+  actualización, la sopa queda fija por `seed`) y `tasa_germinal=p` (la cría
+  recibe la escritura germinal sólo si frac(|R3 madre|·97) < p: determinista
+  desde la materia, mano declarada). **§21 ¿la selección ve los genomas?**
+  10 sopas × 5 órdenes, congelado, 30000 ticks: W de Kendall entre réplicas
+  sobre la abundancia final de los 16 genomas iniciales, nulo por permutación
+  de etiquetas. SELECCIÓN si p_W < 0.05 en ≥ 8/10 sopas; POSICIÓN si ≤ 3/10.
+  **§22 tasa de mutación:** protocolo de §17 con brazos abierto p = 1, 0.1,
+  0.02 y congelado. Hipótesis: ≈1 mutación de efecto fuerte por generación
+  está por encima del umbral de error (la carga de §17 es la firma);
+  EVOLUCIONA si algún brazo con p < 1 cumple la regla de §17.
+  `exp_utero_seleccion_replicas.py`, `exp_utero_tasa.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

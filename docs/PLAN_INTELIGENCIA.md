@@ -408,3 +408,12 @@ las dos se prueban barato:
   más) es la firma. `tasa_germinal=p`: la cría recibe la escritura germinal
   sólo si la fracción de |R_b| es < p (determinista desde la materia; mano
   declarada). §17 con p = 0.1 y 0.02.
+
+## 21–22. Réplicas de selección y tasa de mutación (2026-09-27)
+
+Implementados `orden_seed` y `tasa_germinal` (byte-idénticos apagados). §21
+corre 10 sopas × 5 órdenes en mundos congelados y mide la concordancia de la
+abundancia final de los 16 genomas iniciales (W de Kendall contra nulo por
+permutación): SELECCIÓN si ≥ 8/10 sopas concuerdan, POSICIÓN si ≤ 3/10. §22
+repite §17 con escritura germinal rara (p = 0.1, 0.02): si evoluciona con
+p < 1 y no con p = 1, la tasa de mutación era el cuello (umbral de error).
