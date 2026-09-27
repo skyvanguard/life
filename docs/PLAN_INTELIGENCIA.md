@@ -509,3 +509,14 @@ escritos antes de correr. Si sube: el sustrato evoluciona y la vara de
 mortalidad era ciega; la regulación por el orden se vuelve a medir aquí. Si
 no: camino —la variación no alcanza la materia anti-hambruna—, y se mide la
 alcanzabilidad desde programas legales.
+
+**Resultado §27: NO EVOLUCIONA.** El rasgo premiado no se mueve (0.30–0.34,
+razón 1.00, 59 hambrunas, cuatro brazos). Camino. §28 mide la alcanzabilidad
+sin evolucionar: distribución de Δw̄ en el vecindario a una y dos escrituras
+de programas legales del tejido evolucionado (fracción de vecinos viables
+con Δw̄ ≥ +0.1 y ≥ +0.2; máximo alcanzable), comparando escritura total con
+sólo opcode. Si no hay saltos grandes, el rasgo sólo se alcanza por pasos
+pequeños que con N ≈ 14 son neutros: el paso constructivo es la población
+efectiva (línea cerrada grande o el plano), no otra ecología. Si hay saltos
+grandes y aun así no se fijan, hay que mirar la viabilidad en contexto de
+esas variantes (mueren al nacer por otra razón).

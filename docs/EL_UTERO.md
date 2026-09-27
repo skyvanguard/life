@@ -1467,6 +1467,19 @@ explicación, que es lo más que un negativo puede ser.
   pares (p signo < 0.05) y el nivel w̄_A también en ≥ 75%. Secundarias:
   mortalidad per cápita en A, fracción en la banda anti-hambruna (≥ 0.4).
   `exp_utero_rasgo.py`.
+  **Resultado: NO EVOLUCIONA.** w̄_A nivel: abierto p0.02 0.300, p1 0.318,
+  cerrado 0.312, congelado 0.337; razón tardío/temprano 1.00 en los cuatro
+  brazos a lo largo de 59 hambrunas; pareado contra el congelado 11/20,
+  12/20 y 9/20 (p 0.25–0.75); banda anti-hambruna 0.19–0.23 estable. ~14
+  vivas por mundo. Con gradiente demostrado (§26: el mismo rasgo a 0.55
+  barre en 10000 ticks), selección fuerte (§24) y 23 variantes viables por
+  1000 ticks (§16b), la variación NO produce variantes con la materia más
+  lejos del sol: **camino**. Dos lecturas posibles que §28 separa: (i) el
+  vecindario a una o dos escrituras de un programa legal no contiene
+  variantes con Δw̄ grande (el rasgo exige funciones casi constantes, que
+  son una fracción ínfima de los programas); (ii) las hay, pero con ~14
+  vivas todo Δw̄ pequeño es neutro frente a la deriva (s < 1/N ≈ 0.07) y
+  sólo un salto grande sería visible. (`results/utero_rasgo_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

@@ -1,0 +1,26 @@
+================================================================================
+SUBE EL RASGO PREMIADO? -- peso de luz de la materia durante la hambruna, variacion abierta vs congelado; cerrado, luz escasa
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 1.75, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; N=64; brazos ['abierto_p0.02', 'abierto_p1', 'cerrado', 'congelado']; 20 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo          vivas med vivas fin hambr w_A nivel  w_A t/t banda>=0.4   pc_A pc_A t/t  genomas
+  abierto_p0.02         14        14    59     0.300     1.00       0.20   0.05     0.07      634
+  abierto_p1            14        14    59     0.318     1.00       0.19   0.03     0.00     1416
+  cerrado               14        14    59     0.312     1.00       0.23   0.09     0.56      298
+  congelado             14        13    59     0.337     1.00       0.20   0.15     0.03       64
+
+--------------------------------------------------------------------------------
+PAREADO por semilla contra CONGELADO
+  abierto_p0.02  w_A tardio/temprano > congelado en 11/20 (p signo 0.412); nivel w_A > congelado en 6/20; medianas nivel 0.300 vs 0.337 -> no
+                 (secundaria) mortalidad per capita t/t < congelado en 4/13 (p signo 0.954)
+  abierto_p1     w_A tardio/temprano > congelado en 12/20 (p signo 0.252); nivel w_A > congelado en 10/20; medianas nivel 0.318 vs 0.337 -> no
+                 (secundaria) mortalidad per capita t/t < congelado en 6/13 (p signo 0.709)
+  cerrado        w_A tardio/temprano > congelado en 9/20 (p signo 0.748); nivel w_A > congelado en 10/20; medianas nivel 0.312 vs 0.337 -> no
+                 (secundaria) mortalidad per capita t/t < congelado en 7/14 (p signo 0.605)
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NO EVOLUCIONA: con gradiente real, seleccion fuerte y oferta suficiente, la variacion no sube el rasgo en 120000 ticks (camino).
