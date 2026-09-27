@@ -417,3 +417,9 @@ abundancia final de los 16 genomas iniciales (W de Kendall contra nulo por
 permutación): SELECCIÓN si ≥ 8/10 sopas concuerdan, POSICIÓN si ≤ 3/10. §22
 repite §17 con escritura germinal rara (p = 0.1, 0.02): si evoluciona con
 p < 1 y no con p = 1, la tasa de mutación era el cuello (umbral de error).
+
+**Resultado §21: SELECCIÓN 10/10.** El mismo genoma barre en las 5 réplicas
+en 9/10 sopas (share 1.00). La selección sobre programas fijos es
+determinista y fuerte. Con §17 (sin adaptación bajo herencia de cambios) la
+inferencia es directa: la variación destruye lo que la selección construye.
+Predicción para §22: con p = 0.1 o 0.02 el brazo abierto evoluciona.

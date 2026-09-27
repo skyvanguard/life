@@ -1340,6 +1340,18 @@ explicación, que es lo más que un negativo puede ser.
   está por encima del umbral de error (la carga de §17 es la firma);
   EVOLUCIONA si algún brazo con p < 1 cumple la regla de §17.
   `exp_utero_seleccion_replicas.py`, `exp_utero_tasa.py`.
+  **Resultado §21: SELECCIÓN (10/10 sopas, p_W = 0.001).** En 9/10 sopas el
+  mismo genoma inicial barre hasta el 100% (1 genoma vivo, share 1.00) en las
+  5 réplicas con distinto azar de orden; en la sopa 0, 4/5 con 96%. La
+  ecología discrimina programas fijos de forma determinista y reproducible:
+  la selección ve los genomas. Caveat declarado: lo que gana es probablemente
+  la fecundidad/colonización, no la supervivencia a la hambruna; pero para
+  la pregunta "¿hay selección sobre el programa?" basta. Combinado con §17
+  (con herencia de cambios NO hay adaptación) el cuello queda acorralado en
+  la variación misma: el ganador existe y gana cuando nada muta; con una
+  escritura germinal en cada parto su descendencia lo pierde antes de que la
+  selección lo fije (umbral de error). §22 lo prueba.
+  (`results/utero_seleccion_replicas_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
