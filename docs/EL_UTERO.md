@@ -1524,6 +1524,17 @@ explicación, que es lo más que un negativo puede ser.
   regulada (sería vestigio). §30 las separa con partos per cápita por
   estación y baja la tasa germinal. (`results/utero_rasgo_grande_run.txt`)
 
+- **§30 — tasa baja a N = 512, y ¿carga o regulación?, pre-registro
+  (2026-09-27).** Como §29 con brazos abierto p = 0.02, abierto p = 0.005,
+  cerrado y congelado; 12 semillas, 120000 ticks. Primaria: el rasgo w̄_A con
+  la regla de §27. Secundarias: partos per cápita por estación (B y A, por
+  100 ticks), cociente A/B y mortalidad per cápita en A, pareados contra el
+  congelado. CARGA si los partos en B son menores que en el congelado en
+  ≥ 75% de los pares en ambos brazos abiertos y la mortalidad en A es mayor
+  con menos mutación (p0.005 > p0.02 en ≥ 75%); REGULACIÓN si el cociente
+  A/B es menor que en el congelado en ≥ 75% sin que los partos en B sean
+  menores; INDETERMINADO en otro caso. `exp_utero_tasa_grande.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
