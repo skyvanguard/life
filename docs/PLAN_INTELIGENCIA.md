@@ -432,3 +432,13 @@ adaptación en la vara de hambruna. Hipótesis restante y decisiva: la vara.
 seguramente el mejor colonizador. La adaptación, si existe, es en capacidad
 competitiva. §23 la mide como la evolución experimental: competencia en
 jardín común del genoma evolucionado contra su ancestro.
+
+## 23. Jardín común (2026-09-27)
+
+Evolucionado contra ancestro en mundo congelado, dos disposiciones, 20
+semillas, regímenes p = 0.02 y p = 1. ADAPTA / DEGRADA / NEUTRAL escritos
+antes de correr. Si ADAPTA en p = 0.02, el sustrato evoluciona en el rasgo
+que la ecología selecciona y la línea vuelve a la regulación por el orden
+con ese régimen; si NEUTRAL o DEGRADA, la variación no mejora la
+competitividad en 120000 ticks y el paisaje alrededor del mejor programa fijo
+es plano o descendente.

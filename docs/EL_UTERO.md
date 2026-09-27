@@ -1365,6 +1365,16 @@ explicación, que es lo más que un negativo puede ser.
   (colonización), no supervivencia a la hambruna. §23: competencia en jardín
   común, evolucionado contra ancestro. (`results/utero_tasa_run.txt`)
 
+- **§23 — jardín común, pre-registro (2026-09-27).** Adaptación medida sin
+  nombrar el rasgo, como en la evolución experimental: por semilla, el
+  ancestro A es el genoma dominante de un mundo congelado (30000 ticks: el
+  mejor programa fijo de esa sopa); el evolucionado E es el dominante de un
+  mundo abierto tras 120000 ticks (regímenes p = 0.02 y p = 1); compiten 8 A
+  contra 8 E en un mundo congelado, dos disposiciones espaciales (pares /
+  impares), 30000 ticks; medida = fracción de E entre las vivas. ADAPTA si E
+  gana (≥ 0.75) en ≥ 15/20; DEGRADA si pierde (≤ 0.25) en ≥ 15/20; NEUTRAL en
+  otro caso. `exp_utero_jardin_comun.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
