@@ -1602,6 +1602,19 @@ explicación, que es lo más que un negativo puede ser.
   toca; el congelado lo copia exacto; la sonda no cambia. Es el mapa local
   que Nivel 1 tenía y Nivel 2 perdió. (`results/utero_alcanzabilidad_inc_run.txt`)
 
+- **§33 — v17 parámetros heredables, pre-registro (2026-09-27).** Flag
+  `parametros=ε` (+ `theta_fijo`): θ por celda sorteado en la sopa, sumado a
+  la materia después de la sonda; la cría lo hereda con ±ε·(2·frac(|R3
+  madre|·131) − 1); tests: apagado byte-idéntico, θ no altera la sonda (un
+  programa constante sigue muriendo), la cría se desvía ≤ ε, θ fijo copia
+  exacto, crecimiento alineado; suite del útero 156 verdes. Como §29 (N =
+  512, L0 = 14, 12 semillas, 120000 ticks): theta_abierto (programas con
+  escritura total p = 0.02 + θ heredable), theta_solo (programas congelados
+  + θ heredable), nulo (programas congelados + θ fijo). Regla de §27 sobre
+  w̄_A pareado contra el nulo; secundaria R_θ (concentración circular de θ
+  entre las vivas en A). Humo de una semilla, sin valor de prueba: R_θ t/t
+  1.69 en theta_solo. `exp_utero_parametros.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
