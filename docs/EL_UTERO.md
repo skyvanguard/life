@@ -1116,6 +1116,20 @@ explicación, que es lo más que un negativo puede ser.
   hambruna, clima contra permutado, pareada entre vivos, con ciclo2 como
   control de tipos de transición. `exp_utero_hambruna.py`, 40 semillas × 5
   brazos, 20000 ticks.
+  **Corrida 1 (sol seed 0):** R2_A no (clima < permutado en 7/26, razón 1.21:
+  la hambruna mata MÁS bajo el orden regular); partos A/B 0.01 en todos los
+  brazos (demografía). El veredicto impreso fue NADA, pero **mi código sólo
+  evaluó clima y el pre-registro decía "clima o ciclo2"**. Evaluado ciclo2 con
+  los mismos criterios: **A_n (caída de nacimientos alrededor del instante
+  esperado de la hambruna, en las estaciones largas que la preceden) = 9/40, p
+  binomial ≈ 0.0006, contra permutado 0, sin sol 2, sombra 3: cumple las tres
+  condiciones.** Es la primera lectura primaria del programa que supera todos
+  sus controles. No se cree todavía: sospecha declarada de saturación
+  demográfica dentro de B (en ciclo2 la abundancia sigue siempre a C y arranca
+  cerca de la capacidad de carga, así que los partos decaen al final de B sin
+  que nadie anticipe). Protocolo: réplica con sol seed 1 y A_n SIN deriva
+  (A_nD) declarada como primaria; veredicto corregido para evaluar ambos
+  brazos. (`results/utero_hambruna_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
