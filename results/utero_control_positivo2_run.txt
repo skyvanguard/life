@@ -1,0 +1,26 @@
+================================================================================
+CONTROL POSITIVO -- el ahorrador: pare solo en la abundancia (B), ahorra en C, sobrevive A
+================================================================================
+flags {'memoria': False, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 3.0, 'e0': 2.0, 'e_mant': 0.01, 'lentos': 0.02}; 20 semillas; 20000 ticks; medidas declaradas en el docstring
+
+--------------------------------------------------------------------------------
+V. VIABILIDAD (maduro): vivas por estacion, firma intacta, semillas con >=20 vivas
+  brazo              N_A    N_B    N_C  firma >=20 vivas   fin
+  ahorrador           73    200    154   1.00      18/20   147
+  evolucionado        52     59     59   0.00      14/20    51
+  ahorrador-perm      74    204    143   1.00      18/20   224
+
+E. VENTAJA: energia media al ENTRAR en A y muertes por 100 ticks durante A (medianas)
+  ahorrador       e_entra_A  1.235   muertes_A/100t  13.82
+  evolucionado    e_entra_A 11.097   muertes_A/100t  27.35
+  ahorrador-perm  e_entra_A  0.948   muertes_A/100t  21.78
+
+D. DETECTABILIDAD: nacimientos por 100 ticks por estacion (medianas) y varas
+  ahorrador       nac A   0.00  B  66.21  C  42.95   A_n  1/20  A_e  1/20  L_A  0/20
+  evolucionado    nac A  33.87  B  12.59  C   0.00   A_n  1/20  A_e  1/20  L_A  1/20
+  ahorrador-perm  nac A   0.00  B  65.61  C  45.32   A_n  0/20  A_e  0/20  L_A  5/20
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+  viable: True   ventajoso: False   detectable (nace solo en B): False
+=> VIABLE PERO SIN VENTAJA: la anticipacion no paga en esta ecologia; el entorno no la selecciona.

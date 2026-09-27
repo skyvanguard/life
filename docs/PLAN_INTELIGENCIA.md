@@ -157,3 +157,16 @@ entidades (estructuras itinerantes, Beer) y no en el tejido entero, con un
 entorno cuya regularidad tenga la escala temporal de esas entidades; y
 construir primero el POSITIVO CONTROL —un organismo diseñado a mano que sí
 anticipe en este sustrato— para saber que las varas pueden verlo.
+
+## 11. El control positivo (2026-09-26)
+
+Un anticipador diseñado a mano (detector de estación en un registro lento +
+SPAWN auto-reescrito según la estación) es viable (18/20), estable bajo
+mutación y muere en la hambruna la mitad que el tejido evolucionado, y un 58%
+menos bajo el orden regular que bajo el permutado. Las varas A/L no lo ven:
+buscan cambios anclados al instante esperado y un reflejo estacional no los
+produce. R2 (mortalidad en la hambruna, regular vs permutado) sí. Enmienda:
+R2 pasa a ser la lectura PRIMARIA de regulación en esta ecología; A/L quedan
+como lecturas de anticipación temporal fina. Siguiente y último paso: invasión
+desde raro (¿la selección favorece al ahorrador frente al tejido
+evolucionado bajo el orden regular y no bajo el permutado?).

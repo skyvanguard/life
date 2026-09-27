@@ -1030,6 +1030,41 @@ un tejido que modele su mundo. La regla de parada del plan se aplica de forma
 definitiva para esta sesión; seguir sin una hipótesis nueva sólo produciría el
 falso positivo que la disciplina de esta línea existe para impedir.
 
+- **Control positivo — un anticipador diseñado a mano: VIABLE, con la ventaja
+  donde no la busqué, e INVISIBLE para las varas A/L (2026-09-26).**
+  `exp_utero_control_positivo.py`: el "ahorrador" — detector de estación en
+  un registro lento (S2 ← materia del vacío contiguo), THR(S2>0.5)·0.9375 →
+  MUTO sobre su PROPIO SPAWN: pare sólo en la abundancia B (control de flujo
+  por auto-reescritura, la única forma de condicionar en este VM), materia
+  v² (sensible, ingreso máximo). Corrida 1: no viable por un error mío de
+  diseño (sentía a la izquierda y paría a la derecha: sólo la punta izquierda
+  veía el sol y reemplazaba a su vecina; población clavada en 18, energía 127
+  al entrar en A, muertes 0). Corrida 2 (detector a la derecha, hacia donde
+  pare): **viable en 18/20 semillas, firma intacta 1.00 bajo mutación
+  germinal, población que sigue a la estación con fuerza (73 / 200 / 154 en
+  A / B / C, contra 52 / 59 / 59 del tejido evolucionado)**. Ventaja por mi
+  criterio (más energía al entrar en A Y menos muertes): no — entra POBRE en
+  A (1.2 vs 11) porque se reproduce hasta la capacidad de carga en B y su
+  umbral 0.5 deja escapar partos en la mitad alta de C (43/100 ticks contra 66
+  en B, 0 en A). **Pero muere en la hambruna la mitad que el evolucionado
+  (13.8 vs 27.4 por 100 ticks) y, el mismo organismo bajo el orden PERMUTADO,
+  un 58% más (21.8): al ahorrador el orden regular le sirve, porque en el
+  orden A→B→C la hambruna llega tras la estación templada y en el permutado
+  puede llegar tras la expansión plena.** Detectabilidad: **A_n 1/20, A_e 1/20,
+  L_A 0/20 — nuestras varas de anticipación NO ven a un anticipador real de
+  tipo reflejo** (buscan un cambio anclado al instante esperado dentro de la
+  estación; una estrategia gatillada por la estación no lo produce). La
+  lectura que sí lo ve es R2 (mortalidad en la hambruna bajo orden regular vs
+  permutado). **Consecuencias:** (1) anticipar la hambruna es viable, estable
+  y beneficioso en este sustrato; (2) los catorce negativos sobre A/L no
+  excluyen que emergiera anticipación de tipo reflejo — pero R2 fue negativa
+  en todas las corridas evolucionadas, así que la conclusión se sostiene con
+  precisión: el tejido evolucionado nunca desarrolló regulación de la
+  hambruna dependiente del orden, aunque tal estrategia existe y paga; (3) la
+  pregunta que queda es evolutiva, no ecológica: ¿la selección FAVORECE al
+  ahorrador cuando compite con el tejido evolucionado? Eso se prueba con una
+  invasión desde raro. (`results/utero_control_positivo{,2}_run.txt`)
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
