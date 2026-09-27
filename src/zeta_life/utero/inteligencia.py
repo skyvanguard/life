@@ -96,7 +96,7 @@ def _ventana_segura(ini: int, fin: int, esperado: int) -> tuple | None:
 
 
 def anticipacion(actividad: np.ndarray, sol, rng_seed: int = 0, n_perm: int = 500,
-                 regimenes: tuple | None = None) -> dict:
+                 regimenes: tuple | None = None, detrend: bool = False) -> dict:
     """En estaciones LARGAS (el cambio real llegó al menos 2·W_ANT ticks después
     del instante esperado = inicio + mediana de las duraciones ya vistas), ¿hay
     un exceso de actividad alrededor de ese instante esperado, sin que el sol
@@ -124,9 +124,22 @@ def anticipacion(actividad: np.ndarray, sol, rng_seed: int = 0, n_perm: int = 50
     def score(centros):
         vals = []
         for (ini, fin, esperado, seg), c in zip(eventos, centros):
-            ctrl = actividad[c - 3 * W_ANT:c - W_ANT]
-            obj = actividad[c - W_ANT:c + W_ANT]
-            vals.append(obj.mean() - ctrl.mean())
+            if detrend:
+                # residuo respecto de la tendencia lineal ajustada ANTES de la
+                # ventana de control y extrapolada: una serie que sólo se acumula
+                # (deriva) da ~0; un exceso en el instante esperado da > 0
+                a0 = ini + TRANSITORIO
+                xs = np.arange(a0, c - W_ANT)
+                if len(xs) < 20:
+                    vals.append(0.0)
+                    continue
+                coef = np.polyfit(xs, actividad[a0:c - W_ANT], 1)
+                xo = np.arange(c - W_ANT, c + W_ANT)
+                vals.append(float((actividad[c - W_ANT:c + W_ANT] - np.polyval(coef, xo)).mean()))
+            else:
+                ctrl = actividad[c - 3 * W_ANT:c - W_ANT]
+                obj = actividad[c - W_ANT:c + W_ANT]
+                vals.append(obj.mean() - ctrl.mean())
         return float(np.mean(vals))
 
     real = score([e[2] for e in eventos])

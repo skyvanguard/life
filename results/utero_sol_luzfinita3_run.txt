@@ -1,0 +1,45 @@
+================================================================================
+v12 LUZ FINITA BAJO EL SOL -- capacidad de carga estacional (hambruna en A)
+================================================================================
+linea n0=16 max 256; flags {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 3.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False}; 40 semillas; 20000 ticks; sol seed 1; workers=12
+veredicto pre-registrado (docstring; PLAN §6b)
+
+--------------------------------------------------------------------------------
+CONTACTO y ESTADO por brazo (mediana sobre semillas)
+  clima      muertes post/pre 0.593  vivas 52  muertes/tick 0.004  semillas con contacto>=1.2: 5
+  ciclo2     muertes post/pre 0.327  vivas 62  muertes/tick 0.027  semillas con contacto>=1.2: 0
+  permutado  muertes post/pre 0.676  vivas 82  muertes/tick 0.309  semillas con contacto>=1.2: 4
+  sin        muertes post/pre 1.006  vivas 70  muertes/tick 0.830  semillas con contacto>=1.2: 0
+  sombra     muertes post/pre 0.295  vivas 0  muertes/tick 0.000  semillas con contacto>=1.2: 4
+
+--------------------------------------------------------------------------------
+R2. REGULACION POR ORDEN: muertes/tick en maduro, pareadas por semilla
+  clima   < permutado en 20/40 semillas (p signo 0.563); razon mediana 0.07 -> no
+  ciclo2  < permutado en 22/40 semillas (p signo 0.318); razon mediana 0.15 -> no
+  => sin regulacion por orden
+
+--------------------------------------------------------------------------------
+POSITIVAS POR LECTURA Y BRAZO (p<0.05; A con stat>0)
+  lectura       clima     ciclo2  permutado        sin     sombra   p_binom(clima)  cumple(2)  cumple(3)
+  A                 2          4          5          4          3           0.601      False      False
+  A_m               1          1          3          3          0           0.871      False      False
+  L                 2          5          1          1          0           0.601      False       True
+  L_m               3          4          4          1          1           0.323      False      False
+  A_n               2          3          3          0          0           0.601      False      False
+  A_e               5          2          3          2          0           0.048       True      False
+  A_eN              5          3          1          2          2           0.048       True       True
+  L_A               3          5          2          1          1           0.323      False      False
+  A: clima [0, 14]  permutado [9, 19, 27, 29, 33]  sin [7, 17, 31, 34]  sombra [0, 2, 36]
+  A_m: clima [13]  permutado [9, 29, 35]  sin [7, 30, 31]  sombra []
+  L: clima [13, 29]  permutado [26]  sin [38]  sombra []
+  L_m: clima [0, 29, 35]  permutado [0, 9, 31, 37]  sin [38]  sombra [23]
+  A_n: clima [10, 22]  permutado [13, 21, 32]  sin []  sombra []
+  A_e: clima [20, 23, 35, 36, 38]  permutado [1, 20, 38]  sin [14, 31]  sombra []
+  A_eN: clima [9, 27, 31, 38, 39]  permutado [29]  sin [3, 8]  sombra [36, 39]
+  L_A: clima [14, 36, 37]  permutado [12, 32]  sin [18]  sombra [36]
+  habituacion en clima (L): [13]
+  habituacion en clima (L_m): []
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> VESTIGIO en ['A_eN'] (contacto 0.59). ANTES DE CREERLO: barrido de kappa y de la seed del sol.

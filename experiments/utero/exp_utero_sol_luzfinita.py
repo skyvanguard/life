@@ -29,6 +29,15 @@ tres condiciones en clima o en ciclo2; SIN CONTACTO si las muertes no cambian
 al entrar en A; NADA en otro caso. Si VESTIGIO: réplica con otro sembrado del
 sol y barrido de L0 antes de creerlo.
 
+CORRIDA 4 (declarada tras la corrida 3): la regla disparó sobre A_eN (5/40, el
+control del artefacto); acumulado 16/120 en clima contra 9/120 sin sol (1.8×).
+Cambios declarados: A_e = residuo de la energía media respecto de la tendencia
+lineal ajustada antes de la ventana y extrapolada (deriva fuera); A_eN queda
+como control y NO cuenta para el veredicto; 40000 ticks (doble de estaciones);
+sol seed 2; sin percepción; R2 restringido a pares con ambos mundos vivos
+(vivas ≥ 10). VESTIGIO sólo si A_e (sin deriva) u otra lectura primaria cumple
+las tres condiciones.
+
 CORRIDA 3 (desambiguación, declarada tras la réplica): la réplica cambió tres
 cosas a la vez (sol, percepción, derivada) y la percepción bajó la viabilidad.
 Corrida 3: sol seed 1, SIN percepción, A_e en derivada Y en nivel (A_eN, control
@@ -66,21 +75,21 @@ from zeta_life.utero.inteligencia import anticipacion, aprendizaje, correr_serie
 from zeta_life.utero.sol import Sol  # noqa: E402
 
 N0, MAX_N = 16, 256
-TICKS = 20000
+TICKS = 40000
 SEEDS = list(range(40))
-SOL_SEED = 1
+SOL_SEED = 2
 KAPPA = 0.5
 E_MANT, E_DIF, E_PARTO = 0.01, 0.25, 0.5
-L0, E0, PERCEPCION = 3.0, 2.0, False        # corrida 3 (desambiguación): sol seed 1, SIN percepción, A_e en nivel y derivada, L_A
+L0, E0, PERCEPCION = 3.0, 2.0, False        # corrida 4: sol seed 2, 40000 ticks, A_e SIN DERIVA (residuo de tendencia), R2 entre vivos
 FLAGS = dict(memoria=True, invasion="asentada", eq_window=100,
              energia=True, luz_finita=L0, e0=E0, e_mant=E_MANT, e_dif=E_DIF,
              e_parto=E_PARTO, percepcion=PERCEPCION)
 PRECEDE_A = {"clima": ("C",), "ciclo2": ("B",), "permutado": None, "sin": ("C",), "sombra": ("C",)}
 ALPHA, MIN_SEEDS, RATIO, CONTACTO = 0.05, 5, 2.0, 1.2
-MATURE = (6000, 20000)
+MATURE = (6000, 40000)
 WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
 RESULTS = HERE.parents[1] / "results"
-NAME = "utero_sol_luzfinita3"
+NAME = "utero_sol_luzfinita4"
 ARMS = ("clima", "ciclo2", "permutado", "sin", "sombra")
 
 
@@ -108,9 +117,12 @@ def job(seed: int) -> tuple:
         out[("A_n", arm)] = anticipacion(-ser["nacimientos"], cal[arm], rng_seed=seed,
                                          regimenes=PRECEDE_A[arm])
         em = np.nan_to_num(ser["e_media"], nan=0.0)
-        dem = np.concatenate([[0.0], np.diff(em)])       # la DERIVADA (ritmo de ahorro), sin deriva
-        out[("A_e", arm)] = anticipacion(dem, cal[arm], rng_seed=seed, regimenes=PRECEDE_A[arm])
-        out[("A_eN", arm)] = anticipacion(em, cal[arm], rng_seed=seed, regimenes=PRECEDE_A[arm])   # nivel (control del artefacto)
+        # corrida 4: A_e = exceso de energía media en el instante esperado respecto de la
+        # tendencia lineal ajustada ANTES de la ventana y extrapolada (sin deriva);
+        # A_eN = el nivel crudo, sólo como control del artefacto.
+        out[("A_e", arm)] = anticipacion(em, cal[arm], rng_seed=seed, regimenes=PRECEDE_A[arm],
+                                         detrend=True)
+        out[("A_eN", arm)] = anticipacion(em, cal[arm], rng_seed=seed, regimenes=PRECEDE_A[arm])
         # L_A: habituación ESPECÍFICA de la hambruna — Spearman(ocurrencia k, muertes al entrar en A)
         solA = type(cal[arm])(seed=cal[arm].seed, ticks=cal[arm].ticks, orden=cal[arm].orden)
         solA.estaciones = [e for e in cal[arm].estaciones if e[0] == "A"] + [cal[arm].estaciones[-1]]
@@ -172,14 +184,15 @@ def main() -> None:
     out("R2. REGULACION POR ORDEN: muertes/tick en maduro, pareadas por semilla")
     r2 = {}
     for arm in ("clima", "ciclo2"):
-        a = np.array([res[s][("muertes", arm)] for s in SEEDS])
-        b = np.array([res[s][("muertes", "permutado")] for s in SEEDS])
-        wins = int((a < b).sum())
-        razon = float(np.median(a / np.maximum(b, 1e-9)))
-        p_sign = binom_p(wins, len(SEEDS), 0.5)
-        r2[arm] = dict(wins=wins, razon=razon, p=p_sign,
-                       ok=wins >= 27 and p_sign < 0.05 and razon <= 0.5)
-        out(f"  {arm:<7} < permutado en {wins}/{len(SEEDS)} semillas (p signo {p_sign:.3f}); "
+        vivos = [s for s in SEEDS if res[s][("vivas", arm)] >= 10 and res[s][("vivas", "permutado")] >= 10]
+        a = np.array([res[s][("muertes", arm)] for s in vivos])
+        b = np.array([res[s][("muertes", "permutado")] for s in vivos])
+        wins = int((a < b).sum()) if len(vivos) else 0
+        razon = float(np.median(a / np.maximum(b, 1e-9))) if len(vivos) else float("nan")
+        p_sign = binom_p(wins, max(len(vivos), 1), 0.5)
+        r2[arm] = dict(wins=wins, n=len(vivos), razon=razon, p=p_sign,
+                       ok=len(vivos) >= 8 and wins >= 0.75 * len(vivos) and p_sign < 0.05 and razon <= 0.5)
+        out(f"  {arm:<7} < permutado en {wins}/{len(vivos)} pares con ambos vivos (p signo {p_sign:.3f}); "
             f"razon mediana {razon:.2f} -> {'CUMPLE' if r2[arm]['ok'] else 'no'}")
     if r2["clima"]["ok"] and r2["ciclo2"]["ok"]:
         out("  => ambos ordenes regulares viven con menos muertes que el permutado: es la REGULARIDAD")
@@ -195,6 +208,7 @@ def main() -> None:
                 and res[s][(vara, arm)]["p"] < ALPHA and (res[s][(vara, arm)][key] > 0 or not signo)]
 
     lecturas = ("A", "A_m", "L", "L_m", "A_n", "A_e", "A_eN", "L_A")
+    PRIMARIAS = ("A", "A_m", "L", "L_m", "A_n", "A_e", "L_A")        # A_eN es control, no cuenta
     C = {v: {arm: conteo(v, arm) for arm in ARMS} for v in lecturas}
     out("")
     out("-" * 80)
@@ -207,7 +221,7 @@ def main() -> None:
         pb = binom_p(k, max(n_eval, 1), ALPHA)
         c2 = k >= MIN_SEEDS and pb < 0.05
         c3 = k >= RATIO * max(len(C[v]["sin"]), len(C[v]["sombra"]), 1) and k >= RATIO * max(len(C[v]["permutado"]), 1)
-        if c2 and c3:
+        if c2 and c3 and v in PRIMARIAS:
             cumplen.append(v)
         out(f"  {v:<8} " + " ".join(f"{len(C[v][arm]):>10}" for arm in ARMS) + f"   {pb:>13.3f}  {str(c2):>9}  {str(c3):>9}")
     for v in lecturas:

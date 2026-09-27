@@ -944,6 +944,26 @@ novedad pero no regulación. Ambas son decisiones de rumbo, no de ingeniería.
   par, y una lectura de habituación específica de la hambruna (Spearman de
   las muertes al entrar en A sobre sus ocurrencias), declaradas antes de
   correr. (`results/utero_sol_luzfinita2_run.txt`)
+  **Corrida 3 (sol seed 1, sin percepción, A_e en derivada y en nivel, L_A):
+  la regla disparó "VESTIGIO" sobre A_eN — la lectura en NIVEL que estaba
+  declarada como control del artefacto — con 5/40 (p=0.048) contra permutado
+  1, sin sol 2, sombra 2.** A_e en derivada: 5/40 pero permutado 3 (falla el
+  2×). L_A (habituación de la hambruna): 3 vs 5 en ciclo2. R2: clima <
+  permutado en 20/40 con razón mediana 0.07 y ciclo2 22/40 con 0.15 — bajo
+  los órdenes regulares el tejido muere MUCHO menos que bajo el permutado
+  (0.03–0.07 contra 0.31 muertes/tick), pero el test de signos falla porque la
+  mitad de los pares son mundos muertos (0/0). **Acumulado de las tres
+  corridas de v12** para A_eN en clima: 9 + 2 + 5 = 16/120 (nominal 6, p
+  binomial < 0.001) contra sin sol 5 + 2 + 2 = 9/120: razón 1.8, no 2. Lectura
+  honesta: hay una señal débil y persistente en la dirección predicha (la
+  energía media sube alrededor del instante esperado de la hambruna, en las
+  estaciones que la preceden, bajo el clima con regularidad), pero el
+  estadístico en nivel está inflado por la acumulación de energía dentro de la
+  estación y no supera 2× a sus controles. **No se cuenta como vestigio.**
+  Siguiente, declarado: estadístico sin deriva (residuo respecto de la
+  tendencia lineal ajustada ANTES de la ventana esperada, extrapolada), 40000
+  ticks (el doble de estaciones), sol seed 2, sin percepción, y R2 restringido
+  a pares con ambos mundos vivos. (`results/utero_sol_luzfinita3_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

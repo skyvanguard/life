@@ -81,3 +81,17 @@ def test_series_and_regulacion_on_a_short_run():
     r = regulacion(con, sin, sol, (100, 300))
     assert set(r) == {"vivas_sol", "vivas_sin", "novedad_sol", "novedad_sin",
                       "amortiguacion", "acople_borde"}
+
+
+def test_anticipacion_detrend_ignores_pure_drift_but_catches_a_bump():
+    # deriva: la serie se acumula dentro de cada estación (como la energía media)
+    drift = _ruido(7, 0.01)
+    for _, ini, fin in SOL.estaciones:
+        drift[ini:fin] += np.linspace(0, 1.0, fin - ini)
+    r_dt = anticipacion(drift, SOL, n_perm=300, detrend=True)    # el residuo no dispara con deriva
+    assert r_dt["p"] > 0.05 and abs(r_dt["estadistico"]) < 0.05
+    bump = drift.copy()
+    for esp in _esperados():
+        bump[esp - W_ANT:esp + W_ANT] += 0.3
+    r_b = anticipacion(bump, SOL, n_perm=300, detrend=True)
+    assert r_b["estadistico"] > 0 and r_b["p"] < 0.01
