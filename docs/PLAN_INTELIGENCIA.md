@@ -393,3 +393,18 @@ un bien común. Prueba: §17 con e_dif = 0. Si EVOLUCIONA, el sustrato sí
 evoluciona cuando la reserva es privada, y la línea vuelve a la regulación
 con esa ecología; si NO, la difusión no era la causa y quedan el canje
 supervivencia/fecundidad y la posición, que sí exigen registro por celda.
+
+**Resultado §20: NO EVOLUCIONA** (abierto 0.54 vs congelado 0.82 en 9/16
+pares, p 0.40). La difusión no era la causa principal. Dos hipótesis quedan y
+las dos se prueban barato:
+- §21 ¿La selección ve los genomas? Réplicas del mismo mundo CONGELADO (misma
+  sopa) con distinto orden de actualización (`orden_seed`): si la abundancia
+  final de los 16 genomas iniciales concuerda entre réplicas (Kendall W contra
+  nulo por permutación), la selección es determinista sobre el programa; si
+  no, lo que decide es la posición y el azar.
+- §22 Tasa de mutación. El germinal escribe en cada parto: ≈1 mutación por
+  generación con efectos fuertes sobre 16 loci, por encima del umbral de error
+  (Eigen) para casi cualquier paisaje; la carga de §17 (el brazo abierto muere
+  más) es la firma. `tasa_germinal=p`: la cría recibe la escritura germinal
+  sólo si la fracción de |R_b| es < p (determinista desde la materia; mano
+  declarada). §17 con p = 0.1 y 0.02.

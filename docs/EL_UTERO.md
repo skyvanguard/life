@@ -1316,6 +1316,16 @@ explicación, que es lo más que un negativo puede ser.
   0 la mortalidad per cápita en la hambruna baja MÁS con variación que en el
   congelado. §17 repetido con esa única diferencia (viabilidad en humo: los
   tres brazos ≈120 vivas). `exp_utero_evoluciona2.py`.
+  **Resultado: NO EVOLUCIONA.** Sin difusión: abierto razón 0.54 contra
+  congelado 0.82 (abierto < congelado en 9/16 pares, p 0.40); cerrado 0.82
+  contra 0.68 (6/16). Mortalidad per cápita media en A: abierto 1.58, cerrado
+  1.49, congelado 1.79 (12/18 y 13/19 menores, p 0.12 y 0.08). El brazo
+  abierto se mueve en la dirección predicha pero lejos de la regla; el bien
+  común no era la causa principal. Quedan: la selección no ve los genomas
+  (posición/deriva) o la tasa de mutación es demasiado alta (el germinal
+  escribe en cada parto: ≈1 mutación por generación con efectos fuertes,
+  régimen de umbral de error; la carga de §17 lo sugiere). §21 y §22.
+  (`results/utero_evoluciona2_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
