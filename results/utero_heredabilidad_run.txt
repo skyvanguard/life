@@ -1,0 +1,62 @@
+================================================================================
+HEREDABILIDAD -- la supervivencia a la hambruna se predice por el GENOMA, por el ESTADO (energia, borde), o por nada?
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 9.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; 20 semillas; 60000 ticks; sol seed 0; permutaciones 500; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+BRAZO abierto
+  seed hambr vivas/h gen rep  mort f(p_gen<.05) f(p_ene<.05) f(p_bor<.05) repet rho      p pares
+     0     0   (sin hambrunas utilizables; vivas fin 0)
+     1    28     148      26  0.62         0.29         0.64         0.04      0.61  0.002    98
+     2    28     101      11  0.39         0.82         0.79         0.32      0.77  0.002    78
+     3     0   (sin hambrunas utilizables; vivas fin 0)
+     4     0   (sin hambrunas utilizables; vivas fin 0)
+     5    28     186       4  0.61         0.79         1.00         0.04      0.32  0.004    92
+     6    28     176      42  0.57         0.07         1.00         0.00      0.09  0.257   104
+     7    28     212      42  0.66         0.64         1.00         0.11      0.75  0.002   232
+     8     0   (sin hambrunas utilizables; vivas fin 3)
+     9    28     158      12  0.55         0.11         1.00         0.04       nan    nan     0
+    10     0   (sin hambrunas utilizables; vivas fin 4)
+    11    28     128       9  0.59         1.00         0.71         0.04      0.79  0.002   139
+    12    28     184      16  0.61         0.21         0.86         0.04       nan    nan     0
+    13     0   (sin hambrunas utilizables; vivas fin 0)
+    14    18     130       1  0.60         0.00         0.50         0.06       nan    nan     0
+    15    28     123       6  0.69         1.00         0.61         0.00      0.89  0.002    53
+    16    28     211       1  0.64         0.00         1.00         0.00      0.06  0.379    27
+    17     0   (sin hambrunas utilizables; vivas fin 8)
+    18    28     177      30  0.66         0.54         0.96         0.18      0.38  0.002   278
+    19    28     171      40  0.57         0.07         1.00         0.00      0.25  0.032    67
+  mundos con >= 10 hambrunas: 13; con f >= 0.25: genoma 7, energia 13, borde 1; medianas f: genoma 0.29, energia 0.96, borde 0.04
+  repetibilidad entre hambrunas consecutivas: p < 0.05 en 8/10 mundos con pares suficientes
+
+--------------------------------------------------------------------------------
+BRAZO cerrado
+  seed hambr vivas/h gen rep  mort f(p_gen<.05) f(p_ene<.05) f(p_bor<.05) repet rho      p pares
+     0    25     176       1  0.54         0.04         1.00         0.04      0.64  0.002    25
+     1    25     144       5  0.56         0.48         0.60         0.20      0.65  0.002    91
+     2    28      72      12  0.79         0.82         0.07         0.46      0.84  0.002    70
+     3     0   (sin hambrunas utilizables; vivas fin 0)
+     4    28     151      16  0.58         1.00         0.75         0.04      0.52  0.002    60
+     5    28     176       9  0.70         0.71         0.57         0.00      0.47  0.002   154
+     6     0   (sin hambrunas utilizables; vivas fin 7)
+     7    25     167       1  0.52         0.00         1.00         0.00      0.78  0.002    24
+     8    28     193       3  0.61         0.07         1.00         0.00      0.07  0.317    52
+     9    28     152      10  0.56         0.04         0.89         0.11      0.23  0.002   271
+    10     0   (sin hambrunas utilizables; vivas fin 5)
+    11    28     152      17  0.54         0.79         0.43         0.18      0.93  0.002    55
+    12    28     128      20  0.49         0.89         0.21         0.04      0.20  0.002   231
+    13     0   (sin hambrunas utilizables; vivas fin 32)
+    14    28     124       1  0.55         0.21         0.46         0.07      0.58  0.002    51
+    15    28     200      26  0.65         0.89         0.96         0.00      0.20  0.002   415
+    16    23     148       3  0.53         0.57         0.78         0.13      0.98  0.002    41
+    17     0   (sin hambrunas utilizables; vivas fin 8)
+    18    28     158      16  0.55         0.54         0.71         0.11      0.37  0.002   226
+    19    27     167       1  0.53         0.00         1.00         0.11      0.75  0.002    26
+  mundos con >= 10 hambrunas: 15; con f >= 0.25: genoma 9, energia 13, borde 1; medianas f: genoma 0.54, energia 0.75, borde 0.07
+  repetibilidad entre hambrunas consecutivas: p < 0.05 en 14/15 mundos con pares suficientes
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> abierto: NADA
+=> cerrado: NADA

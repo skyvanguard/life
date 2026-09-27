@@ -357,3 +357,28 @@ el problema es intensidad de selección frente a carga (medir ventaja y tiempo
 de fijación); ESTADO → la hambruna mata por dónde y con cuánto, no por qué
 programa: ninguna cantidad de tiempo produce adaptación y hay que cambiar qué
 mide el filtro o cómo el genoma fija el estado; NADA → muerte al azar.
+
+**Resultado §18: NADA por la letra (denominador de 20 con 5–7 extinciones),
+ESTADO con componente heredable por la evidencia.** Energía predice el
+destino en la hambruna en 13/13 y 13/15 mundos utilizables; genoma en 7/13 y
+9/15, repetible entre hambrunas (8/10, 14/15). Conclusión operativa del
+programa, con toda la cadena de la noche: el sustrato tiene variación
+heredable en lo que la hambruna mide, pero no la convierte en adaptación
+(§17). Las dos hipótesis que quedan —canje supervivencia/fecundidad, o
+genoma como proxy de posición— exigen registro por celda (linaje, posición,
+energía, partos) y una medida de selección directa (covarianza de Price entre
+genoma y descendencia). Eso, o cambiar qué mide el filtro, es una decisión de
+programa.
+
+## 19. Estado al cierre de la sesión 2026-09-27
+
+- Regulación por el orden del entorno: 19 corridas pre-registradas, 0
+  vestigios, 5 señuelos cazados por réplica o control.
+- Cuarta jaula (clausura de operandos) hallada, medida y abierta (v16); la
+  apertura no cambió el resultado.
+- El sustrato NO EVOLUCIONA bajo esta ecología (§17, contra nulo congelado),
+  aunque la oferta de variantes viables es suficiente (§16b) y hay componente
+  heredable y repetible en la supervivencia a la hambruna (§18).
+- Errores de método propios registrados: veredicto de un solo brazo, lectura
+  de nivel confundida con demografía, sombra extinta como control, denominador
+  con extinciones.

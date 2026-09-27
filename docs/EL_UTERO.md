@@ -1286,6 +1286,24 @@ explicación, que es lo más que un negativo puede ser.
   predice. Repetibilidad del mismo genoma entre hambrunas consecutivas como
   secundaria. 60000 ticks, L0 = 9, brazos abierto y cerrado.
   `exp_utero_heredabilidad.py`.
+  **Resultado: NADA por la letra; ESTADO con componente heredable por la
+  evidencia.** Por la regla escrita (≥ 15 de 20 mundos) ninguno de los tres
+  predictores cumple, porque 7 y 5 mundos se extinguieron y sólo 13 (abierto)
+  y 15 (cerrado) tuvieron ≥ 10 hambrunas utilizables: el denominador estaba
+  mal elegido, y eso se registra. Sobre los mundos utilizables: la **energía**
+  al empezar la hambruna predice el destino en 13/13 y 13/15 mundos (mediana
+  de la fracción de hambrunas con p < 0.05: 0.96 y 0.75); el **genoma** en
+  7/13 y 9/15 (medianas 0.29 y 0.54), y su efecto es **repetible** entre
+  hambrunas consecutivas (Spearman entre la supervivencia del mismo genoma en
+  k y k+1: p < 0.05 en 8/10 y 14/15 mundos, rho 0.2–0.9); el **borde** casi
+  nunca (1 mundo). Lectura: la hambruna mata por cuánto se tiene, y cuánto se
+  tiene depende en parte del programa (ingreso por |v − sol|) y en parte del
+  lugar y la competencia por la luz. Hay variación heredable en la
+  supervivencia a la hambruna —lo que §17 no encontró es que se traduzca en
+  adaptación—, lo que apunta a un canje (los genomas que sobreviven la
+  hambruna no son los que más paren en la abundancia) o a que el genoma sea
+  proxy de posición; ninguna de las dos se separa sin registrar por celda.
+  (`results/utero_heredabilidad_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

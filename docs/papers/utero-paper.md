@@ -143,7 +143,7 @@ Cada encarnación nombró la jaula en la que cayó la anterior:
 | v7 | punto fijo letal | barrido del clon viable |
 | v9–v15 (sol) | contacto con el entorno | ninguna vara supera a sus controles en 18 corridas |
 | — (§4.9) | — | **clausura de operandos**: la variación reescribe 1 de 4 campos; los tríos (a,b,c) están congelados en la sopa |
-| v16 | clausura de operandos | (en curso) |
+| v16 | clausura de operandos | no evoluciona: la variación abierta es carga; la mortalidad en la hambruna la fija la energía, no el programa |
 
 ### 4.2 Novedad sostenida: rara, real, defendible
 
@@ -314,6 +314,26 @@ variación misma. La respuesta (v16, `escritura_total`: MUTO y el germinal
 escriben la instrucción entera desde los registros, sin RNG) abre el espacio
 —84 veces más genomas nunca vistos por mundo, 52 tríos nuevos contra 0,
 viable en la misma ecología— y se corre con el mismo pre-registro.
+
+### 4.10 Con el espacio abierto: no evoluciona
+
+La corrida con escritura total no cambió nada (sin contacto: el recambio
+continuo tapa la hambruna; R2_A 1,30). Con 4× el tiempo y 3× la población
+tampoco. Se midió entonces lo previo a cualquier inteligencia. El espectro
+de la variación abierta es sano: 23 variantes viables y distintas por 1000
+ticks por mundo, una de cada cinco crías distintas se asienta (§16b). Y sin
+embargo, contra un brazo **congelado** (MUTO y COPY inertes, crías copias
+exactas: la misma ecología sin herencia de cambios), la mortalidad per cápita
+en la hambruna baja MÁS en el congelado (razón tardía/temprana 0,19) que con
+variación abierta (0,45) o cerrada (0,62): lo que baja es ecología, y la
+variación heredable es carga (0,73 contra 0,60 per cápita). **El sustrato no
+evoluciona bajo esta ecología.** La heredabilidad medida directamente cierra
+el cuadro: la energía al empezar la hambruna predice quién sobrevive en casi
+todos los mundos; el genoma, en la mitad, con efecto repetible entre
+hambrunas. Hay variación heredable en lo que la hambruna mide y no se
+convierte en adaptación; las hipótesis que quedan (canje
+supervivencia/fecundidad, genoma como proxy de posición) exigen registro por
+celda y una medida de selección directa.
 
 ## 5. Discusión
 
