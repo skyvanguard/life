@@ -115,3 +115,23 @@ def test_checkpoint_resume_is_identical_to_an_uninterrupted_run(tmp_path):
     assert torch.equal(b.code, entera.code) and torch.equal(b.v, entera.v) and torch.equal(b.e, entera.e)
     for k in ref:
         np.testing.assert_array_equal(rea[k], ref[k])
+
+
+def test_ultraestable_off_is_identical_and_gate_follows_the_energy_trend():
+    sol = np.tile(np.full(150, 0.6), (3, 1))
+    kw = dict(device="cpu", escritura_total=True, germinal=False, luz_finita=400.0)   # luz de sobra: la energía sólo sube
+    base = UteroGPU([7], 48, sol[:1], **kw)
+    apag = UteroGPU([7], 48, sol[:1], ultraestable=0, **kw)
+    base.correr(150)
+    apag.correr(150)
+    assert torch.equal(base.code, apag.code) and torch.equal(base.v, apag.v)
+    g = UteroGPU([7, 7, 7], 48, sol, ultraestable=[1, -1, 0], **kw)
+    inicial = {g.code[0, i].numpy().tobytes() for i in range(48)}
+    g.correr(150)
+
+    def vivos(w):
+        return {g.code[w, i].numpy().tobytes() for i in range(48) if bool(g.alive[w, i])}
+
+    assert vivos(0) <= inicial               # le va bien -> conserva su regla: ningún genoma nuevo
+    assert not (vivos(1) <= inicial)         # invertido: reescribe justo cuando le va bien
+    assert not (vivos(2) <= inicial)         # apagado: reescribe siempre

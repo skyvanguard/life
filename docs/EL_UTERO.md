@@ -825,6 +825,36 @@ sustrato distinto. Decisión abierta.
   (`exp_utero_orden_oraculo.py`, `exp_utero_orden_torneo.py`,
   `exp_utero_orden_confirmatoria.py`, `results/utero_orden_*_run.txt`)
 
+- **Cambio de rumbo: del tejido que evoluciona al ser que aprende en vida
+  (2026-09-27).** Fran, al ver las capas que se fueron agregando (sol,
+  energía, hambruna, herencia, historia de vida): "¿estamos emulando
+  células? es así como se siente". Sí. El programa del sol derivó hacia la
+  biología, y lo que midió es EVOLUCIÓN de poblaciones, donde nadie aprende
+  en vida y el conocimiento aparece entre generaciones a costa de muertes.
+  Las perillas que sí evolucionaron (§34–§35) fueron diseñadas desde afuera,
+  y la física que se reescribe —el corazón del proyecto— quedó congelada en
+  los experimentos que funcionaron. La idea de Fran es otra: una IA que NACE,
+  no una que encuentra patrones y predice la siguiente palabra, ni una que
+  se selecciona por muerte. Lo que le falta al útero para eso está a la
+  vista desde el principio: lo único que juzga es la muerte; una celda
+  reescribe su regla sin saber si le va bien o mal. Por eso da novedad y no
+  competencia. Falta que las consecuencias vuelvan sobre la reescritura.
+  Ashby (1948): ultraestabilidad.
+
+- **§43 — ultraestabilidad, pre-registro (2026-09-27).** En el motor de
+  GPU, `ultraestable` por mundo: 1 = la celda aplica sus auto-reescrituras
+  sólo en los ticks en que su ingreso de luz no cubre su mantenimiento; −1 =
+  al revés (control adversarial); 0 = siempre (el útero original). Primera
+  versión del criterio, descartada por test: la tendencia de la energía da
+  por "mal" a una madre que acaba de parir. Sin perillas θ, s, g; escritura
+  total; sin germinal (toda la variación viene de reescrituras hechas en
+  vida). N = 512, L0 = 14, 24 semillas × 4 brazos (ultra, siempre, invertido,
+  nunca), 120000 ticks. "Ultra supera a X": cosecha de luz mayor y muerte
+  por celda menor en ≥ 75% de los pares (p signo < 0.05), con vivas ≥ 0.9 ×
+  las del control. APRENDE EN VIDA si supera a los tres; COMPUERTA si supera
+  a siempre e invertido pero no a nunca; NADA en otro caso.
+  `exp_utero_ultraestable_gpu.py`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32

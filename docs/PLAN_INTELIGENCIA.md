@@ -730,3 +730,16 @@ Bloqueo: el sistema detuvo dos corridas por memoria RAM crítica (3.7 GB
 libres de 31; la ocupan otros programas de la máquina). Por la regla del
 entorno no se relanzan sin indicación de Fran. El motor en GPU es reanudable:
 un corte cuesta como mucho 5000 ticks.
+
+## 43. Cambio de rumbo: aprender en vida (2026-09-27)
+
+El objetivo, en palabras de Fran: una IA que nace de un sustrato así, no una
+que encuentra patrones y predice la siguiente palabra. El programa del sol
+midió evolución de poblaciones; su idea es desarrollo y aprendizaje de un
+ser. El mecanismo mínimo conocido que cumple sus tres principios es la
+ultraestabilidad de Ashby: reescribirse cuando la variable esencial propia
+sale de rango, conservarse cuando vuelve. §43 lo prueba sobre la física
+original del útero, sin perillas añadidas, contra tres controles: reescribir
+siempre, reescribir al revés, no reescribir. El control decisivo es el
+último: sólo si el tejido ultraestable supera a la criba entre reglas fijas
+se puede decir que lo hallado en vida es mejor que lo que ya había.

@@ -145,7 +145,7 @@ class UteroGPU:
                  e_parto: float = 0.5, e_costo: float = 1.0, lentos: float = 0.02,
                  escritura_total=False, tasa_germinal=1.0, congelado=False,
                  parametros: float = 0.0, escala: bool = False, theta_fijo=False, reflejo: float = 0.0,
-                 orden_seed: int = 0):
+                 ultraestable=0, orden_seed: int = 0):
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
         dt = torch.float64
         self.dt = dt
@@ -163,6 +163,15 @@ class UteroGPU:
         self.total = _por_mundo(escritura_total, b, self.device, torch.bool)
         self.tasa = _por_mundo(tasa_germinal, b, self.device, dt)
         self.frozen = _por_mundo(congelado, b, self.device, torch.bool)
+        # ULTRAESTABILIDAD (Ashby 1948; §43): la celda aplica sus auto-reescrituras (MUTO, COPY) sólo
+        # cuando le va MAL —su ingreso de luz de este tick no cubre su mantenimiento: déficit
+        # metabólico propio— y conserva su regla cuando le va bien. Aprender en vida sin maestro ni
+        # datos: las consecuencias vuelven sobre la reescritura. (No se usa la tendencia de la
+        # energía: un parto le cuesta energía a la madre y la daría por "mal" cuando le va bien.)
+        # Por mundo: 0 = apagado (reescribe siempre, el útero original); 1 = ultraestable;
+        # -1 = INVERTIDO (reescribe sólo cuando le va bien: control adversarial).
+        self.ultra = _por_mundo(ultraestable, b, self.device, torch.long)
+        self._historia = reflejo > 0.0
         self.fijo = _por_mundo(theta_fijo, b, self.device, torch.bool)
         # la sopa: el mismo sorteo que UteroCreciente (v, opcodes, operandos, theta)
         v = np.zeros((b, n))
@@ -219,7 +228,9 @@ class UteroGPU:
             torch.stack([vl, self.v, vr, mi, self.S[..., 0], self.S[..., 1]], dim=-1),
             torch.stack([cero, cero, cero, mi, self.S[..., 0], self.S[..., 1]], dim=-1),
             torch.stack([h, h, h, mi, self.S[..., 0], self.S[..., 1]], dim=-1)], dim=0)
-        o = vm(self.code, r, code_l, code_r, al_l, al_r, self.total, self.frozen)
+        mal = ingreso < self.e_mant                       # déficit metabólico propio en este tick
+        quieta_regla = self.frozen | ((self.ultra == 1) & ~mal) | ((self.ultra == -1) & mal)     # (B, N)
+        o = vm(self.code, r, code_l, code_r, al_l, al_r, self.total, quieta_regla)
         rf = o["r"]
         raw = rf[0, ..., 3]
         out = raw % 1.0
@@ -248,7 +259,7 @@ class UteroGPU:
         viva = viva & ~hambre
         muertes = (muere | hambre)
         self.e = torch.where(viva, e_new, self.e)
-        if self.reflejo > 0.0:
+        if self._historia:
             self.e_lenta = torch.where(viva, self.e_lenta + (self.e - self.e_lenta) / REFLEJO_TAU, self.e_lenta)
         self.v = torch.where(viva, v_new, self.v)
         self.code = torch.where(viva.reshape(*viva.shape, 1, 1), o["own"], self.code)
