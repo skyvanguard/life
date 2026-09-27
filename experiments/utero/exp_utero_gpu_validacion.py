@@ -47,6 +47,7 @@ REGS = (("A", 0.08, 0.02, 40),) + REGIMENES[1:]
 TRANSITORIO = 6000
 MIN_HAMBRUNAS = 4
 RESULTS = HERE.parents[1] / "results"
+CKPT = HERE.parents[1] / "data" / "ckpt"          # gitignorado; puntos de control reanudables
 NAME = "utero_gpu_validacion"
 V1 = dict(n=64, ticks=30000, seeds=list(range(20)), l0=1.75, sembradas=4)
 V2 = dict(n=512, ticks=120000, seeds=list(range(12)), l0=14.0, eps=0.05)
@@ -82,6 +83,11 @@ def razon(x: np.ndarray) -> np.ndarray:
 def validar_v1(out) -> bool:
     antisol, espejo = _programas()
     c = V1
+    cache = CKPT / f"{NAME}_v1.npz"
+    if cache.exists():                       # V1 ya medida (la corrida se cortó en V2): no se repite
+        z = np.load(cache)
+        if list(z["seeds"]) == c["seeds"]:
+            return _informar_v1(out, c, z["fa"], z["fe"], z["vivas"], float(z["segundos"]), " [de cache]")
     sol = Sol(seed=0, ticks=c["ticks"], regimenes=REGS)
     g = UteroGPU(c["seeds"], c["n"], np.tile(sol.serie, (len(c["seeds"]), 1)), luz_finita=c["l0"], congelado=True)
     ta = torch.as_tensor(antisol, device=g.device)
@@ -99,8 +105,14 @@ def validar_v1(out) -> bool:
     fa = (((g.code == ta).all(dim=-1).all(dim=-1)) & g.alive).sum(dim=1).double() / n
     fe = (((g.code == te).all(dim=-1).all(dim=-1)) & g.alive).sum(dim=1).double() / n
     fa, fe, vivas = fa.cpu().numpy(), fe.cpu().numpy(), g.alive.sum(dim=1).cpu().numpy()
+    CKPT.mkdir(parents=True, exist_ok=True)
+    np.savez(CKPT / f"{NAME}_v1.npz", seeds=np.array(c["seeds"]), vivas=vivas, fa=fa, fe=fe, segundos=time.time() - t0)
+    return _informar_v1(out, c, fa, fe, vivas, time.time() - t0, "")
+
+
+def _informar_v1(out, c, fa, fe, vivas, seg, nota) -> bool:
     gana = [(a >= 0.25 and a >= 2 * max(e, 1e-9)) for a, e in zip(fa, fe)]
-    out(f"V1 gradiente (N={c['n']}, congelado, L0={c['l0']}, {c['ticks']} ticks, {len(c['seeds'])} semillas) -- {time.time() - t0:.0f} s")
+    out(f"V1 gradiente (N={c['n']}, congelado, L0={c['l0']}, {c['ticks']} ticks, {len(c['seeds'])} semillas) -- {seg:.0f} s{nota}")
     out(f"  {'seed':>4} {'vivas':>6} {'antisol':>8} {'espejo':>7} {'gana':>5}")
     for i, s in enumerate(c["seeds"]):
         out(f"  {s:>4} {vivas[i]:>6} {fa[i]:>8.2f} {fe[i]:>7.2f} {'si' if gana[i] else 'no':>5}")
@@ -119,7 +131,8 @@ def validar_v2(out) -> bool:
     g = UteroGPU(seeds, c["n"], np.tile(sol.serie, (2 * ns, 1)), luz_finita=c["l0"], congelado=True,
                  parametros=c["eps"], escala=True, theta_fijo=fijo)
     t0 = time.time()
-    ser = g.correr(c["ticks"])
+    CKPT.mkdir(parents=True, exist_ok=True)
+    ser = g.correr(c["ticks"], checkpoint=str(CKPT / f"{NAME}_v2.pt"), cada=5000)
     wA = por_hambruna(ser, sol, c["ticks"], "w")
     sA = por_hambruna(ser, sol, c["ticks"], "s")
     bA = por_hambruna(ser, sol, c["ticks"], "banda")

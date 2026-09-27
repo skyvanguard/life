@@ -54,6 +54,7 @@ ARMS = {"clima": ("ciclico", False), "ciclo2": ("ciclico_inverso", False),
         "permutado": ("permutado", False), "nulo": ("ciclico", True)}
 TRANSITORIO = 6000
 RESULTS = HERE.parents[1] / "results"
+CKPT = HERE.parents[1] / "data" / "ckpt"          # gitignorado; puntos de control reanudables
 NAME = "utero_reflejo_gpu"
 
 
@@ -106,7 +107,8 @@ def main() -> None:
     g = UteroGPU(seeds, N, np.stack(sol), luz_finita=L0, congelado=True, parametros=EPS, escala=True,
                  reflejo=EPS_G, theta_fijo=fijo)
     t0 = time.time()
-    ser = g.correr(TICKS)
+    CKPT.mkdir(parents=True, exist_ok=True)
+    ser = g.correr(TICKS, checkpoint=str(CKPT / f"{NAME}.pt"), cada=5000)
     out(f"corrida: {(time.time() - t0) / 60:.1f} min")
     res = {a: lecturas(ser, soles[a], slice(i * ns, (i + 1) * ns)) for i, a in enumerate(ARMS)}
     out("-" * 80)
