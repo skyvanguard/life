@@ -1,0 +1,32 @@
+================================================================================
+MODELO REDUCIDO + PERILLA DE HISTORIA DE VIDA (no es el utero): propension al parto por nivel de ingreso
+================================================================================
+N=256; 24 mundos por origen; evolucion 120000, ensayo 40000; umbrales de ingreso/mantenimiento (1.0, 3.5)
+predicciones pre-registradas (docstring)
+
+fase 1 (evolucion): 3.2 min
+  sanidad de los niveles (fraccion de celda-ticks por estacion en cada nivel de ingreso):
+    estacion A: bajo 0.95  medio 0.05  alto 0.00
+    estacion B: bajo 0.05  medio 0.37  alto 0.58
+    estacion C: bajo 0.12  medio 0.56  alto 0.32
+  origen      vivas  q_bajo  q_medio  q_alto  s media  g media
+  clima         149    0.70     0.74    0.82     0.74   -0.133
+  ciclo2        152    0.70     0.74    0.78     0.76    0.073
+  permutado     150    0.76     0.76    0.77     0.83   -0.062
+  P1: q_medio(clima) < q_medio(ciclo2) en 8/24 (p signo 0.968) -> no
+
+fase 2 (ensayo, perillas fijas): 2.2 min
+  mortalidad per capita en la hambruna | vivas medias (medianas), origen -> destino:
+  origen                   -> clima              -> ciclo2
+  clima             0.076 |     137        0.091 |     136
+  ciclo2            0.071 |     142        0.075 |     138
+  permutado         0.086 |     139        0.086 |     137
+
+--------------------------------------------------------------------------------
+P2. LOCAL CONTRA FORANEO (dentro de cada destino, pareado por semilla)
+  destino clima  : mortalidad local < foraneo en 13/24 (p signo 0.419); razon mediana 0.98 -> no;  vivas local > foraneo en 11/24 (p signo 0.729)
+  destino ciclo2 : mortalidad local < foraneo en 14/24 (p signo 0.271); razon mediana 0.95 -> no;  vivas local > foraneo en 13/24 (p signo 0.419)
+
+================================================================================
+PREDICCION (regla escrita antes de correr)
+=> PREDICE NADA: sin ventaja local en ningun destino (P1 no cumple).

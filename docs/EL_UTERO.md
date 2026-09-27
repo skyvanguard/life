@@ -787,6 +787,17 @@ sustrato distinto. Decisión abierta.
   (`exp_utero_modelo_reducido.py`, `results/utero_modelo_reducido_run.txt`,
   `results/utero_modelo_reducido_corrida1_run.txt`)
 
+- **§40 — modelo reducido con perilla de historia de vida: PREDICE NADA
+  (2026-09-27).** Tres propensiones heredables al parto por nivel de ingreso
+  propio (los niveles separan bien las estaciones: A 95% bajo, B 58% alto, C
+  56% medio). Resultado: q baja en los tres niveles y en los tres orígenes
+  por igual (0.70–0.82): se selecciona parir menos en general, no según el
+  orden. P1 (q_medio clima < ciclo2): 8/24, no. P2 (local contra foráneo):
+  13/24 y 14/24, no. Pregunta previa que faltaba medir: ¿el entorno contiene
+  un óptimo que dependa del orden? §41 la contesta en su mejor caso
+  (estrategias con oráculo de estación, sin mutación).
+  (`exp_utero_modelo_reducido_q.py`, `results/utero_modelo_reducido_q_run.txt`)
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
