@@ -163,7 +163,8 @@ def correr(seed: int, arm: str) -> dict:
                 pares.append((s, b["surv"][g]))
     rep_rho, rep_p = float("nan"), float("nan")
     if len(pares) >= 8:
-        x = np.array([p[0] for p in pares]); y = np.array([p[1] for p in pares])
+        x = np.array([p[0] for p in pares])
+        y = np.array([p[1] for p in pares])
         rep_rho = spearman(x, y)
         nul = [spearman(x, rng.permutation(y)) for _ in range(N_PERM)]
         rep_p = float((np.sum(np.array(nul) >= rep_rho) + 1) / (N_PERM + 1))
@@ -204,12 +205,18 @@ def main() -> None:
             if not H:
                 out(f"  {s:>4} {0:>5}   (sin hambrunas utilizables; vivas fin {r['vivas_fin']})")
                 continue
-            g = np.mean([h["p_gen"] < ALPHA for h in H]); e = np.mean([h["p_ene"] < ALPHA for h in H]); b = np.mean([h["p_bor"] < ALPHA for h in H])
+            g = np.mean([h["p_gen"] < ALPHA for h in H])
+            e = np.mean([h["p_ene"] < ALPHA for h in H])
+            b = np.mean([h["p_bor"] < ALPHA for h in H])
             if len(H) >= 10:
-                fg.append(g); fe.append(e); fb.append(b)
+                fg.append(g)
+                fe.append(e)
+                fb.append(b)
             out(f"  {s:>4} {len(H):>5} {np.median([h['n'] for h in H]):>7.0f} {np.median([h['n_gen_rep'] for h in H]):>7.0f} "
                 f"{np.median([h['mort'] for h in H]):>5.2f} {g:>12.2f} {e:>12.2f} {b:>12.2f} {r['rep_rho']:>9.2f} {r['rep_p']:>6.3f} {r['n_pares']:>5}")
-        n_ok_g = sum(1 for x in fg if x >= UMBRAL_MUNDO); n_ok_e = sum(1 for x in fe if x >= UMBRAL_MUNDO); n_ok_b = sum(1 for x in fb if x >= UMBRAL_MUNDO)
+        n_ok_g = sum(1 for x in fg if x >= UMBRAL_MUNDO)
+        n_ok_e = sum(1 for x in fe if x >= UMBRAL_MUNDO)
+        n_ok_b = sum(1 for x in fb if x >= UMBRAL_MUNDO)
         out(f"  mundos con >= 10 hambrunas: {len(fg)}; con f >= {UMBRAL_MUNDO}: genoma {n_ok_g}, energia {n_ok_e}, borde {n_ok_b}; "
             f"medianas f: genoma {np.median(fg) if fg else float('nan'):.2f}, energia {np.median(fe) if fe else float('nan'):.2f}, borde {np.median(fb) if fb else float('nan'):.2f}")
         rep = [res[arm][s]["rep_p"] for s in SEEDS if not np.isnan(res[arm][s]["rep_p"])]
