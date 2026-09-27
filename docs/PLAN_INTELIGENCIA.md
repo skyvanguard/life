@@ -442,3 +442,13 @@ que la ecología selecciona y la línea vuelve a la regulación por el orden
 con ese régimen; si NEUTRAL o DEGRADA, la variación no mejora la
 competitividad en 120000 ticks y el paisaje alrededor del mejor programa fijo
 es plano o descendente.
+
+**Resultado §23: NEUTRAL**, y el patrón (1.00, 0.00) por disposición en casi
+la mitad de las semillas muestra que la competencia la decide la posición.
+Releído §21 a esa luz: sus réplicas no movían las posiciones. Hipótesis
+principal ahora: en la línea con frontera abierta la reproducción es un
+efecto fundador espacial (quien toca el vacío llena el espacio), no una
+función del programa; por eso la selección no ve genomas y nada se adapta.
+§24 lo prueba barajando posiciones; si se confirma, el cambio necesario es
+estructural (cerrar la frontera para que la competencia sea interior, o
+cambiar la topología), no ecológico.

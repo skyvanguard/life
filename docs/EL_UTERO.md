@@ -1374,6 +1374,19 @@ explicación, que es lo más que un negativo puede ser.
   impares), 30000 ticks; medida = fracción de E entre las vivas. ADAPTA si E
   gana (≥ 0.75) en ≥ 15/20; DEGRADA si pierde (≤ 0.25) en ≥ 15/20; NEUTRAL en
   otro caso. `exp_utero_jardin_comun.py`.
+  **Resultado: NEUTRAL en ambos regímenes** (p=0.02: E gana 3, pierde 5 de
+  18; p=1: 2 y 5 de 16; mediana de la fracción de E 0.50). Pero el detalle
+  manda: en 8/18 semillas (p=0.02) y 7/16 (p=1) las dos disposiciones dan
+  exactamente (1.00, 0.00) o (0.00, 1.00): **la competencia la decide la
+  posición inicial, no el genoma.** Corrección a §21: sus réplicas variaban
+  el orden de actualización pero no las posiciones de la sopa, así que la
+  "selección determinista" que midió puede ser determinismo POSICIONAL (el
+  mismo genoma gana porque está en el mismo lugar). La hipótesis de §18
+  —genoma como proxy de posición— pasa a principal: en una línea con la
+  frontera abierta (≈80 vivas en 512 lugares), quien toca el vacío funda el
+  linaje que llena el espacio, sea cual sea su programa; ningún rasgo puede
+  seleccionarse salvo "estar en el borde". §24: réplicas con las posiciones
+  barajadas. (`results/utero_jardin_comun_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

@@ -1,0 +1,60 @@
+================================================================================
+JARDIN COMUN -- el genoma evolucionado (abierto, 120k ticks) contra el mejor programa fijo de su sopa, en mundo congelado
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 9.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; regimenes ['p0.02', 'p1']; 20 semillas; ancestro 30000, evolucion 120000, competencia 30000 ticks; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+REGIMEN p0.02
+  seed vivas anc vivas evol estado       frac E (par, impar)  media
+     0        69         81 compite          0.00       0.00   0.00
+     1        68         82 compite          0.00       0.00   0.00
+     2        79         84 compite          0.52       0.88   0.70
+     3        68          0 extinto    
+     4        63         74 compite          1.00       0.00   0.50
+     5        74         84 compite          0.00       0.51   0.25
+     6        75         84 compite          0.91       0.00   0.45
+     7        69         80 compite          1.00       0.00   0.50
+     8        72          4 compite          0.00       0.02   0.01
+     9        55         76 compite          1.00       0.61   0.80
+    10        73         86 compite          1.00       0.00   0.50
+    11        73         80 compite          0.00       0.20   0.10
+    12        66         70 compite          0.50       1.00   0.75
+    13        75          0 extinto    
+    14        42         29 compite          1.00       0.00   0.50
+    15        69         80 compite          0.00       1.00   0.50
+    16        68         75 compite          0.00       1.00   0.50
+    17        79          8 compite          1.00       1.00   1.00
+    18        73         70 compite          0.00       1.00   0.50
+    19        74         65 compite          0.00       0.00   0.00
+  semillas evaluables 18; E gana (>=0.75) 3; E pierde (<=0.25) 5; mediana frac E 0.50
+
+--------------------------------------------------------------------------------
+REGIMEN p1
+  seed vivas anc vivas evol estado       frac E (par, impar)  media
+     0        69          0 extinto    
+     1        68         11 compite          0.00       1.00   0.50
+     2        79        150 compite          0.00       0.00   0.00
+     3        68          0 extinto    
+     4        63          0 extinto    
+     5        74         82 compite          1.00       1.00   1.00
+     6        75         83 compite          0.91       0.00   0.45
+     7        69         65 compite          0.38       1.00   0.69
+     8        72          3 compite          0.00       0.02   0.01
+     9        55         80 compite          1.00       1.00   1.00
+    10        73          3 compite          0.00       0.00   0.00
+    11        73         62 compite          0.00       0.00   0.00
+    12        66         83 compite          1.00       0.00   0.50
+    13        75          0 extinto    
+    14        42         75 compite          1.00       0.00   0.50
+    15        69         38 compite          0.00       1.00   0.50
+    16        68         75 compite          0.00       1.00   0.50
+    17        79          8 compite          0.50       0.12   0.31
+    18        73         74 compite          0.00       0.50   0.25
+    19        74         81 compite          1.00       0.00   0.50
+  semillas evaluables 16; E gana (>=0.75) 2; E pierde (<=0.25) 5; mediana frac E 0.50
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> p0.02: NEUTRAL
+=> p1: NEUTRAL
