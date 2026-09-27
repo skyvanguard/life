@@ -1630,6 +1630,18 @@ explicación, que es lo más que un negativo puede ser.
   frente al sol de la hambruna, el útero evoluciona hacia dinámica interna
   viva con estado externo estable. (`results/utero_parametros_run.txt`)
 
+- **§34 — v17b θ y escala heredables, pre-registro (2026-09-27).** Flag
+  `escala=True` (requiere `parametros`): materia visible = (θ + s·salida)
+  mod 1, s ∈ [0, 1] heredable, nace en 1, perturbado ±ε desde la materia de
+  la madre y recortado; la sonda ve la salida cruda; `theta_fijo` congela
+  también s. Tests: apagado byte-idéntico con θ activo, atenuación correcta,
+  cría dentro de ±ε, fijo copia exacto, crecimiento alineado; suite 160
+  verdes. Como §33, escala activa en los tres brazos: theta_s_abierto,
+  theta_s_solo, nulo. Regla de §27 sobre w̄_A contra el nulo; secundarias
+  s̄_A (baja si la atenuación se selecciona), R_θ, banda, mortalidad. Humo de
+  una semilla, sin valor de prueba: s̄_A 0.92–0.94 contra 1.00.
+  `exp_utero_escala.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
