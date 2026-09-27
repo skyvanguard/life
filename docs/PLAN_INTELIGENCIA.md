@@ -207,3 +207,14 @@ sólo evaluó clima (corregido), y una lectura post hoc en el brazo ciclo2 —A_
 sobre B largas en todos los brazos; donde a B no le sigue la hambruna, un valor
 alto es saturación demográfica). Se cree sólo si A_n y A_nD cumplen en ciclo2
 y superan 2× ese control emparejado.
+
+**Corrida 2 (réplica, sol seed 1): NADA.** A_n en ciclo2 2/40 (era 9/40), A_nD
+0/40, A_nB 2/40; R2_A no en ambos brazos regulares. Falso positivo de
+calendario. Balance del programa: 17 corridas pre-registradas de emergencia
+sobre 14 diseños, un control positivo, dos ensayos de invasión, cinco señuelos
+cazados por réplica o control. La explicación mecánica de §12 sigue en pie y
+v14 la refuerza: aun con hambruna dura y parto costoso, la mortalidad en la
+hambruna no es menor bajo el orden regular. La población se derrumba en A y
+recoloniza en B sea cual sea el orden; sobrevivir a la hambruna no otorga
+descendencia porque el vacío se rellena igual de rápido desde cualquier
+superviviente.

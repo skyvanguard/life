@@ -1134,6 +1134,16 @@ explicación, que es lo más que un negativo puede ser.
   (corrida 2):** sol seed 1, ciclo2 evaluado como brazo primario junto a
   clima, y A_nD (A_n sin deriva) como lectura primaria; se cree sólo si A_n Y
   A_nD cumplen otra vez en ciclo2. (`results/utero_hambruna_run.txt`)
+  **Corrida 2 (réplica, sol seed 1): NADA.** R2_A no (clima < permutado en
+  8/25, razón 1.19; ciclo2 5/27, 1.24). A_n en ciclo2 = **2/40** (era 9/40);
+  A_nD 0/40; el control emparejado A_nB 2/40 en ciclo2 y 0–1 en los demás.
+  Ninguna lectura primaria cumple en ningún brazo (A en clima 5/40 pero
+  permutado 6/40; L_A en ciclo2 5/40 pero permutado 6/40). El 9/40 fue un
+  falso positivo de calendario: una coincidencia entre las B largas de un
+  sembrado solar concreto y la demografía. Cuarto señuelo del programa cazado
+  por réplica (3/40 anticipación, 9/40 y 5/40 ahorro, 6/40 habituación, 9/40
+  caída de partos). Diecisiete corridas pre-registradas de emergencia, cero
+  vestigios. (`results/utero_hambruna2_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
