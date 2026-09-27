@@ -544,3 +544,19 @@ que baja la fecundidad y deja reserva (probable), o reproducción regulada
 lectura primaria el rasgo; secundarias: partos per cápita por estación (B y
 A) y mortalidad; si la mortalidad baja con MENOS mutación (no más), no era
 carga.
+
+**Resultado §30: NO en el rasgo; la mortalidad en la hambruna del brazo
+p = 0.02 es menor que la del congelado en 12/12 mundos (0.15 contra 0.96) y
+su caída entre hambrunas en 11/12 (p 0.003). La regla de carga no se cumple;
+la de regulación sí, justo en el umbral (A/B 9/12).** Confusor no
+pre-registrado: densidad (138 contra 176 vivas; con luz finita, menos vivas =
+más reserva). §31: el control de densidad. Brazos: abierto p = 0.02;
+congelado; congelado-sombra con muertes al azar fuera de A iguales en número
+a las del brazo abierto de la misma semilla y ninguna impuesta durante A (la
+misma densidad sin herencia). HEREDABLE si la mortalidad per cápita en A del
+abierto es menor que la del congelado-sombra en ≥ 75% de los pares (p signo
+< 0.05) con razón mediana ≤ 0.5; DENSIDAD si ≤ 50% de los pares. Si
+HEREDABLE: primer candidato a vestigio de la línea (una población que, por
+herencia, muere menos en la hambruna sin que el rasgo de luz cambie); el
+paso siguiente sería identificar el mecanismo (partos, energía al entrar en
+A, invasión) y replicar con otro sol.

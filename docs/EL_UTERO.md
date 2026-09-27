@@ -1534,6 +1534,23 @@ explicación, que es lo más que un negativo puede ser.
   con menos mutación (p0.005 > p0.02 en ≥ 75%); REGULACIÓN si el cociente
   A/B es menor que en el congelado en ≥ 75% sin que los partos en B sean
   menores; INDETERMINADO en otro caso. `exp_utero_tasa_grande.py`.
+  **Resultado: NO en el rasgo; REGULACIÓN por la letra, con un confusor no
+  pre-registrado.** w̄_A: p0.02 0.381, p0.005 0.382, cerrado 0.366, congelado
+  0.375 (pareado 4/12, 5/12, 7/12). Mortalidad per cápita en la hambruna:
+  p0.02 **0.15**, p0.005 0.22, cerrado 0.29, congelado **0.96**; p0.02 <
+  congelado en **12/12** mundos, y su caída a lo largo de las hambrunas <
+  congelado en **11/12** (p 0.003); p0.005 10/12. Regla de carga: NO (partos
+  en B menores sólo en 7/12 y 6/12; mortalidad p0.005 > p0.02 en 6/12, la
+  carga predecía ≥ 9). Regla de regulación: SÍ por la letra (A/B menor que
+  el congelado en 9/12 = 75% justo, sin que los partos en B sean menores en
+  ≥ 75%). Medianas: partos por 100 ticks per cápita en B 0.05 (p0.02) contra
+  0.11 (congelado); en A 0.01 contra 0.02. **Confusor no pre-registrado:**
+  los brazos con herencia tienen menos vivas (138–148 contra 176) y con luz
+  finita menos densidad es más luz por celda y más reserva para A; la carga
+  mutacional puede bajar la mortalidad en la hambruna por esa vía sin
+  regular nada. No se declara vestigio. §31: congelado con la MISMA densidad
+  (muertes al azar fuera de A igualadas al brazo abierto, ninguna impuesta
+  en A). (`results/utero_tasa_grande_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

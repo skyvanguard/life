@@ -1,0 +1,33 @@
+================================================================================
+TASA BAJA A N=512 -- rasgo premiado, y CARGA o REGULACION? partos per capita por estacion; peso de luz de la materia durante la hambruna, variacion abierta vs congelado; cerrado, luz escasa
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 14.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; N=512; brazos ['abierto_p0.02', 'abierto_p0.005', 'cerrado', 'congelado']; 12 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo          vivas med vivas fin hambr w_A nivel  w_A t/t banda>=0.4   pc_A pc_A t/t  nac_B  nac_A   A/B  genomas
+  abierto_p0.02        138       127    59     0.381     1.00       0.24   0.15     0.00   0.05   0.01  0.02     8877
+  abierto_p0.005       148       122    59     0.382     1.00       0.28   0.22     0.35   0.11   0.00  0.02    10990
+  cerrado              154       114    59     0.366     1.00       0.37   0.29     0.85   0.12   0.03  0.18    24658
+  congelado            176       111    59     0.375     1.02       0.55   0.96     0.61   0.11   0.02  0.14      512
+
+--------------------------------------------------------------------------------
+PAREADO por semilla contra CONGELADO
+  abierto_p0.02  w_A tardio/temprano > congelado en 4/12 (p signo 0.927); nivel w_A > congelado en 5/12; medianas nivel 0.381 vs 0.375 -> no
+                 (secundaria) mortalidad per capita t/t < congelado en 11/12 (p signo 0.003)
+  abierto_p0.005 w_A tardio/temprano > congelado en 5/12 (p signo 0.806); nivel w_A > congelado en 6/12; medianas nivel 0.382 vs 0.375 -> no
+                 (secundaria) mortalidad per capita t/t < congelado en 7/12 (p signo 0.387)
+  cerrado        w_A tardio/temprano > congelado en 7/12 (p signo 0.387); nivel w_A > congelado en 4/12; medianas nivel 0.366 vs 0.375 -> no
+                 (secundaria) mortalidad per capita t/t < congelado en 5/12 (p signo 0.806)
+
+  CARGA o REGULACION (pareado contra congelado):
+    abierto_p0.02  partos_B < congelado 7/12; A/B < congelado 9/12; mortalidad_A < congelado 12/12
+    abierto_p0.005 partos_B < congelado 6/12; A/B < congelado 8/12; mortalidad_A < congelado 10/12
+    cerrado        partos_B < congelado 6/12; A/B < congelado 4/12; mortalidad_A < congelado 9/12
+    mortalidad_A p0.005 > p0.02 en 6/12 (H1 carga predice >= 75%)
+    => REGULACION
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NO EVOLUCIONA: con gradiente real, seleccion fuerte y oferta suficiente, la variacion no sube el rasgo en 120000 ticks (camino).
