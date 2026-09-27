@@ -1275,6 +1275,18 @@ explicación, que es lo más que un negativo puede ser.
   del genoma (repetible entre portadores y entre hambrunas) o del lugar y el
   estado. (`results/utero_evoluciona_run.txt`)
 
+- **§18 — ¿hay fenotipo heredable?, pre-registro (2026-09-27).** Sin
+  evolucionar nada: en cada hambruna madura se fotografían las vivas (genoma,
+  energía, si lindan con vacío) y se sigue cuáles sobreviven. Por hambruna:
+  ¿el destino se predice por el genoma (suma de cuadrados entre genomas con
+  ≥ 2 portadoras, nulo por permutación de destinos), por la energía inicial,
+  por el borde? Por mundo: fracción de hambrunas con p < 0.05 por predictor.
+  HEREDABLE si ≥ 15/20 mundos tienen ≥ 25% de hambrunas con p_gen < 0.05;
+  ESTADO si eso lo cumple la energía o el borde y no el genoma; NADA si nada
+  predice. Repetibilidad del mismo genoma entre hambrunas consecutivas como
+  secundaria. 60000 ticks, L0 = 9, brazos abierto y cerrado.
+  `exp_utero_heredabilidad.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

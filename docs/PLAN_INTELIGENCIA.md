@@ -345,3 +345,15 @@ que el filtro discrimine. §18 mide eso directamente: entre las celdas vivas
 al empezar cada hambruna, ¿la supervivencia se predice por el genoma (ICC
 entre portadores del mismo genoma contra un nulo por permutación de destinos)
 y se repite para el mismo genoma en hambrunas sucesivas?
+
+## 18. ¿Hay fenotipo heredable? (2026-09-27)
+
+La cadena de esta noche: no hay regulación (18 corridas) → no hay adaptación
+(§17, contra el nulo congelado) → ¿hay siquiera algo heredable sobre lo que la
+hambruna discrimine? Se mide sin evolucionar: entre las vivas al empezar cada
+hambruna, si sobrevivir se predice por el genoma, por el estado (energía,
+borde) o por nada. Tres salidas con consecuencias distintas: HEREDABLE →
+el problema es intensidad de selección frente a carga (medir ventaja y tiempo
+de fijación); ESTADO → la hambruna mata por dónde y con cuánto, no por qué
+programa: ninguna cantidad de tiempo produce adaptación y hay que cambiar qué
+mide el filtro o cómo el genoma fija el estado; NADA → muerte al azar.
