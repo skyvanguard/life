@@ -692,6 +692,19 @@ sustrato distinto. Decisión abierta.
   estación templada precede siempre a la hambruna; bajo el permutado no.
   (`results/utero_orden_run.txt`)
 
+- **§37 — una perilla de historia propia, pre-registro (2026-09-27).** Flag
+  `reflejo=ε_g`: θ_eff = θ + g·tanh((ē − e)/e0), ē media lenta de la energía
+  propia (τ = 200), g ganancia heredable continua (nace en 0, ±ε_g desde la
+  materia de la madre, recortada a [−2, 2]; `theta_fijo` la congela);
+  byte-idéntico apagado; tests; suite 166 verdes. Programas CONGELADOS en
+  todos los brazos (se mide la perilla sin carga), θ, s, g heredables. N =
+  512, L0 = 14, 120000 ticks, 12 semillas, sol seed 0. Brazos clima, ciclo2,
+  permutado, nulo (todo fijo). Primaria R2_A (regla de v14) con VESTIGIO si
+  cumple en clima Y ciclo2; secundaria: signo de ḡ_A por brazo (¿se
+  selecciona un signo bajo los órdenes regulares y no bajo el permutado?).
+  Réplica con otro sol antes de creer cualquier positivo.
+  `exp_utero_reflejo.py`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
@@ -1749,6 +1762,19 @@ explicación, que es lo más que un negativo puede ser.
   con programas congelados para medirla sin carga. Bajo el orden regular la
   estación templada precede siempre a la hambruna; bajo el permutado no.
   (`results/utero_orden_run.txt`)
+
+- **§37 — una perilla de historia propia, pre-registro (2026-09-27).** Flag
+  `reflejo=ε_g`: θ_eff = θ + g·tanh((ē − e)/e0), ē media lenta de la energía
+  propia (τ = 200), g ganancia heredable continua (nace en 0, ±ε_g desde la
+  materia de la madre, recortada a [−2, 2]; `theta_fijo` la congela);
+  byte-idéntico apagado; tests; suite 166 verdes. Programas CONGELADOS en
+  todos los brazos (se mide la perilla sin carga), θ, s, g heredables. N =
+  512, L0 = 14, 120000 ticks, 12 semillas, sol seed 0. Brazos clima, ciclo2,
+  permutado, nulo (todo fijo). Primaria R2_A (regla de v14) con VESTIGIO si
+  cumple en clima Y ciclo2; secundaria: signo de ḡ_A por brazo (¿se
+  selecciona un signo bajo los órdenes regulares y no bajo el permutado?).
+  Réplica con otro sol antes de creer cualquier positivo.
+  `exp_utero_reflejo.py`.
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
