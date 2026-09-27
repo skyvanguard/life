@@ -25,6 +25,23 @@ LECTURA PRIMARIA (declarada antes de correr):
   (reflejo estacional emergente si ≤ 0.2 en clima y mayor en permutado).
 LECTURAS SECUNDARIAS: A, A_m, L, L_m, A_n, A_e (sin deriva), A_eN (control),
 L_A, con la vara enmendada.
+CORRIDA 1 (sol seed 0, results/utero_hambruna_run.txt): R2_A no; el código de
+veredicto sólo evaluó el brazo clima para las lecturas de anticipación (defecto
+corregido aquí: se evalúan clima y ciclo2 contra los mismos controles). Leído
+ciclo2 a mano: A_n = 9/40 (p binomial ≈ 0.0006) contra permutado 0, sin sol 2,
+sombra 3: pasaría las tres condiciones de §6b, pero ciclo2 estaba listado como
+CONTROL, no como brazo primario: es una lectura post hoc, una hipótesis, no un
+resultado. Sospecha declarada:
+saturación demográfica dentro de B (en ciclo2 la abundancia sigue siempre a C y
+arranca cerca de la capacidad de carga, así que los partos decaen al final de
+B sin que nadie anticipe nada; A_eN, la lectura de nivel que es control de ese
+artefacto, también dio 8/40 en ciclo2).
+CORRIDA 2 (réplica, escrita antes de correr): sol seed 1 (otro calendario);
+A_nD = A_n sin deriva (residuo de la tendencia lineal previa a la ventana)
+declarada como lectura primaria adicional. Se cree A_n sólo si A_n Y A_nD
+cumplen otra vez en ciclo2; si A_n cumple y A_nD no, era saturación; si
+ninguna cumple, la corrida 1 fue un falso positivo de calendario.
+
 VEREDICTO: VESTIGIO (regulación por orden emergente) si R2_A cumple en clima y
 no es explicable por tipos de transición (ciclo2 también cumple), o si una
 lectura primaria de anticipación cumple las tres condiciones; SIN CONTACTO si
@@ -54,7 +71,7 @@ from zeta_life.utero.sol import REGIMENES, Sol  # noqa: E402
 N0, MAX_N = 16, 256
 TICKS = 30000
 SEEDS = list(range(40))
-SOL_SEED = 0
+SOL_SEED = 1
 KAPPA = 0.5
 E_MANT, E_DIF, E_PARTO = 0.01, 0.25, 0.5
 L0, E0, PERCEPCION = 3.0, 2.0, False
@@ -69,7 +86,7 @@ ALPHA, MIN_SEEDS, RATIO, CONTACTO = 0.05, 5, 2.0, 1.2
 MATURE = (6000, 30000)
 WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
 RESULTS = HERE.parents[1] / "results"
-NAME = "utero_hambruna"
+NAME = "utero_hambruna2"
 ARMS = ("clima", "ciclo2", "permutado", "sin", "sombra")
 
 
@@ -96,6 +113,10 @@ def job(seed: int) -> tuple:
             out[("L" + tag, arm)] = aprendizaje(serie, cal[arm], rng_seed=seed)
         out[("A_n", arm)] = anticipacion(-ser["nacimientos"], cal[arm], rng_seed=seed,
                                          regimenes=PRECEDE_A[arm])
+        # corrida 2: A_nD = la misma caída de partos pero como residuo de la tendencia
+        # lineal previa a la ventana (sin deriva): si A_n cumple y A_nD no, era saturación.
+        out[("A_nD", arm)] = anticipacion(-ser["nacimientos"], cal[arm], rng_seed=seed,
+                                          regimenes=PRECEDE_A[arm], detrend=True)
         em = np.nan_to_num(ser["e_media"], nan=0.0)
         # corrida 4: A_e = exceso de energía media en el instante esperado respecto de la
         # tendencia lineal ajustada ANTES de la ventana y extrapolada (sin deriva);
@@ -202,27 +223,32 @@ def main() -> None:
         return [s for s in SEEDS if not np.isnan(res[s][(vara, arm)]["p"])
                 and res[s][(vara, arm)]["p"] < ALPHA and (res[s][(vara, arm)][key] > 0 or not signo)]
 
-    lecturas = ("A", "A_m", "L", "L_m", "A_n", "A_e", "A_eN", "L_A")
-    PRIMARIAS = ("A", "A_m", "L", "L_m", "A_n", "A_e", "L_A")        # A_eN es control, no cuenta
+    lecturas = ("A", "A_m", "L", "L_m", "A_n", "A_nD", "A_e", "A_eN", "L_A")
+    PRIMARIAS = ("A", "A_m", "L", "L_m", "A_n", "A_nD", "A_e", "L_A")   # A_eN es control, no cuenta
     C = {v: {arm: conteo(v, arm) for arm in ARMS} for v in lecturas}
     out("")
     out("-" * 80)
     out("POSITIVAS POR LECTURA Y BRAZO (p<0.05; A con stat>0)")
-    out(f"  {'lectura':<8} " + " ".join(f"{arm:>10}" for arm in ARMS) + "   p_binom(clima)  cumple(2)  cumple(3)")
+    out(f"  {'lectura':<8} " + " ".join(f"{arm:>10}" for arm in ARMS)
+        + "   p_binom(clima) c2 c3 | p_binom(ciclo2) c2 c3")
     cumplen = []
     for v in lecturas:
-        n_eval = sum(1 for s in SEEDS if not np.isnan(res[s][(v, "clima")]["p"]))
-        k = len(C[v]["clima"])
-        pb = binom_p(k, max(n_eval, 1), ALPHA)
-        c2 = k >= MIN_SEEDS and pb < 0.05
-        c3 = k >= RATIO * max(len(C[v]["sin"]), len(C[v]["sombra"]), 1) and k >= RATIO * max(len(C[v]["permutado"]), 1)
-        if c2 and c3 and v in PRIMARIAS:
-            cumplen.append(v)
-        out(f"  {v:<8} " + " ".join(f"{len(C[v][arm]):>10}" for arm in ARMS) + f"   {pb:>13.3f}  {str(c2):>9}  {str(c3):>9}")
+        fila = f"  {v:<8} " + " ".join(f"{len(C[v][arm]):>10}" for arm in ARMS)
+        for brazo in ("clima", "ciclo2"):        # corrida 2: ambos brazos regulares se evalúan
+            n_eval = sum(1 for s_ in SEEDS if not np.isnan(res[s_][(v, brazo)]["p"]))
+            k = len(C[v][brazo])
+            pb = binom_p(k, max(n_eval, 1), ALPHA)
+            c2 = k >= MIN_SEEDS and pb < 0.05
+            c3 = (k >= RATIO * max(len(C[v]["sin"]), len(C[v]["sombra"]), 1)
+                  and k >= RATIO * max(len(C[v]["permutado"]), 1))
+            if c2 and c3 and v in PRIMARIAS:
+                cumplen.append(f"{v}@{brazo}")
+            fila += f"   {pb:>13.3f} {str(c2)[0]:>2} {str(c3)[0]:>2}"
+        out(fila)
     for v in lecturas:
-        out(f"  {v}: clima {C[v]['clima']}  permutado {C[v]['permutado']}  sin {C[v]['sin']}  sombra {C[v]['sombra']}")
-    for v in ("L", "L_m"):
-        hab = [s for s in C[v]["clima"] if res[s][(v, "clima")]["rho"] < 0]
+        out(f"  {v}: " + "  ".join(f"{arm} {C[v][arm]}" for arm in ARMS))
+    for v in ("L", "L_m", "L_A"):
+        hab = [s_ for s_ in C[v]["clima"] if res[s_][(v, "clima")]["rho"] < 0]
         out(f"  habituacion en clima ({v}): {hab}")
 
     out("")
