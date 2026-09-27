@@ -1,0 +1,25 @@
+================================================================================
+TORNEO CON ORACULO (modelo reducido, sin mutacion): las 8 estrategias de parto por estacion, partes iguales
+================================================================================
+N=256; 24 mundos por calendario; 60000 ticks; lectura pre-registrada (docstring); la estrategia se nombra por las estaciones en que pare
+
+corrida: 1.1 min
+  fraccion final (mediana entre mundos) por estrategia:
+  pare en       clima     ciclo2  permutado
+  nunca          0.02       0.02       0.04
+  C              0.08       0.33       0.08
+  B              0.24       0.06       0.18
+  BC             0.03       0.02       0.03
+  A              0.02       0.02       0.05
+  AC             0.01       0.01       0.02
+  AB             0.01       0.01       0.02
+  ABC            0.01       0.01       0.02
+
+  ganadora de clima     : pare en B      (mediana 0.24; la mayor en 8/24 mundos)
+  ganadora de ciclo2    : pare en C      (mediana 0.33; la mayor en 10/24 mundos)
+  ganadora de permutado : pare en B      (mediana 0.18; la mayor en 9/24 mundos)
+
+================================================================================
+LECTURA (regla escrita antes de correr)
+  bajo clima, 'B' supera a 'C' en 13/24 (p 0.419); bajo ciclo2, 'C' supera a 'B' en 16/24 (p 0.076)
+=> NO CONCLUYENTE: las ganadoras difieren pero no se superan con la regla exigida.
