@@ -19,6 +19,13 @@ BRAZOS: clima (A→B→C) · permutado · sin sol (control negativo: sin B el
 ahorrador nunca pare; debe extinguirse).
 MEDIDAS: fracción de celdas vivas con la firma del ahorrador en maduro (media
 y final); TOMA = firma ≥ 0.5 al final; persistencia = firma > 0 al final.
+CORRIDA 1 (partos gratis): MIXTO, sin selección — toma 4/20 en clima y 4/20 en
+permutado, extinción 14/20: el evolucionado pare 34/100 ticks en la hambruna y
+recoloniza más rápido. CORRIDA 2 (declarada): e_costo = 2.0 = una dotación
+inicial por parto; misma vara. Si ahora el ahorrador invade bajo el clima, la
+selección por anticipación aparece cuando reproducirse cuesta; el paso
+siguiente sería entonces el tejido evolucionado SIN sembrar bajo ese costo.
+
 VEREDICTO (escrito antes de correr):
   SELECCIÓN     si toma en clima ≥ 10/20 y ≥ 2× la toma en permutado, y
                 extinción en sin sol.
@@ -49,12 +56,13 @@ from zeta_life.utero.sol import Sol  # noqa: E402
 N0, MAX_N = 16, 256
 TICKS = 20000
 SEEDS = list(range(20))
+E_COSTO = 2.0                     # corrida 2: parir cuesta una dotación inicial entera (declarado)
 FLAGS = dict(memoria=False, invasion="asentada", eq_window=100, energia=True, luz_finita=3.0,
-             e0=2.0, e_mant=0.01, lentos=0.02)
+             e0=2.0, e_mant=0.01, lentos=0.02, e_costo=E_COSTO)
 MATURE = 6000
 WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
 RESULTS = HERE.parents[1] / "results"
-NAME = "utero_invasion_ahorrador"
+NAME = "utero_invasion_ahorrador_costo"
 
 
 def _cp():
