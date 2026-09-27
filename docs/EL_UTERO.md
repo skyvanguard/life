@@ -724,6 +724,13 @@ sustrato distinto. Decisión abierta.
   reproduce el gradiente de §26 (ACEPTA si ANTISOL gana en ≥ 15/20); V2
   reproduce la primera evolución de §34 (ACEPTA si theta_s_solo ADAPTA por
   la regla de §27). `exp_utero_gpu_validacion.py`.
+  **Resultado parcial: V1 ACEPTADA; V2 sin completar.** V1 en GPU: ANTISOL
+  gana en 19/20 (CPU 17/20), medianas 1.00 y 0.00, poblaciones finales 13–18
+  como en CPU; 395 s. V2 estaba en curso cuando el sistema detuvo la corrida
+  por memoria RAM crítica (la máquina se comparte; 5 GB libres de 31 al
+  revisar). No es un fallo del experimento. **El motor no está validado
+  hasta completar V2** y no se usa para preguntas nuevas. No se relanzó.
+  (`results/utero_gpu_validacion_parcial_run.txt`)
 
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato

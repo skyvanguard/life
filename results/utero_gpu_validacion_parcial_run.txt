@@ -1,0 +1,32 @@
+================================================================================
+VALIDACION DEL MOTOR EN GPU (orden en damero) contra dos resultados establecidos en CPU
+================================================================================
+dispositivo: NVIDIA GeForce RTX 5070 Ti Laptop GPU; veredicto pre-registrado (docstring)
+
+V1 gradiente (N=64, congelado, L0=1.75, 30000 ticks, 20 semillas) -- 395 s
+  seed  vivas  antisol  espejo  gana
+     0     15     1.00    0.00    si
+     1     15     1.00    0.00    si
+     2     17     1.00    0.00    si
+     3     14     1.00    0.00    si
+     4     15     1.00    0.00    si
+     5     15     0.93    0.00    si
+     6     15     1.00    0.00    si
+     7     13     1.00    0.00    si
+     8     15     1.00    0.00    si
+     9     18     0.39    0.00    si
+    10     14     1.00    0.00    si
+    11     13     1.00    0.00    si
+    12     15     1.00    0.00    si
+    13     16     1.00    0.00    si
+    14     14     1.00    0.00    si
+    15     16     1.00    0.00    si
+    16     15     1.00    0.00    si
+    17     15     0.00    0.00    no
+    18     16     1.00    0.00    si
+    19     14     1.00    0.00    si
+  ANTISOL gana en 19/20 (CPU §26: 17/20); medianas antisol 1.00, espejo 0.00
+  => V1 ACEPTADA
+
+
+V2 primera evolucion: NO COMPLETADA. El sistema detuvo la corrida por memoria RAM critica (2026-09-27 ~13:40) cuando V2 estaba en curso. V1 queda como resultado parcial valido; el motor NO esta validado hasta completar V2.
