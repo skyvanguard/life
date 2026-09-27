@@ -964,6 +964,30 @@ novedad pero no regulación. Ambas son decisiones de rumbo, no de ingeniería.
   tendencia lineal ajustada ANTES de la ventana esperada, extrapolada), 40000
   ticks (el doble de estaciones), sol seed 2, sin percepción, y R2 restringido
   a pares con ambos mundos vivos. (`results/utero_sol_luzfinita3_run.txt`)
+  **Corrida 4 (sol seed 2, 40000 ticks, sin percepción, A_e sin deriva, R2
+  entre vivos): NADA, concluyente.** A_e sin deriva: clima **1/40**; A_eN (nivel,
+  control del artefacto): permutado **15/40**, clima 3 — el estadístico en nivel
+  dispara masivamente en el brazo SIN regularidad: acumulación, no anticipación.
+  L_A (habituación de la hambruna): clima 6/40 (p=0.014) pero sombra 10/40 (la
+  sombra copia el calendario de muertes): artefacto del calendario. R2 entre
+  pares vivos: 8/24 y 8/26 — nada. Las demás lecturas al nivel de los
+  controles. **v12 cierra con cuatro corridas: la capacidad de carga estacional
+  es el único régimen intermedio de toda la serie —la población sigue a la
+  estación, las muertes se concentran en la hambruna— y aun así no hay
+  anticipación, habituación ni regulación por orden que supere a sus
+  controles.** La señal de ahorro de las corridas 1 y 3 quedó identificada como
+  artefacto por dos vías independientes (derivada y residuo de tendencia; brazo
+  permutado). (`results/utero_sol_luzfinita4_run.txt`)
+
+**Cierre del programa del sol (2026-09-26, segunda vez, definitivo para esta
+sesión).** Trece corridas pre-registradas sobre doce diseños (sol visible,
+sonda climática, réplica, calor, plano, disolución, metabolismo, percepción,
+fotosíntesis ×2, luz finita ×4), ninguna con vestigio; dos señales tentadoras
+(3/40 de anticipación; 9/40 de ahorro) desmontadas por sus réplicas y
+controles. La cadena de diagnósticos es el resultado: inercia sin costo;
+recambio total con costo por superficie; bifurcación extinción/inmortalidad
+con luz individual; régimen intermedio con luz compartida, sin señal. Regla de
+parada aplicada. Decisión de rumbo: de Fran.
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

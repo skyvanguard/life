@@ -132,3 +132,16 @@ diseñadas desde el sustrato, no añadidas; (b) un régimen que no sea ni crista
 interna frente a la del clima; (c) el plano, por su superficie de contacto y
 su no-cristalización, como sustrato base del programa. Ver ledger en
 `EL_UTERO.md` y `results/utero_sol_*_run.txt`.
+
+## 9. Estado al segundo cierre (misma sesión, tras la orden de seguir)
+
+Cuatro diseños más (v9 metabolismo, v10 percepción, v11 fotosíntesis ×2, v12
+luz finita ×4). v12 —capacidad de carga estacional— dio por primera vez un
+régimen intermedio real (población que sigue a la estación, muertes
+concentradas en la hambruna) y dos lecturas tentadoras (ahorro antes de la
+hambruna: 9/40 y 5/40) que sus réplicas y el brazo permutado desmontaron como
+artefacto de acumulación. Trece corridas, cero vestigios. Lección de método
+añadida a §6b: toda lectura sobre una serie que se acumula dentro de la
+estación (energía, población) debe usarse SIN deriva (residuo respecto de la
+tendencia previa) y compararse contra el brazo permutado, no sólo contra sin
+sol y sombra.

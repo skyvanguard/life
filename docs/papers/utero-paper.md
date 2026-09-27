@@ -258,9 +258,18 @@ el tejido muere— y aun así ninguna vara supera a sus controles; **percepción
 de la propia energía como quinto registro: recambio continuo sin estructura
 estacional. Un diagnóstico de escala temporal mostró la razón estructural: la
 memoria interna del tejido dura entre 6 y 150 ticks y las estaciones entre 300
-y 900. Ocho diseños pre-registrados, ocho negativos, un falso positivo
-detectado por su réplica. El programa se reporta como negativo honesto: este
-sustrato produce orden y novedad, no regulación.
+y 900. Cuatro diseños más cerraron la búsqueda: **fotosíntesis** (luz sobre todo el
+tejido) reveló una bifurcación entre extinción e inmortalidad; **luz finita**
+(la luz de cada tick se reparte entre las vivas: una capacidad de carga que
+sigue a la estación) dio por primera vez un régimen intermedio real, con la
+población siguiendo a la estación y las muertes concentradas en la hambruna,
+y dos lecturas de ahorro previo a la hambruna (9/40 y 5/40) que sus réplicas
+y el brazo con orden permutado desmontaron como artefacto de acumulación
+(15/40 en el brazo sin regularidad). Trece corridas pre-registradas sobre doce
+diseños, cero vestigios, dos señales tentadoras desmontadas por sus controles.
+El programa se reporta como negativo honesto: este sustrato produce orden,
+novedad y hasta demografía estacional, pero no regulación en el sentido de
+Ashby.
 
 ## 5. Discusión
 

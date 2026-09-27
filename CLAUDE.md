@@ -66,12 +66,12 @@ zeta-life/
 │   ├── core/            # zeta_constants, vertex, tetrahedral geometry
 │   └── utils/           # statistics helpers
 ├── experiments/
-│   ├── utero/           # 30 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
+│   ├── utero/           # 31 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
 │   ├── kernel/          # 31 kernel experiments
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 51 test files (713 tests + 1 opt-in slow, ~110s)
+├── tests/               # 51 test files (716 tests + 1 opt-in slow, ~110s)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -128,6 +128,7 @@ PYTHONPATH=src python experiments/utero/exp_utero_sol_equilibrio.py # dissolutio
 PYTHONPATH=src python experiments/utero/exp_utero_sol_energia.py    # v9 metabolism under the sun (~45 min): environment essential, no vestige
 PYTHONPATH=src python experiments/utero/exp_utero_sol_percepcion.py # v10 perception under the sun (~45 min): NO CONTACT / NOTHING. Eight pre-registered designs, eight negatives
 PYTHONPATH=src python experiments/utero/exp_utero_sol_luz.py        # v11 photosynthesis (light on the whole tissue), break-even at the typical torus distance: EXTINCTION in both runs (with/without perception, e0 1 and 2). Tenth negative; program closed as an honest negative (PLAN §7)
+PYTHONPATH=src python experiments/utero/exp_utero_sol_luzfinita.py  # v12 finite light (seasonal carrying capacity): the only intermediate regime of the series; 4 runs (sun seeds 0/1/2, 20k-40k ticks): NOTHING; the 'saving before famine' signal was accumulation drift (15/40 in the permuted arm)
 PYTHONPATH=src python experiments/utero/exp_utero_sol_vara.py       # 1-D heating sun with the amended yardstick (not run: superseded by the plane/metabolism runs)
 PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robustness (~40 min): 1024 cells = same typicity; 120 seeds -> v5 4.2%, v6 5.8%. The rarity is intrinsic to 1-D
 
@@ -216,6 +217,7 @@ one hypothesis about where the "cage" moved:
 | `sol_eq_eps=ε, sol_eq_window=W` | env | "what becomes equal to the void is void": a cell whose matter matches the environment for W ticks is emptied. NO CONTACT (initial purge, then 0 deaths) |
 | `energia=True` (+ `e0, e_mant, e_gan, e_dif, e_parto`) | v9 | **minimal metabolism**: maintenance per tick, harvest at the surface from the disequilibrium with the void, conservative diffusion, energy share at birth, death at e≤0. Makes the environment essential (no sun = death); no vestige |
 | `energia_luz=True` | v11 | photosynthesis: every cell harvests `e_gan·|v − sol(t)|` (income depends on matter vs season, not geometry). Lifetime calibration shows a bifurcation: extinction or immortality; the intermediate regime (break-even ≈ 0.25) collapses into extinction at n=40 |
+| `luz_finita=L0` | v12 | finite shared light L0·sol(t) split among living cells by |v−sol| weight: a carrying capacity that follows the season (A famine, B feast). The only intermediate regime found; no vestige in 4 runs |
 | `percepcion=True` | v10 | the cell's energy enters its physics as a 5th read-only register (fields index mod 5): the only slow internal variable, readable. Requires `energia`. No vestige |
 | `sol_acople=κ` | env | the sun HEATS the surface: border cells get `v ← (1−κ)v' + κ·sol(t)` after their rule; the only variant with real contact (border–sun corr 0.89) |
 | `recombina=True` | v7 | **recombination at birth**: the child also takes instruction `b%K` (the SPAWN's locus field) from the mother's neighbour on the side opposite to the birth, if alive and of a different genome. Two parents, zero RNG — breaks the deterministic lethal fixed point of the germinal map that makes plains sterile (infant-mortality experiment) |
@@ -404,7 +406,7 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
   principles, the two death modes, the open crossroads, and the **honest results
   ledger** (Nivel 1 → v5, each entry written only after its adversarial control,
   with the refutations kept in). Update its ledger when a new útero experiment lands.
-- `docs/PLAN_INTELIGENCIA.md` — **the plan from order to intelligence** (status §8: eight pre-registered designs, eight negatives, one replicated false positive; program provisionally closed as an honest negative): operational definition (regulation, anticipation, learning-by-recurrence, organization), the sun, the pre-registered notion of "vestige", controls and honest stop rules. Read before touching the sun program.
+- `docs/PLAN_INTELIGENCIA.md` — **the plan from order to intelligence** (status §8–§9: thirteen pre-registered runs over twelve designs, zero vestiges, two tempting signals dismantled by their controls; program closed as an honest negative): operational definition (regulation, anticipation, learning-by-recurrence, organization), the sun, the pre-registered notion of "vestige", controls and honest stop rules. Read before touching the sun program.
 - `docs/papers/utero-paper.md` — **working draft of the útero paper** (Spanish): what it takes and what is not enough to sustain structural novelty in a self-rewriting substrate — the chain of cages, the honest yardstick, the anatomy/fertility/mortality mechanism, the three mechanisms and their ceiling, v8 pending.
 - `docs/ESTADO_DEL_ARTE_UTERO.md` — **state of the art (2026-09-26)** for the útero line: BFF /
   Computational Life (+ its 2026 self-correction), Stringmol, AlChemy, Flow-Lenia, Evoloop,
