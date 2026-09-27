@@ -195,3 +195,15 @@ pareada entre mundos vivos, con ciclo2 como control de tipos de transición.
 Un tejido que regula según la estación previa muere menos cuando la hambruna
 sigue siempre a la estación templada. Secundarias: estructura de partos A/B y
 las lecturas de anticipación con la vara enmendada.
+
+**Corrida 1 (sol seed 0):** NADA. R2_A no (clima < permutado en 7/26 pares
+vivos; razón 1.21: la hambruna mata más bajo el orden regular, no menos);
+partos A/B 0.01 en todos los brazos; las lecturas de anticipación en clima al
+nivel de los controles. Dos fallas propias, registradas: el código de veredicto
+sólo evaluó clima (corregido), y una lectura post hoc en el brazo ciclo2 —A_n =
+9/40— comparaba estaciones B largas contra brazos que miran C o todas
+(`PRECEDE_A`): no compara iguales. Réplica declarada antes de correr: sol seed
+1, ciclo2 como brazo evaluado, A_nD (sin deriva) y A_nB/A_nBD (la misma lectura
+sobre B largas en todos los brazos; donde a B no le sigue la hambruna, un valor
+alto es saturación demográfica). Se cree sólo si A_n y A_nD cumplen en ciclo2
+y superan 2× ese control emparejado.
