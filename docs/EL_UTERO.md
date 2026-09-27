@@ -798,6 +798,33 @@ sustrato distinto. Decisión abierta.
   (estrategias con oráculo de estación, sin mutación).
   (`exp_utero_modelo_reducido_q.py`, `results/utero_modelo_reducido_q_run.txt`)
 
+- **§41 — ¿el entorno contiene un óptimo que dependa del orden? SÍ, en el
+  modelo (2026-09-27).** Modelo reducido (NO el útero), sin mutación,
+  estrategias con ORÁCULO de estación. Tres pasos, cada uno con su regla
+  escrita antes:
+  (a) *Par inicial*: X (no pare en C) contra Y (no pare en B). X gana bajo
+  clima 19/24 (mediana 0.93) y pierde bajo ciclo2 19/24 (0.05). Por la regla,
+  hay óptimo de orden. No se creyó: dos objeciones propias (el mecanismo
+  podía ser recolonizar DESPUÉS de la hambruna y no guardar antes; una
+  tercera estrategia podía ganarles a las dos).
+  (b) *Torneo de las 8 estrategias*: NO CONCLUYENTE por la regla (13/24 y
+  16/24; deriva grande con 32 celdas por estrategia), pero nombra el
+  mecanismo y confirma la primera objeción: parir siempre es la PEOR (1%);
+  ganan las que paren en una sola estación, la que SIGUE a la hambruna (sólo
+  B bajo clima, mediana 0.24; sólo C bajo ciclo2, 0.33).
+  (c) *Confirmatoria* (declarada tras el torneo: las dos candidatas cara a
+  cara, 48 mundos, N = 512): "sólo B" gana bajo clima en **45/48** (mediana
+  0.83) y pierde bajo ciclo2 en **48/48** (0.01); bajo el PERMUTADO ninguna
+  domina (0.45; 17/48 contra 31/48). **El entorno contiene un óptimo que
+  depende del orden, y sólo cuando el orden es regular.**
+  Qué dice y qué no: es un modelo, con oráculo y sin mutación; prueba que la
+  señal EXISTE en la ecología, no que el tejido la encuentre. Y precisa qué
+  es la señal: no anticipar la hambruna sino contenerse siempre y reproducirse
+  cuando la hambruna ACABA de pasar. Eso se puede leer de la propia historia
+  (energía que sube desde un mínimo), sin conocer el calendario.
+  (`exp_utero_orden_oraculo.py`, `exp_utero_orden_torneo.py`,
+  `exp_utero_orden_confirmatoria.py`, `results/utero_orden_*_run.txt`)
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32

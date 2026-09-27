@@ -684,3 +684,33 @@ El trasplante recíproco lo detecta con el criterio local contra foráneo.
 Primero en el modelo reducido (minutos, sin GPU); si el modelo predice
 VESTIGIO, la perilla se implementa en el motor de GPU y se corre en el
 sustrato real cuando haya memoria y Fran lo indique.
+
+**§40 (modelo): NADA** con la perilla de parto por nivel de ingreso (q baja en
+todos los niveles y orígenes por igual).
+
+## 41. El entorno sí contiene la señal (modelo, 2026-09-27)
+
+Pregunta previa que nunca se había medido: ¿hay un óptimo que dependa del
+orden? En el modelo reducido, con oráculo de estación y sin mutación: par
+inicial 19/24 y 19/24; torneo de 8 estrategias no concluyente pero con el
+mecanismo a la vista; confirmatoria 45/48 y 48/48, y 0.45 bajo el permutado.
+La estrategia óptima es contenerse siempre y parir sólo en la estación que
+sigue a la hambruna. Parir siempre es la peor.
+
+Consecuencias para el programa:
+1. Los negativos de §36–§40 no eran porque el orden no importe: importa. Eran
+   porque ninguna de las perillas probadas podía expresar "después de la
+   hambruna": la ganancia g desplaza la MATERIA, no el parto; las propensiones
+   q leen el ingreso PRESENTE, que no distingue "abundancia tras hambruna" de
+   "abundancia tras templada".
+2. La señal se lee de la historia propia: energía que sube desde un mínimo.
+   No exige conocer el calendario, así que una perilla que la lea funcionará
+   bajo cualquier orden regular: el trasplante recíproco (§39) NO es la vara
+   adecuada para ella. La vara es la de regulación (§6): la población con la
+   perilla heredable contra el nulo sin herencia, y contra el orden
+   permutado, donde "después de la hambruna" no anuncia una estación fija.
+3. §42: propensión al parto como función heredable de la historia de energía,
+   q = clip(q0 + k·tanh((e − ē)/e0)), q0 y k heredables. Predicción: k > 0
+   (parir cuando la energía sube respecto de su historia) y q0 bajo
+   (contenerse). Primero en el modelo; después en el motor de GPU, que
+   necesita esa perilla, cuando haya memoria y Fran lo indique.
