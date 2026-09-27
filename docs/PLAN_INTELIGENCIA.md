@@ -301,3 +301,10 @@ regulación por el orden. Si EVOLUCIONA sin vestigio, la pregunta pasa a ser
 sólo de tiempo; si NADA, la variación abierta es letal o neutra y lo siguiente
 es medir su espectro de efectos (¿qué fracción de escrituras totales deja una
 cría viable?), no otra ecología.
+
+**§16b, espectro de la variación (medido antes del resultado de la escala):**
+abierto = 23 variantes viables y distintas por 1000 ticks por mundo (21% de las
+crías distintas sobreviven 500 ticks; 71% de los cambios tocan operandos);
+cerrado = 9 (99% sólo opcode, 5% sobreviven). La oferta mutacional existe: si
+§16 da NADA, hay que medir el EFECTO de las variantes sobre la mortalidad en
+la hambruna, no la oferta.

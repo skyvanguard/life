@@ -1220,6 +1220,18 @@ explicación, que es lo más que un negativo puede ser.
   sombra < la mitad); además L_A (habituación) por brazo. Regulación: R2_A
   como siempre. Veredicto EVOLUCIONA / VESTIGIO / NADA escrito antes de
   correr. `exp_utero_escala_evo.py`, 20 semillas × 3 brazos.
+  **§16b — espectro de la variación (DFE), medido (2026-09-27).** En la
+  misma ecología (L0 = 9), siguiendo cada cría 500 ticks (10 semillas,
+  ventana 6000–12000): **cerrado** (sólo opcode): 514 partos/1000 ticks, 65%
+  de las crías idénticas a la madre, 99% de los cambios en un solo campo,
+  crías distintas que sobreviven 500 ticks: 5%; oferta viable 9/1000 ticks.
+  **Abierto** (fila entera): 129 partos/1000 ticks, 15% idénticas, 71% de los
+  cambios tocan operandos, crías distintas que sobreviven 500 ticks: 21%
+  (vida mediana 115); oferta viable **23/1000 ticks por mundo** (~2800 en la
+  corrida de escala). La variación abierta no es letal: la mayoría de las
+  crías distintas vive (65% a 100 ticks) y una de cada cinco se asienta. Si
+  la escala da NADA, no será por falta de variantes.
+  (`exp_utero_dfe.py`, `results/utero_dfe_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

@@ -1,0 +1,21 @@
+================================================================================
+DFE -- espectro de efectos de la variacion: cerrado (solo opcode) vs abierto (fila entera)
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 9.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; ventana (6000, 12000); seguimiento 500; 10 semillas; sol seed 0; workers=6
+
+  brazo    vivas  genomas partos/1000t identicas campos=1 campos>=2 oferta viable/1000t
+  cerrado     63      133       513.57      0.65     0.99      0.01                8.97
+  abierto     73      443       128.53      0.15     0.29      0.71               23.13
+
+  destino de las crias (idénticas a la madre | distintas):
+  brazo    tipo            n  muere 1a  vive100  vive500  vida med distintos/n
+  cerrado  identica    20029      0.08     0.62     0.07       111        0.03
+  cerrado  distinta    10776      0.04     0.28     0.05        47        0.05
+  cerrado  murio_ya        9      1.00     0.00     0.00         0        0.00
+  abierto  identica     1164      0.00     0.99     0.14       144        0.08
+  abierto  distinta     6544      0.19     0.65     0.21       115        0.24
+  abierto  murio_ya        4      1.00     0.00     0.00         0        0.00
+
+================================================================================
+LECTURA (descriptiva, regla en el docstring)
+=> OFERTA SUFICIENTE: 23.1 variantes viables por 1000 ticks por mundo; si §16 da NADA, medir el EFECTO de las variantes, no la oferta.
