@@ -61,7 +61,7 @@ class UteroCreciente:
                  energia: bool = False, e0: float = 1.0, e_mant: float = 0.01,
                  e_gan: float = 0.2, e_dif: float = 0.25, e_parto: float = 0.5,
                  percepcion: bool = False, energia_luz: bool = False,
-                 luz_finita: float = 0.0):
+                 luz_finita: float = 0.0, lentos: float = 0.0):
         """germinal=True (v2): SPAWN no copia exacto — la cría nace con UNA
         instrucción reescrita desde la materia del momento del parto (campos
         b,c del SPAWN + registro; la misma función de MUTO). La variación sale
@@ -204,7 +204,21 @@ class UteroCreciente:
         entrar en A, floración en B, y valor selectivo real para quien guarde
         energía o deje de parir ANTES de la hambruna. Es el escenario mínimo
         de la ecología donde anticipar paga. Requiere energia=True. Manos: L0,
-        el piso 0.05. luz_finita=0: byte-idéntico."""
+        el piso 0.05. luz_finita=0: byte-idéntico.
+
+        lentos=λ (v13, REGISTROS LENTOS; 0 = apagado): dos registros más por
+        celda, S1 y S2, que la física LEE como cualquier registro y a los que
+        sólo puede EMPUJAR despacio: si la regla escribe w, el sustrato aplica
+        S ← S + λ·(w − S); si no escribe, S no cambia. Una regla que escribe
+        una constante carga S exponencialmente con τ = 1/λ: un reloj o un
+        integrador a la escala de la estación (medido: la memoria interna del
+        tejido dura 6–150 ticks; las estaciones 300–900; sin dónde guardar
+        estado a esa escala no hay anticipación posible). Como el VM no tiene
+        condicionales, la regla puede usar S vía MUTO (reescribir su propio
+        SPAWN según |S|): control de flujo por auto-reescritura. La cría nace
+        con S=0. Los campos indexan mod (4 + extras). λ=0: byte-idéntico."""
+        self.lentos = float(lentos)
+        self.S = np.zeros((n0, 2))
         self.luz_finita = float(luz_finita)
         self._ingreso = np.zeros(n0)
         self.energia_luz = energia_luz
@@ -277,6 +291,7 @@ class UteroCreciente:
             self.mem[i] = 0.0
             self.eq_sol_count[i] = 0
             self.e[i] = 0.0
+            self.S[i] = 0.0
 
     def _register_genomes(self) -> int:
         new = 0
@@ -351,10 +366,20 @@ class UteroCreciente:
             ctx, vl, vr = self._ctx(i)
             mi = float(self.mem[i]) if self.memoria else 0.0
             stats: dict | None = {} if self.log_events else None
-            xtra = float(self.e[i]) if (self.percepcion and self.energia) else None
+            if self.lentos > 0.0:
+                xtra = ([float(self.e[i])] if (self.percepcion and self.energia) else []) \
+                    + [float(self.S[i, 0]), float(self.S[i, 1])]
+            else:
+                xtra = float(self.e[i]) if (self.percepcion and self.energia) else None
+            s_prev = list(xtra[-2:]) if self.lentos > 0.0 else None
             v_new, own_next, spawn, raw = execute(
                 self.code[i], vl, float(self.v[i]), vr, ctx,
                 wrap=self.toroidal, r3_init=mi, stats=stats, extra=xtra)
+            if self.lentos > 0.0:
+                for k in range(2):        # escritura lenta: S <- S + λ(w - S) sólo si la regla escribió
+                    w = xtra[-2 + k]
+                    if w != s_prev[k]:
+                        self.S[i, k] += self.lentos * (w - self.S[i, k])
             if stats is not None:
                 self.events[i - lg] = stats
             # persistencia: la física ciega a la materia muere (sonda, misma
@@ -452,6 +477,7 @@ class UteroCreciente:
                 self.eq_count[t] = 0
                 self.mem[t] = 0.0           # la cría nace sin recuerdos
                 self.eq_sol_count[t] = 0
+                self.S[t] = 0.0             # la cría nace sin reloj
                 if self.energia:            # la madre cede parte de su energía
                     self.e[t] = self.e_parto * self.e[i]
                     self.e[i] -= self.e[t]
@@ -463,6 +489,7 @@ class UteroCreciente:
                 self.v[t] = v_new
                 self.eq_count[t] = 0
                 self.mem[t] = 0.0
+                self.S[t] = 0.0
                 if self.energia:
                     self.e[t] = self.e_parto * self.e[i]
                     self.e[i] -= self.e[t]
@@ -482,6 +509,7 @@ class UteroCreciente:
                 self.e[mi_] -= e_hija
             self.e = np.concatenate([self.e, [e_hija]])
             self._ingreso = np.concatenate([self._ingreso, [0.0]])
+            self.S = np.concatenate([self.S, np.zeros((1, 2))])
             self.v = np.concatenate([self.v, [val]])
             self.code = np.concatenate([self.code, c[None]])
             self.alive = np.concatenate([self.alive, [True]])
@@ -499,6 +527,7 @@ class UteroCreciente:
                 self.e[mi_] -= e_hija
             self.e = np.concatenate([[e_hija], self.e])
             self._ingreso = np.concatenate([[0.0], self._ingreso])
+            self.S = np.concatenate([np.zeros((1, 2)), self.S])
             self.v = np.concatenate([[val], self.v])
             self.code = np.concatenate([c[None], self.code])
             self.alive = np.concatenate([[True], self.alive])

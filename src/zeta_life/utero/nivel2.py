@@ -76,7 +76,7 @@ def _sigmoid(x: float) -> float:
 
 def execute(code: np.ndarray, vl: float, v: float, vr: float,
             ctx: tuple, wrap: bool = False, r3_init: float = 0.0,
-            stats: dict | None = None, extra: float | None = None) -> tuple:
+            stats: dict | None = None, extra=None) -> tuple:
     """Ejecutar una regla. ctx = (code_izq|None, code_self, code_der|None).
 
     Devuelve (v', own_next, spawn, r3_raw) con spawn=None o (lado, pos, opcode,
@@ -107,7 +107,15 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
     # interna LENTA de la celda (su energia). Los campos a,b,c indexan mod 5 en
     # vez de mod 4: la fisica puede leer su propia reserva y condicionar en ella.
     # extra=None: byte-identico (4 registros).
-    r = [vl, v, vr, r3_init] if extra is None else [vl, v, vr, r3_init, float(extra)]
+    # extra: None (4 registros, byte-idéntico) | float (v10: la energía como 5º
+    # registro) | list (v13: registros extra; al terminar, la lista recibe los
+    # valores ESCRITOS por la regla, para que el sustrato aplique su dinámica lenta)
+    if extra is None:
+        r = [vl, v, vr, r3_init]
+    elif isinstance(extra, list):
+        r = [vl, v, vr, r3_init] + [float(x) for x in extra]
+    else:
+        r = [vl, v, vr, r3_init, float(extra)]
     m = len(r)
     own_next = code.copy()
     spawn = None
@@ -147,14 +155,18 @@ def execute(code: np.ndarray, vl: float, v: float, vr: float,
             spawn = (a % 2, c % K, int(abs(r[b % m]) * N_OPS) % N_OPS, b % K)
         # NOP: nada
     raw = r[3]
+    if isinstance(extra, list):
+        extra[:] = r[4:]
     out = (raw % 1.0) if wrap else _sigmoid(raw)
     return out, own_next, spawn, raw
 
 
 def _output_only(code: np.ndarray, vl: float, v: float, vr: float,
                  ctx: tuple, wrap: bool = False, r3_init: float = 0.0,
-                 extra: float | None = None) -> float:
+                 extra=None) -> float:
     """Ejecución fantasma (sin efectos): sólo la salida de materia."""
+    if isinstance(extra, list):
+        extra = list(extra)            # copia: la fantasma no escribe los registros lentos
     return execute(code, vl, v, vr, ctx, wrap=wrap, r3_init=r3_init, extra=extra)[0]
 
 
