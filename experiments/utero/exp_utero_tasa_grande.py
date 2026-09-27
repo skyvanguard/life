@@ -15,7 +15,8 @@ predice partos_A/partos_B menor que en el congelado y que la mortalidad baja
 también con tasa baja.
 
 DISEÑO. Como §29 (N = 512, L0 = 14, 120000 ticks, 12 semillas) con brazos
-abierto p = 0.02, abierto p = 0.005 y congelado. Lectura primaria: el rasgo
+abierto p = 0.02, abierto p = 0.005, cerrado (germinal v14, para la
+escala de carga) y congelado. Lectura primaria: el rasgo
 w̄_A, misma regla que §27/§29 (ADAPTA si tardío/temprano y nivel superan al
 congelado en ≥ 75% de los pares). Secundarias pre-registradas: partos per
 cápita por estación (B y A, por 100 ticks), su cociente A/B, y mortalidad per
