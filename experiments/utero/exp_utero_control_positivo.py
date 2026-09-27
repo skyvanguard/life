@@ -33,6 +33,15 @@ MEDIDAS (declaradas antes de correr):
      evolucionado) y muertes durante A.
   D. detectabilidad: nacimientos por estación (¿sólo en B?) y las varas A_n /
      A_e / L_A sobre el ahorrador.
+CORRIDA 1 (2026-09-26): NO VIABLE por un error de DISEÑO del organismo, no del
+sustrato: el detector leía vl (la izquierda) y el SPAWN paría a la derecha;
+sólo la celda más a la izquierda sentía el sol y paría sobre su vecina
+(invasión = reemplazo, sin crecimiento). Población clavada en 18 (< 20),
+firma 1.00, energía al entrar en A 127 contra 11 del evolucionado, muertes en
+A 0 contra 27: sobrevivía la hambruna sin reproducirse. Corrida 2: el detector
+lee vr (hacia donde pare): la celda de la punta derecha siente el sol y crece
+hacia el vacío en B. Misma vara.
+
 VEREDICTO: VIABLE Y VENTAJOSO si el ahorrador persiste (≥ 20 vivas en maduro
 en ≥ 1/2 de las semillas) y entra en A con más energía y muere menos en A que
 el evolucionado; DETECTABLE si nacimientos en B ≥ 5× que en C y A. Si no es
@@ -70,12 +79,12 @@ POS_SPAWN = 6
 MATURE = 6000
 WORKERS = max(1, min(12, (os.cpu_count() or 4) // 2))
 RESULTS = HERE.parents[1] / "results"
-NAME = "utero_control_positivo"
+NAME = "utero_control_positivo2"
 
 # registros: 0 vl, 1 v, 2 vr, 3 R3, 4 S1, 5 S2  (campos indexan mod 6; 0 y 2 se usan de borrador)
 POS_SPAWN = 9
 AHORRADOR = np.zeros((K, 4), dtype=np.int64)
-AHORRADOR[0] = (ADD, 0, 3, 5)        # S2 <- vl + R3(=0 al inicio): DETECTOR DE ESTACIÓN (escritura lenta)
+AHORRADOR[0] = (ADD, 2, 3, 5)        # S2 <- vr + R3(=0 al inicio): DETECTOR DE ESTACIÓN (escritura lenta) — mira a la DERECHA, hacia donde pare
 AHORRADOR[1] = (CONST, 10, 0, 0)     # r0 <- 0.5  (umbral: C ≈ 0.5, B ≈ 0.75)
 AHORRADOR[2] = (THR, 5, 0, 2)        # r2 <- 1 si S2 > 0.5 (estamos en B)
 AHORRADOR[3] = (CONST, 11, 0, 0)     # r0 <- 0.75
