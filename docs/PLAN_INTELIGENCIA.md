@@ -578,3 +578,10 @@ congelado total (θ copiado exacto: el nulo). Lectura primaria: w̄_A con la
 regla de §27, más la trayectoria de θ̄ en A. Si ADAPTA: primera evolución
 real del útero; la regulación por el orden se vuelve a preguntar sobre ese
 sustrato. Si no: ni con un mapa local, y el problema está más abajo.
+
+**Resultado §33: NO EVOLUCIONA** (w̄_A 0.38–0.40 contra 0.385 del nulo).
+Error de diseño: un desplazamiento no cambia la distancia media al sol de una
+materia pseudoaleatoria; el rasgo premiado es la dispersión. v17b (`escala`):
+materia visible = (θ + s·salida) mod 1 con s heredable; la sonda sigue viendo
+la salida cruda. §34: mismo diseño que §33 con θ y s heredables contra el nulo
+(θ y s fijos); lectura primaria w̄_A, secundarias s̄ y R_θ.

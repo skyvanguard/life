@@ -1614,6 +1614,21 @@ explicación, que es lo más que un negativo puede ser.
   w̄_A pareado contra el nulo; secundaria R_θ (concentración circular de θ
   entre las vivas en A). Humo de una semilla, sin valor de prueba: R_θ t/t
   1.69 en theta_solo. `exp_utero_parametros.py`.
+  **Resultado: NO EVOLUCIONA.** w̄_A theta_abierto 0.384, theta_solo 0.402,
+  nulo 0.385 (pareado 8/12 y 6/12; nivel 7/12 y 7/12); banda 0.42–0.44
+  contra 0.34; R_θ 0.63–0.73 en los tres brazos (el nulo también concentra θ
+  por criba entre valores fijos). **Error de diseño propio, registrado:** la
+  materia de un programa legal es pseudoaleatoria, y la distancia media de
+  una distribución uniforme al sol es invariante a un desplazamiento: θ sólo
+  cambia el rasgo de programas de salida casi constante, que son los que no
+  existen (§28). La perilla que el gradiente premia no es un corrimiento sino
+  la DISPERSIÓN de la materia (quieta y lejos del sol), y eso choca con la
+  sonda, que exige física sensible. Reconciliación (v17b, `escala`): separar
+  la física de su expresión —la salida cruda y sensible es lo que la sonda
+  ve; la materia visible es (θ + s·salida) mod 1 con una escala heredable s
+  ∈ [0, 1] perturbada al nacer desde la materia—. Si s cae y θ se concentra
+  frente al sol de la hambruna, el útero evoluciona hacia dinámica interna
+  viva con estado externo estable. (`results/utero_parametros_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

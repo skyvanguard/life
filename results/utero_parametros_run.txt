@@ -1,0 +1,23 @@
+================================================================================
+v17 PARAMETROS HEREDABLES (theta) -- sube el rasgo premiado con un mapa local? -- peso de luz de la materia durante la hambruna, variacion abierta vs congelado; cerrado, luz escasa
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 14.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; N=512; brazos ['theta_abierto', 'theta_solo', 'nulo']; 12 semillas; 120000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo          vivas med vivas fin hambr w_A nivel  w_A t/t banda>=0.4 R_theta  R t/t   pc_A pc_A t/t  genomas
+  theta_abierto        176       122    59     0.384     1.01       0.42    0.63   1.16   0.67     0.69    19152
+  theta_solo           182       117    59     0.402     1.00       0.44    0.73   1.07   0.62     0.75      512
+  nulo                 159       114    59     0.385     1.00       0.34    0.70   1.05   0.54     0.51      512
+
+--------------------------------------------------------------------------------
+PAREADO por semilla contra NULO (theta fijo, programas congelados)
+  theta_abierto  w_A tardio/temprano > nulo en 8/12 (p signo 0.194); nivel w_A > nulo en 7/12; medianas nivel 0.384 vs 0.385 -> no
+                 (secundaria) mortalidad per capita t/t < nulo en 4/12 (p signo 0.927)
+  theta_solo     w_A tardio/temprano > nulo en 6/12 (p signo 0.613); nivel w_A > nulo en 7/12; medianas nivel 0.402 vs 0.385 -> no
+                 (secundaria) mortalidad per capita t/t < nulo en 5/12 (p signo 0.806)
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NO EVOLUCIONA: ni con un mapa local; la seleccion medida en §26 no actua sobre la perilla heredable.
