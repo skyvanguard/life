@@ -287,3 +287,17 @@ poblaciones de 10³+. Siguiente (§16): antes de buscar regulación, establecer 
 el sustrato abierto EVOLUCIONA —adaptación refleja a la hambruna: la
 mortalidad en hambrunas sucesivas baja dentro de un mundo (L_A), visible en
 clima y permutado y no en sombra— con más tiempo y más población.
+
+## 16. Escala: ¿evoluciona el sustrato abierto? (2026-09-27)
+
+Pregunta previa a la de regulación: con la variación capaz de escribir el
+programa entero, ¿aparece adaptación —del tipo que sea— con más tiempo y más
+población? 120000 ticks (4×), L0 = 9 (≈3× vivas), 20 semillas, brazos clima /
+permutado / sombra. Adaptación refleja = la mortalidad en las hambrunas
+tardías es menor que en las tempranas dentro del mismo mundo; no necesita
+regularidad, así que se cuenta en clima y permutado juntos, contra la sombra
+(muertes al azar en igual número: la demografía sola). R2_A sigue midiendo
+regulación por el orden. Si EVOLUCIONA sin vestigio, la pregunta pasa a ser
+sólo de tiempo; si NADA, la variación abierta es letal o neutra y lo siguiente
+es medir su espectro de efectos (¿qué fracción de escrituras totales deja una
+cría viable?), no otra ecología.

@@ -1210,6 +1210,17 @@ explicación, que es lo más que un negativo puede ser.
   pre-registradas, cero vestigios. Por el fallback declarado, la pregunta pasa
   al tiempo y al tamaño de población. (`results/utero_total_run.txt`)
 
+- **§16 — escala, pre-registro (2026-09-27).** Antes de volver a preguntar
+  por regulación, lo previo: ¿el sustrato abierto (v16) EVOLUCIONA? 4× el
+  tiempo (120000 ticks) y ~3× la población (L0 = 9, max_n 512; humo: 50–95
+  vivas), misma ecología. Tres brazos: clima, permutado, sombra. Lectura
+  primaria de adaptación refleja: mortalidad en las hambrunas de la segunda
+  mitad / primera mitad dentro de cada mundo (razón < 1 = adapta), contada
+  sobre los 40 mundos con sol contra los 20 de sombra (≥ 70%, p signo < 0.05,
+  sombra < la mitad); además L_A (habituación) por brazo. Regulación: R2_A
+  como siempre. Veredicto EVOLUCIONA / VESTIGIO / NADA escrito antes de
+  correr. `exp_utero_escala_evo.py`, 20 semillas × 3 brazos.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
