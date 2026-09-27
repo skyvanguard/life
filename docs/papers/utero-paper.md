@@ -270,9 +270,15 @@ y el brazo con orden permutado desmontaron como artefacto de acumulación
 medición de escala temporal mostró ausente): tampoco. Catorce corridas
 pre-registradas sobre trece diseños, cero vestigios, cuatro señales tentadoras
 desmontadas por sus controles.
-El programa se reporta como negativo honesto: este sustrato produce orden,
-novedad y hasta demografía estacional, pero no regulación en el sentido de
-Ashby.
+Un **control positivo** cerró la pregunta: un anticipador diseñado a mano
+(detector de estación en un registro lento, SPAWN auto-reescrito según la
+estación) es viable y estable en el sustrato, muere en la hambruna la mitad
+que el tejido evolucionado, y las varas de anticipación temporal no lo ven
+(la lectura de mortalidad regular-vs-permutado sí). Sembrado desde raro no
+invade, con partos gratis ni costosos, con o sin regularidad: la ecología no
+selecciona la anticipación. El programa se reporta como negativo con
+explicación: este sustrato produce orden, novedad y demografía estacional; la
+regulación en el sentido de Ashby es viable en él pero no es seleccionada.
 
 ## 5. Discusión
 

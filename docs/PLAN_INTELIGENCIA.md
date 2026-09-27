@@ -170,3 +170,12 @@ R2 pasa a ser la lectura PRIMARIA de regulación en esta ecología; A/L quedan
 como lecturas de anticipación temporal fina. Siguiente y último paso: invasión
 desde raro (¿la selección favorece al ahorrador frente al tejido
 evolucionado bajo el orden regular y no bajo el permutado?).
+
+## 12. Invasión desde raro y cierre (2026-09-26)
+
+El ahorrador diseñado no es seleccionado frente al tejido evolucionado: toma
+4–5/20 con y sin costo de parto, con y sin regularidad de orden, en las mismas
+semillas (colapsos de la población aleatoria, no selección). La explicación de
+los dieciséis negativos es mecánica: esta ecología no selecciona la
+anticipación. Un entorno diseñado para seleccionarla equivaldría a elegir la
+respuesta: es una decisión de programa, no de ejecución. Programa cerrado.

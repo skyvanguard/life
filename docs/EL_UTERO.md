@@ -1086,6 +1086,26 @@ falso positivo que la disciplina de esta línea existe para impedir.
   invasión desde raro (¿ahora sí hay selección?) y sólo si la hay, con el
   tejido evolucionado sin sembrar (¿emerge?).
   (`results/utero_invasion_ahorrador_run.txt`)
+  **Corrida 2, parir cuesta (e_costo=2.0): igual.** Toma 5/20 en clima y 5/20
+  en permutado, extinción 11/20; y las semillas donde el ahorrador "toma" son
+  las mismas con y sin costo y con y sin orden (2, 3, 8, 14, 18): son mundos
+  donde la población aleatoria colapsa y el ahorrador queda por defecto, no
+  selección. **Conclusión del programa, ahora completa y mecánica:** en esta
+  ecología anticipar la hambruna es viable y beneficioso para el individuo,
+  pero NO es seleccionado frente al tejido evolucionado, con partos gratis o
+  costosos, y la regularidad del orden no interviene. Los catorce negativos
+  no eran un problema de búsqueda ni de vara: el entorno no selecciona lo que
+  buscábamos. Un entorno que sí lo seleccione es una decisión de diseño —es
+  decir, elegir la respuesta— y por eso no se toma sola.
+  (`results/utero_invasion_ahorrador_costo_run.txt`)
+
+**Cierre del programa (definitivo, 2026-09-26).** Dieciséis corridas
+pre-registradas de emergencia (trece diseños), un control positivo en dos
+corridas y dos ensayos de invasión. Resultado: orden y novedad estructural
+defendibles; demografía estacional real; un anticipador diseñado viable y
+estable que las varas temporales no ven y R2 sí; y ninguna emergencia de
+regulación porque la ecología no la selecciona. Es un negativo con
+explicación, que es lo más que un negativo puede ser.
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
