@@ -568,3 +568,13 @@ cuello no descartado es el paisaje (§28). §32: alcanzabilidad con escrituras
 INCREMENTALES (±1 en un solo campo) contra totales, con el arnés de §28; si
 dan una escalera más densa de pasos pequeños positivos, se implementa el
 operador incremental como flag y se corre la escalada (§33).
+
+**Resultado §32: SIN ESCALERA** (incremental 0.27% contra total 0.22% para
+Δw̄ ≥ +0.05; cero para +0.2). Quinta jaula: el mapa programa→materia no tiene
+localidad. §33 (v17, `parametros`): desplazamiento heredable continuo θ sumado
+a la materia, perturbado al nacer desde la materia de la madre; brazos θ +
+programa abierto (p = 0.02), θ solo (programas congelados, θ heredable), y
+congelado total (θ copiado exacto: el nulo). Lectura primaria: w̄_A con la
+regla de §27, más la trayectoria de θ̄ en A. Si ADAPTA: primera evolución
+real del útero; la regulación por el orden se vuelve a preguntar sobre ese
+sustrato. Si no: ni con un mapa local, y el problema está más abajo.

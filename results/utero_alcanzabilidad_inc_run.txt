@@ -1,0 +1,21 @@
+================================================================================
+ALCANZABILIDAD -- vecindario a una y dos escrituras de programas legales: cuanto cambia la materia respecto del sol de la hambruna?
+================================================================================
+sanidad: ANTISOL w_bar = 0.533 (esperado ~0.55), legal = True
+10 mundos fuente (abierto p=1, cerrado, L0=1.75, 6000 ticks), hasta 5 padres por mundo; 400 totales + 400 opcode + 100 dos-pasos por padre; 200 entradas; workers=12
+veredicto pre-registrado (docstring)
+
+  padres: 50; w_bar de los padres: mediana 0.305, min 0.130, max 0.324; legales 46/50
+
+  modo     variantes  legales  dw med  dw p90  dw max P(dw>=.1) P(dw>=.2) P(w>=.45)
+  total        20000     0.81   0.000   0.000   0.188    0.0019    0.0000    0.0000
+  incremental     20000     0.88   0.000   0.000   0.188    0.0024    0.0000    0.0000
+  inc_dos       5000     0.84   0.000   0.000   0.188    0.0024    0.0000    0.0000
+
+================================================================================
+LECTURA §32 (escrita antes de correr): ESCALERA si P(legal y dw>=+0.05) incremental >= 3x total y >= 1%
+  P(legal y dw>=+0.05): total 0.0022, incremental 0.0027
+=> SIN ESCALERA: el incremento de un campo tampoco produce pasos pequenos positivos con frecuencia; el paisaje es plano para este mapa programa->materia.
+
+VEREDICTO §28 (regla original; escrituras totales de un paso)
+=> SIN SALTOS: P(legal y dw>=+0.2) = 0.0000 < 0.1%: el rasgo solo se alcanza por pasos pequenos, neutros con N~14 -> poblacion efectiva.

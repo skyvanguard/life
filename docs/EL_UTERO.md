@@ -1587,6 +1587,20 @@ explicación, que es lo más que un negativo puede ser.
   plano también para pasos de un campo y la evolvabilidad exige otro mapa.
   Humo (2 mundos, 40 variantes por padre): total 0.0075, incremental 0.0000.
   `exp_utero_alcanzabilidad_inc.py`.
+  **Resultado: SIN ESCALERA.** 20000 escrituras incrementales: 88% legales,
+  Δw̄ mediana y p90 0.000, máximo +0.188, P(Δw̄ ≥ +0.05) 0.27% contra 0.22%
+  de las totales, P(≥ +0.1) 0.24% contra 0.19%, P(≥ +0.2) cero en ambas; a
+  dos pasos igual. El paisaje del rasgo es plano para cualquier operador
+  local. **La quinta jaula: el mapa programa→materia no tiene localidad.**
+  Un programa legal produce materia pseudoaleatoria y ningún cambio pequeño
+  del programa produce un cambio pequeño y dirigido de la materia; por eso
+  la variación es neutra o dañina y la selección, aunque fuerte (§24, §26),
+  no tiene escalera que subir. Respuesta (v17, `parametros`): un
+  desplazamiento continuo heredable θ por celda, sumado a la salida de
+  materia (v' = (R3 + θ) mod 1), que la cría hereda con una perturbación
+  pequeña derivada de la materia de la madre (sin RNG nuestro); MUTO no lo
+  toca; el congelado lo copia exacto; la sonda no cambia. Es el mapa local
+  que Nivel 1 tenía y Nivel 2 perdió. (`results/utero_alcanzabilidad_inc_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
