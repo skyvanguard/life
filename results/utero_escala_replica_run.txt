@@ -1,0 +1,23 @@
+================================================================================
+REPLICA §35 (sol seed 1, sopas 12-23) de v17b THETA Y ESCALA HEREDABLES -- sube el rasgo premiado cuando la expresion de la fisica puede atenuarse? -- peso de luz de la materia durante la hambruna, variacion abierta vs congelado; cerrado, luz escasa
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 14.0, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0}; N=512; brazos ['theta_s_abierto', 'theta_s_solo', 'nulo']; 12 semillas; 120000 ticks; sol seed 1; workers=12
+veredicto pre-registrado (docstring)
+
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo          vivas med vivas fin hambr w_A nivel  w_A t/t banda>=0.4 R_theta  R t/t   s_A  s t/t   pc_A pc_A t/t  genomas
+  theta_s_abierto       188       196    58     0.425     1.04       0.55    0.69   1.07  0.76   0.90   0.59     0.62    28218
+  theta_s_solo         174       168    58     0.423     1.06       0.56    0.71   1.10  0.75   0.89   0.66     0.56      512
+  nulo                 162       158    58     0.363     0.98       0.35    0.81   1.06  1.00   1.00   0.63     0.62      512
+
+--------------------------------------------------------------------------------
+PAREADO por semilla contra NULO (theta fijo, programas congelados)
+  theta_s_abierto w_A tardio/temprano > nulo en 8/12 (p signo 0.194); nivel w_A > nulo en 9/12; medianas nivel 0.425 vs 0.363 -> no
+                 (secundaria) mortalidad per capita t/t < nulo en 4/12 (p signo 0.927)
+  theta_s_solo   w_A tardio/temprano > nulo en 10/12 (p signo 0.019); nivel w_A > nulo en 10/12; medianas nivel 0.423 vs 0.363 -> ADAPTA
+                 (secundaria) mortalidad per capita t/t < nulo en 6/12 (p signo 0.613)
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> EVOLUCIONA en theta_s_solo: con un mapa local, el rasgo premiado sube mas que en el nulo. Primera evolucion darwiniana medida en el utero; replicar con otro sol (§35).

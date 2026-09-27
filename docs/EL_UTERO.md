@@ -650,6 +650,19 @@ sustrato distinto. Decisión abierta.
   regla; sol seed 1 y sopas 12–23. SE CREE si theta_s_solo ADAPTA otra vez
   (w̄_A tardío/temprano y nivel > nulo en ≥ 75% de los pares, p signo <
   0.05). `exp_utero_escala_replica.py`.
+  **Resultado: REPLICA. SE CREE.** theta_s_solo ADAPTA otra vez: w̄_A
+  tardío/temprano > nulo en **10/12** (p 0.019), nivel > nulo en **10/12**;
+  medianas 0.423 contra 0.363; s̄_A 0.75; banda 0.56 contra 0.35; R_θ 0.71.
+  theta_s_abierto: misma dirección (0.425; nivel 9/12, tardío/temprano
+  8/12), otra vez sin cumplir por la carga de programa. Dos calendarios
+  solares, veinticuatro sopas, la misma regla: **la primera adaptación
+  darwiniana del útero está medida y replicada.** Qué es: dos perillas
+  heredables sobre la expresión de la física (atenuación s y desplazamiento
+  θ) que se ajustan al gradiente de luz de la hambruna; la física interna
+  sigue sensible. Qué no es: regulación, anticipación, inteligencia. Qué
+  abre: un sustrato donde la selección tiene escalera, sobre el que la
+  pregunta del orden (§6, §13) se puede hacer por primera vez con evolución
+  funcionando. (`results/utero_escala_replica_run.txt`)
 
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
@@ -1667,6 +1680,19 @@ explicación, que es lo más que un negativo puede ser.
   regla; sol seed 1 y sopas 12–23. SE CREE si theta_s_solo ADAPTA otra vez
   (w̄_A tardío/temprano y nivel > nulo en ≥ 75% de los pares, p signo <
   0.05). `exp_utero_escala_replica.py`.
+  **Resultado: REPLICA. SE CREE.** theta_s_solo ADAPTA otra vez: w̄_A
+  tardío/temprano > nulo en **10/12** (p 0.019), nivel > nulo en **10/12**;
+  medianas 0.423 contra 0.363; s̄_A 0.75; banda 0.56 contra 0.35; R_θ 0.71.
+  theta_s_abierto: misma dirección (0.425; nivel 9/12, tardío/temprano
+  8/12), otra vez sin cumplir por la carga de programa. Dos calendarios
+  solares, veinticuatro sopas, la misma regla: **la primera adaptación
+  darwiniana del útero está medida y replicada.** Qué es: dos perillas
+  heredables sobre la expresión de la física (atenuación s y desplazamiento
+  θ) que se ajustan al gradiente de luz de la hambruna; la física interna
+  sigue sensible. Qué no es: regulación, anticipación, inteligencia. Qué
+  abre: un sustrato donde la selección tiene escalera, sobre el que la
+  pregunta del orden (§6, §13) se puede hacer por primera vez con evolución
+  funcionando. (`results/utero_escala_replica_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base

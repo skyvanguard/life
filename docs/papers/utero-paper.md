@@ -144,6 +144,8 @@ Cada encarnación nombró la jaula en la que cayó la anterior:
 | v9–v15 (sol) | contacto con el entorno | ninguna vara supera a sus controles en 18 corridas |
 | — (§4.9) | — | **clausura de operandos**: la variación reescribe 1 de 4 campos; los tríos (a,b,c) están congelados en la sopa |
 | v16 | clausura de operandos | no evoluciona: la variación abierta es carga; la mortalidad en la hambruna la fija la energía, no el programa |
+| — (§4.11) | — | **mapa programa→materia sin localidad**: 0/40.000 escrituras mueven el rasgo premiado +0,2 |
+| v17b | mapa sin localidad | **evoluciona** (replicado): perillas heredables de expresión (θ, s) suben el rasgo premiado; carga de programa en el brazo abierto |
 
 ### 4.2 Novedad sostenida: rara, real, defendible
 
@@ -334,6 +336,40 @@ hambrunas. Hay variación heredable en lo que la hambruna mide y no se
 convierte en adaptación; las hipótesis que quedan (canje
 supervivencia/fecundidad, genoma como proxy de posición) exigen registro por
 celda y una medida de selección directa.
+
+### 4.11 La quinta jaula y la primera evolución medida
+
+La cadena diagnóstica siguió hasta el fondo. El control de densidad mostró
+que la menor mortalidad del tejido con herencia era carga mutacional
+convertida en densidad. Las réplicas de mundos congelados con posiciones
+barajadas mostraron que la selección VE programas (el mismo genoma barre
+desde cualquier posición). Un programa legal con la materia lejos del sol de
+la hambruna, sembrado en mundos congelados con luz escasa, barre al 100% en
+15/20 mundos: el gradiente es real y fuerte. Y sin embargo la evolución
+abierta no sube ese rasgo ni con población ×8 ni con tasa de mutación baja.
+La medida de alcanzabilidad lo explicó: en 20.000 escrituras enteras y
+20.000 incrementales sobre programas legales, ninguna mueve el rasgo +0,2 y
+sólo el 0,2% lo mueve +0,1; la mediana es exactamente 0. **La quinta jaula:
+el mapa programa→materia no tiene localidad.** Un programa legal produce
+materia pseudoaleatoria; ningún cambio pequeño del programa la mueve un poco
+en una dirección; la variación es neutra o dañina y la selección, aunque
+fuerte, no tiene escalera.
+
+La respuesta fue restituir el mapa local que Nivel 1 tenía y Nivel 2 perdió,
+sin tocar la física ni la sonda: dos perillas continuas heredables sobre la
+EXPRESIÓN de la física en la materia, un desplazamiento θ y una escala s
+(materia visible = (θ + s·salida) mod 1), perturbadas al nacer desde la
+materia de la madre, sin RNG. El desplazamiento solo no bastó —un
+corrimiento no cambia la distancia media de una materia pseudoaleatoria al
+sol; error de diseño registrado—; con la escala, la población con perillas
+heredables y programas congelados subió el rasgo premiado por encima del
+nulo (θ y s fijos) en 10/12 mundos por nivel y por tendencia (p 0,019), con la
+escala media cayendo de 1,00 a 0,71, y lo **replicó** con otro sol y otras
+doce sopas (10/12, 10/12). Es la primera adaptación darwiniana medida en el
+sustrato: la población se vuelve más quieta por fuera y más lejos del sol de
+la hambruna, con la física interna todavía obligada a ser sensible. No es
+regulación ni inteligencia; es el sustrato sobre el que la pregunta original
+puede hacerse por primera vez con la evolución funcionando.
 
 ## 5. Discusión
 

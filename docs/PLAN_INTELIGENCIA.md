@@ -601,3 +601,24 @@ regla): si replica, §36 vuelve a la pregunta original sobre este sustrato:
 estaciones (R2_A, anticipación) y no sólo según la estación presente? Para
 eso θ y s tendrán que poder ser escritos por el programa (perillas de
 comportamiento, no sólo de herencia), lo que se decide después de la réplica.
+
+**§35: REPLICA (10/12, 10/12, p 0.019; 0.423 contra 0.363). Se cree.**
+
+## 36. La pregunta del orden sobre un sustrato que evoluciona (2026-09-27)
+
+Con θ y s sólo heredables, un linaje no puede cambiar su expresión en vida:
+hay adaptación pero no comportamiento. §36 hace las perillas ESCRIBIBLES por
+el programa (`perillas=True`): θ_eff = (θ + S1) mod 1 y s_eff = clip(s + S2)
+con S1, S2 los registros lentos que la física empuja despacio (τ = 1/λ), y
+da al tejido interior un sentido de la estación (`percepcion=True`: la
+energía como registro). La herencia (θ, s) pone la línea de base; la física
+puede moverla según lo que siente y recuerda. Pregunta pre-registrada (la de
+§6b/§13, ahora sobre un sustrato evolucionable): ¿el tejido bajo el orden
+regular muere en la hambruna menos que bajo el permutado (R2_A), y no por el
+tipo de transición (ciclo2)? Brazos: clima, ciclo2, permutado (todos
+theta_s_abierto + perillas + percepción) y nulo (clima, θ y s fijos,
+programas congelados). Lectura primaria R2_A con la regla de v14; secundarias
+w̄_A, s̄_A, partos A/B, uso de las perillas (varianza de S1, S2 en vida).
+VESTIGIO si R2_A cumple en clima y ciclo2; si sólo en clima, tipos de
+transición; NADA en otro caso. Si VESTIGIO: replicar con otro sol antes de
+creerlo.
