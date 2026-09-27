@@ -1503,6 +1503,14 @@ explicación, que es lo más que un negativo puede ser.
   §29: §27 con la línea cerrada ×8 (512 lugares, L0 = 14).
   (`results/utero_alcanzabilidad_run.txt`)
 
+- **§29 — población efectiva, pre-registro (2026-09-27).** §27 con la línea
+  cerrada de 512 lugares y L0 = 14 (misma luz por lugar; humo: ≈190 vivas),
+  brazos abierto p = 1, cerrado, congelado; 12 semillas; 120000 ticks; misma
+  lectura (w̄_A tardío/temprano y nivel, pareados contra el congelado) y
+  misma regla que §27. Humo de una semilla y 14000 ticks, anotado antes de
+  la corrida y sin valor de prueba: w̄_A 0.405 (abierto) y 0.422 (cerrado)
+  contra 0.348 (congelado). `exp_utero_rasgo_grande.py`.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos
