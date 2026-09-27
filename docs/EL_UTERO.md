@@ -1107,6 +1107,16 @@ estable que las varas temporales no ven y R2 sí; y ninguna emergencia de
 regulación porque la ecología no la selecciona. Es un negativo con
 explicación, que es lo más que un negativo puede ser.
 
+- **v14 hambruna dura — evolución experimental bajo un régimen declarado
+  (2026-09-26, corrida en curso).** Corrección de mi propio argumento: elegir
+  el régimen selectivo es elegir la pregunta, no la respuesta. Régimen: luz
+  casi nula en A (base 0.08) y parto costoso (e_costo=1.0), calibrados por
+  viabilidad estacional (5/6 semillas viven; N cae en A y se recupera; partos
+  en A ≈ 0). Nada sembrado. Lectura primaria R2_A: mortalidad durante la
+  hambruna, clima contra permutado, pareada entre vivos, con ciclo2 como
+  control de tipos de transición. `exp_utero_hambruna.py`, 40 semillas × 5
+  brazos, 20000 ticks.
+
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
   espuma: intervalo de reescritura ~3.2 ticks. Sobre 6.198 genomas tardíos

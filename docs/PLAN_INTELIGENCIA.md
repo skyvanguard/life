@@ -179,3 +179,19 @@ semillas (colapsos de la población aleatoria, no selección). La explicación d
 los dieciséis negativos es mecánica: esta ecología no selecciona la
 anticipación. Un entorno diseñado para seleccionarla equivaldría a elegir la
 respuesta: es una decisión de programa, no de ejecución. Programa cerrado.
+
+## 13. Evolución experimental bajo un régimen declarado (v14)
+
+Corrijo un argumento propio de §12: elegir el régimen selectivo no es elegir
+la respuesta, es elegir la PREGUNTA (evolución experimental). La respuesta
+—¿un tejido de genomas aleatorios desarrolla comportamiento regulado por la
+estación?— sigue abierta y se mide contra los mismos controles (sin sol,
+sombra, orden permutado, segundo orden cíclico). El régimen: luz casi nula en
+A (base 0.08, calibrada por viabilidad estacional en 6 semillas × 9
+configuraciones: 5/6 viven, N cae en A y se recupera, partos en A ≈ 0) y
+parto costoso (e_costo = 1.0). Nada sembrado. Lectura primaria: R2_A, la
+mortalidad durante la hambruna bajo el orden regular contra el permutado,
+pareada entre mundos vivos, con ciclo2 como control de tipos de transición.
+Un tejido que regula según la estación previa muere menos cuando la hambruna
+sigue siempre a la estación templada. Secundarias: estructura de partos A/B y
+las lecturas de anticipación con la vara enmendada.
