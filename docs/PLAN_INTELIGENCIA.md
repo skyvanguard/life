@@ -490,3 +490,12 @@ variación no llega a programas así) o de vara, y lo siguiente es medir la
 alcanzabilidad de ANTISOL desde la sopa con escritura total; si no lo hay,
 la sonda aplana el ingreso o el ingreso no manda, y hay que cambiar el
 filtro o la ecología.
+
+**Resultado §26: GRADIENTE 17/20** (ANTISOL barre al 100% en 15/20 antes de
+10000 ticks; ESPEJO 0.00). La sonda no aplana el ingreso; el gradiente existe
+y la selección lo ve. Queda el CAMINO o la VARA. §27 mide directamente el
+rasgo premiado —peso de luz medio de la materia durante la hambruna— en
+poblaciones con variación abierta contra el congelado, en la ecología cerrada
+con luz escasa: si sube, el sustrato evoluciona y la vara de mortalidad era
+ciega; si no sube, la variación no alcanza el rasgo (camino) y lo siguiente es
+medir la alcanzabilidad de la materia anti-hambruna desde programas legales.

@@ -1,0 +1,32 @@
+================================================================================
+GRADIENTE DE INGRESO -- ANTISOL (materia lejos del sol) vs ESPEJO (misma forma, ingreso al azar), sembrados 4+4 en 56 al azar; cerrado, congelado, luz escasa
+================================================================================
+ecologia {'memoria': True, 'invasion': 'asentada', 'eq_window': 100, 'energia': True, 'luz_finita': 1.75, 'e0': 2.0, 'e_mant': 0.01, 'e_dif': 0.25, 'e_parto': 0.5, 'percepcion': False, 'lentos': 0.02, 'e_costo': 1.0, 'congelado': True}; N=64; 20 semillas; 30000 ticks; sol seed 0; workers=12
+veredicto pre-registrado (docstring)
+
+  seed vivas 10k antisol 10k espejo 10k vivas 30k antisol 30k espejo 30k  gana
+     0        43        1.00       0.00        18        1.00       0.00    si
+     1        52        1.00       0.00        15        1.00       0.00    si
+     2        26        1.00       0.00        15        1.00       0.00    si
+     3        26        1.00       0.00        16        1.00       0.00    si
+     4        23        1.00       0.00        15        1.00       0.00    si
+     5        16        0.94       0.00        16        0.94       0.00    si
+     6        34        1.00       0.00        16        1.00       0.00    si
+     7        14        1.00       0.00        14        1.00       0.00    si
+     8        22        1.00       0.00        15        1.00       0.00    si
+     9        19        0.00       0.00        16        0.00       0.00    no
+    10        25        1.00       0.00        16        1.00       0.00    si
+    11        15        1.00       0.00        15        1.00       0.00    si
+    12        15        0.13       0.40        15        0.13       0.40    no
+    13        12        1.00       0.00        12        1.00       0.00    si
+    14        15        0.80       0.20        15        0.80       0.20    si
+    15        15        1.00       0.00        15        1.00       0.00    si
+    16        19        0.32       0.68        15        0.40       0.60    no
+    17        15        1.00       0.00        15        1.00       0.00    si
+    18        12        1.00       0.00        12        1.00       0.00    si
+    19        14        0.36       0.00        14        0.36       0.00    si
+  ANTISOL gana en 17/20; mediana antisol 1.00, espejo 0.00 (inicio 0.0625 cada uno)
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> GRADIENTE: el ingreso de luz es seleccionable; la falta de adaptacion es de CAMINO o de vara.

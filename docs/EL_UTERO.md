@@ -1445,6 +1445,18 @@ explicación, que es lo más que un negativo puede ser.
   versión de ANTISOL (0.875) quedaba a 0.18 del sol de la hambruna, peor que
   el azar; el humo dio 0/3 y se corrigió antes de la corrida completa.
   `exp_utero_gradiente.py`.
+  **Resultado: GRADIENTE, 17/20.** ANTISOL pasa de 4/64 a la totalidad de
+  las vivas (1.00) en 15/20 mundos antes de los 10000 ticks (0.80–0.94 en
+  otros dos); ESPEJO, con la misma forma y sin ventaja de ingreso, desaparece
+  (mediana 0.00). El ingreso de luz es fuerte y rápidamente seleccionable
+  cuando la luz escasea. **La hipótesis "la sonda aplana el gradiente" queda
+  refutada.** Con selección fuerte sobre programas (§24), gradiente real
+  (§26) y oferta mutacional suficiente (§16b), la ausencia de adaptación es
+  de CAMINO (la variación no alcanza programas con materia anti-hambruna) o
+  de VARA (la mortalidad per cápita no capta lo que sube). Por primera vez
+  hay un rasgo objetivo que la selección premia y que se puede medir en el
+  tejido evolucionado: la distancia toroidal de la materia al sol de la
+  hambruna. §27. (`results/utero_gradiente_run.txt`)
 
 - **Control ruido-vs-función (2026-07-09): FUNCIÓN, 2/3 — con matices.**
   `exp_utero_ruido_vs_funcion.py`, vara definida ANTES de mirar. Línea base
