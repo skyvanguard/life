@@ -157,6 +157,7 @@ class ConsciousKernel:
         wm_sleep_replay: int = 0,
         wm_sleep_seq_len: int = 16,
         wm_sleep_batch: int = 8,
+        wm_error_input: bool = False,
         world_model_type: str = "gru",
         rssm_kwargs: dict | None = None,
         temporal_features: OscillatorBank | None = None,
@@ -332,10 +333,13 @@ class ConsciousKernel:
         temporal_dim = temporal_features.dim if temporal_features is not None else 0
 
         # --- Core components ---
+        if wm_error_input and world_model_type != "gru":
+            raise ValueError("wm_error_input needs the GRU world model")
         self.world_model = WorldModel(
             obs_dim, latent_dim, self.action_dim, temporal_dim=temporal_dim,
             disagreement_heads=wm_disagreement_heads,
             dynamics_ensemble=dynamics_ensemble,
+            error_input=wm_error_input,
         )
         # If the feature bank has trainable frequencies (the "learned" arm), fold
         # its parameters into the world model's optimizer so they are trained by
@@ -417,7 +421,9 @@ class ConsciousKernel:
         # lived past, running its own recurrence (prior -> posterior blend) through
         # each window with backprop through time. seq_len 1 is the context-free
         # one-step replay (the dreamer replay_wm update). 0 (default) = off,
-        # byte-identical: no buffer, no extra RNG draws.
+        # byte-identical: no buffer, no extra RNG draws. With wm_error_input the
+        # window also feeds the GRU its own prediction error, as in waking life
+        # (zero at the start of each window).
         self.wm_sleep_replay = wm_sleep_replay
         self.wm_sleep_seq_len = wm_sleep_seq_len
         self.wm_sleep_batch = wm_sleep_batch
@@ -1011,6 +1017,8 @@ class ConsciousKernel:
         Each window starts from the encoding of its first observation and runs the
         same recurrence as waking life: prior = GRU(action, z), predicted obs =
         predictor(prior), then z = blend * prior + (1 - blend) * encode(next obs).
+        With the error input the GRU gets [action, last error], the error starting
+        at zero and set to (next obs - predicted obs), detached, after each step.
         The loss is the mean squared prediction error over every step of every
         window, back-propagated through the whole window. Returns the last loss
         (None if there are not enough transitions yet).
@@ -1024,10 +1032,14 @@ class ConsciousKernel:
         for _ in range(self.wm_sleep_replay):
             obs, act, nxt = self._sleep_replay.sample_sequences(self.wm_sleep_batch, L)
             z = wm.encoder(obs[:, 0])
+            err = torch.zeros_like(nxt[:, 0]) if wm.error_input else None
             loss = torch.zeros(())
             for j in range(L):
-                prior = wm.transition(act[:, j], z)
-                loss = loss + ((wm.predictor(prior) - nxt[:, j]) ** 2).sum(dim=-1).mean()
+                prior = wm.transition(wm._transition_input(act[:, j], None, err), z)
+                pred = wm.predictor(prior)
+                loss = loss + ((pred - nxt[:, j]) ** 2).sum(dim=-1).mean()
+                if err is not None:
+                    err = (nxt[:, j] - pred).detach()
                 z = b * prior + (1.0 - b) * wm.encoder(nxt[:, j])
             loss = loss / L
             wm.optimizer.zero_grad()

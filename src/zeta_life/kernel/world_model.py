@@ -8,7 +8,7 @@ Implements a learned internal model of the environment that supports:
 
 Architecture:
     encoder:    Linear(obs_dim, 64) -> ReLU -> Linear(64, latent_dim)
-    transition: GRUCell(action_dim, latent_dim)
+    transition: GRUCell(action_dim [+ temporal_dim] [+ obs_dim], latent_dim)
     predictor:  Linear(latent_dim, obs_dim)
 """
 
@@ -48,6 +48,7 @@ class WorldModel(nn.Module):
         temporal_dim: int = 0,
         disagreement_heads: int = 0,
         dynamics_ensemble: int = 0,
+        error_input: bool = False,
     ) -> None:
         super().__init__()
 
@@ -67,6 +68,16 @@ class WorldModel(nn.Module):
         # Last prior latent produced by predict(), kept (with grad) so the
         # prior-loss backward in update_from_error can reach the transition.
         self._prior_latent: Tensor | None = None
+        # Optional own prediction error as a transition input (§K3 of
+        # docs/MUNDO_PROPIO.md): the GRU sees [action, observation - prediction of
+        # the last observed tick], the evidence a hidden context (COIN-style) is
+        # inferred from. Imagined steps get a zero error (the model expects its
+        # predictions to hold). False (default) = no extra input, byte-identical.
+        self.error_input = error_input
+        self._last_pred: Tensor | None = None
+        if error_input:
+            self.register_buffer("last_error", torch.zeros(obs_dim))
+        in_dim = action_dim + temporal_dim + (obs_dim if error_input else 0)
 
         # Bottom-up encoder: observation -> latent
         self.encoder = nn.Sequential(
@@ -76,9 +87,7 @@ class WorldModel(nn.Module):
         )
 
         # Transition model: (action [+ temporal feature]) -> next latent
-        self.transition = nn.GRUCell(
-            input_size=action_dim + temporal_dim, hidden_size=latent_dim
-        )
+        self.transition = nn.GRUCell(input_size=in_dim, hidden_size=latent_dim)
 
         # Top-down predictor: latent -> predicted observation
         self.predictor = nn.Linear(latent_dim, obs_dim)
@@ -119,7 +128,7 @@ class WorldModel(nn.Module):
         self._ens_input: tuple[Tensor, Tensor] | None = None
         if dynamics_ensemble > 0:
             self.ensemble = DynamicsEnsemble(
-                latent_dim, action_dim + temporal_dim, obs_dim,
+                latent_dim, in_dim, obs_dim,
                 n_members=dynamics_ensemble, learning_rate=learning_rate,
             )
         else:
@@ -140,21 +149,32 @@ class WorldModel(nn.Module):
         """
         return self.encoder(observation)
 
-    def _transition_input(self, action: Tensor, temporal_feat: Tensor | None) -> Tensor:
-        """Build the GRU input from the action and the optional temporal feature.
+    def _transition_input(
+        self, action: Tensor, temporal_feat: Tensor | None, error: Tensor | None = None
+    ) -> Tensor:
+        """Build the GRU input from the action and the optional extra inputs.
 
-        When ``temporal_dim == 0`` the input is the action unchanged (original
-        behaviour). Otherwise the temporal feature is concatenated; its gradient
-        is preserved so a trainable feature bank can learn from the prior loss.
+        With no temporal feature and no error input the input is the action
+        unchanged (original behaviour). Otherwise the temporal feature (its
+        gradient preserved so a trainable feature bank can learn from the prior
+        loss) and then the prediction error are concatenated on the last axis;
+        ``error=None`` means a zero error. Works on single or batched actions.
         """
-        if self.temporal_dim == 0:
+        if self.temporal_dim == 0 and not self.error_input:
             return action
-        if temporal_feat is None:
-            raise ValueError(
-                "temporal_feat is required when temporal_dim > 0 "
-                f"(got temporal_dim={self.temporal_dim})"
+        parts = [action]
+        if self.temporal_dim > 0:
+            if temporal_feat is None:
+                raise ValueError(
+                    "temporal_feat is required when temporal_dim > 0 "
+                    f"(got temporal_dim={self.temporal_dim})"
+                )
+            parts.append(temporal_feat)
+        if self.error_input:
+            parts.append(
+                error if error is not None else action.new_zeros(*action.shape[:-1], self.obs_dim)
             )
-        return torch.cat([action, temporal_feat])
+        return torch.cat(parts, dim=-1)
 
     def predict(
         self, action: Tensor, temporal_feat: Tensor | None = None
@@ -181,7 +201,9 @@ class WorldModel(nn.Module):
             ``(obs_dim,)`` and ``next_latent`` has shape ``(latent_dim,)``.
         """
         # GRUCell expects (batch, features) — add and remove batch dim
-        transition_input = self._transition_input(action, temporal_feat)
+        transition_input = self._transition_input(
+            action, temporal_feat, self.last_error if self.error_input else None
+        )
         # Stash (prior latent, transition input) so the dynamics ensemble can be
         # trained in observe() on (latent, action) -> next observation.
         if self.ensemble is not None:
@@ -202,6 +224,8 @@ class WorldModel(nn.Module):
         # safe; observe() overwrites it with the posterior.
         self._prior_latent = next_latent
         self.latent_state = next_latent.detach()
+        if self.error_input:
+            self._last_pred = predicted_obs.detach().clone()
 
         return predicted_obs, next_latent
 
@@ -255,6 +279,8 @@ class WorldModel(nn.Module):
                 self.posterior_blend * prior + (1.0 - self.posterior_blend) * encoded_d
             )
             self.latent_state = posterior_d
+        if self.error_input and self._last_pred is not None:
+            self.last_error = (observation.detach() - self._last_pred).clone()
         # Train the disagreement heads on the detached posterior -> observation.
         self._train_heads(posterior_d, observation.detach())
         # Train the independent dynamics ensemble on (prior latent, action) -> obs.
@@ -350,6 +376,8 @@ class WorldModel(nn.Module):
             gru_in = torch.cat([action, temporal_feat], dim=-1)
         else:
             gru_in = action
+        if self.error_input:
+            gru_in = torch.cat([gru_in, gru_in.new_zeros(gru_in.shape[0], self.obs_dim)], dim=-1)
         next_latent = self.transition(gru_in, latent)
         predicted_obs = self.predictor(next_latent)
         return next_latent, predicted_obs
