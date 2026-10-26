@@ -241,6 +241,63 @@ semillas.
   gradiente en una vida, no basta para que el latente aprenda a inferir el
   régimen.
 
+### §K2, parte 2 — APRENDE Y RECUERDA por la letra; recuerda por promedio, no por contexto (2026-10-26)
+
+`results/mundo_propio_sueno_run.txt`: 12 semillas × 5 brazos, 18.3 min. Es el
+primer veredicto positivo del kernel en su propio mundo.
+
+- **Veredicto de `secuencia`, por la regla del §K1: APRENDE Y RECUERDA.**
+  - CONTROLA 12/12. Las visitas atascadas bajan de 27 a 1.
+  - APRENDE 12/12: en la visita NUEVA llega a 0.118, contra 1.052 del
+    congelado.
+  - RECUERDA 11/12: diferencia mediana +0.136, contra −0.017 sin sueño.
+- **Atribución, con la vara enmendada antes de correr: por promedio, no por
+  contexto.** MÁS ALLÁ DEL PROMEDIO da 0/12 (0.116 contra el límite de 0.093).
+  La atribución vieja, la basada en `paso`, habría dicho "por contexto": la
+  enmienda atrapó exactamente el señuelo que la parte 1 había mostrado.
+- **Reproducción:** el brazo `kernel` reproduce el §K1 visita por visita, con
+  diferencia máxima 0.
+- **`paso`: APRENDE SIN RECORDAR.** CONTROLA 10/12, RECUERDA 7/12, 15 visitas
+  atascadas.
+- **Las predicciones, contra lo que pasó:**
+
+  | Predicción | Resultado |
+  |---|---|
+  | `kernel` reproduce el §K1 | se cumplió |
+  | `secuencia` recuerda por promedio | se cumplió |
+  | `paso` controla peor que `kernel` | **falló**: controla mejor |
+  | CONTROLA de `secuencia` en riesgo | **falló**: 12/12, y el sueño arregló el atasco |
+
+- **DISTINGUE: 10/12 por la letra, y no se le cree.** EXO da 0.94 y EFERENCIA
+  0.89, pero sin sueño la separación ya era la misma (mediana 0.035 contra 0.041)
+  y el sueño la agranda sólo en 6/12. Es un efecto chico que ya existía y esta
+  vez cruzó el umbral; no es atribuible al sueño.
+- **Posterior, no pre-registrado:**
+  - Ticks hasta llegar a ||s − C|| < 0.15:
+
+    | | conocidos (ciclos 6–7) | NUEVO |
+    |---|---|---|
+    | `secuencia` | 22 | 46 |
+    | `kernel` | 70 | 104 |
+
+  - La re-entrada mejora con la edad (ciclos 7–8 contra ciclo 2) en 7/12; sin
+    sueño, en 3/12.
+  - La interferencia sigue: el ciclo 7 rinde peor que el 6 en 9/12.
+  - El generalista paga en lo nuevo: su error tardío en la visita NUEVA es
+    0.118, contra 0.084 sin sueño.
+
+**Lectura.** Con un sueño que repasa lo vivido, el kernel tiene memoria del
+mundo:
+- vuelve a lo conocido 2–3 veces más rápido que a lo nuevo;
+- deja de atascarse;
+- su re-entrada mejora con la edad.
+
+Pero esa memoria es un generalista, no un repertorio: no sabe en qué régimen
+está, arranca desde el promedio de lo vivido. En términos de adaptación motora,
+son *savings* por un mejor punto de partida, no por la inferencia de contexto
+de COIN. Todavía no se le cree del todo: un positivo del programa se cree recién
+cuando se replica.
+
 **Siguiente (§K2, decidido por Fran el 2026-10-26; ver arriba):** un solo cambio, con la misma regla. El sueño
 repite al modelo del mundo transiciones `(s, a, s')` guardadas de visitas
 pasadas, que es complementariedad propiamente dicha: la memoria rápida entrena

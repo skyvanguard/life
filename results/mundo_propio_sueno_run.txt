@@ -1,0 +1,50 @@
+================================================================================
+§K2 PART 2 -- THE KERNEL IN ITS OWN WORLD, WITH A SLEEP THAT REPLAYS THE WORLD
+================================================================================
+12 seeds x ('kernel', 'secuencia', 'paso', 'congelado', 'reactivo'); sleep {'secuencia': {'wm_sleep_replay': 50, 'wm_sleep_seq_len': 16, 'wm_sleep_batch': 8}, 'paso': {'wm_sleep_replay': 50, 'wm_sleep_seq_len': 1, 'wm_sleep_batch': 128}}; run 18.3 min
+
+mean ||s - C|| per cycle (median over seeds)    early = ticks 0-99, late = 150-299
+   cycle |        kernel |     secuencia |          paso |     congelado |      reactivo
+       1 |   0.545/0.532 |   0.545/0.532 |   0.545/0.532 |   0.545/0.532 |   0.545/0.532
+       2 |   0.460/0.085 |   0.330/0.069 |   0.441/0.057 |   0.698/0.693 |   0.520/0.519
+       3 |   0.537/0.102 |   0.273/0.086 |   0.407/0.064 |   0.694/0.699 |   0.520/0.520
+       4 |   0.530/0.123 |   0.291/0.093 |   0.301/0.066 |   0.689/0.697 |   0.520/0.520
+       5 |   0.521/0.112 |   0.221/0.093 |   0.199/0.075 |   0.691/0.694 |   0.520/0.519
+       6 |   0.453/0.087 |   0.201/0.083 |   0.221/0.076 |   0.687/0.698 |   0.520/0.520
+   NOVEL |   0.547/0.084 |   0.402/0.118 |   0.453/0.081 |   1.012/1.052 |   0.520/0.520
+       7 |   0.638/0.254 |   0.335/0.109 |   0.611/0.284 |   0.700/0.696 |   0.520/0.519
+       8 |   0.487/0.069 |   0.272/0.107 |   0.387/0.083 |   0.691/0.697 |   0.520/0.520
+
+probe error after the burn-in, end of visit (median over seeds): others | current | burn-in on others
+   cycle |                 kernel |              secuencia |                   paso
+       1 |      0.196 0.052 0.194 |      0.137 0.075 0.137 |      0.145 0.075 0.143
+       2 |      0.288 0.212 0.294 |      0.119 0.095 0.124 |      0.134 0.092 0.131
+       3 |      0.291 0.242 0.307 |      0.116 0.103 0.126 |      0.135 0.099 0.129
+       4 |      0.268 0.224 0.280 |      0.117 0.105 0.127 |      0.136 0.101 0.131
+       5 |      0.276 0.231 0.277 |      0.114 0.109 0.125 |      0.135 0.105 0.132
+       6 |      0.278 0.232 0.278 |      0.111 0.112 0.125 |      0.136 0.104 0.131
+   NOVEL |      0.263 0.182 0.276 |      0.124 0.113 0.136 |      0.132 0.106 0.134
+       7 |      0.258 0.195 0.260 |      0.119 0.109 0.131 |      0.134 0.102 0.137
+       8 |      0.260 0.219 0.262 |      0.116 0.110 0.131 |      0.129 0.106 0.133
+
+--------------------------------------------------------------------------------
+       arm | CONTROLA APRENDE RECUERDA | NOVEL late | stuck | median RECUERDA dif | verdict
+    kernel |     9/12    12/12     6/12 |      0.084 |    27 |              -0.017 | NO CONTROLA
+ secuencia |    12/12    12/12    11/12 |      0.118 |     1 |              +0.136 | APRENDE Y RECUERDA
+      paso |    10/12    12/12     7/12 |      0.081 |    15 |              +0.046 | APRENDE SIN RECORDAR
+RECUERDA dif per seed (secuencia): [0.611, 0.139, -0.136, 0.365, 0.119, 0.134, 0.063, 0.216, 0.047, 0.091, 0.583, 0.477]
+BEYOND AVERAGING  secuencia mean probe over known, cycles 7-8 < 0.9 x exact average: 0/12 (medians 0.116 vs 0.9 x 0.103) -> no
+ATTRIBUTION (amended): by averaging (generalist world model)
+(superseded paso-based attribution: by context)
+RETIENE  probe on the others, cycles 7-8: secuencia < kernel 12/12 (medians 0.119 vs 0.254) -> yes
+         (context contrast) secuencia < paso 12/12 (paso median 0.130)
+REPRODUCTION  kernel arm vs §K1 per visit: max |diff| = 0.00e+00 -> reproduces
+
+Psi (cycles 3+ and NOVEL; frac Psi < 0.85 on the tick that perceives the test)
+       arm |   EXO  EFER false | AUC fe EXO>EFER | n EXO/EFER
+    kernel |  0.93  0.90  0.52 |            0.55 | 66/64
+ secuencia |  0.94  0.89  0.54 |            0.61 | 66/64
+      paso |  0.94  0.87  0.47 |            0.64 | 66/64
+DISTINGUE (secuencia, EXO > EFERENCIA): 10/12 -> yes
+
+VERDICT (pre-registered rule, secuencia): APRENDE Y RECUERDA
