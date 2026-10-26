@@ -1024,7 +1024,7 @@ sustrato distinto. Decisión abierta.
   de estación, que es exactamente lo que el kernel ya tiene (memoria lenta).
 
 - **§49 — tejido plástico con SENTIDO del propio ingreso, pre-registro
-  (2026-10-26, 01:50; decisión de Fran: "vamos con lo que propones").** La
+  (2026-10-26, 08:40; decisión de Fran: "vamos con lo que propones").** La
   pieza mínima que le falta a la celda del §45 para poder generalizar: dos
   entradas nuevas a su regla, su propio ingreso reciente (τ = 20) y lento
   (τ = 500), escalados a [−1, 1]. El ingreso depende del nivel del sol, así
