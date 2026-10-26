@@ -100,12 +100,19 @@ average (closer to it than the previous visit's specialist) and the NOVEL from
 farther (0.145), so RECUERDA may pass by averaging; CONTROLA is at risk because
 each sleep pulls the current specialist back toward the average.
 
+REPLICATION (pre-registered 2026-10-26 after part 2 landed, before running):
+seeds 12-23 (each regime still the NOVEL one in 3 seeds), arms kernel /
+secuencia / congelado / reactivo, the same rule and the same amended
+attribution. REPLICADO if secuencia is again APRENDE Y RECUERDA; the attribution
+is reported as before. A positive of this program is believed only replicated.
+
 3 CPU processes, one torch thread each (the kernel is tiny; declared exception to
 the GPU rule). Part 1 ~10 min, part 2 ~25 min.
 
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_sueno.py control
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_sueno.py relectura   # amended reading of part 1 (saved npz)
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_sueno.py
+    PYTHONPATH=src python experiments/kernel/exp_mundo_propio_sueno.py replica     # seeds 12-23
 """
 
 from __future__ import annotations
@@ -408,7 +415,7 @@ def veredicto_brazo(pv: dict, brazo: str) -> dict:
             "late_nuevo": float(np.median([visitas(brazo, s, (0,))[0]["late"] for s in SEEDS]))}
 
 
-def main() -> None:
+def main(arms: tuple = ARMS, nombre: str = "mundo_propio_sueno") -> None:
     lines: list[str] = []
 
     def out(s: str = "") -> None:
@@ -416,30 +423,31 @@ def main() -> None:
         lines.append(s)
 
     t0 = time.time()
-    V = correr(ARMS, False)
+    V = correr(arms, False)
     pv = {key: mp.por_visita(x, mp.calendario(key[1])) for key, x in V.items()}
     out("=" * 80)
     out("§K2 PART 2 -- THE KERNEL IN ITS OWN WORLD, WITH A SLEEP THAT REPLAYS THE WORLD")
     out("=" * 80)
-    out(f"{len(SEEDS)} seeds x {ARMS}; sleep {SUENO}; run {(time.time() - t0) / 60:.1f} min")
+    out(f"seeds {SEEDS[0]}-{SEEDS[-1]} x {arms}; sleep {SUENO}; run {(time.time() - t0) / 60:.1f} min")
     out("")
     out(f"mean ||s - C|| per cycle (median over seeds)    early = ticks 0-{mp.EARLY - 1}, "
         f"late = {mp.LATE0}-{D - 1}")
-    out(f"{'cycle':>8} | " + " | ".join(f"{a:>13}" for a in ARMS))
+    out(f"{'cycle':>8} | " + " | ".join(f"{a:>13}" for a in arms))
     for ciclo in (1, 2, 3, 4, 5, 6, 0, 7, 8):
         cel = []
-        for a in ARMS:
+        for a in arms:
             e = [np.mean([x["early"] for x in pv[(a, s)] if x["ciclo"] == ciclo]) for s in SEEDS]
             la = [np.mean([x["late"] for x in pv[(a, s)] if x["ciclo"] == ciclo]) for s in SEEDS]
             cel.append(f"{np.median(e):.3f}/{np.median(la):.3f}")
         out(f"{'NOVEL' if ciclo == 0 else ciclo:>8} | " + " | ".join(f"{c:>13}" for c in cel))
     out("")
-    tabla_sonda(V, ("kernel", "secuencia", "paso"), out)
+    vivos = tuple(a for a in ("kernel", "secuencia", "paso") if a in arms)
+    tabla_sonda(V, vivos, out)
     out("")
     out("-" * 80)
     out(f"{'arm':>10} | CONTROLA APRENDE RECUERDA | NOVEL late | stuck | median RECUERDA dif | verdict")
     ver = {}
-    for a in ("kernel", "secuencia", "paso"):
+    for a in vivos:
         x = veredicto_brazo(pv, a)
         ver[a] = x
         out(f"{a:>10} | {x['controla']:>5}/12 {x['aprende']:>5}/12 {x['recuerda']:>5}/12 | "
@@ -453,7 +461,7 @@ def main() -> None:
         f" vs 0.9 x {np.median([ref_promedio(s) for s in SEEDS]):.3f}) -> {'yes' if mas_ok else 'no'}")
     if ver["secuencia"]["r_ok"]:
         atrib = "by context" if mas_ok else "by averaging (generalist world model)"
-        viejo = "by interleaving, not context" if ver["paso"]["r_ok"] else "by context"
+        viejo = ("by interleaving, not context" if ver["paso"]["r_ok"] else "by context") if "paso" in ver else "--"
     else:
         atrib = viejo = "-- (secuencia does not RECUERDA)"
     out(f"ATTRIBUTION (amended): {atrib}")
@@ -464,23 +472,24 @@ def main() -> None:
     out(f"RETIENE  probe on the others, cycles 7-8: secuencia < kernel {sum(retiene)}/{len(SEEDS)} "
         f"(medians {np.median(r_sec):.3f} vs {np.median(r_ker):.3f}) -> "
         f"{'yes' if sum(retiene) >= N_OK else 'no'}")
-    r_paso = [otros(V[("paso", s)], s, (7, 8))[0] for s in SEEDS]
-    out(f"         (context contrast) secuencia < paso {sum(r_sec[i] < r_paso[i] for i in range(len(SEEDS)))}"
-        f"/{len(SEEDS)} (paso median {np.median(r_paso):.3f})")
+    if "paso" in arms:
+        r_paso = [otros(V[("paso", s)], s, (7, 8))[0] for s in SEEDS]
+        out(f"         (context contrast) secuencia < paso {sum(r_sec[i] < r_paso[i] for i in range(len(SEEDS)))}"
+            f"/{len(SEEDS)} (paso median {np.median(r_paso):.3f})")
     k1 = RESULTS / "mundo_propio_visitas.json"
-    if k1.exists():
-        ref = json.loads(k1.read_text(encoding="utf-8"))
+    ref = json.loads(k1.read_text(encoding="utf-8")) if k1.exists() else {}
+    if all(f"kernel_{s}" in ref for s in SEEDS):
         dmax = max(abs(a[c] - b[c]) for s in SEEDS for a, b in zip(pv[("kernel", s)], ref[f"kernel_{s}"])
                    for c in ("early", "late"))
         out(f"REPRODUCTION  kernel arm vs §K1 per visit: max |diff| = {dmax:.2e} -> "
             f"{'reproduces' if dmax < 1e-9 else 'DOES NOT reproduce'}")
     else:
-        out("REPRODUCTION  §K1 per-visit file not found; not checked")
+        out("REPRODUCTION  no §K1 per-visit data for these seeds; not checked")
     out("")
     out("Psi (cycles 3+ and NOVEL; frac Psi < 0.85 on the tick that perceives the test)")
     out(f"{'arm':>10} | {'EXO':>5} {'EFER':>5} {'false':>5} | {'AUC fe EXO>EFER':>15} | n EXO/EFER")
     lect = {}
-    for a in ("kernel", "secuencia", "paso"):
+    for a in vivos:
         ls = [mp.lectura_psi(V[(a, s)], mp.calendario(s)) for s in SEEDS]
         lect[a] = ls
         m = {k2: float(np.nanmedian([x[k2] for x in ls])) for k2 in ls[0]}
@@ -491,8 +500,8 @@ def main() -> None:
         f"{'yes' if sum(distingue) >= N_OK else 'no'}")
     out("")
     out(f"VERDICT (pre-registered rule, secuencia): {ver['secuencia']['veredicto']}")
-    escribir(lines, "mundo_propio_sueno_run.txt")
-    (RESULTS / "mundo_propio_sueno_visitas.json").write_text(
+    escribir(lines, f"{nombre}_run.txt")
+    (RESULTS / f"{nombre}_visitas.json").write_text(
         json.dumps({f"{a}_{s}": v for (a, s), v in pv.items()}), encoding="utf-8")
 
 
@@ -501,5 +510,8 @@ if __name__ == "__main__":
         main_control()
     elif len(sys.argv) > 1 and sys.argv[1] == "relectura":
         relectura_control()
+    elif len(sys.argv) > 1 and sys.argv[1] == "replica":
+        SEEDS = tuple(range(12, 24))
+        main(("kernel", "secuencia", "congelado", "reactivo"), "mundo_propio_sueno_replica")
     else:
         main()

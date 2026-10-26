@@ -298,6 +298,14 @@ son *savings* por un mejor punto de partida, no por la inferencia de contexto
 de COIN. Todavía no se le cree del todo: un positivo del programa se cree recién
 cuando se replica.
 
+**Réplica (pre-registrada el 2026-10-26, después de la parte 2 y antes de
+correrla).**
+- Semillas 12 a 23; cada régimen sigue siendo el NUEVO en 3 de ellas.
+- Brazos `kernel`, `secuencia`, `congelado` y `reactivo`.
+- Misma regla y misma atribución enmendada.
+- REPLICADO si `secuencia` vuelve a dar APRENDE Y RECUERDA.
+- Comando: `exp_mundo_propio_sueno.py replica`.
+
 **Siguiente (§K2, decidido por Fran el 2026-10-26; ver arriba):** un solo cambio, con la misma regla. El sueño
 repite al modelo del mundo transiciones `(s, a, s')` guardadas de visitas
 pasadas, que es complementariedad propiamente dicha: la memoria rápida entrena
