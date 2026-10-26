@@ -264,7 +264,7 @@ rule was not changed):
   tried, and where Psi came closest it did not discriminate.)
 
 **Reading.** Psi is a thresholded relative-surprise detector, not a level
-meter. It discriminates (AUC 0.98-0.99) while sitting in ALTA 90-93% of the time,
+meter. It discriminates (AUC 0.98-0.99) while sitting in ALTA 89-93% of the time,
 when the life is predictable and its breaks are rare. Yvyra's 89% ALTA was not
 a broken instrument: it was a full memory plus a third of her ticks being
 large, frequent surprises, so only the clock got through. "De-saturate so that
