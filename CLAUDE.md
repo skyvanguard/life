@@ -463,6 +463,14 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
   who did what vs our three principles, **repetition risks**, **gaps**, what the literature says
   about our open crossroads, and the metrics to adopt (lineage-persistence filter, shadow run).
   Read before designing any new útero mechanism.
+- `docs/ESTADO_DEL_ARTE_APRENDER_EN_VIDA.md` — **state of the art (2026-10-25) for learning IN LIFE without
+  pretraining**, written before running the §45 seasonal test: evolved plasticity (Najarro/Risi, LNDP, Medvid 2026
+  anti-Hebb + regret), node perturbation (= REINFORCE + Fiete-Seung), mortal computation (Hinton, Ororbia-Friston),
+  NCA with memory, basal cognition (GRN memory, single-cell habituation), one-shot structure learning (Friston 2025),
+  Ashby/Di Paolo ultrastability, DGM/ASAL. Table vs the four §44 requirements, repetition risks, gaps, **the
+  Lamarckian-inheritance flaw of the §45 prototype** (the child inherits the mother's LEARNED weights) and the
+  pre-registered amendments (genotypic inheritance, regret vs oracle, mid-life lesion, two cheap arms). Plus a
+  fiction section (Egan, Lem, Chiang, Watts, Rucker, Tchaikovsky, Borges, Bioy). Read before touching §45.
 - `docs/AUDIT_FIXES_2026.md` — 11 audited kernel implementation fixes (with before/after metrics)
 - `docs/AGENCY_2026.md` — active-inference agency investigation (honest negative results)
 - `docs/YVYRA_BRIDGE.md` — contract for feeding a live agent's experience into the kernel; the zeta-life side is implemented in `src/zeta_life/bridge/` (demo: `experiments/kernel/exp_yvyra_bridge.py`)
