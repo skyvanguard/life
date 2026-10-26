@@ -99,9 +99,30 @@ LECTURAS SECUNDARIAS (pre-registradas 2026-10-25; informan, no deciden):
   ESTADO      h_lento > sin_plasticidad en ≥ 75%: un estado lento con regla
               fija ya rinde.
 
+§45b — ESTACIONES LARGAS (pre-registrado 2026-10-26 00:55, tras leer el sol
+seed 0 y ANTES de leer la réplica). El resultado con sol seed 0 fue APRENDE EN
+VIDA SIN GENERALIZAR con efecto chico (regret 0.88): dentro de cada estación
+el plástico sube de 0.29 a 0.34 en ~600 ticks, y las estaciones duran 357–884.
+Con sol constante llega a 0.52 en 20000 ticks. Hipótesis mecánica: el ser
+aprende más lento de lo que el mundo cambia. Prueba: el mismo protocolo con
+duraciones 10× (dur 3000–9000; 120000 ticks; brazos plastico, invertido,
+barajado, sin_plasticidad, ultra; sol seed 0). Lecturas pre-registradas:
+  TIEMPO        regret del plástico (2a mitad) < 0.5: con tiempo, el aprendizaje
+                en vida recupera más de la mitad de lo posible. Si no: el
+                límite no era el tiempo (es la regla o el blanco móvil).
+  REACTOR       G sigue < 0.8 en ≥ 75% de los mundos: con tiempo aprende más
+                pero sigue re-aprendiendo cada estación (no lleva nada de una a
+                la siguiente). Es lo esperado: nada en la celda puede llevarlo.
+  ESPECIALISTA  sin_plasticidad: cosecha en A ≥ 1.3× su cosecha en B y C: la
+                evolución de genotipos sigue produciendo un especialista de la
+                hambruna, y el plástico un generalista chato.
+El veredicto primario se aplica igual (misma regla) pero no decide nada nuevo:
+§45b informa el mecanismo del §45, no lo reemplaza.
+
     PYTHONPATH=src python experiments/utero/exp_utero_tejido_plastico.py            # prueba (sol seed 0)
     PYTHONPATH=src python experiments/utero/exp_utero_tejido_plastico.py calibrar   # re-calibración (herencia genotípica)
     PYTHONPATH=src python experiments/utero/exp_utero_tejido_plastico.py replica 1  # réplica con otro sol
+    PYTHONPATH=src python experiments/utero/exp_utero_tejido_plastico.py largo      # §45b estaciones 10x
 """
 
 from __future__ import annotations
@@ -133,6 +154,8 @@ MODO = {"plastico": 0, "invertido": 1, "barajado": 2, "sin_plasticidad": 3,
 ARMS = tuple(MODO)
 ORIGINALES = ARMS[:4]
 CONTROLES = ("invertido", "barajado", "sin_plasticidad")
+LARGO_ARMS = ("plastico", "invertido", "barajado", "sin_plasticidad", "ultra")
+LARGO_TICKS, LARGO_DUR = 120000, (3000, 9000)
 TEMPRANO = 50
 RESULTS = HERE.parents[1] / "results"
 DATA = HERE.parents[1] / "data"
@@ -332,31 +355,35 @@ def figura(sol: Sol, w_ser: np.ndarray, arms: tuple, path: Path) -> None:
     plt.close(fig)
 
 
-def main(sol_seed: int = 0) -> None:
+def main(sol_seed: int = 0, largo: bool = False) -> None:
     lines: list[str] = []
 
     def out(s: str = "") -> None:
         print(s, flush=True)
         lines.append(s)
 
-    arms = ARMS
-    sufijo = "" if sol_seed == 0 else f"_sol{sol_seed}"
-    sol = Sol(seed=sol_seed, ticks=TICKS, regimenes=REGS)
+    arms = LARGO_ARMS if largo else ARMS
+    ticks = LARGO_TICKS if largo else TICKS
+    dur = LARGO_DUR if largo else (300, 900)
+    sufijo = ("_largo" if largo else "") + ("" if sol_seed == 0 else f"_sol{sol_seed}")
+    sol = Sol(seed=sol_seed, ticks=ticks, regimenes=REGS, dur_min=dur[0], dur_max=dur[1])
     soles = np.tile(sol.serie, (len(arms) * W, 1))
     out("=" * 80)
     out("TEJIDO PLASTICO (prototipo fuera del utero): regla continua que cambia en vida segun el propio ingreso de cada celda")
     out("Herencia GENOTIPICA (enmienda 2026-10-25): lo aprendido muere con la celda; brazo lamarck = herencia original")
+    if largo:
+        out("§45b ESTACIONES LARGAS (10x): ¿le faltaba tiempo al aprendiz? (pre-registrado 2026-10-26)")
     out("=" * 80)
-    out(f"N={N}; {W} mundos por brazo; brazos {list(arms)}; eta={ETA}; sigma={SIGMA}; kappa={KAPPA}; {TICKS} ticks; sol seed {sol_seed}; "
-        f"lesion desde {TICKS // 2}; veredicto pre-registrado (docstring)")
+    out(f"N={N}; {W} mundos por brazo; brazos {list(arms)}; eta={ETA}; sigma={SIGMA}; kappa={KAPPA}; {ticks} ticks; sol seed {sol_seed}; "
+        f"duraciones {dur}; lesion desde {ticks // 2}; veredicto pre-registrado (docstring)")
     out("")
     t0 = time.time()
-    w_ser, viv = correr(soles, TICKS, ETA, SIGMA, 2032 + sol_seed, arms)
+    w_ser, viv = correr(soles, ticks, ETA, SIGMA, 2032 + sol_seed, arms)
     out(f"corrida: {(time.time() - t0) / 60:.1f} min")
     DATA.mkdir(exist_ok=True)
     np.savez_compressed(DATA / f"{NAME}{sufijo}_series.npz", w_ser=w_ser, viv=viv, arms=np.array(arms),
                         estaciones=np.array([(n, i, f) for n, i, f in sol.estaciones], dtype=object))
-    mitad = TICKS // 2
+    mitad = ticks // 2
     res = {}
     for i, a in enumerate(arms):
         sl = slice(i * W, (i + 1) * W)
@@ -364,7 +391,7 @@ def main(sol_seed: int = 0) -> None:
         for j in range(sl.start, sl.stop):
             gs = []
             for nombre, ini, fin in sol.estaciones:
-                if ini < mitad or fin > TICKS or fin - ini < 2 * TEMPRANO:
+                if ini < mitad or fin > ticks or fin - ini < 2 * TEMPRANO:
                     continue
                 den = float(np.nanmean(w_ser[ini:fin, j])) - AZAR
                 if den > 0.02:
@@ -397,15 +424,37 @@ def main(sol_seed: int = 0) -> None:
     out(f"  generalizacion: G >= 0.8 en {kg}/{len(g)} mundos plasticos donde esta definido -> {'si' if generaliza else 'no'}")
     out("")
     out("-" * 80)
-    out("SECUNDARIAS (pre-registradas 2026-10-25; informan, no deciden)")
-    mortal = _pares(out, "MORTAL", res["plastico"]["w"], res["lesion"]["w"], "plastico > lesion (2a mitad)")
-    caida = float(np.nanmedian(res["lesion"]["w1"])) - float(np.nanmedian(res["lesion"]["w"]))
-    out(f"             lesion: cosecha 1a mitad {np.nanmedian(res['lesion']['w1']):.3f} -> 2a mitad {np.nanmedian(res['lesion']['w']):.3f} (caida {caida:+.3f}); "
-        f"{'MORTAL: lo aprendido se pierde con el recambio' if mortal else 'FIJADO: lo que habia quedo en genotipos o en h'}")
-    _pares(out, "HERENCIA", res["lamarck"]["w"], res["plastico"]["w"], "lamarck > plastico")
-    _pares(out, "AZAR BASTA", res["ultra"]["w"], res["sin_plasticidad"]["w"], "ultra > sin_plasticidad")
-    _pares(out, "DIRECCION", res["plastico"]["w"], res["ultra"]["w"], "plastico > ultra")
-    _pares(out, "ESTADO", res["h_lento"]["w"], res["sin_plasticidad"]["w"], "h_lento > sin_plasticidad")
+    out("POR ESTACION (cosecha media por tipo de estacion, 2a mitad)")
+    por_est = {}
+    for a in arms:
+        j = arms.index(a)
+        sl = slice(j * W, (j + 1) * W)
+        por_est[a] = {nm: float(np.mean([np.nanmean(w_ser[i:f, sl]) for n_, i, f in sol.estaciones if n_ == nm and i >= mitad] or [np.nan]))
+                      for nm in "ABC"}
+        out(f"  {a:<16} " + "  ".join(f"{nm} {por_est[a][nm]:.3f}" for nm in "ABC"))
+    out("")
+    out("-" * 80)
+    if largo:
+        out("LECTURAS §45b (pre-registradas 2026-10-26; informan el mecanismo)")
+        regret_p = (ORACULO - float(np.nanmedian(res["plastico"]["w"]))) / (ORACULO - AZAR)
+        out(f"  TIEMPO        regret plastico {regret_p:.2f} -> {'SI, le faltaba tiempo' if regret_p < 0.5 else 'no: el limite no era el tiempo'}")
+        kr = int(np.sum(g < 0.8))
+        out(f"  REACTOR       G < 0.8 en {kr}/{len(g)} mundos plasticos -> {'SI, re-aprende cada estacion' if len(g) and kr / len(g) >= 0.75 else 'no'}")
+        fz = por_est["sin_plasticidad"]
+        esp = fz["A"] >= 1.3 * max(fz["B"], fz["C"])
+        out(f"  ESPECIALISTA  sin_plasticidad A/B {fz['A'] / fz['B']:.2f}, A/C {fz['A'] / fz['C']:.2f} -> {'SI' if esp else 'no'}")
+        _pares(out, "AZAR BASTA", res["ultra"]["w"], res["sin_plasticidad"]["w"], "ultra > sin_plasticidad")
+        _pares(out, "DIRECCION", res["plastico"]["w"], res["ultra"]["w"], "plastico > ultra")
+    else:
+        out("SECUNDARIAS (pre-registradas 2026-10-25; informan, no deciden)")
+        mortal = _pares(out, "MORTAL", res["plastico"]["w"], res["lesion"]["w"], "plastico > lesion (2a mitad)")
+        caida = float(np.nanmedian(res["lesion"]["w1"])) - float(np.nanmedian(res["lesion"]["w"]))
+        out(f"             lesion: cosecha 1a mitad {np.nanmedian(res['lesion']['w1']):.3f} -> 2a mitad {np.nanmedian(res['lesion']['w']):.3f} (caida {caida:+.3f}); "
+            f"{'MORTAL: lo aprendido se pierde con el recambio' if mortal else 'FIJADO: lo que habia quedo en genotipos o en h'}")
+        _pares(out, "HERENCIA", res["lamarck"]["w"], res["plastico"]["w"], "lamarck > plastico")
+        _pares(out, "AZAR BASTA", res["ultra"]["w"], res["sin_plasticidad"]["w"], "ultra > sin_plasticidad")
+        _pares(out, "DIRECCION", res["plastico"]["w"], res["ultra"]["w"], "plastico > ultra")
+        _pares(out, "ESTADO", res["h_lento"]["w"], res["sin_plasticidad"]["w"], "h_lento > sin_plasticidad")
     out("")
     out("=" * 80)
     out("VEREDICTO (regla escrita antes de correr)")
@@ -424,5 +473,7 @@ if __name__ == "__main__":
         calibrar()
     elif len(sys.argv) > 2 and sys.argv[1] == "replica":
         main(int(sys.argv[2]))
+    elif len(sys.argv) > 1 and sys.argv[1] == "largo":
+        main(0, largo=True)
     else:
         main()
