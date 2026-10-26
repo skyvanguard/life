@@ -417,6 +417,28 @@ existe, porque el promedio está más cerca de lo conocido (0.101) que de lo nue
 (0.145), pero es modesta. Hay memoria del mundo, sin repertorio: el kernel no
 sabe en qué régimen está.
 
+### §K3, parte 1 — el modelo del mundo infiere el régimen en una vida balbuceada (2026-10-26)
+
+`results/mundo_propio_contexto_control_run.txt`: semillas 0–11, 30.1 min.
+
+- **CONTEXTO_CTRL: 11/12. La regla de parada pasa.** `error_x4` llega a 0.056 en
+  los regímenes conocidos, contra 0.103 del promedio exacto (0.54×). La ganancia
+  del burn-in es +0.020, contra +0.005 del §K2: el latente lleva el contexto de
+  los primeros ticks.
+- **Atribución: hacen falta las dos cosas.** `secuencia_x4` (sólo la dosis) da
+  4/12, con mediana 1.00. `error` (sólo el error) da 0/12, así que no corre en la
+  parte 2.
+- **La salida de la meseta llega en el ciclo 6**, como en la calibración:
+  0.099 → 0.073 → 0.026 en el ciclo 8.
+- **El cociente varía mucho entre semillas**, de 0.18 a 0.94. Cuatro semillas
+  salen del todo (≤ 0.22), la mayoría queda a medio camino (0.41–0.82) y una
+  falla (la 6, con 0.94).
+- **El repertorio no le cuesta al presente.** En el régimen actual da 0.039,
+  contra 0.081 del generalista del §K2.
+- **El NUEVO sigue igual:** 0.136, contra 0.144.
+- **Predicciones:** `error_x4` pasa, se cumplió. `error` falla, se cumplió.
+  `secuencia_x4` "en el borde" quedó peor que eso: 4/12.
+
 **Lo que sigue abierto:**
 - Un repertorio, es decir, inferir el contexto. El sueño en secuencia, con
   BPTT de 16 ticks, no lo produjo.

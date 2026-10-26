@@ -1,0 +1,31 @@
+================================================================================
+§K3 PART 1 -- POSITIVE CONTROL: does the world model infer the regime in a babbled life?
+================================================================================
+seeds 0-11 x ('sin_sueno', 'secuencia', 'error', 'secuencia_x4', 'error_x4') (sin_sueno, secuencia read from §K2); run 30.1 min
+
+mean probe over the 3 known regimes, end of visit (median over seeds); exact average 0.103
+   cycle |    sin_sueno |    secuencia |        error | secuencia_x4 |     error_x4
+       1 |        0.149 |        0.116 |        0.111 |        0.116 |        0.111
+       2 |        0.138 |        0.110 |        0.106 |        0.107 |        0.104
+       3 |        0.139 |        0.109 |        0.105 |        0.106 |        0.103
+       4 |        0.141 |        0.109 |        0.106 |        0.105 |        0.102
+       5 |        0.140 |        0.109 |        0.105 |        0.104 |        0.099
+       6 |        0.138 |        0.109 |        0.105 |        0.103 |        0.073
+   NOVEL |        0.197 |        0.121 |        0.116 |        0.107 |        0.081
+       7 |        0.136 |        0.110 |        0.106 |        0.103 |        0.067
+       8 |        0.139 |        0.109 |        0.105 |        0.100 |        0.026
+
+         arm | known 7-8 | / avg | below 0.9 | burn gain | NOVEL 7-8 | current 7-8
+   sin_sueno |     0.138 |  1.34 |      0/12 |    +0.004 |     0.190 |       0.033
+   secuencia |     0.110 |  1.07 |      0/12 |    +0.005 |     0.144 |       0.081
+       error |     0.106 |  1.03 |      0/12 |    +0.000 |     0.139 |       0.077
+secuencia_x4 |     0.103 |  1.00 |      4/12 |    +0.008 |     0.142 |       0.096
+    error_x4 |     0.056 |  0.54 |     11/12 |    +0.020 |     0.136 |       0.039
+
+--------------------------------------------------------------------------------
+CONTEXTO_CTRL  error_x4 below 0.9 x average: 11/12 -> yes
+  attribution: secuencia_x4 4/12 -> no
+  attribution:        error 0/12 -> no
+  error fails: it does not run in part 2
+
+STOP RULE: passed, part 2 may run
