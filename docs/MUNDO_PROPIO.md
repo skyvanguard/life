@@ -439,6 +439,52 @@ sabe en qué régimen está.
 - **Predicciones:** `error_x4` pasa, se cumplió. `error` falla, se cumplió.
   `secuencia_x4` "en el borde" quedó peor que eso: 4/12.
 
+### §K3, parte 2 — REPERTORIO por la letra (2026-10-26)
+
+`results/mundo_propio_contexto_run.txt`: semillas 0–11, 31.4 min.
+
+- **CONTEXTO (primaria): 12/12.** En la vida en que actúa, el modelo del mundo
+  de `error_x4` llega a 0.064 en los regímenes conocidos, contra 0.103 del
+  promedio exacto (0.64×; por semilla, de 0.41 a 0.81). La ganancia del burn-in
+  es +0.028.
+- **CONDUCTA: APRENDE Y RECUERDA, con 12/12 en las tres lecturas.** Hay 0
+  visitas atascadas, y la diferencia de RECUERDA tiene mediana +0.223 (+0.136 en
+  el §K2).
+- **La re-entrada a lo conocido casi no cuesta.** El error temprano en las
+  visitas conocidas de los ciclos 5–8 es 0.10–0.17, contra 0.20–0.34 del §K2 y
+  0.45–0.64 sin sueño.
+- **Veredicto pre-registrado: REPERTORIO.** Es el primero del programa: el
+  kernel sabe en qué régimen está, y eso le sirve para actuar.
+- **ESPECIFICIDAD (secundaria): 8/12, no pasa.** Contra el generalista del §K2,
+  la entrada a lo conocido mejora mucho (12/12, mediana 0.134 contra 0.306). La
+  entrada a lo NUEVO también mejora, aunque menos (8/12, 0.356 contra 0.402).
+  La ganancia es mayor en lo conocido en 8/12.
+- **El costo: lo NUEVO tarde.** El error tardío en la visita NUEVA es 0.133,
+  contra 0.118 del §K2 y 0.084 sin sueño. APRENDE igual pasa 12/12 contra el
+  congelado.
+- **Atribución:** `secuencia_x4` (sólo la dosis) da CONTEXTO 3/12. Su conducta
+  es APRENDE Y RECUERDA, igual que el §K2: sin el error no hay repertorio.
+- **DISTINGUE, reportada y no veredicto en este pre-registro: 12/12.** Ψ cae
+  en el 95 % de los EXO y en el 84 % de los EFERENCIA. Las falsas alarmas bajan
+  a 0.44.
+  - Posterior: la separación EXO − EFERENCIA (+0.119) supera la del kernel sin
+    sueño en 12/12, la de `secuencia` en 12/12 y la de `secuencia_x4` en 10/12.
+  - A diferencia del §K2, la separación no está ya sin el mecanismo. Pero es
+    posterior: va pre-registrada a la réplica.
+- **Predicciones:** "CONTEXTO en riesgo" falló, porque se sostuvo 12/12. Que
+  hubiera ESPECIFICIDAD positiva si había CONTEXTO también falló: dio 8/12.
+  CONTROLA, que estaba abierto, dio 12/12 con 0 atascadas.
+
+**Réplica (pre-registrada el 2026-10-26, después de la parte 2 y antes de
+correrla).**
+- Semillas 12–23. Corre sólo `error_x4`; los brazos del §K2 se leen de su
+  réplica.
+- REPLICADO si `error_x4` vuelve a dar REPERTORIO.
+- Secundaria pre-registrada: DISTINGUE ≥ 10/12 **y** DISTINGUE PAREADO, es decir
+  que la separación de `error_x4` supere la del kernel sin sueño en ≥ 10/12. Hacen
+  falta las dos para decir "distingue, y por el mecanismo".
+- Comando: `exp_mundo_propio_contexto.py replica`.
+
 **Lo que sigue abierto:**
 - Un repertorio, es decir, inferir el contexto. El sueño en secuencia, con
   BPTT de 16 ticks, no lo produjo.

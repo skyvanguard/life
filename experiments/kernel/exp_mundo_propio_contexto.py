@@ -72,12 +72,24 @@ acting kernel lives near C, so its data is narrow and the escape from the platea
 positive if CONTEXTO holds; CONTROLA open (each 200-step sleep moves the world
 model a lot).
 
+REPLICATION (pre-registered 2026-10-26 after part 2 landed, before running):
+seeds 12-23 (each regime still the NOVEL one in 3 seeds); run error_x4 only, read
+kernel / secuencia / congelado / reactivo from the §K2 replication's saved lives;
+the same rule. REPLICADO if error_x4 is again REPERTORIO. Pre-registered here as
+secondary (in part 2 DISTINGUE was only reported, 12/12, and its paired contrast
+was post hoc): DISTINGUE >= 10/12 AND DISTINGUE PAREADO -- per seed, the gap
+frac(Psi<0.85 | EXO) - frac(Psi<0.85 | EFERENCIA) of error_x4 > that of the
+kernel without sleep, >= 10/12 -- both needed to call it "distinguishes, and by
+the mechanism" (the §K2 objection: a separation the kernel already has without
+the mechanism is not the mechanism's). ESPECIFICIDAD reported again.
+
 3 CPU processes, one torch thread each (declared exception to the GPU rule: the
-kernel is tiny). Part 1 ~30 min, part 2 ~30 min.
+kernel is tiny). Part 1 ~30 min, part 2 ~30 min, replication ~16 min.
 
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_contexto.py calibracion
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_contexto.py control
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_contexto.py
+    PYTHONPATH=src python experiments/kernel/exp_mundo_propio_contexto.py replica   # seeds 12-23
 """
 
 from __future__ import annotations
@@ -365,7 +377,8 @@ def main_control(seeds: tuple = SEEDS, nombre: str = "mundo_propio_contexto_cont
     (RESULTS / f"{nombre}_run.txt").write_text("\n".join(lines), encoding="utf-8")
 
 
-def main(seeds: tuple = SEEDS, nombre: str = "mundo_propio_contexto", con_error: bool = False) -> None:
+def main(seeds: tuple = SEEDS, nombre: str = "mundo_propio_contexto", con_error: bool = False,
+         correr_arms: tuple = ("error_x4", "secuencia_x4")) -> None:
     lines: list[str] = []
 
     def out(s: str = "") -> None:
@@ -373,7 +386,7 @@ def main(seeds: tuple = SEEDS, nombre: str = "mundo_propio_contexto", con_error:
         lines.append(s)
 
     t0 = time.time()
-    correr_arms = ("error_x4", "secuencia_x4") + (("error",) if con_error else ())
+    correr_arms = correr_arms + (("error",) if con_error else ())
     V = vidas(correr_arms, ("kernel", "secuencia", "congelado", "reactivo"), seeds, False)
     pv = {key: mp.por_visita(x, mp.calendario(key[1])) for key, x in V.items()}
     vivos = ("kernel", "secuencia") + correr_arms
@@ -423,14 +436,19 @@ def main(seeds: tuple = SEEDS, nombre: str = "mundo_propio_contexto", con_error:
     out("")
     out("Psi (cycles 3+ and NOVEL; frac Psi < 0.85 on the tick that perceives the test)")
     out(f"{'arm':>12} | {'EXO':>5} {'EFER':>5} {'false':>5} | {'AUC fe EXO>EFER':>15}")
-    dist = 0
+    lect = {}
     for a in vivos:
         ls = [mp.lectura_psi(V[(a, s)], mp.calendario(s)) for s in seeds]
+        lect[a] = ls
         m = {k2: float(np.nanmedian([x[k2] for x in ls])) for k2 in ls[0]}
         out(f"{a:>12} | {m['exo']:>5.2f} {m['efer']:>5.2f} {m['fa']:>5.2f} | {m['auc_fe']:>15.2f}")
-        if a == "error_x4":
-            dist = sum(x["exo"] > x["efer"] for x in ls)
+    dist = sum(x["exo"] > x["efer"] for x in lect["error_x4"])
     out(f"DISTINGUE (error_x4, EXO > EFERENCIA): {dist}/{len(seeds)} -> {'yes' if dist >= N_OK else 'no'}")
+    gap = {a: [x["exo"] - x["efer"] for x in lect[a]] for a in ("kernel", "error_x4")}
+    par = sum(gap["error_x4"][i] > gap["kernel"][i] for i in range(len(seeds)))
+    out(f"DISTINGUE PAREADO  gap EXO-EFER error_x4 > kernel: {par}/{len(seeds)} (medians "
+        f"{np.median(gap['error_x4']):+.3f} vs {np.median(gap['kernel']):+.3f}) -> "
+        f"{'yes' if par >= N_OK else 'no'}")
     conducta = ver["error_x4"]["veredicto"]
     if c_ok and conducta == "APRENDE Y RECUERDA":
         final = "REPERTORIO"
@@ -451,5 +469,7 @@ if __name__ == "__main__":
         main_calibracion()
     elif len(sys.argv) > 1 and sys.argv[1] == "control":
         main_control()
+    elif len(sys.argv) > 1 and sys.argv[1] == "replica":
+        main(tuple(range(12, 24)), "mundo_propio_contexto_replica", correr_arms=("error_x4",))
     else:
         main(con_error="--con-error" in sys.argv)
