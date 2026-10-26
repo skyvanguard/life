@@ -964,6 +964,12 @@ sustrato distinto. Decisión abierta.
   Wn exactamente en los brazos sin aprendizaje; plástico 0.476 vs congelado
   0.318. 8 brazos × 16 mundos × 60000 ticks, sol seed 0; réplica con sol seed
   1 lanzada a la vez (misma regla). `exp_utero_tejido_plastico.py`.
+  **Re-calibración leída antes de la prueba (2026-10-26 00:04):** con herencia
+  genotípica el control positivo se sostiene en los seis puntos — en (0.05,
+  0.3) plástico 0.523 vs sin plasticidad 0.328, barajado 0.302, invertido 0.183
+  (`results/utero_tejido_plastico_calibracion2_run.txt`). Lo que la celda
+  aprende lo aprende EN SU VIDA (ya no puede venir heredado). η y σ no se
+  tocan; las corridas en marcha son válidas.
 
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato

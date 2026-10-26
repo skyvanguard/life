@@ -1,0 +1,7 @@
+RE-CALIBRACION (herencia genotipica, 2026-10-25) con sol constante 0.3: cosecha media (segunda mitad) por brazo
+  eta=0.01  sigma=0.1  plastico 0.527/206  invertido 0.190/172  barajado 0.312/202  sin_plasticidad 0.329/204
+  eta=0.01  sigma=0.3  plastico 0.524/209  invertido 0.096/163  barajado 0.311/202  sin_plasticidad 0.325/204
+  eta=0.05  sigma=0.1  plastico 0.519/205  invertido 0.231/197  barajado 0.306/203  sin_plasticidad 0.327/204
+  eta=0.05  sigma=0.3  plastico 0.523/209  invertido 0.183/194  barajado 0.302/204  sin_plasticidad 0.328/204
+  eta=0.2   sigma=0.1  plastico 0.469/198  invertido 0.287/206  barajado 0.302/205  sin_plasticidad 0.326/204
+  eta=0.2   sigma=0.3  plastico 0.491/206  invertido 0.239/203  barajado 0.300/205  sin_plasticidad 0.325/204
