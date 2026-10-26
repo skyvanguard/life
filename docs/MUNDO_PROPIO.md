@@ -158,6 +158,87 @@ contexto.
   - CONTROLA está en riesgo: cada sueño tira al especialista actual de vuelta
     hacia el promedio.
 
+## §K3 — un repertorio del mundo (pre-registrado el 2026-10-26, antes de correr)
+
+Decisión de Fran tras el §K2: "vamos con lo que recomiendas". La recomendación
+fue un solo cambio, al estilo COIN: que el modelo del mundo vea su propio error
+de predicción, para que pueda inferir en qué régimen está y no sólo promediar
+lo vivido.
+
+- **El mecanismo**: `ConsciousKernel(wm_error_input=True)`. La entrada de la GRU
+  pasa a ser `[acción, observación − predicción del último tick observado]`.
+  - En la imaginación y al comienzo de cada ventana de sueño, el error es cero.
+  - Apagado es idéntico byte a byte (`tests/test_error_input.py`). La vida
+    `secuencia` del §K2, semilla 0, se reproduce con diferencia 0.
+
+**Lo que mostró la calibración (declarado; semillas 100–102 y un piloto offline,
+nunca las semillas del test):**
+- **Piloto offline.** Es la misma arquitectura, entrenada con BPTT sobre
+  secuencias balbuceadas de los 3 regímenes conocidos, 30 000 pasos, 3 semillas.
+  - **Hasta sin la entrada de error sale de la meseta del promedio**, después de
+    5000–7500 pasos. El error de la sonda en lo conocido baja a 0.018, contra
+    0.103 del promedio exacto.
+  - La entrada de error acorta la meseta: a los 7500 pasos da 0.019, contra
+    0.067 sin ella.
+  - El promedio del §K2 era una meseta del entrenamiento, no un límite de
+    capacidad.
+- **Calibración en vida** (`exp_mundo_propio_contexto.py calibracion`,
+  `results/mundo_propio_contexto_calibracion.txt`, vida balbuceada). Es el error
+  de la sonda en los regímenes conocidos, en los ciclos 7–8, dividido por el del
+  promedio exacto:
+
+| Brazo | Qué tiene | ÷ promedio | Debajo de 0.9 |
+|---|---|---|---|
+| `secuencia` | el sueño del §K2 | 1.07 | 0/3 |
+| `error` | el §K2 + entrada de error | 1.03 | 0/3 |
+| `secuencia_x4` | 4 × la dosis de sueño (200 pasos por sueño) | 0.89 | 2/3, tarde (ciclo 8) |
+| `error_x4` | las dos cosas | **0.44** | **3/3, desde el ciclo 6** |
+
+Hacen falta las dos cosas. Con la dosis del §K2, la entrada de error no hace
+nada, y la dosis sola apenas llega en una vida.
+
+**El cambio que se prueba es `error_x4`**: el sueño del §K2 (ventanas de 16,
+lotes de 8) con 4 veces la dosis, más la entrada de error. Los controles de
+atribución son `secuencia_x4` (sólo la dosis) y `error` (sólo el error). El
+mundo, el calendario, los ticks de prueba, la sonda y la regla del §K1 no
+cambian. Los brazos del §K2 (`kernel`, `secuencia`, `congelado`, `reactivo`, y
+`sin_sueno` en la parte 1) se leen de sus vidas guardadas: el camino del código
+es idéntico byte a byte.
+
+**Parte 1, control positivo en una vida balbuceada** (`control`, semillas 0–11):
+- CONTEXTO_CTRL: en `error_x4`, el error medio de la sonda sobre los 3
+  regímenes conocidos al final de los ciclos 7–8 < 0.9 × el del promedio exacto,
+  en ≥ 10/12. Es la lectura MÁS ALLÁ DEL PROMEDIO del §K2.
+- Regla de parada: si falla, la parte 2 no se corre con este diseño.
+- Se reporta la atribución (CONTEXTO_CTRL de `secuencia_x4` y de `error`) y la
+  ganancia del burn-in.
+- `error` corre en la parte 2 sólo si pasa CONTEXTO_CTRL en la parte 1.
+
+**Parte 2, el test del §K1** (por defecto, semillas 0–11):
+
+| Lectura | Criterio |
+|---|---|
+| CONTEXTO (primaria) | la lectura de CONTEXTO_CTRL sobre `error_x4`, en la vida en que actúa |
+| CONDUCTA | la regla del §K1 exacta sobre `error_x4` |
+| ESPECIFICIDAD (secundaria) | la diferencia de RECUERDA de `error_x4` > la de `secuencia` (el generalista del §K2), en ≥ 10/12 |
+
+Veredicto:
+- CONTEXTO y APRENDE Y RECUERDA → **REPERTORIO**.
+- CONTEXTO con otra conducta → **REPERTORIO SIN CONDUCTA**.
+- Sin CONTEXTO → **SIN REPERTORIO**, con la conducta entre paréntesis.
+
+Se reportan, sin ser veredictos: la atribución a `secuencia_x4`, DISTINGUE, las
+visitas atascadas, la sonda en el régimen actual y en el NUEVO, y los costos de
+entrada pareados contra `secuencia`.
+
+**Predicciones escritas antes de correr:**
+- Parte 1: `error_x4` pasa, `secuencia_x4` queda en el borde, `error` falla.
+- Parte 2: CONTEXTO está en riesgo. El kernel que actúa vive cerca de `C`, así
+  que sus datos son estrechos. La salida de la meseta, que en la calibración
+  balbuceada llegó en el ciclo 6, puede llegar más tarde o no llegar.
+- Si hay CONTEXTO, ESPECIFICIDAD positiva. CONTROLA queda abierto, porque cada
+  sueño de 200 pasos mueve mucho al modelo del mundo.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
@@ -342,7 +423,4 @@ sabe en qué régimen está.
 - Distinguir lo que hizo de lo que le pasó.
 - La identidad: gemelos criados en mundos distintos.
 
-**Siguiente (§K2, decidido por Fran el 2026-10-26; ver arriba y abajo):** un solo cambio, con la misma regla. El sueño
-repite al modelo del mundo transiciones `(s, a, s')` guardadas de visitas
-pasadas, que es complementariedad propiamente dicha: la memoria rápida entrena
-a la lenta. Reutiliza el `ReplayBuffer` que ya existe.
+**Siguiente (§K3, decidido por Fran el 2026-10-26):** un repertorio del mundo, pre-registrado en la sección §K3 de arriba.

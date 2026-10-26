@@ -1,0 +1,19 @@
+§K3 CALIBRATION (seeds 100-102, whole calendar babbled; not test seeds)
+arms ('secuencia', 'error', 'secuencia_x4', 'error_x4'); run 8.8 min
+mean probe over the 3 known regimes, end of visit (median over seeds); exact-average reference per seed: [0.101, 0.103, 0.103]
+   cycle |    secuencia |        error | secuencia_x4 |     error_x4
+       1 |        0.116 |        0.111 |        0.114 |        0.111
+       2 |        0.110 |        0.106 |        0.107 |        0.105
+       3 |        0.110 |        0.106 |        0.106 |        0.103
+       4 |        0.110 |        0.106 |        0.106 |        0.102
+       5 |        0.109 |        0.105 |        0.106 |        0.099
+       6 |        0.110 |        0.105 |        0.103 |        0.071
+   NOVEL |        0.120 |        0.115 |        0.107 |        0.083
+       7 |        0.111 |        0.106 |        0.102 |        0.066
+       8 |        0.109 |        0.105 |        0.080 |        0.020
+
+         arm | known 7-8 | / avg | beyond | burn gain | novel 7-8 | current 7-8 | min/life
+   secuencia |     0.110 |  1.07 |    0/3 |    +0.004 |     0.144 |       0.080 |      1.0
+       error |     0.106 |  1.03 |    0/3 |    +0.001 |     0.138 |       0.077 |      1.1
+secuencia_x4 |     0.091 |  0.89 |    2/3 |    +0.014 |     0.142 |       0.089 |      3.2
+    error_x4 |     0.045 |  0.44 |    3/3 |    +0.025 |     0.133 |       0.029 |      3.4
