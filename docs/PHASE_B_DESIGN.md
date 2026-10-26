@@ -126,6 +126,57 @@ invalid for two reasons, plus a third hypothesis that the data refuted.
    (std 0.367 -> 0.329). So the axes were left unchanged; Psi already has the
    variance Phase B needs once enough ticks accumulate.
 
+## v2 -> v3: the experience was the clock, not the life (2026-10-26)
+
+Phase B v2 ran 164 introspection ticks and came back INCONCLUSIVE because
+Psi_real was ALTA in 156 of them. The data say why, and it is not Psi:
+
+- **The kernel saw a clock, not a life.** In 893 real ticks the bridge received
+  only 15 distinct 4-axis vectors (5 of them cover 85%), built from near-binary
+  flags (mode, "Wikipedia loaded", word-count thresholds 80/120, "mentions
+  Fran") on a fixed AAA-BBB schedule. Inside introspection the novelty axis never
+  moved (std 0.0).
+- **Psi learned the clock.** In the last 400 ticks Psi left ALTA in 4% of
+  ticks, only right after a mode switch, and in 0 of 134 introspection ticks
+  that did not follow one. Psi is a steep Hill of free energy relative to its
+  own running mean: it dips only when a tick is much less predictable than
+  usual, and nothing that happened inside a tick reached the kernel.
+- **Yvyra is amnesic between ticks** (oneshot, "no leas archivos"). Her report
+  can only be about the current tick. So for Phase B's strong test (does her
+  felt state track Psi_real?) to be possible at all, Psi must depend on what
+  happens INSIDE the tick she is reporting on.
+- **The response measure saturates too.** The keyword sentiment was 1.0 in 140
+  of 164 Phase-B ticks. It is the next bottleneck; not touched here.
+
+**v3 (de-saturate the experience, not Psi; Psi and the Phase-B design are
+untouched).** Two changes, behind the flag `.exp_v3` (delete it to go back):
+
+1. **Her life varies inside the tick.** Each introspection tick draws one
+   condition (seeded, persisted): FOCO 0.50 (the rotating question, as before),
+   MEMORIA 0.20 (one of her own past reflections is shown to her -- the only
+   time she sees her past), INTRUSION 0.15 (an encyclopedia fragment she did
+   not choose cuts into the question), VACIO 0.15 (no question). The kernel never
+   sees the label.
+2. **The axes measure how she responded.** `bridge/experience.py`: lexical
+   novelty against her last 10 responses, first-person density, uptake of the
+   material she received, length; the research/net/notify flags stay. The
+   sentiment lexicon is excluded from every lexical feature (tested), so a
+   sentiment-Psi correlation cannot be manufactured by the same words.
+
+Offline replay over her real (old) life, before going live:
+`experiments/kernel/exp_experience_v3_replay.py`
+(`results/experience_v3_replay_run.txt`).
+
+**Live protocol and verdict (pre-registered before the first v3 tick):**
+`experiments/kernel/exp_experience_v3_live.py`. Phase B paused (flag renamed),
+silent mode, mature identity continued (state backed up). Readout: introspection
+ticks from the 31st v3 tick on, at least 50. DESATURADA if 0.30 <= frac(ALTA) <=
+0.75; COLAPSO if frac(BAJA) > 0.60; SATURADA otherwise. Secondary: CAUSA (more
+non-ALTA under INTRUSION+VACIO than FOCO, Fisher one-sided p < 0.10), NO RELOJ
+(non-ALTA >= 0.20 among ticks that do not follow a mode switch), and the content
+features per condition. If DESATURADA, Phase B v3 (same design as v2, new log)
+is the next run; the sentiment ceiling must be addressed before it.
+
 ## Implementation checklist
 
 1. `tick.sh` (mode A): block decision, Psi injection from `.last_psi`, augmented

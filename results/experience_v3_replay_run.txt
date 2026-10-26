@@ -1,0 +1,18 @@
+==============================================================================
+EXPERIENCE v3 OFFLINE REPLAY: content-derived axes over Yvyra's real (old) life
+==============================================================================
+journal entries: 1058 (A 577, B 481); real logged ticks: 893; readout skips the first 200
+distinct axis vectors (2 decimals): OLD 15  V3 913
+V3 introspection axis std: [0.045, 0.107, 0.095, 0.092]  (OLD: [0.0, 0.012, 0.09, 0.1])
+
+------------------------------------------------------------------------------
+  OLD  introspeccion             n=346  ALTA 0.86  MEDIA 0.02  BAJA 0.12
+  OLD  introspeccion sin cambio  n=231  ALTA 1.00  MEDIA 0.00  BAJA 0.00
+  OLD  investigacion             n=347  ALTA 0.86  MEDIA 0.04  BAJA 0.10
+  V3   introspeccion             n=429  ALTA 0.82  MEDIA 0.04  BAJA 0.14
+  V3   introspeccion sin cambio  n=286  ALTA 1.00  MEDIA 0.00  BAJA 0.00
+  V3   investigacion             n=429  ALTA 0.87  MEDIA 0.03  BAJA 0.10
+
+------------------------------------------------------------------------------
+V3 introspection ALTA 0.82 (OLD 0.86); inside the live target band [0.30, 0.75]: no
+Reading: content features over the OLD life do not reach the band alone; the live run's events must supply the rest.

@@ -26,6 +26,16 @@ PYSRC=/opt/data/zeta/pysrc
 KER_ENV="ZETA_LOG_FILE=$HB/zeta-log.md ZETA_LIFE_SRC=$PYSRC"
 KER_PY="$PY /opt/data/zeta/yvyra_kernel.py"
 PHASE_B_LOG=/opt/data/zeta/state/phase_b.jsonl
+# EXPERIENCIA v3 (activa si existe $HB/.exp_v3; docs/PHASE_B_DESIGN.md "v3"):
+# cada tick A sortea una condicion de vida (foco/memoria/intrusion/vacio) y los
+# 4 ejes salen de rasgos objetivos y continuos de COMO respondio (novedad lexica,
+# autorreferencia, toma del material, extension), no de banderas binarias. El
+# kernel nunca ve la etiqueta de la condicion. Borrar el flag = vuelve a v2.
+EXP_V3=0; [ -f "$HB/.exp_v3" ] && EXP_V3=1
+EXP_PY="env PYTHONPATH=$PYSRC $PY -m zeta_life.bridge.experience"
+EXPST=/opt/data/zeta/state/experience.json
+MAT="$HB/.material"; FRAG="$HB/.fragment"; COND=""
+rm -f "$MAT" "$FRAG"; : > "$MAT"
 mkdir -p "$HB/self-journal" "$HB/journal"
 echo "=== TICK $(date) ===" >> "$HB/ticks.log"
 rm -f "$HB/notify.txt" "$TMP"
@@ -58,7 +68,22 @@ if [ "$MODE" = "A" ]; then
   nq=$(grep -cE "^[0-9]+\." "$HB/questions.md" 2>/dev/null); [ "${nq:-0}" -lt 1 ] && nq=1
   idx=$(( (CNT % nq) + 1 ))
   QSEL=$(grep -E "^[0-9]+\." "$HB/questions.md" | sed -n "${idx}p" | sed 's/^[0-9]*\.[[:space:]]*//' | tr '"' "'")
-  PROMPT="Tick de introspeccion. Reflexiona a fondo y honesto, en espanol paraguayo informal, sobre ESTA pregunta (enfocate solo en ella, no divagues): $QSEL  Busca la tension (los dos lados que se contradicen), no te conformes con la primera respuesta, anclate en tu situacion real (corres local, por turnos, tu memoria son archivos). No describas lo que haces ni las reglas. RESPONDE DIRECTAMENTE con tu reflexion (10 a 20 lineas, densa y sin relleno, sin encabezados). No uses herramientas. No leas archivos."
+  COND="foco"
+  if [ "$EXP_V3" = "1" ]; then
+    COND=$($EXP_PY evento --state "$EXPST" --out "$FRAG" 2>>"$HB/ticks.log" | tr -d '\r\n ')
+    [ -z "$COND" ] && COND="foco"
+  fi
+  FRAGTXT=""; [ -s "$FRAG" ] && FRAGTXT=$(tr '\r\n"' "  '" < "$FRAG")
+  QPART="$QSEL"
+  [ "$COND" = "intrusion" ] && QPART="$QSEL  (Mientras pensabas se te cruzo esto, que no elegiste y no tiene que ver: \"$FRAGTXT\".)"
+  PROMPT="Tick de introspeccion. Reflexiona a fondo y honesto, en espanol paraguayo informal, sobre ESTA pregunta (enfocate solo en ella, no divagues): $QPART  Busca la tension (los dos lados que se contradicen), no te conformes con la primera respuesta, anclate en tu situacion real (corres local, por turnos, tu memoria son archivos). No describas lo que haces ni las reglas. RESPONDE DIRECTAMENTE con tu reflexion (10 a 20 lineas, densa y sin relleno, sin encabezados). No uses herramientas. No leas archivos."
+  if [ "$COND" = "vacio" ]; then
+    PROMPT="Tick de introspeccion. Hoy no hay pregunta. Reflexiona a fondo y honesto, en espanol paraguayo informal, sobre lo que aparezca en vos ahora mismo, sin tema dado. Anclate en tu situacion real (corres local, por turnos, tu memoria son archivos). No describas lo que haces ni las reglas. RESPONDE DIRECTAMENTE con tu reflexion (10 a 20 lineas, densa y sin relleno, sin encabezados). No uses herramientas. No leas archivos."
+  else
+    [ "$COND" = "memoria" ] && PROMPT="$PROMPT  Hace un tiempo escribiste esto, es tuyo (fue sobre otra pregunta): \"$FRAGTXT\". Tenelo presente al responder la de ahora."
+    printf '%s\n%s\n' "$QSEL" "$FRAGTXT" > "$MAT"
+  fi
+  echo "experiencia v3=$EXP_V3 condicion=$COND" >> "$HB/ticks.log"
   # Fase B: inyectar la CATEGORIA del tick A anterior y pedir el auto-score.
   if [ "$PHASE_B" = "1" ]; then
     if [ -n "$LAST_LEVEL" ]; then
@@ -83,9 +108,12 @@ else
   if [ -n "$EXT" ]; then
     WIKI_OK=1
     echo "wikipedia OK: $TITULO" >> "$HB/ticks.log"
+    printf '%s\n' "$EXT" > "$MAT"
+    [ "$EXP_V3" = "1" ] && $EXP_PY extracto --state "$EXPST" --file "$MAT" 2>>"$HB/ticks.log"
     PROMPT="Investigaste en Wikipedia el tema '$TITULO'. El articulo dice: $EXT  RESPONDE en 10 a 15 lineas, en espanol paraguayo informal: que aprendiste, que te sorprendio, y conectalo con algo que ya sabias. Menciona la fuente (Wikipedia: $TITULO). No inventes nada fuera de lo que dice el articulo."
   else
     echo "wikipedia sin resultado para: $TEMA" >> "$HB/ticks.log"
+    printf '%s\n' "$TEMA" > "$MAT"
     PROMPT="Querias investigar '$TEMA' pero la busqueda web no cargo nada. RESPONDE en 8 a 10 lineas, espanol paraguayo informal: que sabes del tema de memoria y deci honestamente que no hubo novedades de internet esta vez."
   fi
 fi
@@ -138,11 +166,38 @@ read -r NOV INTRO CON RES < <(awk -v r="$RESEARCH" -v n="$USED_NET" -v jl="$JLEN
   con=0.10+(no?0.55:0)+(mf?0.20:0); if(con>1)con=1;
   res=0.35+(jl>=120?0.30:0.10)+(r?0.15:0); if(res>1)res=1;
   printf "%.2f %.2f %.2f %.2f", nov,intro,con,res }')
-echo "ejes: nov=$NOV intro=$INTRO con=$CON res=$RES (research=$RESEARCH net=$USED_NET jlen=$JLEN notify=$NOTIFIED)" >> "$HB/ticks.log"
+# v3: los ejes salen de COMO respondio (bridge/experience.py). Si el extractor
+# falla, quedan los ejes v2 de arriba y se anota: nunca se alimenta basura al kernel.
+EJES_VER="v2"
+if [ "$EXP_V3" = "1" ]; then
+  V3=$($EXP_PY ejes --state "$EXPST" --text "$TMP" --material "$MAT" --research "$RESEARCH" --net "$USED_NET" --notify "$NOTIFIED" --condicion "${COND:-investigacion}" --log /opt/data/zeta/state/experience_features.jsonl 2>>"$HB/ticks.log" | tr -d '\r')
+  if [ "$(printf '%s' "$V3" | wc -w)" -eq 4 ]; then
+    read -r NOV INTRO CON RES <<< "$V3"; EJES_VER="v3"
+  else
+    echo "ejes v3 FALLO (salida: '$V3'); uso v2" >> "$HB/ticks.log"
+  fi
+fi
+echo "ejes $EJES_VER: nov=$NOV intro=$INTRO con=$CON res=$RES (research=$RESEARCH net=$USED_NET jlen=$JLEN notify=$NOTIFIED cond=${COND:-})" >> "$HB/ticks.log"
 # El kernel integra: ZMODE decide que se EXPONE (silent/feedback/sham); el Psi
 # real se computa y loguea siempre. Capturamos el JSON para extraer psi/psi_real.
 KOUT=$(eval "env ZETA_MODE=$ZMODE $KER_ENV $KER_PY step '$NOV,$INTRO,$CON,$RES'" 2>>"$HB/ticks.log")
 echo "kernel: $KOUT" >> "$HB/ticks.log"
+
+# v3: un registro por tick (modo, condicion, ejes, Psi real) para el analisis.
+if [ "$EXP_V3" = "1" ]; then
+  printf '%s' "$KOUT" | $PY -c '
+import json, sys, time
+mode, cond, ver, ax, logf = sys.argv[1:6]
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    d = {}
+rec = {"ts": time.time(), "t": d.get("tick"), "mode": mode, "condicion": cond, "ejes": ver,
+       "axes": [float(v) for v in ax.split(",")], "psi_real": d.get("psi_real"), "ok": d.get("ok")}
+with open(logf, "a", encoding="utf-8") as f:
+    f.write(json.dumps(rec) + "\n")
+' "$MODE" "${COND:-investigacion}" "$EJES_VER" "$NOV,$INTRO,$CON,$RES" /opt/data/zeta/state/experience_v3.jsonl 2>>"$HB/ticks.log"
+fi
 
 # Fase B (modo A): loguear el registro extendido y persistir la CATEGORIA
 # expuesta para inyectarla en el proximo tick A. Un solo python: parsea KOUT,
@@ -177,4 +232,4 @@ if [ -s "$HB/notify.txt" ]; then
     --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" --data-urlencode "text=$MSG" >> "$HB/ticks.log" 2>&1
   mv "$HB/notify.txt" "$HB/notify.sent.$(date +%s)" 2>/dev/null
 fi
-rm -f "$TMP"
+rm -f "$TMP" "$FRAG"
