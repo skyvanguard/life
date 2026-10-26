@@ -45,3 +45,22 @@ class ReplayBuffer:
         act = torch.stack([self._act[int(i)] for i in idx])
         nxt = torch.stack([self._next[int(i)] for i in idx])
         return obs, act, nxt
+
+    def sample_sequences(self, n: int, length: int) -> tuple[Tensor, Tensor, Tensor]:
+        """Return n windows of ``length`` CONSECUTIVE transitions, shapes (n, length, ...).
+
+        Transitions are added once per tick, so neighbouring entries are
+        neighbouring ticks (the deque only drops from the oldest end). Used by the
+        kernel's sleep replay, which runs the world model's recurrence through each
+        window so the latent can carry a hidden context across ticks.
+        """
+        if length < 1 or len(self._obs) < length:
+            raise ValueError(f"need 1 <= length <= {len(self._obs)}, got {length}")
+        starts = torch.randint(0, len(self._obs) - length + 1, (n,), generator=self._rng)
+
+        def windows(store: deque[Tensor]) -> Tensor:
+            return torch.stack([
+                torch.stack([store[int(s) + j] for j in range(length)]) for s in starts
+            ])
+
+        return windows(self._obs), windows(self._act), windows(self._next)

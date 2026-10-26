@@ -154,6 +154,9 @@ class ConsciousKernel:
         actor_entropy: float = 0.0,
         replay_capacity: int = 10000,
         replay_wm: bool = True,
+        wm_sleep_replay: int = 0,
+        wm_sleep_seq_len: int = 16,
+        wm_sleep_batch: int = 8,
         world_model_type: str = "gru",
         rssm_kwargs: dict | None = None,
         temporal_features: OscillatorBank | None = None,
@@ -404,6 +407,29 @@ class ConsciousKernel:
             if precision_hypermodel else None
         )
 
+        # --- Optional sleep replay of the WORLD MODEL (complementary memory of the world) ---
+        # The fast/slow memories and the dream engine consolidate the SELF; nothing
+        # consolidates the world model, so what it learns about one regime is
+        # overwritten by the next (docs/MUNDO_PROPIO.md, §K1). When wm_sleep_replay
+        # > 0, every lived transition (prev_obs, action, obs) is kept and, on each
+        # dream tick, the world model takes wm_sleep_replay gradient steps on
+        # windows of wm_sleep_seq_len consecutive transitions sampled from the whole
+        # lived past, running its own recurrence (prior -> posterior blend) through
+        # each window with backprop through time. seq_len 1 is the context-free
+        # one-step replay (the dreamer replay_wm update). 0 (default) = off,
+        # byte-identical: no buffer, no extra RNG draws.
+        self.wm_sleep_replay = wm_sleep_replay
+        self.wm_sleep_seq_len = wm_sleep_seq_len
+        self.wm_sleep_batch = wm_sleep_batch
+        self._sleep_replay: ReplayBuffer | None = None
+        self._sleep_prev: Tensor | None = None
+        if wm_sleep_replay > 0:
+            if world_model_type != "gru" or temporal_features is not None:
+                raise ValueError("wm_sleep_replay needs the GRU world model without temporal features")
+            if wm_sleep_seq_len < 1 or wm_sleep_batch < 1:
+                raise ValueError("wm_sleep_seq_len and wm_sleep_batch must be >= 1")
+            self._sleep_replay = ReplayBuffer(self._replay_capacity, seed=20261026)
+
         self.world_model_type = world_model_type
         self._rssm_agent = None
         if world_model_type == "rssm":
@@ -537,6 +563,10 @@ class ConsciousKernel:
                 self._replay.add(self._prev_stimulus, self.last_action, stimulus)
             self._prev_stimulus = stimulus.detach().clone()
             self._train_behavior()
+        if self._sleep_replay is not None:
+            if self._sleep_prev is not None:
+                self._sleep_replay.add(self._sleep_prev, self.last_action, stimulus)
+            self._sleep_prev = stimulus.detach().clone()
 
         # ---- 5. MEMORIZE ----
         surprise = max(
@@ -578,6 +608,8 @@ class ConsciousKernel:
         if self.t % self.dream_interval == 0 and len(self.fast_memory) > 0:
             self.dream_engine.dream_cycle(30)
             dreamed = True
+        if self._sleep_replay is not None and self.t % self.dream_interval == 0:
+            self._sleep_world_model()
 
         # Build simplified errors dict for the result
         errors_summary = {
@@ -972,6 +1004,37 @@ class ConsciousKernel:
             nxt = rewards[t] + gamma * ((1 - lam) * values[t + 1] + lam * nxt)
             returns[t] = nxt
         return returns
+
+    def _sleep_world_model(self) -> float | None:
+        """Sleep replay of the world model over windows of lived transitions.
+
+        Each window starts from the encoding of its first observation and runs the
+        same recurrence as waking life: prior = GRU(action, z), predicted obs =
+        predictor(prior), then z = blend * prior + (1 - blend) * encode(next obs).
+        The loss is the mean squared prediction error over every step of every
+        window, back-propagated through the whole window. Returns the last loss
+        (None if there are not enough transitions yet).
+        """
+        L = self.wm_sleep_seq_len
+        if self._sleep_replay is None or len(self._sleep_replay) < L:
+            return None
+        wm = self.world_model
+        b = wm.posterior_blend
+        loss_v = None
+        for _ in range(self.wm_sleep_replay):
+            obs, act, nxt = self._sleep_replay.sample_sequences(self.wm_sleep_batch, L)
+            z = wm.encoder(obs[:, 0])
+            loss = torch.zeros(())
+            for j in range(L):
+                prior = wm.transition(act[:, j], z)
+                loss = loss + ((wm.predictor(prior) - nxt[:, j]) ** 2).sum(dim=-1).mean()
+                z = b * prior + (1.0 - b) * wm.encoder(nxt[:, j])
+            loss = loss / L
+            wm.optimizer.zero_grad()
+            loss.backward()
+            wm.optimizer.step()
+            loss_v = loss.item()
+        return loss_v
 
     def _train_behavior(self) -> None:
         """Improve actor & critic in imagination from replayed states (DreamerV3)."""
