@@ -1,0 +1,38 @@
+================================================================================
+TEJIDO PLASTICO (prototipo fuera del utero): regla continua que cambia en vida segun el propio ingreso de cada celda
+Herencia GENOTIPICA (enmienda 2026-10-25): lo aprendido muere con la celda; brazo lamarck = herencia original
+================================================================================
+N=256; 16 mundos por brazo; brazos ['plastico', 'invertido', 'barajado', 'sin_plasticidad', 'lamarck', 'lesion', 'ultra', 'h_lento']; eta=0.05; sigma=0.3; kappa=0.1; 60000 ticks; sol seed 1; lesion desde 30000; veredicto pre-registrado (docstring)
+
+corrida: 73.4 min
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo             vivas cosecha 1a mitad cosecha 2a mitad  regret  G (generaliza) mundos con G
+  plastico            130            0.326            0.324    0.90           -0.34           16
+  invertido           122            0.286            0.288    1.05            1.26           16
+  barajado            129            0.303            0.304    0.98            0.48           16
+  sin_plasticidad     129            0.294            0.291    1.04            1.00           16
+  lamarck             129            0.316            0.315    0.94           -0.04           16
+  lesion              110            0.328            0.294    1.03            0.96           16
+  ultra               111            0.304            0.299    1.01            0.78           16
+  h_lento             112            0.294            0.295    1.02            0.98           16
+
+--------------------------------------------------------------------------------
+PRIMARIO: PLASTICO contra cada control (cosecha 2a mitad, pareado por mundo)
+  vs invertido        cosecha mayor en 16/16 (p 0.000); vivas 1.06 -> SUPERA
+  vs barajado         cosecha mayor en 16/16 (p 0.000); vivas 1.00 -> SUPERA
+  vs sin_plasticidad  cosecha mayor en 16/16 (p 0.000); vivas 1.01 -> SUPERA
+  generalizacion: G >= 0.8 en 0/16 mundos plasticos donde esta definido -> no
+
+--------------------------------------------------------------------------------
+SECUNDARIAS (pre-registradas 2026-10-25; informan, no deciden)
+  MORTAL     plastico > lesion (2a mitad): 16/16 (p 0.000) -> SI
+             lesion: cosecha 1a mitad 0.328 -> 2a mitad 0.294 (caida +0.034); MORTAL: lo aprendido se pierde con el recambio
+  HERENCIA   lamarck > plastico: 0/16 (p 1.000) -> no
+  AZAR BASTA ultra > sin_plasticidad: 11/16 (p 0.105) -> no
+  DIRECCION  plastico > ultra: 16/16 (p 0.000) -> SI
+  ESTADO     h_lento > sin_plasticidad: 8/16 (p 0.598) -> no
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> APRENDE EN VIDA (sin generalizar): mejora con su propia experiencia, pero re-aprende cada estacion.

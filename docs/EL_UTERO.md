@@ -971,6 +971,36 @@ sustrato distinto. Decisión abierta.
   aprende lo aprende EN SU VIDA (ya no puede venir heredado). η y σ no se
   tocan; las corridas en marcha son válidas.
 
+- **§45 — RESULTADO: APRENDE EN VIDA, SIN GENERALIZAR; replicado con otro
+  sol (2026-10-26).** Herencia genotípica, 8 brazos × 16 mundos × 60000 ticks.
+  **Sol seed 0** (`results/utero_tejido_plastico_run.txt`, 71 min): primario
+  por la regla pre-registrada — plástico > invertido 16/16, > barajado 16/16,
+  > sin plasticidad 16/16 (p < 0.001 los tres), vivas 1.02 / 0.96 / 1.13;
+  cosecha 2a mitad 0.329 vs 0.286 / 0.303 / 0.293. G = −0.12 (0/16 mundos con
+  G ≥ 0.8): llega a cada estación nueva PEOR que el azar (posicionado para
+  el sol anterior) y la re-aprende. **Sol seed 1**
+  (`results/utero_tejido_plastico_sol1_run.txt`): 16/16, 16/16, 16/16; 0.324
+  vs 0.288 / 0.304 / 0.291; G = −0.34, 0/16. **Veredicto en ambos: APRENDE EN
+  VIDA (sin generalizar).** Secundarias: MORTAL sí en ambos (plástico > lesión
+  16/16; la lesión cae de 0.330 a 0.296 en la 2a mitad: lo aprendido se
+  pierde con el recambio de celdas); HERENCIA no (lamarck > plástico 1/16 y
+  0/16: heredar lo aprendido no ayuda, estorba, porque hereda pesos ajustados
+  a un sol viejo — la grieta del prototipo original no inflaba, pero habría
+  contaminado G); DIRECCIÓN sí en ambos (plástico > ultra 16/16); AZAR BASTA
+  15/16 en sol 0 pero 11/16 en sol 1 (no robusto); ESTADO no (9/16, 8/16).
+  **Lectura honesta del tamaño:** regret 0.88 / 0.90 — el plástico recupera
+  ~10 % de lo posible, contra 0.11 de regret con sol constante. Dentro de una
+  estación sube de 0.293 (0–50 ticks) a 0.341 (400–600 ticks): su constante
+  de tiempo es del orden de la estación (357–884). **El dato que no se
+  esperaba:** el brazo congelado NO es chato — cosecha 0.448 en A (hambruna),
+  0.271 en B, 0.174 en C: la evolución de genotipos produce un ESPECIALISTA
+  de la hambruna; el plástico es un generalista chato (0.330 / 0.311 / 0.332)
+  que pierde en A contra el especialista por 0.12 y gana en B y C. En la
+  media gana el generalista; en la estación que mata, el especialista.
+  Mecanismo propuesto: el ser aprende más lento de lo que el mundo cambia.
+  §45b (estaciones 10×) pre-registrado y lanzado para probarlo.
+  Figuras: `results/utero_tejido_plastico.png`, `_sol1.png`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32

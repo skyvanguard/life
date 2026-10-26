@@ -805,3 +805,21 @@ y Di Paolo 2000 (ultraestabilidad continua que ya funcionó). El §45 vale si
 supera al primero en independencia del optimizador y al segundo en
 generalización. Detalle en el ledger y en el docstring del experimento.
 
+## 47. Resultado del §45 (2026-10-26)
+
+Con herencia genotípica, en dos soles: **APRENDE EN VIDA, SIN GENERALIZAR.**
+Plástico sobre los tres controles 16/16 en los dos soles; G negativa en los
+dos (llega a cada estación posicionado para la anterior). Lo aprendido es
+mortal (la lesión lo pierde con el recambio), la dirección importa (plástico
+> Ashby puro 16/16), heredar lo aprendido no ayuda. El tamaño es chico: regret
+0.9. Y el hallazgo que no se buscaba: sin plasticidad, la evolución de
+genotipos fabrica un especialista de la hambruna (0.45 en A, 0.17 en C); la
+plasticidad fabrica un generalista chato (0.33 en todas). Es la primera vez
+en el útero que aprendizaje en vida y evolución se miden en el mismo mundo y
+dan respuestas distintas: la evolución apuesta a la estación que mata, el
+aprendizaje a la media. Pendiente §45b: si el ser tuviera tiempo (estaciones
+10×), ¿llega al oráculo dentro de la estación? Lo que no puede pasar con esta
+celda es generalizar: nada en ella lleva una estación a la siguiente. Eso es
+lo que hay que diseñar después, y no es una perilla: es memoria que la regla
+pueda leer y que sobreviva al cambio de estación.
+
