@@ -937,6 +937,34 @@ sustrato distinto. Decisión abierta.
   los mundos). `exp_utero_tejido_plastico.py`,
   `results/utero_tejido_plastico_calibracion_run.txt`.
 
+- **§45 — enmienda pre-registrada ANTES de la prueba con estaciones
+  (2026-10-25).** Revisión del prototipo tras el estado del arte
+  (`docs/ESTADO_DEL_ARTE_APRENDER_EN_VIDA.md` §4.1): al nacer, la cría
+  heredaba `Wt[madre]`, los pesos ACTUALES de la madre, incluido lo aprendido
+  en vida — herencia lamarckiana, que confundía "aprendió en vida" con "heredó
+  lo aprendido y la persistencia lo acumuló" y contaminaba G. Es la vía
+  (herencia, no desarrollo) que se descartó el 2026-09-27. **Enmiendas:**
+  (1) herencia GENOTÍPICA: cada celda guarda sus pesos de nacimiento `Wn`; la
+  cría hereda `Wn[madre] + ε·ruido` y arranca con `Wt = Wn`; lo aprendido
+  muere con la celda (computación mortal). La versión original queda como
+  brazo `lamarck`. (2) Lectura de **regret** contra el oráculo 0.55 (Medvid et
+  al. 2026). (3) Brazo `lesion`: plástico hasta la mitad, η = 0 después; si
+  plástico > lesión en la 2a mitad (≥ 75%, p < 0.05) → MORTAL (lo aprendido se
+  pierde con el recambio); si no → FIJADO. (4) Brazo `ultra`: ultraestabilidad
+  pura de Ashby/Di Paolo (azar gated por el déficit propio, sin traza ni
+  dirección); lecturas AZAR BASTA (ultra > sin plasticidad) y DIRECCIÓN
+  (plástico > ultra). (5) Brazo `h_lento`: regla fija, estado interno con
+  τ ≈ 200 ticks (cognición basal); lectura ESTADO (h_lento > sin plasticidad).
+  La regla de veredicto primario no se toca; las secundarias informan, no
+  deciden. La regla de aprendizaje se nombra por su nombre: REINFORCE con
+  línea base (Williams 1992) con traza de elegibilidad (Fiete y Seung 2006),
+  aplicada por perturbación de nodo. **Re-calibración** con sol constante bajo
+  la herencia genotípica, declarada antes de la prueba: si (0.05, 0.3) sigue
+  superando al congelado, η y σ no se tocan. Humo (600 ticks, sol 0.3): Wt =
+  Wn exactamente en los brazos sin aprendizaje; plástico 0.476 vs congelado
+  0.318. 8 brazos × 16 mundos × 60000 ticks, sol seed 0; réplica con sol seed
+  1 lanzada a la vez (misma regla). `exp_utero_tejido_plastico.py`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32

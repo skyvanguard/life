@@ -783,3 +783,25 @@ del mundo. Se mide como la cosecha en los primeros ticks de cada estación
 nueva frente a la del final de la anterior, contra un tejido sin plasticidad
 (sólo evolución), uno con la señal invertida y uno con la señal barajada
 (misma cantidad de cambio, sin crédito).
+
+## 46. Enmienda al §45 antes de correr (2026-10-25)
+
+Un mes después, antes de lanzar la prueba con estaciones, se hizo el estado
+del arte del aprendizaje en vida (`ESTADO_DEL_ARTE_APRENDER_EN_VIDA.md`). Dos
+cosas salieron de ahí. La primera es una grieta del prototipo: la cría
+heredaba los pesos aprendidos de la madre (lamarckiano), con lo cual la
+cosecha y la generalización podían venir de la herencia acumulada y no del
+aprendizaje en vida, que es justo la distinción que motivó el §43. Se enmienda
+con herencia genotípica (lo aprendido muere con la celda) y se conserva la
+versión original como brazo `lamarck` para medir cuánto inflaba. La segunda
+son cuatro lecturas que la literatura hace obligatorias: regret contra el
+oráculo (Medvid et al. 2026), lesión del aprendizaje a mitad de vida (¿es
+mortal o quedó fijado?), ultraestabilidad pura de Ashby (¿basta el azar
+gated por la variable esencial, como en Di Paolo 2000?) y un estado lento con
+regla fija (¿basta un estado con histéresis, como en la cognición basal?).
+El veredicto primario no cambia. Vecinos a tener a la vista al leer: Najarro
+y Risi 2020 (regla heredada que aprende en vida sin reward: lo que ya se sabe)
+y Di Paolo 2000 (ultraestabilidad continua que ya funcionó). El §45 vale si
+supera al primero en independencia del optimizador y al segundo en
+generalización. Detalle en el ledger y en el docstring del experimento.
+
