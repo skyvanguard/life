@@ -1,0 +1,6 @@
+§K2 PART 1 -- amended reading (2026-10-26, before part 2) on the saved part-1 lives
+   sin_sueno: burn-in gain on others -0.0008 (> 0 in 5/12) | mean over known 0.139 | current 0.036 | BEYOND AVERAGING 0/12
+   secuencia: burn-in gain on others +0.0028 (> 0 in 12/12) | mean over known 0.110 | current 0.081 | BEYOND AVERAGING 0/12
+        paso: burn-in gain on others -0.0200 (> 0 in 0/12) | mean over known 0.126 | current 0.048 | BEYOND AVERAGING 0/12
+  exact average of the known regimes: 0.103 (0.9 x = 0.093)
+  -> secuencia does not go beyond averaging: it retains as a GENERALIST, not by context

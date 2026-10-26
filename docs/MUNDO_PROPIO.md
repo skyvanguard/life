@@ -135,6 +135,29 @@ en el lugar del kernel; RECUERDA sigue siendo la primaria.
 **Predicciones, escritas antes de correr.** El brazo `kernel` reproduce el §K1.
 `paso` promedia los regímenes y controla peor que `kernel`. `secuencia`: abierto.
 
+**Enmienda (después de la parte 1 y antes de la parte 2, commiteada con el
+resultado de la parte 1).** El contraste `secuencia` < `paso` no aislaba el
+contexto: medía cuánto promedia cada brazo (ver el ledger). La atribución se
+cambia por una vara con base. El promedio exacto de los regímenes conocidos es
+el mejor predictor posible sin contexto, porque es el óptimo en error cuadrático
+cuando cada régimen ocupa el mismo tiempo. Un modelo que lo supera está usando
+contexto.
+- MÁS ALLÁ DEL PROMEDIO: al final de las visitas de los ciclos 7–8, el error
+  medio de la sonda en los 3 regímenes conocidos es < 0.9 × el del promedio
+  exacto en ≥ 10/12. El margen 0.9 cubre la diferencia entre la media de normas
+  y el error cuadrático.
+- Si `secuencia` RECUERDA, se atribuye "por contexto" sólo si va MÁS ALLÁ DEL
+  PROMEDIO. Si no, se atribuye "por promedio": un modelo del mundo generalista.
+- La atribución vieja, basada en `paso`, se sigue imprimiendo y queda marcada
+  como reemplazada.
+- Predicción agregada antes de la parte 2:
+  - Si el modelo es un generalista, la re-entrada a un régimen conocido arranca
+    desde el promedio, que está más cerca que el especialista de la visita
+    anterior. La entrada al NUEVO arranca más lejos (0.145). Por eso RECUERDA
+    puede pasar, pero por promedio.
+  - CONTROLA está en riesgo: cada sueño tira al especialista actual de vuelta
+    hacia el promedio.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
@@ -180,6 +203,43 @@ generalista plástico que re-aprende cada estación. Acá no hay excusa de
 vidas cortas: el kernel vio cada régimen conocido ocho veces en su vida,
 seis antes de la visita NUEVA. Lo que falta en los dos
 sustratos es una memoria del mundo que sobreviva al re-aprendizaje.
+
+### §K2, parte 1 — RETIENE, pero como generalista y no por contexto (2026-10-26)
+
+`results/mundo_propio_sueno_control_run.txt` (7.4 min) y
+`results/mundo_propio_sueno_control_relectura.txt`. Vida entera de balbuceo, 12
+semillas.
+
+- **Por la letra pasa: RETIENE_CTRL 12/12 y CONTEXTO_CTRL 12/12.** La regla de
+  parada deja correr la parte 2. Con sueño en secuencia, el error de la sonda en
+  los regímenes que no está visitando baja de 0.191 a 0.124.
+- **Pero no hay contexto.** El error después de 8 ticks de contexto es casi el
+  de antes: +0.003 sobre 0.12 de ganancia. El signo es consistente (12/12) y el
+  tamaño, despreciable.
+- **`secuencia` se comporta como el promedio exacto** de los regímenes
+  conocidos:
+
+  | | conocidos | NUEVO |
+  |---|---|---|
+  | `secuencia` | 0.110 | 0.148 |
+  | promedio exacto | 0.101–0.103 | 0.145 |
+
+  Además paga en el presente: en el régimen actual el error es 0.081, contra
+  0.036 sin sueño.
+- Los otros dos brazos:
+  - `sin_sueno` es el especialista del régimen actual: 0.191 en los otros, contra
+    0.177 del especialista ideal.
+  - `paso` queda en el medio, y su recurrencia deriva: el error crece después del
+    contexto (−0.020).
+- **MÁS ALLÁ DEL PROMEDIO: 0/12 en los tres brazos.**
+- **Error de diseño, mío:** pre-registré `secuencia` < `paso` como el contraste
+  que aislaba el contexto. Medía cuánto promedia cada brazo. Lo mostró la
+  columna del contexto, que estaba en la tabla pre-registrada. Queda corregido
+  en la enmienda, antes de la parte 2.
+- **Lectura.** El sueño le da al modelo del mundo una memoria, pero es una
+  memoria que promedia. BPTT sobre ventanas de 16 ticks, con 7500 pasos de
+  gradiente en una vida, no basta para que el latente aprenda a inferir el
+  régimen.
 
 **Siguiente (§K2, decidido por Fran el 2026-10-26; ver arriba):** un solo cambio, con la misma regla. El sueño
 repite al modelo del mundo transiciones `(s, a, s')` guardadas de visitas

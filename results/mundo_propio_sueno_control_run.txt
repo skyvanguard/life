@@ -1,0 +1,26 @@
+================================================================================
+§K2 PART 1 -- POSITIVE CONTROL: does sleep replay make the world model RETAIN the regimes?
+================================================================================
+12 seeds x ('sin_sueno', 'secuencia', 'paso'); whole calendar babbled; sleep {'secuencia': {'wm_sleep_replay': 50, 'wm_sleep_seq_len': 16, 'wm_sleep_batch': 8}, 'paso': {'wm_sleep_replay': 50, 'wm_sleep_seq_len': 1, 'wm_sleep_batch': 128}}; run 7.4 min
+
+probe error after the burn-in, end of visit (median over seeds): others | current | burn-in on others
+   cycle |              sin_sueno |              secuencia |                   paso
+       1 |      0.196 0.052 0.194 |      0.137 0.075 0.137 |      0.145 0.075 0.143
+       2 |      0.189 0.033 0.187 |      0.125 0.079 0.127 |      0.146 0.066 0.139
+       3 |      0.193 0.042 0.189 |      0.124 0.082 0.125 |      0.158 0.053 0.146
+       4 |      0.193 0.040 0.191 |      0.125 0.080 0.126 |      0.167 0.048 0.145
+       5 |      0.192 0.039 0.192 |      0.124 0.080 0.127 |      0.165 0.050 0.146
+       6 |      0.191 0.036 0.188 |      0.122 0.083 0.127 |      0.168 0.046 0.144
+   NOVEL |      0.197 0.046 0.192 |      0.121 0.100 0.125 |      0.159 0.063 0.138
+       7 |      0.190 0.031 0.188 |      0.125 0.080 0.128 |      0.168 0.041 0.145
+       8 |      0.191 0.038 0.191 |      0.122 0.082 0.127 |      0.159 0.050 0.143
+
+--------------------------------------------------------------------------------
+probe on the others, visits of cycles 3-8 + NOVEL, median per seed:
+   sin_sueno: median 0.191   per seed [0.188, 0.192, 0.193, 0.191, 0.189, 0.195, 0.188, 0.192, 0.189, 0.191, 0.192, 0.193]
+   secuencia: median 0.124   per seed [0.122, 0.124, 0.124, 0.124, 0.122, 0.125, 0.123, 0.124, 0.122, 0.124, 0.124, 0.125]
+        paso: median 0.164   per seed [0.168, 0.174, 0.159, 0.157, 0.166, 0.162, 0.161, 0.17, 0.152, 0.157, 0.17, 0.168]
+RETIENE_CTRL   secuencia < sin_sueno: 12/12 -> yes
+CONTEXTO_CTRL  secuencia < paso:      12/12 -> yes
+
+STOP RULE: passed, part 2 may run

@@ -80,10 +80,31 @@ PREDICTIONS written before running: kernel reproduces §K1 exactly (same seeds,
 the probe touches nothing); paso averages the regimes and controls worse than
 kernel; secuencia: open.
 
+AMENDMENT 2026-10-26, after part 1 and BEFORE part 2 (committed with the part-1
+result). Part 1 passed by the letter (RETIENE_CTRL 12/12, CONTEXTO_CTRL 12/12),
+but its own burn-in column shows NO context: the error after 8 ticks of context
+equals the error during them (gain +0.0025), and secuencia's probe matches the
+EXACT AVERAGE of the known regimes (0.110 mean over known / 0.148 on the novel vs
+0.101 / 0.145 for the exact average). Sleep makes the world model a GENERALIST.
+The contrast secuencia < paso measured how much each arm averages, not context
+(a design error). Amended attribution for part 2: the exact average is the
+best CONTEXT-FREE predictor (MSE-optimal under equal time per regime), so
+  BEYOND AVERAGING  mean probe error over the 3 known regimes at the end of the
+                    cycle 7-8 visits < 0.9 x the exact-average model's error
+                    (0.9 = margin for mean-norm vs MSE), >= 10/12;
+  ATTRIBUTION       if secuencia RECUERDA: "by context" only if BEYOND
+                    AVERAGING, else "by averaging (generalist world model)".
+The old paso-based attribution is still printed, marked superseded.
+PREDICTION added before part 2: re-entry into a known regime starts from the
+average (closer to it than the previous visit's specialist) and the NOVEL from
+farther (0.145), so RECUERDA may pass by averaging; CONTROLA is at risk because
+each sleep pulls the current specialist back toward the average.
+
 3 CPU processes, one torch thread each (the kernel is tiny; declared exception to
 the GPU rule). Part 1 ~10 min, part 2 ~25 min.
 
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_sueno.py control
+    PYTHONPATH=src python experiments/kernel/exp_mundo_propio_sueno.py relectura   # amended reading of part 1 (saved npz)
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_sueno.py
 """
 
@@ -220,6 +241,29 @@ def vivir(args: tuple[str, int, bool]) -> dict:
             "sonda": sonda, "sonda0": sonda0}
 
 
+def ref_promedio(seed: int) -> float:
+    """Probe error (after the burn-in) of the EXACT average of the known regimes,
+    mean over the 3 known regimes: the best context-free predictor."""
+    import torch
+    probes = sondas()
+    conocidos = [k for k in range(4) if k != seed % 4]
+    errs = []
+    for k in conocidos:
+        obs, a = probes[k]
+        e = [torch.linalg.vector_norm(sum(mover(obs[:, j], a[:, j], c) for c in conocidos) / 3
+                                      - obs[:, j + 1], dim=-1).mean() for j in range(a.shape[1])]
+        errs.append(float(torch.stack(e)[QUEMA:].mean()))
+    return float(np.mean(errs))
+
+
+def conocidos_medio(vida: dict, seed: int, ciclos: tuple) -> float:
+    """Median over the visits of `ciclos` of the mean probe error over the 3 known regimes."""
+    vis = mp.calendario(seed)
+    conocidos = [k for k in range(4) if k != seed % 4]
+    return float(np.median([vida["sonda"][v, conocidos].mean()
+                            for v, (_, _, c) in enumerate(vis) if c in ciclos]))
+
+
 def otros(vida: dict, seed: int, ciclos: tuple) -> tuple[float, float]:
     """Median over the visits of `ciclos` of (probe on the others, probe on the current)."""
     vis = mp.calendario(seed)
@@ -297,6 +341,43 @@ def main_control() -> None:
     escribir(lines, "mundo_propio_sueno_control_run.txt")
 
 
+def relectura_control() -> None:
+    """The amended reading of part 1 on its saved lives (no re-run)."""
+    lines: list[str] = []
+
+    def out(s: str = "") -> None:
+        print(s, flush=True)
+        lines.append(s)
+
+    out("§K2 PART 1 -- amended reading (2026-10-26, before part 2) on the saved part-1 lives")
+    ciclos = (3, 4, 5, 6, 7, 8)
+    mas_sec = 0
+    for a in ARMS_CTRL:
+        V = {s: dict(np.load(DATA / f"control_{a}_{s}.npz")) for s in SEEDS}
+        gan, med, cur, mas = [], [], [], 0
+        for s in SEEDS:
+            vis, nuevo = mp.calendario(s), s % 4
+            conocidos = [k for k in range(4) if k != nuevo]
+            g = [V[s]["sonda0"][v, [k for k in conocidos if k != reg]].mean()
+                 - V[s]["sonda"][v, [k for k in conocidos if k != reg]].mean()
+                 for v, (_, reg, c) in enumerate(vis) if c in ciclos]
+            gan.append(float(np.median(g)))
+            med.append(conocidos_medio(V[s], s, ciclos))
+            cur.append(float(np.median([V[s]["sonda"][v, reg] for v, (_, reg, c) in enumerate(vis)
+                                        if c in ciclos])))
+            mas += med[-1] < 0.9 * ref_promedio(s)
+        out(f"  {a:>10}: burn-in gain on others {np.median(gan):+.4f} (> 0 in {sum(x > 0 for x in gan)}/12) | "
+            f"mean over known {np.median(med):.3f} | current {np.median(cur):.3f} | "
+            f"BEYOND AVERAGING {mas}/12")
+        if a == "secuencia":
+            mas_sec = mas
+    out(f"  exact average of the known regimes: {np.median([ref_promedio(s) for s in SEEDS]):.3f} "
+        f"(0.9 x = {0.9 * np.median([ref_promedio(s) for s in SEEDS]):.3f})")
+    out("  -> secuencia " + ("goes BEYOND AVERAGING: context" if mas_sec >= N_OK
+                             else "does not go beyond averaging: it retains as a GENERALIST, not by context"))
+    escribir(lines, "mundo_propio_sueno_control_relectura.txt")
+
+
 def veredicto_brazo(pv: dict, brazo: str) -> dict:
     """The §K1 rule with `brazo` in the place of the kernel."""
     def visitas(a: str, s: int, ciclos: tuple) -> list[dict]:
@@ -365,11 +446,18 @@ def main() -> None:
             f"{x['late_nuevo']:>10.3f} | {x['atascadas']:>5} | {np.median(x['dif']):>+19.3f} | "
             f"{x['veredicto']}")
     out("RECUERDA dif per seed (secuencia): " + str([round(float(d), 3) for d in ver["secuencia"]["dif"]]))
+    mas = [conocidos_medio(V[("secuencia", s)], s, (7, 8)) < 0.9 * ref_promedio(s) for s in SEEDS]
+    mas_ok = sum(mas) >= N_OK
+    out(f"BEYOND AVERAGING  secuencia mean probe over known, cycles 7-8 < 0.9 x exact average: "
+        f"{sum(mas)}/{len(SEEDS)} (medians {np.median([conocidos_medio(V[('secuencia', s)], s, (7, 8)) for s in SEEDS]):.3f}"
+        f" vs 0.9 x {np.median([ref_promedio(s) for s in SEEDS]):.3f}) -> {'yes' if mas_ok else 'no'}")
     if ver["secuencia"]["r_ok"]:
-        atrib = "by interleaving, not context" if ver["paso"]["r_ok"] else "by context"
+        atrib = "by context" if mas_ok else "by averaging (generalist world model)"
+        viejo = "by interleaving, not context" if ver["paso"]["r_ok"] else "by context"
     else:
-        atrib = "-- (secuencia does not RECUERDA)"
-    out(f"ATTRIBUTION: {atrib}")
+        atrib = viejo = "-- (secuencia does not RECUERDA)"
+    out(f"ATTRIBUTION (amended): {atrib}")
+    out(f"(superseded paso-based attribution: {viejo})")
     r_sec = [otros(V[("secuencia", s)], s, (7, 8))[0] for s in SEEDS]
     r_ker = [otros(V[("kernel", s)], s, (7, 8))[0] for s in SEEDS]
     retiene = [r_sec[i] < r_ker[i] for i in range(len(SEEDS))]
@@ -411,5 +499,7 @@ def main() -> None:
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "control":
         main_control()
+    elif len(sys.argv) > 1 and sys.argv[1] == "relectura":
+        relectura_control()
     else:
         main()
