@@ -839,3 +839,14 @@ retraso. Lo que falta es lo que la celda no tiene dónde poner: algo que
 sobreviva al cambio de estación y que la regla pueda leer. Decisión para
 Fran (ver NORTE.md): darle a la celda plástica una memoria lenta, o cerrar.
 
+## 49. El sentido del propio ingreso (pre-registrado 2026-10-26)
+
+Fran eligió seguir. La celda del §45 no puede generalizar porque no tiene nada
+que le diga en qué estación está ni dónde guardar una política por estación.
+Lo mínimo: que su regla lea su propio ingreso, rápido y lento. Es la
+percepción de v10 llevada a la celda continua, y es lo que el plan llamó
+"algo que sentir" (§44). Si con eso G sube sobre el brazo ciego, la memoria
+que sobrevive a la estación es la política condicionada en W0; si no sube,
+el problema no era la ceguera. Veredicto y brazos en el docstring; se cree
+sólo con dos soles coincidentes.
+

@@ -1023,6 +1023,23 @@ sustrato distinto. Decisión abierta.
   próxima pieza es una memoria legible por la regla que sobreviva al cambio
   de estación, que es exactamente lo que el kernel ya tiene (memoria lenta).
 
+- **§49 — tejido plástico con SENTIDO del propio ingreso, pre-registro
+  (2026-10-26, 01:50; decisión de Fran: "vamos con lo que propones").** La
+  pieza mínima que le falta a la celda del §45 para poder generalizar: dos
+  entradas nuevas a su regla, su propio ingreso reciente (τ = 20) y lento
+  (τ = 500), escalados a [−1, 1]. El ingreso depende del nivel del sol, así
+  que es una señal de estación que la celda ya tenía y no leía; con ella W0
+  puede aprender por la misma perturbación de nodo una política condicionada
+  ("con este ingreso, mi atractor está allá") que vive en W0 y no se borra al
+  cambiar la estación. Nada más cambia. Brazos: plástico, invertido,
+  barajado, sin plasticidad (todos con sentidos) y **ciego** (la celda del
+  §45, sentidos en cero): el control que separa "generaliza por los sentidos"
+  de cualquier otra cosa. Veredicto: GENERALIZA (primario del §45 + G ≥ 0.8 en
+  ≥ 75 %), INTERMEDIO (primario + G del plástico > G del ciego en ≥ 75 %,
+  p < 0.05), NADA. Se cree sólo si coincide en los dos soles (0 y 1, lanzados
+  a la vez). Humo: ciego exactamente en cero; las columnas nuevas de W0
+  aprenden. `exp_utero_tejido_sentido.py`.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32
