@@ -306,7 +306,43 @@ correrla).**
 - REPLICADO si `secuencia` vuelve a dar APRENDE Y RECUERDA.
 - Comando: `exp_mundo_propio_sueno.py replica`.
 
-**Siguiente (§K2, decidido por Fran el 2026-10-26; ver arriba):** un solo cambio, con la misma regla. El sueño
+### §K2, réplica — REPLICADO; el efecto del sueño es sobre todo genérico (2026-10-26)
+
+`results/mundo_propio_sueno_replica_run.txt`: semillas 12–23, 14.2 min.
+
+- **`secuencia`, otra vez APRENDE Y RECUERDA:** CONTROLA 12/12, APRENDE 12/12
+  y RECUERDA 10/12, con diferencia mediana +0.312.
+- Hay 1 visita atascada, contra 39 sin sueño.
+- La atribución es otra vez **por promedio**: MÁS ALLÁ DEL PROMEDIO da 0/12.
+- **DISTINGUE: 8/12.** Esto confirma que el 10/12 de la parte 2 no se creía.
+- **El brazo `kernel`, sin sueño, da APRENDE SIN RECORDAR** (CONTROLA 11/12,
+  RECUERDA 8/12, mediana +0.129). En estas semillas, el contraste entre lo
+  conocido y lo NUEVO ya es positivo sin sueño. Sobre las 24 semillas, sin sueño
+  da 14/24 (mediana +0.046) y con sueño 21/24 (mediana +0.205).
+- **Posterior, no pre-registrado: comparación pareada por semilla entre
+  `secuencia` y `kernel`, sobre las 24 semillas.**
+  - La re-entrada a lo conocido es más rápida con sueño en **24/24**: error
+    temprano 0.26–0.31, contra 0.52–0.55.
+  - La entrada a lo NUEVO también es más rápida con sueño, en 17/24.
+  - **La especificidad, es decir que el sueño ayude más con lo vivido que con
+    lo nuevo, da 16/24 (p = 0.076): sugerente, no establecida.**
+
+**Lectura del §K2 completo.** El veredicto pre-registrado se replicó: con un
+sueño que repasa lo vivido, el kernel aprende, controla sin atascarse y vuelve
+a lo conocido más rápido que a lo nuevo. Pero la mayor parte de lo que hace el
+sueño es genérica. El modelo del mundo pasa a ser el promedio de lo vivido, un
+punto de partida mejor para cualquier régimen. La parte específica de lo vivido
+existe, porque el promedio está más cerca de lo conocido (0.101) que de lo nuevo
+(0.145), pero es modesta. Hay memoria del mundo, sin repertorio: el kernel no
+sabe en qué régimen está.
+
+**Lo que sigue abierto:**
+- Un repertorio, es decir, inferir el contexto. El sueño en secuencia, con
+  BPTT de 16 ticks, no lo produjo.
+- Distinguir lo que hizo de lo que le pasó.
+- La identidad: gemelos criados en mundos distintos.
+
+**Siguiente (§K2, decidido por Fran el 2026-10-26; ver arriba y abajo):** un solo cambio, con la misma regla. El sueño
 repite al modelo del mundo transiciones `(s, a, s')` guardadas de visitas
 pasadas, que es complementariedad propiamente dicha: la memoria rápida entrena
 a la lenta. Reutiliza el `ReplayBuffer` que ya existe.
