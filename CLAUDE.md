@@ -21,6 +21,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > 2026-07-09 are this line. The kernel and the introspection code remain in the
 > tree as prior programs; they are not where new work is happening.
 
+> **Update (2026-10-26):** El Útero **closed** (§49, by the docs/NORTE.md rule); the
+> frontier is back on the **kernel**, and the kernel is **the agent itself** (Fran):
+> no Hermes/Yvyra or any other LLM as its vehicle -- experiments feed `ConsciousKernel`
+> directly. Psi measured as a relative-surprise detector (`exp_psi_quiebres.py`).
+
 ## What this project actually is
 
 Three research programs, in the order they were built. Only the third is live:
@@ -173,6 +178,8 @@ PYTHONPATH=src python experiments/utero/exp_utero_escala.py         # scale robu
 
 # Kernel:
 PYTHONPATH=src python experiments/kernel/exp_conscious_kernel_validation.py
+PYTHONPATH=src python experiments/kernel/exp_psi_quiebres.py        # 2026-10-26, the kernel ALONE (no Hermes): does Psi see rare large breaks in a predictable stream? 120 lives, 3 procs (~12 min): NO LO ENTIERRA by the letter -- rare breaks seen (hits 1.00, FA 0.03-0.07), frequent ones not (0.25-0.30), noise buries medium ones; ALTA never < 0.74 in 120 lives (the Phase B band was never reached)
+PYTHONPATH=src python experiments/kernel/exp_psi_quiebres_componentes.py  # mechanism (~1 min): Phi_c fixed at 0.36; the episodic-memory bonus moves the threshold from 1.4x to 3.3x the mean free energy; Yvyra's fast memory was full (500/500)
 PYTHONPATH=src python experiments/kernel/exp_agency.py
 PYTHONPATH=src python experiments/kernel/exp_zeta_vs_baselines.py    # zeta vs fourier/random/learned/rnn
 PYTHONPATH=src python experiments/kernel/exp_spacing_statistics.py --kernel  # GUE vs Poisson vs lattice

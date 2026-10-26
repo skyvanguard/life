@@ -1,5 +1,9 @@
 # Deploying the Conscious Kernel into Yvyra's container
 
+> **Retired (2026-10-26).** The kernel is the agent itself; it is no longer coupled
+> to Hermes/Yvyra. Do not rebuild the containers or deploy `heartbeat/tick.sh` v3.
+> This directory is kept as the record of how Phases A/B ran (docs/PHASE_B_DESIGN.md).
+
 `yvyra_kernel.py` is the tick-driven entry point Yvyra's heartbeat calls at the
 close of every tick (see `~/.hermes/HEARTBEAT.md`, "Núcleo zeta-life"). It is
 **tick-driven, not a daemon**: each tick is a fresh process that loads the

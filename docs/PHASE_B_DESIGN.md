@@ -1,5 +1,9 @@
 # Phase B design — does Psi anchor Yvyra's introspection?
 
+> **Status (2026-10-26): closed as a vehicle.** The kernel is the agent; no Hermes,
+> no Yvyra. What Psi turned out to be (a relative-surprise detector whose threshold
+> the episodic-memory bonus moves) is in the last section before the checklist.
+
 The decisive experiment of the Yvyra coupling. Phase A established a clean silent
 baseline (Psi logged, never shown). Phase B **shows Yvyra her Psi** and asks
 whether her introspection *anchors* to that real signal or would respond the same
@@ -211,6 +215,61 @@ is the next run; the sentiment ceiling must be addressed before it.
    `~/Documents/hermes-agent` (source dated 2026-08-06, two months newer than
    the runtime she lived in) and the model re-downloaded; commands in
    `deploy/zeta/README.md`.
+
+## Closed as a vehicle (2026-10-26): the kernel is the agent -- and what Psi is
+
+**Decision (Fran, 2026-10-26):** no Hermes, no Yvyra, no other agent. "The
+kernel has to be unique, without mixing with another agent, because the kernel
+itself is the agent." Phase B through Yvyra is abandoned as a vehicle; the v3
+heartbeat is NOT deployed and the containers are NOT rebuilt. The code stays in
+`bridge/` and `deploy/zeta/` for the record. The calibration curves pending in
+point 4 above are superseded by the test below (the kernel alone, synthetic
+streams, no load/save), so they will not be re-run.
+
+**The hypothesis of point 3, tested on the kernel alone**
+(`experiments/kernel/exp_psi_quiebres.py`, `results/psi_quiebres_run.txt`;
+120 lives of 4000 ticks: a learnable sinusoid on 4 axes, iid noise SIGMA, breaks
+of size DELTA along a fresh random direction on a fraction P of ticks; rule
+written before running; a 4-cell smoke run was seen before the full run and the
+rule was not changed):
+
+- **P1, yes.** In a predictable stream Psi sees rare large breaks: with breaks
+  on 3% of ticks, hit rate 1.00 at DELTA 0.35 and 0.5, false alarms 0.07 and
+  0.03. DELTA1 (the smallest DELTA with F <= 0.05) = 0.5.
+- **P2, no by the letter.** At DELTA1 = 0.5 noise 0.10 only takes the hit rate
+  from 1.00 to 0.83. **Verdict: NO LO ENTIERRA.** Post-hoc, the curve shows
+  noise does bury medium breaks (DELTA 0.2: 0.98 -> 0.17; DELTA 0.35: 1.00 ->
+  0.49), and it does so in the free energy itself (AUC of free energy 0.97 ->
+  0.72 at DELTA 0.2): signal-to-noise, not a Psi-specific loss. Psi keeps the
+  information the free energy has (AUC of Psi = AUC of free energy within 0.03
+  in every cell).
+- **P3, yes, and it is Yvyra's regime.** Frequent large breaks are not seen:
+  with breaks on 30% of ticks, hit rate 0.25-0.30 at DELTA >= 0.35 against 1.00
+  when they are rare. Yvyra's AAA-BBB calendar puts a mode switch on a third of
+  her ticks.
+- **Mechanism, measured.** "Psi < 0.85" coincides with "free energy > r* x its
+  running mean" in 98% of ticks (median over 120 runs). Phi_c does not move
+  (0.36 in every stream); r* is moved by the **episodic-memory bonus**
+  0.2 x len(fast_memory)/500 (`exp_psi_quiebres_componentes.py`): the fast
+  memory is surprise-gated, so a surprising life fills it, the bonus lifts Phi
+  and pushes the threshold from 1.4x (clean stream, 12 episodes, bonus 0.005)
+  to 3.0x (noise, 416 episodes) and 3.3x (frequent breaks, 459 episodes).
+  **Yvyra's saved kernel has its fast memory full: 500/500, bonus 0.200.**
+- **The ceiling.** Over the 120 streams the largest frac(not ALTA) was 0.26: ALTA
+  never fell below 0.74. Where it came near 0.75 (clean stream, no breaks) Psi
+  dips by fluctuation and does not discriminate (hits = false alarms). The
+  Phase B target band (0.30 <= ALTA <= 0.75) was not reached in any of the 120
+  streams. (Markov only bounds frac(not ALTA) <= 1/r*, about 0.72 at r* = 1.38,
+  so the band is not excluded by the formula; it is excluded by every life
+  tried, and where Psi came closest it did not discriminate.)
+
+**Reading.** Psi is a thresholded relative-surprise detector, not a level
+meter. It discriminates (AUC 0.98-0.99) while sitting in ALTA 90-93% of the time,
+when the life is predictable and its breaks are rare. Yvyra's 89% ALTA was not
+a broken instrument: it was a full memory plus a third of her ticks being
+large, frequent surprises, so only the clock got through. "De-saturate so that
+it discriminates" was the wrong target: the yardstick for Psi is hit rate / AUC
+on events, not the fraction of ALTA.
 
 ## Implementation checklist
 

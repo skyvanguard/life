@@ -26,6 +26,10 @@ and with a direction orthogonal to the introspection->research axis:
 Hypothesis under test: Psi (relative surprise) sees rare large breaks in a
 predictable stream better than the same breaks in a noisy stream.
 
+SUPERSEDED (2026-10-26): the kernel is the agent, no Hermes/Yvyra. The pending
+--base/--dir curves will not be run; the hypothesis was tested on the kernel
+alone in exp_psi_quiebres.py (docs/PHASE_B_DESIGN.md, last section).
+
 READOUT (a curve, no verdict): after the first 200 ticks, among introspection
 ticks that do not follow a mode switch, frac(not ALTA) on event ticks, on the
 tick right after an event, and on the rest; first vs second half (does the

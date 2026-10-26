@@ -23,7 +23,8 @@ un nivel; lo que faltaba era escribir que se sigue preguntando lo mismo.
 | **El Norte** (2026-06 a 2026-07) | ¿Ψ puede vivir en las activaciones de un LLM real y el modelo aprender a leerla? | No: la introspección entrenada es lookup, no lectura general | cerrado, negativo honesto |
 | **El Útero, novedad** (2026-07 a 2026-09) | ¿emerge estructura nueva de una física que se reescribe, sin nada preentrenado? | Sí, rara (~5 %), con cinco jaulas nombradas | cerrado con paper |
 | **El Útero, sol y evolución** (2026-09-26/27) | ¿emerge regulación, anticipación o aprendizaje bajo un entorno con orden? | No en 19 corridas; sí evolución darwiniana (§34/§35), no inteligencia | cerrado |
-| **El Útero, aprender en vida** (§43–§45, 2026-09-27 →) | ¿puede una celda cambiar su regla por su propia señal, durante su vida, y generalizar? | §43 (discreto): NADA por falta de localidad. §45 (continuo): en curso | **frontera** |
+| **El Útero, aprender en vida** (§43–§49, 2026-09-27 a 2026-10-26) | ¿puede una celda cambiar su regla por su propia señal, durante su vida, y generalizar? | §43 (discreto): NADA por falta de localidad. §45 (continuo): aprende en vida, sin generalizar. §49: NADA | cerrado |
+| **Kernel acoplado a Yvyra** (Fase A/B, 2026-06 a 2026-10-26) | ¿la introspección de un LLM se ancla a la Ψ del kernel? | Inconclusa. Ψ no estaba rota: detecta sorpresa relativa y la memoria llena más los quiebres frecuentes la tapaban | cerrado como vehículo: el kernel es el agente |
 
 ## Lo que une al kernel con el útero
 
@@ -76,6 +77,20 @@ la distinción, medida en el mismo mundo, entre lo que fabrica la evolución
 (un especialista) y lo que fabrica el aprendizaje (un generalista con
 retraso). Pregunta abierta, anotada y no corrida: vidas largas. Abrirla es
 una decisión nueva, no una continuación.
+
+## El kernel es el agente (2026-10-26, tarde)
+
+Fran: *"el kernel tiene que ser único, sin necesidad de mezclarse con otro
+agente, porque el kernel en sí es el agente"*. Se abandona Yvyra como vehículo:
+un LLM es preentrenamiento, y la pregunta dice sin entrenamiento previo. La
+hipótesis que quedaba abierta se probó con el kernel solo
+(`exp_psi_quiebres.py`). En un flujo predecible, Ψ ve los quiebres raros y
+grandes (aciertos 1.00, falsas alarmas 0.03–0.07). Los quiebres frecuentes no
+los ve (0.25–0.30), y el ruido entierra los medianos. Ψ es un detector de
+sorpresa relativa con un umbral que mueve el bono de memoria episódica. En
+120 flujos, ALTA nunca bajó de 0.74, y donde más se acercó Ψ no
+discriminaba: la meta de "des-saturar" estaba mal puesta. Lo que sigue es una decisión nueva: el kernel viviendo en su propio
+mundo, donde sus actos causan su experiencia.
 
 ## Lo que la estrella sigue siendo
 
