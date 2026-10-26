@@ -239,6 +239,119 @@ entrada pareados contra `secuencia`.
 - Si hay CONTEXTO, ESPECIFICIDAD positiva. CONTROLA queda abierto, porque cada
   sueño de 200 pasos mueve mucho al modelo del mundo.
 
+## §K4 — identidad: gemelos criados en mundos distintos (pre-registrado el 2026-10-26, antes de correr)
+
+Decisión de Fran tras el §K3: "continua", sobre la recomendación de ir a la
+identidad. Es el pilar de la pregunta del norte que faltaba tocar.
+
+**Qué se entiende acá por identidad.** Continuidad psicológica: una diferencia
+individual que escribe el pasado propio, que sobrevive a un presente compartido
+y que la señal del propio kernel puede leer. No mide un sentido de sí; eso sigue
+siendo la estrella (docs/NORTE.md). Lo que el diseño agrega sobre el §K1–§K3:
+- **Gemelos.** La diferencia entre los dos sólo puede venir de la vida, porque
+  nacen idénticos.
+- **Un adversario largo.** El exilio compartido dura tanto como la niñez; en el
+  §K3, lo nuevo era una sola visita de 300 ticks.
+- **El módulo de identidad declarado.** Se mide si el `self_embedding` del
+  auto-modelo lleva la identidad.
+
+**El diseño** (`experiments/kernel/exp_mundo_propio_gemelos.py`):
+- **Gemelos idénticos al nacer**: los mismos pesos y el mismo azar
+  (`torch.manual_seed(par)`). Comparten el balbuceo, los ticks de prueba y las
+  acciones de prueba. Lo único que cambia es el régimen de su casa.
+- **Los mundos** son los 4 regímenes del §K1. En cada par hay cuatro papeles: la
+  casa de A, la casa de B, el exilio X (compartido) y N (nadie lo vive). En los
+  12 pares, cada régimen juega cada papel 3 veces.
+- **La vida** tiene 33 bloques de 300 ticks:
+  - 3 de balbuceo en casa;
+  - 15 de niñez actuando en casa (los mismos ticks que los ciclos 2–6 del §K1);
+  - 15 de exilio en X, los dos gemelos juntos (mismo régimen, mismas pruebas).
+  - Son 9900 ticks y entran enteros en el buffer del sueño (capacidad 10 000).
+    Mano declarada: una vida más larga empezaría a olvidar la niñez por
+    construcción.
+  - Asimetría declarada: los gemelos balbucean sólo en casa (la infancia); en
+    el exilio sólo actúan.
+- **Los ensayos** se hacen antes de los bloques 18 (fin de la niñez, T1), 23
+  (1500 ticks de exilio, Tm) y 33 (fin del exilio, T2).
+  - Un clon de cada gemelo vive una visita de 300 ticks en la casa de A y otro en
+    la de B. Actúa, sin ticks de prueba, desde el estado actual, y después se
+    descarta.
+  - La vida del original no cambia: verificado, diferencia 0.
+  - Los dos gemelos reciben el mismo azar en cada ensayo, así que el ensayo es
+    pareado.
+  - Prueba de humo (`humo`): los clones de los gemelos recién nacidos dan
+    lecturas idénticas (H = 0 exacto), y un clon que sigue con el azar de su
+    original lo reproduce (diferencia 0).
+- **El cruce.** H = (A en la casa de B + B en la casa de A) − (A en su casa + B
+  en su casa), sobre el costo de re-entrada `e_early` (‖s − C‖ medio de los
+  ticks 0–99, la lectura de RECUERDA del §K1).
+  - Los efectos de mundo y de gemelo se cancelan.
+  - H > 0 quiere decir que cada uno anda mejor en su mundo que su hermano.
+
+**Brazos.** `error_x4` (el kernel del §K3) y `kernel` (el del §K1, sin sueño),
+que es el control de atribución.
+
+**La regla** (tests de signo sobre 12 pares, ≥ 10/12, p = 0.019 a una cola):
+
+| Lectura | Criterio |
+|---|---|
+| SE DIFERENCIA (control positivo) | H(T1) > 0 en `error_x4`. Si falla: NO SE DIFERENCIA, y el resto no se lee |
+| PERSISTE (primaria) | H(T2) > 0 en `error_x4` |
+| RECONOCE (secundaria) | el cruce de la energía libre del propio kernel en los ticks 1–20 de la visita, en T2, > 0 en `error_x4`: su propia sorpresa dice "esta es mi casa" |
+| ATRIBUCIÓN | PERSISTE en `kernel`, y el pareado H(T2) de `error_x4` > el de `kernel` |
+
+Veredicto:
+- Sin SE DIFERENCIA → **NO SE DIFERENCIA**.
+- SE DIFERENCIA y PERSISTE → **IDENTIDAD**, con la atribución:
+  - **por el sueño**, si `kernel` no persiste y el pareado pasa;
+  - **también sin el sueño**, si `kernel` persiste;
+  - **sin atribuir**, en otro caso.
+- SE DIFERENCIA sin PERSISTE → **IDENTIDAD FRÁGIL**.
+
+Se reportan, sin ser veredictos: H en Tm (el curso temporal), los cruces de la
+sonda y de Ψ, la distancia entre los `self_embedding` de los gemelos en cada
+ensayo, el control en casa y en el exilio, los bloques atascados y DESVENTAJA
+(abajo).
+
+**Predicciones escritas antes de la calibración:**
+- SE DIFERENCIA 12/12 en los dos brazos. Es casi trivial: en T1 el ensayo en
+  casa no cambia de régimen y el de afuera sí.
+- `kernel`: PERSISTE falla. En el §K1 no había ahorro.
+- `error_x4`: PERSISTE pasa, con un H(T2) bastante menor que H(T1). El sueño
+  repasa toda la vida vivida, y al final del exilio la mitad de lo que repasa
+  es la niñez.
+- RECONOCE sigue a PERSISTE.
+- `self_embedding`: la distancia entre los gemelos se achica mucho en el exilio.
+  Es un EMA de τ ≈ 100 ticks de lo que hace el kernel, así que el módulo de
+  identidad declarado no lleva la identidad.
+
+**Calibración** (`calibracion`, pares 100–102, nunca los del test;
+`results/mundo_propio_gemelos_calibracion_run.txt`). Los tres pares comparten el
+patrón de papeles B − A = 2, X − A = 3. No se ajustó nada.
+- SE DIFERENCIA: 3/3 en los dos brazos.
+- `error_x4`: H(T1) +1.75 y H(T2) +0.74 (3/3); RECONOCE 3/3.
+  - Su modelo del mundo conserva la casa: la sonda da 0.014 en la casa propia,
+    contra 0.18 en la del hermano.
+  - El régimen del exilio nunca aparece en la sonda (0.18, igual que N, que
+    nadie vivió). La sonda usa acciones al azar, y en el exilio no hay balbuceo.
+- `kernel`: H(T2) −0.51, sólo 1/3 positivo.
+  - Después del exilio, el kernel sin sueño **vuelve más lento a su propia
+    casa que a la de su hermano** (A→A 0.88 / 0.43 / 0.36, contra A→B 0.32 /
+    0.22 / 0.31). No está explicado.
+  - Su sonda olvida la casa: 0.26, igual que la del hermano.
+- Ψ se satura después de T1: sus cruces dan 0.
+- `self_embedding`: la distancia entre los gemelos no se achica (`error_x4` 2.06
+  → 2.40, `kernel` 2.05 → 2.97). La predicción de arriba ya parece equivocada y
+  queda como estaba escrita.
+
+**Predicciones agregadas después de la calibración, antes de los pares del
+test:**
+- PERSISTE y RECONOCE pasan en `error_x4`.
+- PERSISTE falla en `kernel`.
+- Reportada, con su propio criterio: **DESVENTAJA**, H(T2) < 0 en `kernel` en
+  ≥ 10/12. Es la desventaja de la propia casa que se vio en la calibración
+  (2/3). Predicción: pasa.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
