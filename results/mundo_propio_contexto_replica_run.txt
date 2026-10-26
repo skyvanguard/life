@@ -1,0 +1,54 @@
+================================================================================
+§K3 PART 2 -- THE KERNEL IN ITS OWN WORLD: does it build a REPERTOIRE of the world?
+================================================================================
+seeds 12-23; run ('error_x4',), read from §K2 kernel / secuencia / congelado / reactivo; run 16.6 min
+
+mean ||s - C|| per cycle (median over seeds)    early = ticks 0-99, late = 150-299
+   cycle |        kernel |     secuencia |      error_x4
+       1 |   0.531/0.532 |   0.531/0.532 |   0.531/0.532
+       2 |   0.536/0.098 |   0.323/0.070 |   0.256/0.066
+       3 |   0.524/0.177 |   0.338/0.094 |   0.166/0.067
+       4 |   0.545/0.117 |   0.211/0.092 |   0.103/0.070
+       5 |   0.587/0.128 |   0.208/0.100 |   0.098/0.073
+       6 |   0.536/0.133 |   0.203/0.084 |   0.084/0.062
+   NOVEL |   0.638/0.143 |   0.604/0.121 |   0.337/0.161
+       7 |   0.573/0.175 |   0.425/0.112 |   0.173/0.072
+       8 |   0.490/0.123 |   0.326/0.106 |   0.090/0.068
+
+mean probe over the 3 known regimes, end of visit (median over seeds); exact average 0.103
+   cycle |       kernel |    secuencia |     error_x4
+       1 |        0.142 |        0.117 |        0.111
+       2 |        0.264 |        0.111 |        0.105
+       3 |        0.256 |        0.112 |        0.105
+       4 |        0.252 |        0.112 |        0.098
+       5 |        0.276 |        0.112 |        0.068
+       6 |        0.264 |        0.112 |        0.037
+   NOVEL |        0.331 |        0.125 |        0.110
+       7 |        0.271 |        0.117 |        0.078
+       8 |        0.256 |        0.116 |        0.053
+
+         arm | known 7-8 | / avg | below 0.9 | burn gain | NOVEL 7-8 | current 7-8
+      kernel |     0.263 |  2.57 |      0/12 |    +0.011 |     0.281 |       0.240
+   secuencia |     0.116 |  1.13 |      0/12 |    +0.012 |     0.131 |       0.110
+    error_x4 |     0.065 |  0.64 |      8/12 |    +0.027 |     0.139 |       0.076
+
+--------------------------------------------------------------------------------
+         arm | CONTROLA APRENDE RECUERDA | NOVEL late | stuck | median RECUERDA dif | verdict
+      kernel |    11/12    12/12     8/12 |      0.143 |    39 |              +0.129 | APRENDE SIN RECORDAR
+   secuencia |    12/12    12/12    10/12 |      0.121 |     1 |              +0.312 | APRENDE Y RECUERDA
+    error_x4 |    12/12    12/12    12/12 |      0.161 |     0 |              +0.210 | APRENDE Y RECUERDA
+RECUERDA dif per seed (error_x4): [0.228, 0.131, 0.2, 0.201, 0.143, 0.469, 0.142, 0.313, 0.233, 0.21, 0.21, 0.261]
+CONTEXTO (primary)  error_x4 below 0.9 x average: 8/12 -> no
+ESPECIFICIDAD  RECUERDA dif error_x4 > secuencia: 5/12 -> no
+  paired known entry (cycles 7-8): error_x4 < secuencia 12/12 (medians 0.137 vs 0.352)
+  paired              NOVEL entry: error_x4 < secuencia 8/12 (medians 0.337 vs 0.604)
+
+Psi (cycles 3+ and NOVEL; frac Psi < 0.85 on the tick that perceives the test)
+         arm |   EXO  EFER false | AUC fe EXO>EFER
+      kernel |  0.93  0.90  0.56 |            0.53
+   secuencia |  0.94  0.90  0.58 |            0.62
+    error_x4 |  0.94  0.81  0.45 |            0.67
+DISTINGUE (error_x4, EXO > EFERENCIA): 12/12 -> yes
+DISTINGUE PAREADO  gap EXO-EFER error_x4 > kernel: 12/12 (medians +0.135 vs +0.026) -> yes
+
+VERDICT (pre-registered rule, error_x4): SIN REPERTORIO (APRENDE Y RECUERDA)

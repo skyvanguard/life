@@ -485,10 +485,60 @@ correrla).**
   falta las dos para decir "distingue, y por el mecanismo".
 - Comando: `exp_mundo_propio_contexto.py replica`.
 
-**Lo que sigue abierto:**
-- Un repertorio, es decir, inferir el contexto. El sueño en secuencia, con
-  BPTT de 16 ticks, no lo produjo.
-- Distinguir lo que hizo de lo que le pasó.
-- La identidad: gemelos criados en mundos distintos.
+### §K3, réplica — NO REPLICADO por la letra; DISTINGUE sí, y por el mecanismo (2026-10-26)
 
-**Siguiente (§K3, decidido por Fran el 2026-10-26):** un repertorio del mundo, pre-registrado en la sección §K3 de arriba.
+`results/mundo_propio_contexto_replica_run.txt`: semillas 12–23, 16.6 min.
+
+- **CONTEXTO: 8/12, no pasa.** La mediana del cociente es la misma, 0.64×, pero
+  cuatro semillas quedan en 0.95–1.01, y una en 0.89, apenas debajo del
+  umbral. Veredicto pre-registrado: **SIN REPERTORIO (APRENDE Y RECUERDA)**.
+  **El REPERTORIO no se replicó.**
+- **La conducta, en cambio, se replicó entera:** 12/12, 12/12 y 12/12, con 0
+  visitas atascadas y diferencia de RECUERDA +0.210.
+- **DISTINGUE (secundaria pre-registrada): 12/12. DISTINGUE PAREADO: 12/12**,
+  con separación +0.135 contra +0.026 del kernel sin sueño. Ψ cae en el 94 % de
+  los EXO y en el 81 % de los EFERENCIA. Pasan las dos condiciones: **distingue
+  lo que hizo de lo que le pasó, y por el mecanismo.** Es la primera vez en el
+  programa.
+- **ESPECIFICIDAD: 5/12, otra vez no.** La entrada a lo conocido mejora 12/12
+  contra el §K2 (0.137 contra 0.352), pero la entrada a lo NUEVO también mejora,
+  8/12 (0.337 contra 0.604).
+- **Posterior, no pre-registrado, sobre las 24 semillas:**
+  - **La visita NUEVA rompe el repertorio y el sueño lo reconstruye.** El
+    cociente de la sonda, en medianas de las partes 2 y réplica, vale 0.47 y 0.36
+    al final del ciclo 6. Al final de la visita NUEVA sube a 1.06 y 1.07, peor
+    que el promedio. En el ciclo 7 vale 0.79 y 0.76, y en el ciclo 8, 0.48 y
+    0.51.
+  - Aprender lo nuevo interfiere con lo conocido, como en el §K1, y el sueño lo
+    repara en unos dos ciclos. La lectura pre-registrada, la de los ciclos 7–8,
+    cae en plena recuperación.
+  - Juntando las dos corridas, debajo de 0.9 quedan 20/24 (p = 0.0008).
+  - Un mejor contexto va con una re-entrada más barata: Spearman entre el
+    cociente y el error temprano de las visitas conocidas de los ciclos 7–8,
+    ρ = 0.54 (p = 0.007).
+  - La separación de DISTINGUE crece con la calidad del modelo del mundo, según
+    la parte 2: `secuencia` +0.041, `secuencia_x4` +0.070, `error_x4` +0.119.
+    La copia eferente rinde cuando el modelo predice bien las consecuencias de
+    acciones arbitrarias. No es un módulo propio/ajeno.
+
+**Lectura del §K3 completo.**
+- **Conducta.** Con la entrada de error y el sueño 4×, el kernel aprende,
+  controla sin atascarse y vuelve a lo conocido casi sin costo. Pasa en 24/24
+  semillas en las tres lecturas.
+- **Distingue.** Distingue lo que hizo de lo que le pasó, y eso es atribuible
+  al mecanismo: pre-registrado y replicado.
+- **Repertorio.** Su modelo del mundo infiere el régimen en la mayoría de las
+  vidas (20/24 debajo de 0.9), pero no con la confiabilidad que pide la regla, y
+  la réplica falló.
+- **Por qué falla.** El repertorio es frágil ante lo nuevo: una sola visita a
+  un régimen desconocido lo deshace, y el sueño tarda unos dos ciclos en
+  rehacerlo.
+- **La especificidad no se estableció** en ninguna de las dos corridas: la
+  mejora sobre el §K2 alcanza también a lo NUEVO.
+
+**Lo que sigue abierto:**
+- Un repertorio robusto. El de ahora se deshace con lo nuevo: aprender un régimen
+  desconocido pisa a los conocidos. COIN resuelve esto creando un contexto nuevo
+  en vez de reescribir los viejos.
+- La identidad: gemelos criados en mundos distintos.
+- Distinguir lo que hizo de lo que le pasó ya no está abierto (§K3, replicado).
