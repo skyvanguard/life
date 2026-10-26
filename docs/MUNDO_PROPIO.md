@@ -80,6 +80,61 @@ criados en mundos distintos). Queda declarada como el paso siguiente.
 Lo que este programa agrega no son esos paradigmas. Los corre sobre un kernel
 que nace vacío, sin preentrenamiento, y en una sola vida.
 
+## §K2 — el sueño repasa el mundo (pre-registrado el 2026-10-26, antes de correr)
+
+Decisión de Fran tras el §K1: "vamos con lo que recomiendas". Un solo cambio en
+el kernel, `ConsciousKernel(wm_sleep_replay=...)`: guarda cada transición vivida
+y, en cada tick de sueño (cada 50), el modelo del mundo da pasos de gradiente
+sobre ventanas sacadas de todo el pasado vivido. Apagado (0, el default) es
+idéntico byte a byte (tests en `tests/test_sleep_replay.py`). Experimento:
+`experiments/kernel/exp_mundo_propio_sueno.py`; la regla completa está en su
+docstring.
+
+**Por qué en secuencia.** Lo encontré leyendo el código, antes de correr. El
+régimen está oculto: una transición suelta `(s, a, s')` no dice qué régimen la
+produjo. Un repaso paso a paso (el `replay_wm` del modo dreamer) mezcla todos los
+regímenes en un modelo que no puede distinguirlos, así que sólo puede
+promediarlos. El repaso en secuencia corre la misma recurrencia que la vigilia
+(prior → mezcla con la observación) por ventanas de 16 ticks seguidos, con
+backprop a través del tiempo, para que el latente aprenda a llevar el régimen
+como un contexto inferido de los últimos ticks. Es la inferencia de contexto con
+la que COIN explica los *savings*. La vigilia nunca propaga más de un tick, así
+que no puede aprender eso.
+
+**Cuánto sueño (declarado, no ajustado).** 50 pasos por sueño, uno por tick
+vivido: el sueño duplica el entrenamiento de la transición, mitad del presente y
+mitad de todo el pasado. Cada paso repasa 128 transiciones: 8 ventanas de 16 en
+`secuencia`, 128 sueltas en `paso`.
+
+**La sonda (lectura del mecanismo, no toca la vida).** Por régimen, 32
+secuencias fijas de 24 transiciones de balbuceo. El modelo corre su recurrencia
+desde `encode(s0)` y se mide el error después de 8 ticks de contexto, al final de
+cada visita. "Otros" son los regímenes conocidos distintos del actual.
+
+**Parte 1, control positivo del mecanismo.** Toda la vida es balbuceo; brazos
+`sin_sueno`, `secuencia` y `paso`, 12 semillas.
+- RETIENE_CTRL: error de la sonda en los otros, `secuencia` < `sin_sueno` en
+  ≥ 10/12.
+- CONTEXTO_CTRL: `secuencia` < `paso` en ≥ 10/12.
+- **Regla de parada:** si RETIENE_CTRL falla, la parte 2 no se corre con este
+  diseño.
+
+**Parte 2, el test del §K1 con sueño.** Brazos `kernel` (el del §K1, que debe
+reproducirlo exactamente), `secuencia` (el del veredicto), `paso` (control sin
+contexto), `congelado` y `reactivo`. Regla: la del §K1 tal cual, con `secuencia`
+en el lugar del kernel; RECUERDA sigue siendo la primaria.
+- Atribución: si `secuencia` RECUERDA y `paso` no, es por contexto; si los dos
+  recuerdan, es por intercalado y la secuencia no importa.
+- Secundarias: RETIENE (sonda en los otros en los ciclos 7–8, `secuencia` <
+  `kernel`) y DISTINGUE sobre `secuencia`.
+- Advertencia declarada antes de correr, vista en la prueba de humo: el kernel
+  que actúa vive cerca de C y sus datos son estrechos. Repasar el balbuceo de la
+  infancia baja la sonda en cualquier brazo con sueño. El contraste que aísla el
+  contexto es `secuencia` contra `paso`, y se reporta al lado.
+
+**Predicciones, escritas antes de correr.** El brazo `kernel` reproduce el §K1.
+`paso` promedia los regímenes y controla peor que `kernel`. `secuencia`: abierto.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
@@ -126,7 +181,7 @@ vidas cortas: el kernel vio cada régimen conocido ocho veces en su vida,
 seis antes de la visita NUEVA. Lo que falta en los dos
 sustratos es una memoria del mundo que sobreviva al re-aprendizaje.
 
-**Siguiente (§K2, por decidir):** un solo cambio, con la misma regla. El sueño
+**Siguiente (§K2, decidido por Fran el 2026-10-26; ver arriba):** un solo cambio, con la misma regla. El sueño
 repite al modelo del mundo transiciones `(s, a, s')` guardadas de visitas
 pasadas, que es complementariedad propiamente dicha: la memoria rápida entrena
 a la lenta. Reutiliza el `ReplayBuffer` que ya existe.
