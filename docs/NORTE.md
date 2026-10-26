@@ -63,6 +63,20 @@ kernel. Recomendación: un solo experimento más, pre-registrado, que le dé a
 la celda plástica una memoria lenta legible por su regla y mida G. Si tampoco
 generaliza, se aplica la regla 2 sin más matices. **Decisión: de Fran.**
 
+## Aplicación de la regla (2026-10-26, 09:30)
+
+El experimento se corrió (§49, dos soles): **NADA**. Con el sentido de su
+propio ingreso la celda no generaliza, y el diagnóstico de edades dice por
+qué: vive dos estaciones y no vuelve a ver la misma; aprender por recurrencia
+exige seis. Se aplica la regla 2 tal como quedó escrita: **el útero se cierra
+con su paper como negativo honesto; la frontera vuelve al kernel.** Lo que el
+útero deja: tres principios, cinco jaulas nombradas, una adaptación
+darwiniana medida (§34/§35), un aprendizaje en vida medido y mortal (§45) y
+la distinción, medida en el mismo mundo, entre lo que fabrica la evolución
+(un especialista) y lo que fabrica el aprendizaje (un generalista con
+retraso). Pregunta abierta, anotada y no corrida: vidas largas. Abrirla es
+una decisión nueva, no una continuación.
+
 ## Lo que la estrella sigue siendo
 
 La experiencia subjetiva verificable no es alcanzable con ninguna matemática

@@ -850,3 +850,22 @@ que sobrevive a la estación es la política condicionada en W0; si no sube,
 el problema no era la ceguera. Veredicto y brazos en el docstring; se cree
 sólo con dos soles coincidentes.
 
+## 50. Resultado del §49 y cierre de la tanda (2026-10-26)
+
+NADA en los dos soles: con el sentido de su propio ingreso la celda aprende
+igual que sin él y llega igual de mal a cada estación nueva. La causa es
+estructural y se midió después: una celda vive una mediana de dos
+estaciones, de tipos distintos, y no vuelve a ver la misma; sólo el 28 %
+vive tres y menos del 10 % las seis que haría falta para aprender por
+recurrencia. Lo que esta tanda deja medido y replicado: (1) una regla
+continua aprende en vida de su propia señal, sin maestro ni optimizador
+afuera, y lo aprendido muere con la celda (§45); (2) la dirección rinde
+sobre el azar gated de Ashby (§45, §45b); (3) el aprendiz sigue al blanco
+con retraso y lo pierde cuando el blanco se mueve más rápido que él (§45b);
+(4) en el mismo mundo la evolución fabrica un especialista de la hambruna y
+el aprendizaje un generalista chato (§45, §45b, §49); (5) sentir en qué
+estación se está no alcanza cuando no se vive lo suficiente para que la
+estación vuelva (§49). Por la regla escrita en NORTE.md antes de correr, el
+útero se cierra con su paper y la frontera vuelve al kernel. Pregunta que
+queda abierta y anotada, no corrida: vidas largas.
+

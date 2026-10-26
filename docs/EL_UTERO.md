@@ -1040,6 +1040,31 @@ sustrato distinto. Decisión abierta.
   a la vez). Humo: ciego exactamente en cero; las columnas nuevas de W0
   aprenden. `exp_utero_tejido_sentido.py`.
 
+- **§49 — RESULTADO: NADA en los dos soles (2026-10-26, 09:20).** 5 brazos ×
+  16 mundos × 60000 ticks (`results/utero_tejido_sentido_run.txt`, `_sol1_run.txt`;
+  figuras `utero_tejido_sentido.png`, `_sol1.png`, cuyo título dice "§45" por
+  reutilizar la función de figura). Primario: el plástico con sentidos supera a
+  invertido 16/16, barajado 16/16 y sin plasticidad 14/16 en ambos soles (sigue
+  aprendiendo en vida). Pero contra el **ciego** (la celda del §45, sentidos en
+  cero) no hay nada: cosecha 0.324 vs 0.327 y 0.322 vs 0.325 (plástico > ciego
+  5/16 en ambos); G −0.20 vs −0.31 (11/16, p 0.10) y −0.34 vs −0.30 (8/16);
+  cosecha en los primeros 50 ticks idéntica (0.292 vs 0.291 / 0.292 vs 0.292).
+  G ≥ 0.8 en 1/16 y 0/16. La evolución sola tampoco usa los sentidos (sin
+  plasticidad 0.307 / 0.301 contra 0.293 / 0.291 sin ellos; sigue siendo el
+  especialista de la hambruna: A 0.458 / 0.447). **Veredicto: NADA, replicado.**
+  **Diagnóstico de edades (20000 ticks, 32 mundos):** estación mediana 710
+  ticks; edad mediana al morir 1410 (p25 1130, p75 2673, p90 3594); 91 % de las
+  celdas vive al menos una estación, **28 % al menos tres**; las vivas al final
+  tienen mediana 1121. Una celda ve típicamente dos estaciones, de tipos
+  distintos, y muere: no vuelve a ver la misma. Aprender "con este ingreso, mi
+  atractor está allá" exige vivir la misma estación al menos dos veces, es
+  decir seis estaciones (~4000 ticks), que alcanzan menos del 10 %. **El
+  negativo es estructural: la vida es más corta que la recurrencia que habría
+  que aprender.** Queda sin probar si con vidas largas (menor mantenimiento o
+  parto más caro) la misma celda generalizaría; por la regla escrita en
+  NORTE.md antes de correr ("si tampoco generaliza, se aplica la regla 2 sin
+  más matices"), eso no se corre sin una decisión nueva de Fran.
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32

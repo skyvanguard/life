@@ -1,0 +1,40 @@
+================================================================================
+§49 TEJIDO PLASTICO CON SENTIDO DEL PROPIO INGRESO: ¿generaliza cuando la regla puede leer en que estacion esta?
+================================================================================
+N=256; 16 mundos por brazo; brazos ['plastico', 'invertido', 'barajado', 'sin_plasticidad', 'ciego']; eta=0.05; sigma=0.3; R_ESCALA=0.03; tau_lento=500.0; 60000 ticks; sol seed 1; veredicto pre-registrado (docstring)
+
+corrida: 38.3 min
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo             vivas cosecha 1a mitad cosecha 2a mitad  regret  G (generaliza) mundos con G cosecha 0-50
+  plastico            127            0.325            0.322    0.91           -0.34           16        0.292
+  invertido           122            0.286            0.283    1.07            1.40           16        0.315
+  barajado            129            0.301            0.301    1.00            0.55           16        0.302
+  sin_plasticidad     106            0.307            0.301    1.00            0.91           16        0.330
+  ciego               121            0.328            0.325    0.90           -0.30           16        0.292
+
+--------------------------------------------------------------------------------
+POR ESTACION (cosecha media por tipo de estacion, 2a mitad)
+  plastico         A 0.328  B 0.311  C 0.325
+  invertido        A 0.348  B 0.272  C 0.241
+  barajado         A 0.336  B 0.287  C 0.282
+  sin_plasticidad  A 0.447  B 0.272  C 0.205
+  ciego            A 0.335  B 0.314  C 0.322
+
+--------------------------------------------------------------------------------
+PRIMARIO: PLASTICO (con sentidos) contra cada control (cosecha 2a mitad, pareado por mundo)
+  vs invertido        cosecha mayor en 16/16 (p 0.000); vivas 1.04 -> SUPERA
+  vs barajado         cosecha mayor en 16/16 (p 0.000); vivas 0.99 -> SUPERA
+  vs sin_plasticidad  cosecha mayor en 14/16 (p 0.002); vivas 1.20 -> SUPERA
+  generalizacion: G >= 0.8 en 0/16 mundos plasticos donde esta definido -> no
+  G plastico > G ciego en 8/16 pares (p 0.598) -> no; G mediana plastico -0.34 vs ciego -0.30
+
+--------------------------------------------------------------------------------
+SECUNDARIAS
+  LLEGA MEJOR   cosecha en los primeros 50 ticks de cada estacion, plastico > ciego: 8/16 (p 0.598); medianas 0.292 vs 0.292
+  COSECHA       plastico > ciego (2a mitad): 5/16 (p 0.962); medianas 0.322 vs 0.325
+  EVOLUCION     sin_plasticidad con sentidos, cosecha 2a mitad 0.301 (§45 sin sentidos: 0.293 / 0.291)
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> NADA: los sentidos no mueven la generalizacion (o la evolucion sola ya los usa igual).
