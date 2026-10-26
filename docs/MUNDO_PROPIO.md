@@ -83,3 +83,50 @@ que nace vacío, sin preentrenamiento, y en una sola vida.
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
+
+### §K1 — NO CONTROLA por la letra; aprende en vida, no recuerda (2026-10-26)
+
+`results/mundo_propio_run.txt`: 12 semillas × 3 brazos, 7500 ticks, 8 min.
+
+- **CONTROLA: 9/12, el umbral era 10. Veredicto: NO CONTROLA.** El kernel
+  sostiene su preferencia en la mayoría de las visitas: error tardío 0.07–0.12
+  contra 0.52 del reactivo. Pero el 10 % de las visitas se atasca (27/264 con
+  error tardío > 0.3), y en las 3 semillas que fallan esas visitas caen en los
+  ciclos 7–8.
+- **APRENDE: 12/12.** En la visita NUEVA, un régimen que nunca vio, el kernel
+  llega a 0.084 de error tardío; el congelado tras la infancia queda en 1.052.
+  Aprende en vida lo que la infancia no le dio. Es la lectura más fuerte, pero
+  no es el veredicto: la regla exigía CONTROLA primero.
+- **RECUERDA: 6/12, azar.** Vuelve a un régimen conocido igual de lento que a
+  uno nuevo (diferencia mediana −0.017), y el costo de re-entrada no mejora en
+  la vida: el error temprano de los ciclos 7–8 es menor que el del ciclo 2 sólo
+  en 3/12. **Re-aprende en cada visita.**
+- **DISTINGUE (Ψ): 9/12, no.** En el tick que percibe la prueba, Ψ baja de
+  ALTA un 93 % de las veces con EXO y un 90 % con EFERENCIA. La energía libre
+  tampoco las separa (AUC 0.55). El modelo del mundo no predice la consecuencia
+  de una acción fuera de su política aunque la tenga registrada: la copia
+  eferente no le sirve.
+- **Posterior, no pre-registrado:** el error tardío del ciclo 7 es peor que el
+  del ciclo 6 en 11/12. Aprender el régimen NUEVO perturba a los conocidos
+  (interferencia). Además Ψ está debajo de ALTA en el 52 % de los ticks
+  ordinarios de la segunda mitad de las visitas cuando el kernel actúa (mediana); con Yvyra satura, y acá no.
+
+**Por qué no recuerda (verificado en el código).** El conocimiento de acción →
+consecuencia vive sólo en el modelo del mundo, un único aprendiz online por
+SGD. La memoria complementaria y el sueño del kernel no lo tocan:
+`DreamEngine` recibe la memoria rápida, la lenta y el auto-modelo; el replay
+transfiere estados del sí-mismo a la memoria lenta y a la identidad. Ninguno
+de los dos archivos menciona `world_model`. La memoria del kernel es memoria
+de sí, no del mundo. El replay de transiciones hacia el modelo del mundo
+existe, pero sólo en el modo `dreamer` (`ReplayBuffer`, `replay_wm`).
+
+**Convergencia con el útero.** Es el mismo resultado que el §45: un
+generalista plástico que re-aprende cada estación. Acá no hay excusa de
+vidas cortas: el kernel vio cada régimen conocido ocho veces en su vida,
+seis antes de la visita NUEVA. Lo que falta en los dos
+sustratos es una memoria del mundo que sobreviva al re-aprendizaje.
+
+**Siguiente (§K2, por decidir):** un solo cambio, con la misma regla. El sueño
+repite al modelo del mundo transiciones `(s, a, s')` guardadas de visitas
+pasadas, que es complementariedad propiamente dicha: la memoria rápida entrena
+a la lenta. Reutiliza el `ReplayBuffer` que ya existe.

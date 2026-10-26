@@ -1,0 +1,31 @@
+================================================================================
+THE KERNEL IN ITS OWN WORLD: learns in life? remembers? tells what it did?
+================================================================================
+12 seeds x ('kernel', 'congelado', 'reactivo'); 25 visits of 300 ticks (babble cycle, cycles 2-6, NOVEL, cycles 7-8); C = (0.7, 0.1, 0.1, 0.1); run 8.1 min
+
+mean ||s - C|| per cycle (median over seeds)    early = ticks 0-99, late = 150-299
+   cycle |            kernel |         congelado |          reactivo
+       1 |     0.545 / 0.532 |     0.545 / 0.532 |     0.545 / 0.532
+       2 |     0.460 / 0.085 |     0.698 / 0.693 |     0.520 / 0.519
+       3 |     0.537 / 0.102 |     0.694 / 0.699 |     0.520 / 0.520
+       4 |     0.530 / 0.123 |     0.689 / 0.697 |     0.520 / 0.520
+       5 |     0.521 / 0.112 |     0.691 / 0.694 |     0.520 / 0.519
+       6 |     0.453 / 0.087 |     0.687 / 0.698 |     0.520 / 0.520
+   NOVEL |     0.547 / 0.084 |     1.012 / 1.052 |     0.520 / 0.520
+       7 |     0.638 / 0.254 |     0.700 / 0.696 |     0.520 / 0.519
+       8 |     0.487 / 0.069 |     0.691 / 0.697 |     0.520 / 0.520
+
+--------------------------------------------------------------------------------
+CONTROLA  kernel late (cycles 7-8) < 0.5 x reactivo: 9/12
+APRENDE   NOVEL late: kernel < congelado: 12/12   (medians kernel 0.084, congelado 1.052)
+RECUERDA  NOVEL early > known early around it (cycles 6-7): 6/12   (median difference -0.017; per seed [-0.073, 0.514, 0.225, -0.172, 0.196, -0.093, -0.191, 0.039, -0.105, 0.343, 0.43, -0.201])
+(descriptive) kernel early cycles 7-8 < cycle 2: 3/12
+
+Psi (cycles 3+ and NOVEL; frac Psi < 0.85 on the tick that perceives the test)
+       arm |   EXO  EFER false | AUC fe EXO>EFER | 1st 5 ticks known  NOVEL | n EXO/EFER
+    kernel |  0.93  0.90  0.52 |            0.55 |              0.91   0.90 | 66/64
+ congelado |  0.96  0.95  0.89 |            0.44 |              0.90   1.00 | 66/64
+  reactivo |  0.96  0.95  0.11 |            0.56 |              0.11   0.00 | 66/64
+DISTINGUE (kernel, EXO > EFERENCIA): 9/12 -> no
+
+VERDICT (pre-registered rule): NO CONTROLA
