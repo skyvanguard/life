@@ -1,0 +1,43 @@
+================================================================================
+TEJIDO PLASTICO (prototipo fuera del utero): regla continua que cambia en vida segun el propio ingreso de cada celda
+Herencia GENOTIPICA (enmienda 2026-10-25): lo aprendido muere con la celda; brazo lamarck = herencia original
+§45b ESTACIONES LARGAS (10x): ¿le faltaba tiempo al aprendiz? (pre-registrado 2026-10-26)
+================================================================================
+N=256; 16 mundos por brazo; brazos ['plastico', 'invertido', 'barajado', 'sin_plasticidad', 'ultra']; eta=0.05; sigma=0.3; kappa=0.1; 120000 ticks; sol seed 0; duraciones (3000, 9000); lesion desde 60000; veredicto pre-registrado (docstring)
+
+corrida: 35.0 min
+--------------------------------------------------------------------------------
+ESTADO por brazo (medianas)
+  brazo             vivas cosecha 1a mitad cosecha 2a mitad  regret  G (generaliza) mundos con G
+  plastico            152            0.386            0.384    0.66           -0.04           16
+  invertido           147            0.241            0.241    1.24             nan            0
+  barajado            162            0.304            0.307    0.97            0.18           13
+  sin_plasticidad     145            0.308            0.317    0.93            0.82           16
+  ultra               159            0.319            0.328    0.89            0.21           16
+
+--------------------------------------------------------------------------------
+PRIMARIO: PLASTICO contra cada control (cosecha 2a mitad, pareado por mundo)
+  vs invertido        cosecha mayor en 16/16 (p 0.000); vivas 1.03 -> SUPERA
+  vs barajado         cosecha mayor en 16/16 (p 0.000); vivas 0.94 -> SUPERA
+  vs sin_plasticidad  cosecha mayor en 16/16 (p 0.000); vivas 1.04 -> SUPERA
+  generalizacion: G >= 0.8 en 0/16 mundos plasticos donde esta definido -> no
+
+--------------------------------------------------------------------------------
+POR ESTACION (cosecha media por tipo de estacion, 2a mitad)
+  plastico         A 0.413  B 0.334  C 0.386
+  invertido        A 0.240  B 0.269  C 0.226
+  barajado         A 0.319  B 0.298  C 0.297
+  sin_plasticidad  A 0.430  B 0.234  C 0.242
+  ultra            A 0.386  B 0.285  C 0.285
+
+--------------------------------------------------------------------------------
+LECTURAS §45b (pre-registradas 2026-10-26; informan el mecanismo)
+  TIEMPO        regret plastico 0.66 -> no: el limite no era el tiempo
+  REACTOR       G < 0.8 en 16/16 mundos plasticos -> SI, re-aprende cada estacion
+  ESPECIALISTA  sin_plasticidad A/B 1.84, A/C 1.78 -> SI
+  AZAR BASTA ultra > sin_plasticidad: 13/16 (p 0.011) -> SI
+  DIRECCION  plastico > ultra: 16/16 (p 0.000) -> SI
+
+================================================================================
+VEREDICTO (regla escrita antes de correr)
+=> APRENDE EN VIDA (sin generalizar): mejora con su propia experiencia, pero re-aprende cada estacion.

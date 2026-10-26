@@ -1001,6 +1001,28 @@ sustrato distinto. Decisión abierta.
   §45b (estaciones 10×) pre-registrado y lanzado para probarlo.
   Figuras: `results/utero_tejido_plastico.png`, `_sol1.png`.
 
+- **§45b — estaciones 10× (2026-10-26, 01:27): el tiempo explica una parte,
+  no todo; el aprendiz es un REACTOR y la evolución un ESPECIALISTA.** 5 brazos
+  × 16 mundos × 120000 ticks, duraciones 3000–9000, sol seed 0
+  (`results/utero_tejido_plastico_largo_run.txt`, 35 min). Primario igual:
+  plástico > invertido / barajado / congelado 16/16 los tres; G = −0.04, 0/16.
+  Lecturas pre-registradas: **TIEMPO no** por el umbral (regret 0.66, no
+  < 0.5) aunque baja de 0.90 a 0.66 con las estaciones largas; **REACTOR sí**
+  (16/16 re-aprende cada estación); **ESPECIALISTA sí** (congelado A 0.430 /
+  B 0.234 / C 0.242; A/B 1.84); AZAR BASTA 13/16 (p 0.011) y DIRECCIÓN 16/16.
+  Por estación, el plástico llega a 0.413 en A, 0.386 en C y sólo 0.334 en B;
+  la figura (`results/utero_tejido_plastico_largo.png`) muestra curvas de
+  aprendizaje limpias dentro de A y C (de ~0.30 a 0.47 en ~5000 ticks) y en B
+  una meseta oscilante: en B el día tiene amplitud 0.40 y período 120, y el
+  blanco se mueve dentro de la estación más rápido de lo que la celda
+  aprende. **Lectura:** el límite del aprendiz no es la duración de la
+  estación sino la velocidad del blanco frente a su velocidad de
+  aprendizaje, a las dos escalas (estación y día). Lo que no puede hacer por
+  construcción es llevar algo de una estación a la siguiente: no tiene dónde
+  guardarlo (h es rápida y sus filas no son plásticas; W0 se re-escribe). La
+  próxima pieza es una memoria legible por la regla que sobreviva al cambio
+  de estación, que es exactamente lo que el kernel ya tiene (memoria lenta).
+
 - **v8 el plano — sustrato construido y testeado; la corrida completa quedó
   pendiente (2026-09-26).** `utero/plano.py` (`UteroPlano`): el mismo sustrato
   con vecindario de von Neumann, registros [vN, vE, vS, vO, v, R], placa 32×32

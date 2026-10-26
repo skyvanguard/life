@@ -823,3 +823,19 @@ celda es generalizar: nada en ella lleva una estación a la siguiente. Eso es
 lo que hay que diseñar después, y no es una perilla: es memoria que la regla
 pueda leer y que sobreviva al cambio de estación.
 
+## 48. §45b y estado al cierre de la ventana (2026-10-26, 01:30)
+
+Con estaciones 10× el plástico baja su regret de 0.90 a 0.66 y dibuja curvas
+de aprendizaje limpias en A y C (llega a 0.41–0.48, cerca del oráculo 0.55),
+pero se queda en 0.33 en B, donde el día oscila con amplitud 0.40 cada 120
+ticks: el blanco se mueve dentro de la estación más rápido que la regla.
+TIEMPO no por el umbral; REACTOR sí; ESPECIALISTA sí. Tres cosas quedan
+medidas y replicadas en esta ventana: (1) la regla continua aprende en vida
+de su propia señal, sin maestro ni optimizador afuera, y lo aprendido muere
+con la celda; (2) la dirección (traza) rinde sobre el azar gated de Ashby;
+(3) en el mismo mundo, la evolución de genotipos fabrica un especialista de
+la hambruna y el aprendizaje en vida un generalista que sigue al blanco con
+retraso. Lo que falta es lo que la celda no tiene dónde poner: algo que
+sobreviva al cambio de estación y que la regla pueda leer. Decisión para
+Fran (ver NORTE.md): darle a la celda plástica una memoria lenta, o cerrar.
+

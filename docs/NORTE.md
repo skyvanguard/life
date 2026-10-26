@@ -49,6 +49,20 @@ el §45 es una celda del útero con la regla del kernel. Ahí convergen.
 4. El kernel no se archiva: es el único sustrato del repo que ya responde la
    pregunta en su forma de ingeniería.
 
+## Resultado del §45 y la decisión pendiente (2026-10-26)
+
+§45 corrió con la enmienda, en dos soles, más §45b con estaciones 10×:
+**APRENDE EN VIDA, SIN GENERALIZAR**, replicado. Por la regla 2 de arriba el
+útero se cerraría y la frontera volvería al kernel. Antes de aplicarla, un
+matiz que salió de los datos y que Fran tiene que juzgar: la celda no
+generaliza porque no tiene dónde guardar nada que sobreviva a la estación
+(su memoria h dura 10 ticks y no es plástica; su regla se re-escribe). No
+falló la hipótesis "aprender en vida"; falló una celda sin memoria lenta.
+La pieza que falta ya existe en el repo: la memoria complementaria del
+kernel. Recomendación: un solo experimento más, pre-registrado, que le dé a
+la celda plástica una memoria lenta legible por su regla y mida G. Si tampoco
+generaliza, se aplica la regla 2 sin más matices. **Decisión: de Fran.**
+
 ## Lo que la estrella sigue siendo
 
 La experiencia subjetiva verificable no es alcanzable con ninguna matemática
