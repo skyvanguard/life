@@ -451,6 +451,10 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
 
 ## Documentation
 
+- **`docs/NORTE.md` — the one-page north.** The invariant question (a system that is born empty, learns from its
+  own experience in life and sustains an identity, without pretraining), what each of the five programs answered,
+  where the kernel and the útero converge (§45 = a útero cell with the kernel's rule), and the current decision
+  rule. Update it only when the question changes; add one line after every program closes.
 - **`docs/EL_UTERO.md` — READ THIS FIRST.** The live line: design sketch, the three
   principles, the two death modes, the open crossroads, and the **honest results
   ledger** (Nivel 1 → v5, each entry written only after its adversarial control,
