@@ -1,0 +1,15 @@
+==============================================================================
+HOW BIG MUST A WITHIN-TICK DIFFERENCE BE FOR PSI TO SEE IT?
+==============================================================================
+her real v3 life: 1058 ticks; events in 30% of introspection ticks along d=(+1,0,-1,-1)/sqrt3
+reference: mode-switch distance |mean B - mean A| = 0.659; within-introspection axis std [0.045, 0.107, 0.095, 0.092] (norm 0.176)
+
+ DELTA  xref | not ALTA on:   event   after    rest | event 1st/2nd half
+  0.00  0.00 |                 0.00    0.02    0.00 | 0.00 / 0.00   (n event 87)
+  0.10  0.15 |                 0.00    0.03    0.00 | 0.00 / 0.00   (n event 87)
+  0.20  0.30 |                 0.00    0.05    0.00 | 0.00 / 0.00   (n event 87)
+  0.30  0.46 |                 0.00    0.12    0.00 | 0.00 / 0.00   (n event 87)
+  0.50  0.76 |                 0.01    0.28    0.01 | 0.02 / 0.00   (n event 87)
+  0.80  1.21 |                 0.10    0.31    0.00 | 0.18 / 0.02   (n event 87)
+
+DELTA* (event not-ALTA >= 0.5 with rest <= 0.2): not reached in the sweep

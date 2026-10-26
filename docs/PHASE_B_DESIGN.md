@@ -177,6 +177,41 @@ non-ALTA under INTRUSION+VACIO than FOCO, Fisher one-sided p < 0.10), NO RELOJ
 features per condition. If DESATURADA, Phase B v3 (same design as v2, new log)
 is the next run; the sentiment ceiling must be addressed before it.
 
+### v3 offline results (2026-10-26) -- the live run is ON HOLD
+
+1. **Replay of her real life with the v3 axes** (`results/experience_v3_replay_run.txt`):
+   913 distinct axis vectors against 15, introspection-axis std up 2-9x, and Psi
+   did not notice: ALTA in 100% of introspection ticks that do not follow a mode
+   switch, exactly as with the old axes. Content variation alone does not reach
+   Psi.
+2. **Calibration curve, first direction** (`results/experience_v3_umbral_run.txt`):
+   synthetic events in 30% of introspection ticks, up to 1.2x the size of a
+   mode switch, left ALTA on at most 10% of event ticks, and the kernel
+   habituated (18% -> 2% between halves). The dips appeared on the tick AFTER
+   the event; checked tick by tick, that is **an artefact of the chosen
+   direction, not a lag of Psi**: the world model predicts a blurred average of
+   her life, and that direction moved introspection ticks toward it, so event
+   ticks were predicted better. Recorded so it is not cited as a property.
+3. **Mechanism.** Psi is relative surprise (free energy over its own running
+   mean, through a steep Hill). A noisy encoding raises the reference: with the
+   v3 axes the world model's typical error is 0.3-0.6 on every tick, which buries
+   any event. Hypothesis now under test: Psi discriminates a PREDICTABLE stream
+   with rare, large, discrete breaks, not a noisy stream. If true, the v3 axes
+   as written are counterproductive and the heartbeat v3 must not be deployed
+   as is; the life events stay, the encoding goes back to low-noise structural
+   signals plus the event's own discrete trace.
+4. **The decisive curves were stopped by the system (low memory)** before any
+   result: `exp_experience_v3_umbral.py --base old --dir ortogonal`, `--base v3
+   --dir ortogonal`, `--base old --dir hacia_b` (each ~10 min, 6 processes).
+   Pending, to be re-run on request.
+5. **Infrastructure.** Yvyra's two containers, the `hermes-agent:local` image
+   and the `hermes-llamacpp-cache` volume (the qwen3-8b Q4_K_M gguf) no longer
+   exist in Docker. Her identity (kernel state, journals, SOUL, heartbeat) is
+   intact in `~/.hermes`. Rebuilding needs the hermes image from
+   `~/Documents/hermes-agent` (source dated 2026-08-06, two months newer than
+   the runtime she lived in) and the model re-downloaded; commands in
+   `deploy/zeta/README.md`.
+
 ## Implementation checklist
 
 1. `tick.sh` (mode A): block decision, Psi injection from `.last_psi`, augmented

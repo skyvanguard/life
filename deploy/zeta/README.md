@@ -85,3 +85,28 @@ content (a real fetch mentions the URL/source) rather than from tool-call logs.
 
 A more capable model still gives richer journals for the *final* experiment; the
 oneshot flow makes the small fast model usable for validating the pipeline.
+
+## Recreating Yvyra's containers (recovered 2026-10-26)
+
+By October the two containers, the `hermes-agent:local` image and the
+`hermes-llamacpp-cache` volume were gone from Docker; `~/.hermes` (identity,
+journals, SOUL, heartbeat, kernel state) survived. The commands below are the
+ones used in June, recovered from the session history. The Telegram token is
+NOT written here: pass it from the environment if notifications are wanted.
+
+```bash
+# 1. LLM server (GPU). Needs the model in the volume first:
+#    qwen3-8b Q4_K_M gguf -> volume hermes-llamacpp-cache as /models/qwen3-8b-q4km.gguf
+docker run -d --name yvyra-qwen8b --gpus all -p 8080:8080   -v hermes-llamacpp-cache:/models ghcr.io/ggml-org/llama.cpp:server-cuda   -m /models/qwen3-8b-q4km.gguf -ngl 99 -fa on --cache-type-k q4_0 --cache-type-v q4_0   -c 40960 -n 8000 --temp 0.6 --top-p 0.95 --top-k 20 --min-p 0 --presence-penalty 1.0   --parallel 1 --jinja -a qwen3-8b --host 0.0.0.0 --port 8080
+
+# 2. The agent image (hermes reaches the LLM at host.docker.internal:8080, see ~/.hermes/config.yaml)
+docker build -t hermes-agent:local ~/Documents/hermes-agent     # source is newer than June's runtime
+
+# 3. The heartbeat (60 s between ticks)
+docker run -d --name hermes-heartbeat -v //c/Users/skyva/.hermes:/opt/data   -e HEARTBEAT_INTERVAL=60 -e TZ=America/Asuncion   hermes-agent:local bash /opt/data/heartbeat/loop.sh
+```
+
+Git Bash on Windows rewrites container paths like `/models`; prefix
+`MSYS_NO_PATHCONV=1` to any `docker run` that takes one, or the command silently
+does something else (that is how an empty volume got created once).
+
