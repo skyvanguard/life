@@ -60,6 +60,16 @@ REPLICATION, pre-registered with the test: pairs 12-23 (reading the replication 
 of §K7 and §K8), the same rule, launched right after the test unless a bug is found
 (any change recorded). REPLICADO if the verdict repeats.
 
+RESULT (pairs 0-11, results/mundo_propio_ninez_run.txt, 31.1 min; every childhood equals
+§K7's, max diff 0 over 24 lives). Pre-registered verdict: INDETERMINADO -- PERSISTE_N
+9/12 (H(T2) +0.35, between coin +0.69 and coin_sin_sueno +0.06), NINEZ 8/12, EXILIO 8/12;
+ELIGE_N 4/12. The smoke note held: DANO 23/24 -- the childhood's sleep leaves the home
+expert precise (oracle 0.005, as coin's) and the first exile block takes it to 0.121
+(coin_sin_sueno's coarse expert: 0.131), frozen afterwards (21/24); with sleep the damage
+is repaired within the block (coin 0.005 -> 0.006). The first exile steps, before the
+snapshot, take ANY home expert to ~0.12-0.13, precise or not: the question could not be
+asked clean, because the expert that gets frozen is no longer the childhood's.
+
 24 new lives per run; 3 CPU processes, one torch thread each (the declared kernel
 exception). `reanudar` after any mode loads the lives already on disk.
 

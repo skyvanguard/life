@@ -1984,3 +1984,68 @@ sueño).
   `self_embedding` que lea el modelo del mundo.
 - Ya no está abierto si la identidad del repertorio es de la separación (§K8,
   replicado): es del sueño.
+
+### §K9 — INDETERMINADO por la letra; la precisión de la niñez no sobrevive al comienzo del exilio (2026-10-27)
+
+`results/mundo_propio_ninez_run.txt`: pares 0–11, 31.1 min.
+- Verificación: las 24 niñeces de `coin_ninez` son iguales a las vidas guardadas
+  de `coin` del §K7, con diferencia 0.
+
+**Veredicto pre-registrado: INDETERMINADO.**
+- **PERSISTE_N: 9/12.** No pasa por la letra. H(T2) da +0.35, entre `coin`
+  (+0.69) y `coin_sin_sueno` (+0.06).
+- **NIÑEZ: 8/12.** No pasa.
+- **EXILIO: 8/12.** No pasa.
+- **ELIGE_N: 4/12. Falla.**
+  - Al volver a casa, sólo 15/24 gemelos se asientan en h, con una latencia de
+    36 ticks.
+  - En 2/24 gemelos el exilio no tuvo su propio experto (e = h).
+
+**La nota del humo se confirmó: DAÑO 23/24.**
+
+| Brazo | Oráculo de casa al final de la niñez | Primer bloque del exilio | Último | DAÑO | CONGELADO |
+|---|---|---|---|---|---|
+| `coin` | 0.005 | 0.006 | 0.007 | 16/24 | 15/24 |
+| `coin_ninez` | 0.005 | 0.121 | 0.121 | 23/24 | 21/24 |
+| `coin_sin_sueno` | 0.086 | 0.131 | 0.131 | 15/24 | 20/24 |
+
+- **El sueño de la niñez deja al experto de casa preciso** (0.005), igual que
+  en `coin`.
+- **En el primer bloque del exilio esa precisión se pierde casi entera:** queda
+  en 0.121, cerca del experto impreciso del §K8 (0.131). Después queda
+  congelado.
+- **Los primeros pasos del exilio llevan a cualquier experto de casa a ~0.12–0.13,**
+  sea preciso o impreciso. Con sueño (`coin`), el daño casi no se ve, porque el
+  sueño lo repara durante el bloque.
+- **Así, la pregunta del §K9 no se pudo hacer limpia.** El experto que se congela
+  ya no es el preciso de la niñez, sino uno dañado por los primeros pasos del
+  exilio.
+
+**Costos en medianas.**
+
+| Brazo | En casa T2 | Afuera T2 |
+|---|---|---|
+| `coin` | 0.146 | 0.489 |
+| `coin_ninez` | 0.382 | 0.640 |
+| `coin_sin_sueno` | 0.460 | 0.489 |
+
+- Parte del H(T2) de `coin_ninez` viene de que le va peor afuera, no de que
+  vuelva mejor a casa. Es una lectura, no un veredicto.
+
+**Lectura posterior, no veredicto.**
+- El daño ocurre antes de la foto. Según el §K8, la foto se toma entre 4 y 24
+  ticks después de empezar el exilio, cuando el promedio móvil del error cruza
+  el umbral. En esos pasos, el experto de casa aprende del exilio con errores
+  grandes.
+- La explicación de la nota (Adam y gradientes chicos) no se probó. El
+  resultado sugiere algo más simple: no importa cuán preciso fuera, los
+  primeros pasos lo llevan al mismo nivel.
+
+**Las predicciones, contra el resultado.**
+- Acertadas: la niñez igual a la de `coin` (24/24, diferencia 0); DAÑO y
+  CONGELADO en la mayoría.
+- Fallidas: PERSISTE_N, NIÑEZ, EXILIO, ELIGE_N y el veredicto LA NIÑEZ SOSTIENE,
+  EL RESTO SUMA.
+- La nota del humo, escrita antes del test, avisó el riesgo y se cumplió.
+
+La réplica (pares 12–23, pre-registrada) está corriendo.

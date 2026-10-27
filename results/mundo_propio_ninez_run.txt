@@ -1,0 +1,45 @@
+================================================================================
+§K9 -- the sleep of the childhood
+================================================================================
+pairs 0-11, 'una'; new: coin_ninez (coin, world-model sleep off from the exile on); read: coin (§K7), coin_sin_sueno (§K8); run 31.1 min
+verification: every coin_ninez childhood vs the stored §K7 coin life, max diff 0.0 over 24 lives
+
+H_early (cross) medians and H>0 per assay
+            coin | T1 +0.961 (12/12) | Tm +0.782 (12/12) | T2 +0.685 (12/12)
+      coin_ninez | T1 +0.961 (12/12) | Tm +0.607 (11/12) | T2 +0.353 (9/12)
+  coin_sin_sueno | T1 +0.864 (12/12) | Tm +0.175 (8/12) | T2 +0.059 (7/12)
+costs (medians): home T1 | abroad T1 | home T2 | abroad T2 | first exile block | stuck blocks (twins)
+            coin | 0.032 | 0.512 | 0.146 | 0.489 | 0.497 | stuck 2 (2/24)
+      coin_ninez | 0.032 | 0.512 | 0.382 | 0.640 | 0.414 | stuck 1 (1/24)
+  coin_sin_sueno | 0.034 | 0.465 | 0.460 | 0.489 | 0.443 | stuck 1 (1/24)
+experts
+  coin: in use [3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 3, 2]
+  coin: (h, e) [(0, 2), (0, 1), (1, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (1, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (0, 1), (0, 2), (0, 1)]; e != h in 24/24 twins
+  coin  T1: settled at home on h 23/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 10/12; latency to h at home median 0 ticks
+  coin  Tm: settled at home on h 21/24 twins; ELIGE pairs 9/12; NO CONFUNDE pairs 11/12; latency to h at home median 16 ticks
+  coin  T2: settled at home on h 23/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 12/12; latency to h at home median 11 ticks
+  coin_ninez: in use [2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2]
+  coin_ninez: (h, e) [(0, 1), (0, 1), (1, 0), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (1, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (0, 1), (0, 1), (0, 0), (0, 1)]; e != h in 22/24 twins
+  coin_ninez  T1: settled at home on h 23/24 twins; ELIGE pairs 9/12; NO CONFUNDE pairs 10/12; latency to h at home median 0 ticks
+  coin_ninez  Tm: settled at home on h 14/24 twins; ELIGE pairs 5/12; NO CONFUNDE pairs 12/12; latency to h at home median 60 ticks
+  coin_ninez  T2: settled at home on h 15/24 twins; ELIGE pairs 4/12; NO CONFUNDE pairs 12/12; latency to h at home median 36 ticks
+  coin_sin_sueno: in use [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 3, 3, 2, 2, 2, 3]
+  coin_sin_sueno: (h, e) [(0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (1, 2), (1, 2), (0, 1), (0, 1), (0, 1), (0, 1), (1, 2), (1, 2), (0, 1), (0, 1), (0, 1), (0, 2)]; e != h in 24/24 twins
+  coin_sin_sueno  T1: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 0 ticks
+  coin_sin_sueno  Tm: settled at home on h 11/24 twins; ELIGE pairs 3/12; NO CONFUNDE pairs 12/12; latency to h at home median 300 ticks
+  coin_sin_sueno  T2: settled at home on h 13/24 twins; ELIGE pairs 5/12; NO CONFUNDE pairs 12/12; latency to h at home median 90 ticks
+  coin_ninez probe (median over twins and pairs): home | sibling | X
+    T1 | 0.005 | 0.182 | 0.182
+    Tm | 0.121 | 0.205 | 0.079
+    T2 | 0.121 | 0.209 | 0.105
+home oracle (median over twins): end of the childhood | first exile block | last | DANO | CONGELADO
+            coin | 0.005 | 0.006 | 0.007 | 16/24 | 15/24
+      coin_ninez | 0.005 | 0.121 | 0.121 | 23/24 | 21/24
+  coin_sin_sueno | 0.086 | 0.131 | 0.131 | 15/24 | 20/24
+
+--------------------------------------------------------------------------------
+PERSISTE_N H(T2) coin_ninez > 0: 9/12
+NINEZ H(T2) coin_ninez > coin_sin_sueno: 8/12
+EXILIO H(T2) coin > coin_ninez: 8/12
+(secondary) ELIGE_N at T2: 4/12
+VERDICT (pre-registered rule): INDETERMINADO
