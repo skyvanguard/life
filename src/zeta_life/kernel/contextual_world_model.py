@@ -43,6 +43,9 @@ version of that principle built from the kernel's own WorldModel:
   sleep would hold the eroded weights). Right after a change, with no checkpoint old
   enough yet, it falls back to the oldest one or to the current weights. ``restores``
   logs (tick of the restore, tick of the snapshot) for every restore.
+- ``wake_lr_scale`` (§K11, 1 = off): the online (awake) steps of the learning expert use
+  the optimizer's learning rate times this factor; sleep keeps the full rate. Online
+  learning between two sleeps erodes what the sleep consolidated (§K10).
 - Each transition (prev obs, action, obs) is stored in the buffer of the expert
   that predicted it; sleep replays each expert on its own buffer, the dose split
   in proportion to the buffer sizes (the total is the kernel's dose).
@@ -59,6 +62,7 @@ from __future__ import annotations
 
 import copy
 from collections import deque
+from contextlib import contextmanager
 
 import torch
 from torch import Tensor, nn
@@ -88,6 +92,8 @@ class ContextualWorldModel(nn.Module):
         Minimum ticks since the last change before a switch / a spawn.
     replay_capacity, replay_seed : int
         Capacity and base seed of the per-expert transition buffers.
+    wake_lr_scale : float
+        Factor on the learning rate of the online (awake) steps; 1 = unchanged (§K11).
     snapshot_lag : int
         0 = the snapshot is taken when the running error crosses the threshold (§K6).
         L > 0 = checkpoint the active expert after every sleep and every L ticks without
@@ -112,6 +118,7 @@ class ContextualWorldModel(nn.Module):
         replay_capacity: int = 10000,
         replay_seed: int = 20261026,
         snapshot_lag: int = 0,
+        wake_lr_scale: float = 1.0,
     ) -> None:
         super().__init__()
         if n_contexts < 1:
@@ -120,6 +127,9 @@ class ContextualWorldModel(nn.Module):
             raise ValueError("need tau >= 1, 0 <= margin < 1 and threshold > 0")
         if snapshot_lag < 0:
             raise ValueError(f"snapshot_lag must be >= 0, got {snapshot_lag}")
+        if not 0.0 < wake_lr_scale <= 1.0:
+            raise ValueError(f"wake_lr_scale must be in (0, 1], got {wake_lr_scale}")
+        self.wake_lr_scale = wake_lr_scale
         self.n_contexts = n_contexts
         self.experts = nn.ModuleList([
             WorldModel(obs_dim, latent_dim, action_dim, learning_rate=learning_rate,
@@ -249,7 +259,8 @@ class ContextualWorldModel(nn.Module):
     def update_from_error(self, error: Tensor) -> float:
         """Online step of the expert that made the prediction (its graph carries the error)."""
         c = self.active if self._predictor is None else self._predictor
-        return self.experts[c].update_from_error(error)
+        with self._despierto(self.experts[c]):
+            return self.experts[c].update_from_error(error)
 
     def observe(self, observation: Tensor) -> float:
         """Posterior step of every expert in use (only the predictor learns), store the
@@ -259,9 +270,11 @@ class ContextualWorldModel(nn.Module):
         c0 = self.active if self._predictor is None else self._predictor
         loss = 0.0
         for c in range(self.in_use):
-            value = self.experts[c].observe(observation, learn=(c == c0))
             if c == c0:
-                loss = value
+                with self._despierto(self.experts[c]):
+                    loss = self.experts[c].observe(observation, learn=True)
+            else:
+                self.experts[c].observe(observation, learn=False)
         if self._prev_obs is not None and self._action is not None:
             self.buffers[c0].add(self._prev_obs, self._action, obs)
             if self._snapshot is not None:
@@ -338,6 +351,21 @@ class ContextualWorldModel(nn.Module):
         self._above = 0
         self._since = 0
         self.active_index.fill_(new)
+
+    @contextmanager
+    def _despierto(self, wm: WorldModel):
+        """The online step's learning rate: the optimizer's times wake_lr_scale."""
+        if self.wake_lr_scale == 1.0:
+            yield
+            return
+        base = [grupo["lr"] for grupo in wm.optimizer.param_groups]
+        for grupo, lr in zip(wm.optimizer.param_groups, base):
+            grupo["lr"] = lr * self.wake_lr_scale
+        try:
+            yield
+        finally:
+            for grupo, lr in zip(wm.optimizer.param_groups, base):
+                grupo["lr"] = lr
 
     def _checkpoint(self) -> None:
         self._ckpts.append((self._t, self._take(self.experts[self.active])))

@@ -1062,6 +1062,101 @@ del §K7, el §K8 y el §K9, con la misma regla. Se lanza apenas termine el test
 salvo que aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO
 si el veredicto se repite.
 
+## §K11 — la vigilia que no borra: ¿una tasa menor despierto conserva lo que el sueño consolida? (pre-registrado el 2026-10-27, antes de correr, sin calibración)
+
+Decisión de Fran tras el §K10: "push todo, luego sigamos con lo abierto". De lo
+abierto, esto es lo más de fondo: la mayor parte del tiempo el kernel planea con un
+modelo del mundo bastante peor que lo que dicen las sondas de fin de bloque.
+
+**Por qué.**
+- **La medición del §K10.** En una vida de `coin`, el experto de casa que
+  duerme marca 0.004–0.006 justo después de cada sueño; mediana 0.012 y hasta
+  0.215 entre sueños.
+- **Una mirada posterior sobre esa misma vida** (`scratchpad`, no es evidencia).
+  - Los ticks de prueba suben la sonda en promedio: +0.007, contra −0.0001 en
+    los ticks comunes.
+  - Pero 15 de los 21 saltos de más de +0.01 caen en ticks comunes y seguidos
+    (0.037 → 0.069 → 0.110 → 0.152).
+  - Lo que erosiona es el aprendizaje en línea entre dos sueños, no sólo las
+    sorpresas.
+
+**El mecanismo nuevo:** `ContextualWorldModel(wake_lr_scale=s)`, con tests en
+`tests/test_contextual_world_model.py`.
+- Los pasos en línea, despierto, del experto que aprende usan la tasa del
+  optimizador por s. El sueño conserva la tasa entera.
+- Con s = 1 el comportamiento es el de antes; los tests anteriores lo cubren.
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_vigilia.py`).
+- **El brazo nuevo, `coin_vigilia`:** es `coin` con `wake_lr_scale` 0.1. Corre
+  bajo la crianza `una`, con la vida, los papeles, el exilio y los ensayos del
+  §K4.
+- **`coin` se re-corre como control.** El loop ahora también mide la sonda un
+  tick antes del último paso del bloque, es decir, 49 pasos en línea después de
+  un sueño y antes del siguiente. La de fin de bloque viene justo después de ese
+  sueño.
+- **Verificación:** cada `coin` re-corrido tiene que reproducir su vida guardada
+  del §K7 en las claves guardadas, con diferencia 0. La sonda sólo lee; se
+  comprobó en el humo del §K8.
+- **Ninguno de los dos brazos usa `snapshot_lag`:** se cambia una variable por
+  vez.
+
+**Lecturas por par** (la media de los gemelos):
+- el oráculo de casa justo después de un sueño y "despierto", 49 pasos después,
+  con la mediana de los últimos 5 bloques de la niñez;
+- H;
+- el `e_early` del primer bloque del exilio, es decir, cómo entra a un mundo
+  nunca vivido.
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola):
+
+| Lectura | Criterio |
+|---|---|
+| VERIFICACIÓN | cada `coin` re-corrido igual a su vida del §K7; si no, se para: es un bug |
+| EROSIONA (control) | en `coin`, oráculo de casa despierto > justo después del sueño, ≥ 10/12 |
+| PRECISA (primaria) | oráculo de casa despierto, `coin_vigilia` < `coin`, ≥ 10/12 |
+| PERSISTE_V (primaria) | H(T2) de `coin_vigilia` > 0, ≥ 10/12 |
+| LENTO (primaria, el precio) | primer bloque del exilio, `coin_vigilia` > `coin`, ≥ 10/12 |
+
+Veredicto:
+- sin EROSIONA → **NO HAY EROSIÓN**;
+- sin PRECISA → **LA TASA NO LA EVITA**;
+- PRECISA y PERSISTE_V, sin LENTO → **VIGILIA QUE NO BORRA**;
+- PRECISA, PERSISTE_V y LENTO → **PRECISA PERO LENTA**;
+- PRECISA sin PERSISTE_V → **PRECISA SIN IDENTIDAD**.
+
+Secundarias:
+- PAREADO: H(T2) en los dos sentidos.
+- CONTROLA: el `e_late` medio de la niñez, `coin_vigilia` < `coin`.
+- Los atascos y ELIGE.
+
+Se reportan H, los costos en casa y afuera, los expertos y la tabla del oráculo:
+casa al final de la niñez y experto del exilio al final del exilio.
+
+**Prueba de humo** (par 0, vida corta).
+- El `coin` re-corrido es igual a su vida del §K7, con diferencia 0.
+
+**Predicciones, escritas antes de cualquier par de test:**
+- VERIFICACIÓN 24/24.
+- EROSIONA pasa.
+- PRECISA pasa: un paso diez veces más chico erosiona menos.
+- PERSISTE_V pasa.
+- LENTO pasa. Aprender despierto el exilio nunca vivido va diez veces más lento,
+  y el sueño solo, cada 50 ticks, no compensa el primer bloque.
+- Veredicto previsto: **PRECISA PERO LENTA**.
+- CONTROLA, incierta. Planea con un modelo más preciso, pero sigue más despacio
+  su propio flujo.
+
+**Nota después del humo, antes del test** (par 0, vida corta; no es evidencia).
+- El oráculo de casa despierto: `coin` pasa de 0.004 a 0.061; `coin_vigilia`, de
+  0.005 a 0.025. La erosión baja a menos de la mitad, pero no desaparece.
+- El precio parece grande: el primer bloque del exilio da 0.982 contra 0.334
+  (un gemelo atascado), y la casa del hermano en T1, 0.906 contra 0.362.
+- Las predicciones quedan como se escribieron.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, con la misma regla.
+Se lanza apenas termine el test, salvo que aparezca un bug (cualquier cambio
+queda registrado). Queda REPLICADO si el veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*

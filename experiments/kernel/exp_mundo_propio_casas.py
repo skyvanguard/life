@@ -201,6 +201,9 @@ def vivir(args: tuple) -> dict:
     dist, psi, fe = np.empty(n), np.empty(n), np.empty(n)
     ctx = np.zeros(n, dtype=np.int8)
     sonda, oraculo = np.full((n_bloques, 4), np.nan), np.full((n_bloques, 4), np.nan)
+    # §K11: the same probe one tick before the block's last step, i.e. 49 online steps after
+    # a sleep and before the next one (the block-end probe comes right after that sleep).
+    sonda_v, oraculo_v = np.full((n_bloques, 4), np.nan), np.full((n_bloques, 4), np.nan)
     nombres = [T for T, _ in escala["ensayos"]]
     cuando = {b: i for i, (_, b) in enumerate(escala["ensayos"])}
     ens = np.empty((3, len(nombres), 2, D))
@@ -234,17 +237,18 @@ def vivir(args: tuple) -> dict:
         else:
             a = r.action.detach()
         s = ms.mover(s, a, reg)
-        if t % D == D - 1:
+        if t % D in (D - 2, D - 1):
+            s_, o_ = (sonda, oraculo) if t % D == D - 1 else (sonda_v, oraculo_v)
             for kk in range(4):
                 if contextos:
-                    sonda[v, kk], _, oraculo[v, kk] = co.sonda_ctx(k.world_model, *probes[kk])
+                    s_[v, kk], _, o_[v, kk] = co.sonda_ctx(k.world_model, *probes[kk])
                 else:
-                    sonda[v, kk] = g.cx.error_sonda(k.world_model, *probes[kk])[0]
+                    s_[v, kk] = g.cx.error_sonda(k.world_model, *probes[kk])[0]
     ev = np.array([(co.EVENTO[e], t, c) for e, t, c in getattr(k.world_model, "events", [])],
                   dtype=int).reshape(-1, 3)
     vida = {"dist": dist, "psi": psi, "fe": fe, "tipo": tipo, "sonda": sonda, "oraculo": oraculo,
             "ctx": ctx, "ens_dist": ens[0], "ens_fe": ens[1], "ens_psi": ens[2], "ens_ctx": ens_ctx,
-            "yo": yo, "eventos": ev}
+            "yo": yo, "eventos": ev, "sonda_vigilia": sonda_v, "oraculo_vigilia": oraculo_v}
     if contextos:
         # §K10: (tick of the restore, tick of the restored snapshot) -- a log, nothing reads it here.
         vida["restauraciones"] = np.array(k.world_model.restores, dtype=int).reshape(-1, 2)

@@ -131,6 +131,25 @@ class TestContextInference:
         with pytest.raises(ValueError):
             ContextualWorldModel(4, snapshot_lag=-1)
 
+    def test_wake_lr_scale_shrinks_the_online_step_and_restores_the_rate(self):
+        # §K11: the awake steps use lr x scale; the optimizer's rate is back to its base
+        # after the tick, so sleep keeps the full rate.
+        deltas = {}
+        for escala in (1.0, 0.1):
+            torch.manual_seed(3)
+            cwm = ContextualWorldModel(2, error_input=True, wake_lr_scale=escala)
+            antes = {k: p.detach().clone() for k, p in cwm.experts[0].named_parameters()}
+            _vivir(cwm, [(0, 1)])
+            deltas[escala] = max(float((p.detach() - antes[k]).abs().max())
+                                 for k, p in cwm.experts[0].named_parameters())
+            assert all(grupo["lr"] == 0.005 for grupo in cwm.experts[0].optimizer.param_groups)
+        assert 0.05 * deltas[1.0] < deltas[0.1] < 0.2 * deltas[1.0]
+
+    @pytest.mark.parametrize("escala", [0.0, -0.5, 1.5])
+    def test_wake_lr_scale_must_be_in_the_unit_interval(self, escala):
+        with pytest.raises(ValueError):
+            ContextualWorldModel(2, wake_lr_scale=escala)
+
     def test_streak_transitions_move_to_the_new_context(self):
         cwm = ContextualWorldModel(4, error_input=True)
         _vivir(cwm, [(0, 600), (2, 300)])
