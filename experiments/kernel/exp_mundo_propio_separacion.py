@@ -1,6 +1,7 @@
 """
 §K8 -- SLEEP OR SEPARATION: where does the repertoire's identity come from?
-(docs/MUNDO_PROPIO.md; written 2026-10-27, before the calibration below)
+(docs/MUNDO_PROPIO.md; written 2026-10-27, before the calibration below; pre-registered
+after it, before the test)
 
 WHY. §K4: the identity of twins raised in different worlds is BY SLEEP -- the
 kernel without sleep keeps it at chance (15/24), the paired contrast 23/24. §K7: a
@@ -37,7 +38,9 @@ RULE (sign tests over 12 pairs; 10/12 = one-sided p 0.019):
            otherwise                          -> INDETERMINADO.
   Secondary: ELIGE_SS (§K7's ELIGE on coin_sin_sueno at T2); EXILIO_SS (the first
   exile block's e_early, coin_sin_sueno < error_sin_sueno); the §K4 readout on the
-  new single arm (PERSISTE of error_sin_sueno).
+  new single arm (PERSISTE of error_sin_sueno); ERROR_SS (added after the calibration,
+  before the test): H(T2) error_sin_sueno > kernel, paired -- without sleep, does
+  seeing its own error give the single model an identity?
   Reported: H at T1/Tm/T2 for every arm; home and abroad costs at T1 and T2; stuck
   blocks; contexts in use, (h, e), settled expert, NO CONFUNDE and latency for both
   coin arms; the probe of coin_sin_sueno by role.
@@ -51,6 +54,21 @@ sleepless model overwrites it in the exile (§K4: 15/24). ELIGE_SS passes. Risk:
 sleepless online learner's running error may hover near the absolute threshold
 (0.08) and open spurious contexts, which would break ELIGE_SS (§K7's two misses had a
 third expert). PERSISTE of error_sin_sueno at chance, like §K4's kernel.
+
+CALIBRATION (`calibracion`, pairs 100-102, never test pairs;
+results/mundo_propio_separacion_calibracion_run.txt; 9.3 min). Nothing was tuned.
+Verification max diff 0. coin_sin_sueno: H(T1) +0.88, H(T2) +0.51 (3/3 both), ELIGE
+3/3 (latency 29 ticks at T2; coin 10), 2 contexts in 5/6 twins and 3 in 1/6; its home
+probe 0.077-0.091 vs coin's 0.005 (without sleep the home expert stays coarse). Home
+cost at T2: coin 0.143, coin_sin_sueno 0.279, error_sin_sueno 0.475, kernel 0.507.
+SUENO 3/3 (+1.09 vs +0.51), SEPARA 2/3. Surprise: error_sin_sueno persists 3/3 (+0.33)
+where kernel gives -0.51 on the same pairs; the only difference is the error input.
+PREDICTIONS added after the calibration, before the test pairs: SE DIFERENCIA and
+PERSISTE_SS pass; SUENO passes (the written prediction, fails, stands); SEPARA
+uncertain (the single sleepless model persists too); so SEPARACION Y SUENO if SEPARA
+passes, else PERSISTE SIN SUENO, SIN ATRIBUIR; ELIGE_SS and EXILIO_SS pass; PERSISTE of
+error_sin_sueno uncertain (the written 'at chance' stands); ERROR_SS uncertain
+(3/3 on the calibration, read after adding it by reloading the lives).
 
 REPLICATION, pre-registered with the test: pairs 12-23 (the replication lives of
 §K4 and §K7 are read), the same rule, launched right after the test unless a bug is
@@ -237,6 +255,8 @@ def informe(V: dict, pares: tuple, escala: dict, nombre: str, titulo: str,
         f"EXILIO_SS first exile block coin_sin_sueno < error_sin_sueno: "
         f"{sum(x < y for x, y in zip(ex['coin_sin_sueno'], ex['error_sin_sueno']))}/{n} | "
         f"PERSISTE error_sin_sueno: {sum(v > 0 for v in H[('error_sin_sueno', t2)])}/{n}")
+    out(f"(secondary, added after the calibration) ERROR_SS H({t2}) error_sin_sueno > kernel: "
+        f"{mayor('error_sin_sueno', 'kernel', t2)}/{n}")
     out(f"(reported) the sleep with one model, H({t2}) error_x4 > error_sin_sueno: "
         f"{mayor('error_x4', 'error_sin_sueno', t2)}/{n}")
     if n == len(g.PAIRS):

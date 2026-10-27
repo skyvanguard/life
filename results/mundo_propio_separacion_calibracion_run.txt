@@ -1,0 +1,43 @@
+================================================================================
+§K8 CALIBRATION (pairs 100-102) -- sleep or separation
+================================================================================
+pairs 100-102, 'una'; new: ['coin_sin_sueno', 'error_sin_sueno'] (wm_sleep_replay = 0); read: coin (§K7), error_x4 and kernel (§K4); run 9.3 min
+verification: the loop re-run on coin pair 100 twin A vs the stored §K7 life, max diff 0.0
+
+H_early (cross) medians and H>0 per assay
+             coin | T1 +1.471 (3/3) | Tm +0.414 (3/3) | T2 +1.092 (3/3)
+   coin_sin_sueno | T1 +0.881 (3/3) | Tm -0.009 (1/3) | T2 +0.506 (3/3)
+         error_x4 | T1 +1.752 (3/3) | Tm +0.719 (2/3) | T2 +0.740 (3/3)
+  error_sin_sueno | T1 +1.028 (3/3) | Tm +0.036 (2/3) | T2 +0.331 (3/3)
+           kernel | T1 +0.812 (3/3) | Tm -0.316 (1/3) | T2 -0.509 (1/3)
+costs (medians): home T1 | abroad T1 | home T2 | abroad T2 | first exile block | stuck blocks (twins)
+             coin | 0.033 | 0.769 | 0.143 | 0.695 | 0.264 | stuck 0 (0/6)
+   coin_sin_sueno | 0.033 | 0.486 | 0.279 | 0.533 | 0.342 | stuck 0 (0/6)
+         error_x4 | 0.033 | 0.909 | 0.211 | 0.511 | 0.722 | stuck 2 (2/6)
+  error_sin_sueno | 0.035 | 0.555 | 0.475 | 0.572 | 0.398 | stuck 0 (0/6)
+           kernel | 0.036 | 0.442 | 0.507 | 0.340 | 0.374 | stuck 0 (0/6)
+experts
+  coin: in use [2, 2, 2, 2, 2, 2]
+  coin: (h, e) [(0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1)]; e != h in 6/6 twins
+  coin  T1: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 2/3; latency to h at home median 0 ticks
+  coin  Tm: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 11 ticks
+  coin  T2: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 10 ticks
+  coin_sin_sueno: in use [3, 2, 2, 2, 2, 2]
+  coin_sin_sueno: (h, e) [(0, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1)]; e != h in 6/6 twins
+  coin_sin_sueno  T1: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 0 ticks
+  coin_sin_sueno  Tm: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 29 ticks
+  coin_sin_sueno  T2: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 29 ticks
+  coin_sin_sueno probe (median over twins and pairs): home | sibling | X
+    T1 | 0.077 | 0.188 | 0.196
+    Tm | 0.091 | 0.198 | 0.071
+    T2 | 0.091 | 0.213 | 0.121
+  (reported) RECONOCE coin_sin_sueno (free-energy cross at T2 > 0): 2/3
+
+--------------------------------------------------------------------------------
+SE DIFERENCIA H(T1) coin_sin_sueno > 0: 3/3
+PERSISTE_SS H(T2) coin_sin_sueno > 0: 3/3
+SEPARA H(T2) coin_sin_sueno > error_sin_sueno: 2/3
+SUENO H(T2) coin > coin_sin_sueno: 3/3
+(secondary) ELIGE_SS at T2: 3/3 | EXILIO_SS first exile block coin_sin_sueno < error_sin_sueno: 3/3 | PERSISTE error_sin_sueno: 3/3
+(reported) the sleep with one model, H(T2) error_x4 > error_sin_sueno: 3/3
+(n < 12: no verdict)

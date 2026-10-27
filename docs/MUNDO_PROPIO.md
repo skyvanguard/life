@@ -729,7 +729,7 @@ del §K4 y del §K5, con la misma regla. Se lanza apenas termine el test, salvo 
 aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO si el
 veredicto se repite.
 
-## §K8 — ¿sueño o separación? De dónde viene la identidad del repertorio (escrito el 2026-10-27, antes de la calibración)
+## §K8 — ¿sueño o separación? De dónde viene la identidad del repertorio (pre-registrado el 2026-10-27, después de la calibración y antes de correr)
 
 Decisión de Fran tras el §K7: "push todo, luego vamos con tu siguiente
 recomendacion". La recomendación era un `coin` sin sueño.
@@ -789,6 +789,9 @@ Secundarias:
   `error_sin_sueno`.
 - La lectura del §K4 sobre el brazo nuevo de un solo modelo: PERSISTE de
   `error_sin_sueno`.
+- ERROR_SS, agregada después de la calibración y antes del test: H(T2)
+  `error_sin_sueno` > `kernel`, pareado. Sin sueño, ¿ver su propio error le da
+  identidad al modelo único?
 
 Se reportan, sin ser veredictos: H en T1, Tm y T2 de cada brazo; los costos en
 casa y afuera en T1 y T2; los bloques atascados; para los dos brazos con
@@ -815,6 +818,36 @@ la sonda de `coin_sin_sueno` por papel; el sueño con un solo modelo (H(T2)
   umbral absoluto (0.08) y abrir contextos espurios. Eso rompería ELIGE_SS: los
   dos fallos del §K7 tenían un tercer experto.
 - PERSISTE de `error_sin_sueno`, al azar, como el kernel del §K4.
+
+**Calibración** (`calibracion`, pares 100–102, nunca pares de test;
+`results/mundo_propio_separacion_calibracion_run.txt`, 9.3 min). No se ajustó
+nada.
+- Verificación: diferencia 0.
+- `coin_sin_sueno`:
+  - H(T1) +0.88 y H(T2) +0.51, los dos 3/3.
+  - ELIGE 3/3, con una latencia de 29 ticks en T2 (`coin`, 10).
+  - Contextos: 2 en 5/6 gemelos y 3 en 1/6.
+- La sonda de casa de `coin_sin_sueno` da 0.077–0.091, contra 0.005 de `coin`:
+  sin sueño, el experto de casa queda impreciso.
+- Costo en casa en T2: `coin` 0.143, `coin_sin_sueno` 0.279, `error_sin_sueno`
+  0.475, `kernel` 0.507.
+- SUEÑO 3/3 (+1.09 contra +0.51). SEPARA 2/3.
+- Sorpresa: `error_sin_sueno` persiste 3/3 (+0.33), y el `kernel` da −0.51 en
+  los mismos pares. Lo único que los distingue es que `error_sin_sueno` ve su
+  propio error.
+
+**Predicciones agregadas después de la calibración, antes de los pares de
+test:**
+- SE DIFERENCIA y PERSISTE_SS pasan.
+- SUEÑO pasa. La predicción escrita (falla) queda como se escribió.
+- SEPARA es incierta (2/3), porque el modelo único sin sueño también persiste.
+- Veredicto más probable: SEPARACIÓN Y SUEÑO si SEPARA pasa; PERSISTE SIN
+  SUEÑO, SIN ATRIBUIR si no.
+- ELIGE_SS y EXILIO_SS pasan.
+- PERSISTE de `error_sin_sueno`: incierta. La predicción escrita (al azar)
+  queda.
+- ERROR_SS: incierta. En la calibración da 3/3, leída al agregarla, recargando
+  las vidas.
 
 **Réplica, pre-registrada junto con el test.** Pares 12–23, leyendo las réplicas
 del §K4 y del §K7, con la misma regla. Se lanza apenas termine el test, salvo que
