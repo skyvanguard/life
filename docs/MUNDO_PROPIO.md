@@ -599,6 +599,136 @@ réplica del §K3, el resto de la del §K2), con la misma regla. Se lanza apenas
 termine el test, salvo que aparezca un bug, y todo cambio se registra. Queda
 REPLICADO si el veredicto se repite.
 
+## §K7 — las casas: identidad con repertorio (pre-registrado el 2026-10-27, después de la calibración y antes de correr)
+
+Decisión de Fran tras el §K5 y el §K6: "sigue con lo que recomiendas". La
+recomendación era juntar el repertorio del §K6 con la identidad del §K4 y la
+crianza del §K5.
+
+**Por qué.** Las dos líneas del programa llegaron a un punto en común.
+- §K4: gemelos criados en mundos distintos siguen distintos después de un
+  exilio compartido (IDENTIDAD, por el sueño, 24/24). La identidad vive en el
+  modelo del mundo y cuesta rigidez: el que conserva su niñez entra peor a un
+  mundo nunca vivido (12/12).
+- §K5: con una crianza plural (casa y escuela) la rigidez se achica sin perder
+  la identidad.
+- §K6: un repertorio al estilo COIN (un experto por contexto inferido) conserva
+  los regímenes conocidos a través de uno nunca visto (24/24).
+- Las preguntas: un kernel con repertorio, ¿sigue teniendo identidad? ¿Sigue
+  siendo rígido? ¿Su identidad pasa a ser **qué experto elige al volver a
+  casa**?
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_casas.py`).
+- La vida, los papeles, el exilio y los ensayos (T1, Tm, T2) son los del §K4.
+  Las crianzas son las del §K5: `una` (sólo la casa) y `dos` (casa y escuela
+  alternadas, termina en casa).
+- Un brazo nuevo: `coin` = `error_x4` + `wm_contexts=6`, el brazo del §K6.
+  `error_x4` y `kernel` se leen del disco: `una` del §K4 y `dos` del §K5.
+- Se guarda, además, el experto activo en cada tick de la vida y de los
+  ensayos, los eventos de contexto y la sonda con inferencia de contexto (la
+  `sonda_ctx` del §K6, más el oráculo).
+- El loop es el de `exp_mundo_propio_gemelos.vivir`. Se verifica re-corriendo
+  `error_x4` (primer par, gemelo A, `una`): tiene que reproducir la vida
+  guardada del §K4 con diferencia 0. En el humo dio 0.
+- `clonar()` se generalizó: ahora desconecta el latente previo de todos los
+  expertos, no sólo el del activo, porque los inactivos también guardan su
+  grafo entre ticks. Para un modelo único queda igual.
+- Mano declarada: `coin` crea 6 expertos al nacer, así que sus pesos y su azar
+  difieren de los de `error_x4` en el mismo par. Los gemelos siguen
+  compartiendo los suyos.
+
+**Los expertos.**
+- Experto de casa h: la moda del experto activo en los últimos 5 bloques de la
+  niñez en casa.
+- Experto del exilio e: la moda en los últimos 5 bloques del exilio.
+- En un ensayo, el experto ASENTADO es la moda en los ticks 100–299, después de
+  la ventana de re-entrada.
+- **ELIGE(par)**, en un ensayo: en los dos gemelos e ≠ h (el exilio tuvo su
+  propia memoria) y, en casa, el asentado es h (volvió a la suya).
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola), en
+`coin` bajo `una`:
+
+| Lectura | Criterio (≥ 10/12) |
+|---|---|
+| SE DIFERENCIA (control positivo) | H(T1) > 0 |
+| PERSISTE (primaria) | H(T2) > 0, la lectura del §K4 |
+| ELIGE (primaria) | ELIGE(par) en T2 |
+
+Veredicto:
+- sin SE DIFERENCIA → **NO SE DIFERENCIA**;
+- PERSISTE y ELIGE → **IDENTIDAD EN EL REPERTORIO**: la identidad es a qué
+  experto vuelve;
+- sólo PERSISTE → **IDENTIDAD, SIN ELEGIR**;
+- sólo ELIGE → **ELIGE SIN PERSISTIR**;
+- ninguna → **IDENTIDAD FRÁGIL**.
+
+Secundarias:
+- PAREADO: H(T2) de `coin` > el de `error_x4`. El repertorio conserva mejor la
+  identidad.
+- RIGIDEZ, el criterio del §K4: el costo en T1 en la casa del hermano (la media
+  de los gemelos) de `coin` > el de `kernel`.
+- ACHICA: el costo en T1 de `coin` < el de `error_x4`.
+- EXILIO, agregada después de la calibración y antes del test: el `e_early` del
+  primer bloque del exilio (la media de los gemelos) de `coin` < el de
+  `error_x4`.
+- Bajo `dos`, las mismas lecturas contra las vidas del §K5: CONSERVA (H(T2) >
+  0), ELIGE, RIGIDEZ, ACHICA y EXILIO.
+
+Se reportan, sin ser veredictos: H en Tm; ELIGE en T1 y Tm; la latencia del
+cambio a h en casa en T2; NO CONFUNDE (en T2, el asentado en la casa del hermano
+no es h); los contextos en uso; la sonda por papel; los bloques atascados; el
+primer bloque del exilio; RECONOCE (el cruce de la energía libre del §K4) y la
+distancia entre los `self_embedding` de los gemelos.
+
+**Prueba de humo** (`humo`, par 0, vida corta).
+- El loop reproduce la vida guardada del §K4 con diferencia 0.
+- Los gemelos `coin` recién nacidos dan ensayos idénticos (H(T0) = 0 exacto).
+- En las dos crianzas, el exilio tiene su propio experto y, en casa, el clon
+  vuelve a h.
+
+**Predicciones, escritas antes de la calibración** (commit `21b6806`):
+- SE DIFERENCIA 12/12.
+- PERSISTE y PAREADO pasan. El exilio tiene su propio experto, así que el de la
+  niñez se restaura y no se sobrescribe. H(T2) queda debajo de H(T1), porque en
+  T2 el clon primero tiene que volver a cambiar de experto, y el cambio espera
+  al error corriente: unos 10–30 de los 100 ticks de re-entrada.
+- ELIGE pasa.
+- RIGIDEZ sigue pasando y ACHICA falla. En la niñez, `coin` tiene un solo
+  experto (un `error_x4`), y en un mundo nunca vivido su experto nuevo arranca
+  como copia de ése. En el §K6, `coin` no entraba más rápido a lo NUEVO (13/24).
+- Bajo `dos`: CONSERVA y ELIGE pasan; el costo en T1 de `coin` queda como el de
+  `error_x4`.
+
+**Calibración** (`calibracion`, pares 100–102, nunca pares de test;
+`results/mundo_propio_casas_calibracion_run.txt`, 31.2 min). No se ajustó nada.
+Bajo `dos` no hay vidas guardadas de `error_x4` ni de `kernel` en esos pares.
+- Verificación: diferencia 0.
+- `una`: H(T1) +1.47 y H(T2) +1.09 (3/3; `error_x4`, +0.74). ELIGE 3/3 en
+  todos los ensayos. Cada gemelo usa 2 contextos, casa y exilio (e ≠ h en 6/6),
+  y en T2 vuelve a h en casa en 10 ticks.
+- El costo en T1 en la casa del hermano: `coin` 0.77, `error_x4` 0.91 y
+  `kernel` 0.44 (ACHICA 3/3, RIGIDEZ 3/3). La predicción escrita de ACHICA ya
+  parece equivocada y queda como se escribió.
+- El primer bloque del exilio: `coin` 0.26 contra 0.72 de `error_x4`; 0
+  atascos contra 2.
+- `dos`: 3 contextos (casa, escuela y exilio; un gemelo, 4) y ELIGE 3/3, pero
+  H(T2) da sólo +0.10 (3/3), con una latencia de 42 ticks.
+- La sonda de `coin` conserva la casa en 0.005–0.015 a lo largo del exilio.
+
+**Predicciones agregadas después de la calibración, antes de los pares de
+test:**
+- PERSISTE, ELIGE y PAREADO pasan. RIGIDEZ pasa.
+- ACHICA es incierta; la predicción escrita queda.
+- EXILIO pasa. Hipótesis: cada experto sueña sobre su propio buffer, así que
+  repasar la niñez ya no arrastra hacia la casa lo que aprende en el exilio.
+- Bajo `dos`: CONSERVA está en riesgo (H(T2) chico) y ELIGE pasa.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, leyendo las réplicas
+del §K4 y del §K5, con la misma regla. Se lanza apenas termine el test, salvo que
+aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO si el
+veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*

@@ -48,8 +48,10 @@ RULE (sign tests over 12 pairs; 10/12 = one-sided p 0.019), on coin under "una":
   RIGIDEZ   the §K4 criterion on coin: T1 cost in the sibling's home (mean of the
             twins) coin > kernel.
   ACHICA    T1 cost coin < error_x4.
+  EXILIO    (added after the calibration, before the test) the first exile block's
+            e_early (mean of the twins) coin < error_x4.
   Under "dos", the same readouts against §K5's lives: CONSERVA (H(T2) > 0), ELIGE,
-  RIGIDEZ, ACHICA.
+  RIGIDEZ, ACHICA, EXILIO.
   Reported: H at Tm; ELIGE at T1 and Tm; the switch latency at home at T2 (first
   tick on h); NO CONFUNDE (the settled expert in the sibling's home at T2 != h);
   contexts in use; the probe by role; stuck blocks; the first exile block; RECONOCE
@@ -63,6 +65,22 @@ ELIGE passes. RIGIDEZ still passes and ACHICA fails: in the childhood coin has o
 expert (an error_x4), and in a never-lived world its new expert starts as a copy of
 that one; §K6 entered the NOVEL regime no faster (13/24). Under "dos": CONSERVA and
 ELIGE pass; coin's T1 cost like error_x4's.
+
+CALIBRATION (`calibracion`, pairs 100-102, never test pairs; "dos" has no stored
+error_x4 / kernel lives there; results/mundo_propio_casas_calibracion_run.txt; 31.2
+min). Nothing was tuned. Verification max diff 0. "una": H(T1) +1.47, H(T2) +1.09
+(3/3; error_x4 +0.74), ELIGE 3/3 at every assay (2 contexts per twin: home and
+exile, e != h 6/6; latency back to h at home 10 ticks at T2); T1 cost in the
+sibling's home 0.77 vs error_x4 0.91 and kernel 0.44 (ACHICA 3/3, RIGIDEZ 3/3: the
+written ACHICA prediction already looks wrong and stays as written); the first
+exile block 0.26 vs error_x4 0.72, stuck 0 vs 2. "dos": 3 contexts (home, school,
+exile; one twin 4), ELIGE 3/3, but H(T2) only +0.10 (3/3) with latency 42 ticks.
+The coin probe keeps the home at 0.005-0.015 through the exile.
+PREDICTIONS added after the calibration, before the test pairs: PERSISTE, ELIGE and
+PAREADO pass; RIGIDEZ passes; ACHICA uncertain (the written prediction stands);
+EXILIO passes -- hypothesis: each expert sleeps on its own buffer, so replaying the
+childhood no longer drags the exile's learning back toward home; under "dos",
+CONSERVA at risk (small H(T2)), ELIGE passes.
 
 REPLICATION, pre-registered with the test: pairs 12-23 (the replication lives of §K4
 and §K5 are read), the same rule, launched right after the test unless a bug is found
@@ -387,6 +405,10 @@ def informe(V: dict, brazos: list, pares: tuple, escala: dict, nombre: str, titu
         if "kernel" in c:
             out(f"[{crianza}] RIGIDEZ T1 cost coin > kernel: "
                 f"{cuenta(x > y for x, y in zip(c['coin'], c['kernel']))}/{n}")
+        if "error_x4" in c:
+            ex = {a: [cr.exilio(W, a, p) for p in pares] for a in ("coin", "error_x4")}
+            out(f"[{crianza}] EXILIO first exile block e_early coin < error_x4: "
+                f"{cuenta(x < y for x, y in zip(ex['coin'], ex['error_x4']))}/{n}")
     if n == len(PAIRS):
         out(f"VERDICT (pre-registered rule, 'una'): "
             f"{veredicto(lectura[('una', 'sd')], lectura[('una', 'persiste')], lectura[('una', 'elige')])}")
