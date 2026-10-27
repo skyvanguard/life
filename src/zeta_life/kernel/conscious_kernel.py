@@ -29,6 +29,7 @@ from torch import Tensor
 
 from ..integration.formal_equations import compute_phi_c, compute_psi, compute_psi_hill
 from .complementary_memory import Episode, FastMemory, SlowMemory
+from .contextual_world_model import ContextualWorldModel
 from .dream_engine import DreamEngine
 from .dreamerv3_agent import DreamerV3Agent
 from .persistence import PersistenceLayer
@@ -38,7 +39,7 @@ from .prediction_error import PredictionErrorEngine
 from .replay import ReplayBuffer
 from .self_model import SelfModel
 from .temporal_features import OscillatorBank
-from .world_model import WorldModel
+from .world_model import WorldModel, sleep_replay
 
 # ---------------------------------------------------------------------------
 # StepResult
@@ -158,6 +159,8 @@ class ConsciousKernel:
         wm_sleep_seq_len: int = 16,
         wm_sleep_batch: int = 8,
         wm_error_input: bool = False,
+        wm_contexts: int = 0,
+        wm_context_kwargs: dict | None = None,
         world_model_type: str = "gru",
         rssm_kwargs: dict | None = None,
         temporal_features: OscillatorBank | None = None,
@@ -335,12 +338,28 @@ class ConsciousKernel:
         # --- Core components ---
         if wm_error_input and world_model_type != "gru":
             raise ValueError("wm_error_input needs the GRU world model")
-        self.world_model = WorldModel(
-            obs_dim, latent_dim, self.action_dim, temporal_dim=temporal_dim,
-            disagreement_heads=wm_disagreement_heads,
-            dynamics_ensemble=dynamics_ensemble,
-            error_input=wm_error_input,
-        )
+        # Optional COIN-style repertoire of the world (§K6 of docs/MUNDO_PROPIO.md):
+        # wm_contexts > 0 replaces the world model with K context experts, one
+        # active at a time; a context that no known one explains gets a NEW expert
+        # instead of overwriting the old ones, and each expert sleeps on its own
+        # lived transitions. 0 (default) = the single world model, byte-identical.
+        self.wm_contexts = wm_contexts
+        if wm_contexts > 0:
+            if (world_model_type != "gru" or temporal_features is not None
+                    or wm_disagreement_heads or dynamics_ensemble or action_mode == "dreamer"):
+                raise ValueError("wm_contexts needs the GRU world model without temporal "
+                                 "features, disagreement heads, dynamics ensemble or dreamer")
+            self.world_model = ContextualWorldModel(
+                wm_contexts, obs_dim, latent_dim, self.action_dim, error_input=wm_error_input,
+                replay_capacity=self._replay_capacity, **(wm_context_kwargs or {}),
+            )
+        else:
+            self.world_model = WorldModel(
+                obs_dim, latent_dim, self.action_dim, temporal_dim=temporal_dim,
+                disagreement_heads=wm_disagreement_heads,
+                dynamics_ensemble=dynamics_ensemble,
+                error_input=wm_error_input,
+            )
         # If the feature bank has trainable frequencies (the "learned" arm), fold
         # its parameters into the world model's optimizer so they are trained by
         # the prior prediction loss alongside the transition.
@@ -434,7 +453,10 @@ class ConsciousKernel:
                 raise ValueError("wm_sleep_replay needs the GRU world model without temporal features")
             if wm_sleep_seq_len < 1 or wm_sleep_batch < 1:
                 raise ValueError("wm_sleep_seq_len and wm_sleep_batch must be >= 1")
-            self._sleep_replay = ReplayBuffer(self._replay_capacity, seed=20261026)
+            # With contexts each expert keeps its own transitions (the model records
+            # them itself); the kernel's single buffer stays off.
+            if wm_contexts == 0:
+                self._sleep_replay = ReplayBuffer(self._replay_capacity, seed=20261026)
 
         self.world_model_type = world_model_type
         self._rssm_agent = None
@@ -614,7 +636,8 @@ class ConsciousKernel:
         if self.t % self.dream_interval == 0 and len(self.fast_memory) > 0:
             self.dream_engine.dream_cycle(30)
             dreamed = True
-        if self._sleep_replay is not None and self.t % self.dream_interval == 0:
+        if ((self._sleep_replay is not None or (self.wm_contexts and self.wm_sleep_replay))
+                and self.t % self.dream_interval == 0):
             self._sleep_world_model()
 
         # Build simplified errors dict for the result
@@ -1023,30 +1046,11 @@ class ConsciousKernel:
         window, back-propagated through the whole window. Returns the last loss
         (None if there are not enough transitions yet).
         """
-        L = self.wm_sleep_seq_len
-        if self._sleep_replay is None or len(self._sleep_replay) < L:
-            return None
-        wm = self.world_model
-        b = wm.posterior_blend
-        loss_v = None
-        for _ in range(self.wm_sleep_replay):
-            obs, act, nxt = self._sleep_replay.sample_sequences(self.wm_sleep_batch, L)
-            z = wm.encoder(obs[:, 0])
-            err = torch.zeros_like(nxt[:, 0]) if wm.error_input else None
-            loss = torch.zeros(())
-            for j in range(L):
-                prior = wm.transition(wm._transition_input(act[:, j], None, err), z)
-                pred = wm.predictor(prior)
-                loss = loss + ((pred - nxt[:, j]) ** 2).sum(dim=-1).mean()
-                if err is not None:
-                    err = (nxt[:, j] - pred).detach()
-                z = b * prior + (1.0 - b) * wm.encoder(nxt[:, j])
-            loss = loss / L
-            wm.optimizer.zero_grad()
-            loss.backward()
-            wm.optimizer.step()
-            loss_v = loss.item()
-        return loss_v
+        if self.wm_contexts > 0:
+            return self.world_model.sleep(self.wm_sleep_replay, self.wm_sleep_seq_len,
+                                          self.wm_sleep_batch)
+        return sleep_replay(self.world_model, self._sleep_replay, self.wm_sleep_replay,
+                            self.wm_sleep_seq_len, self.wm_sleep_batch)
 
     def _train_behavior(self) -> None:
         """Improve actor & critic in imagination from replayed states (DreamerV3)."""

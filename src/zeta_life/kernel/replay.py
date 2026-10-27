@@ -38,6 +38,13 @@ class ReplayBuffer:
     def __len__(self) -> int:
         return len(self._obs)
 
+    def take_last(self, n: int) -> list[tuple[Tensor, Tensor, Tensor]]:
+        """Remove and return the last ``n`` transitions, oldest first (§K6: the
+        contextual world model re-credits a streak to the context that took over)."""
+        n = min(max(n, 0), len(self._obs))
+        out = [(self._obs.pop(), self._act.pop(), self._next.pop()) for _ in range(n)]
+        return out[::-1]
+
     def sample(self, n: int) -> tuple[Tensor, Tensor, Tensor]:
         """Return (obs, action, next_obs) batches of shape (n, ...)."""
         idx = torch.randint(0, len(self._obs), (n,), generator=self._rng)

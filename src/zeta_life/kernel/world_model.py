@@ -229,7 +229,7 @@ class WorldModel(nn.Module):
 
         return predicted_obs, next_latent
 
-    def observe(self, observation: Tensor) -> float:
+    def observe(self, observation: Tensor, learn: bool = True) -> float:
         """Incorporate an observation into the latent state (posterior step).
 
         Forms the posterior latent as a blend of the prior (from the last
@@ -252,6 +252,10 @@ class WorldModel(nn.Module):
         ----------
         observation : Tensor
             Observation vector of shape ``(obs_dim,)``.
+        learn : bool
+            False = track the stream without learning (an inactive context of a
+            :class:`ContextualWorldModel`): the same posterior and error
+            bookkeeping, no gradient step, no head/ensemble training.
 
         Returns
         -------
@@ -263,6 +267,17 @@ class WorldModel(nn.Module):
             if self._prior_latent is not None
             else self.latent_state
         )
+        if not learn:
+            with torch.no_grad():
+                encoded_d = self.encode(observation)
+                posterior_d = (
+                    self.posterior_blend * prior + (1.0 - self.posterior_blend) * encoded_d
+                )
+                loss_v = float(torch.sum((self.predictor(posterior_d) - observation) ** 2))
+                self.latent_state = posterior_d
+            if self.error_input and self._last_pred is not None:
+                self.last_error = (observation.detach() - self._last_pred).clone()
+            return loss_v
         encoded = self.encode(observation)
         posterior = self.posterior_blend * prior + (1.0 - self.posterior_blend) * encoded
 
@@ -455,3 +470,40 @@ class WorldModel(nn.Module):
             next_latent = self.transition(gru_in, latent).squeeze(0)
             preds = torch.stack([head(next_latent) for head in self.heads])
             return float(preds.var(dim=0).mean().item())
+
+
+def sleep_replay(wm: WorldModel, buffer, steps: int, seq_len: int, batch: int) -> float | None:
+    """Sleep replay of a world model over windows of lived transitions (§K2).
+
+    Each window starts from the encoding of its first observation and runs the
+    same recurrence as waking life: prior = GRU(action, z), predicted obs =
+    predictor(prior), then z = blend * prior + (1 - blend) * encode(next obs).
+    With the error input the GRU gets [action, last error], the error starting
+    at zero and set to (next obs - predicted obs), detached, after each step.
+    The loss is the mean squared prediction error over every step of every
+    window, back-propagated through the whole window. Returns the last loss
+    (None if there are not enough transitions yet).
+    """
+    L = seq_len
+    if buffer is None or len(buffer) < L:
+        return None
+    b = wm.posterior_blend
+    loss_v = None
+    for _ in range(steps):
+        obs, act, nxt = buffer.sample_sequences(batch, L)
+        z = wm.encoder(obs[:, 0])
+        err = torch.zeros_like(nxt[:, 0]) if wm.error_input else None
+        loss = torch.zeros(())
+        for j in range(L):
+            prior = wm.transition(wm._transition_input(act[:, j], None, err), z)
+            pred = wm.predictor(prior)
+            loss = loss + ((pred - nxt[:, j]) ** 2).sum(dim=-1).mean()
+            if err is not None:
+                err = (nxt[:, j] - pred).detach()
+            z = b * prior + (1.0 - b) * wm.encoder(nxt[:, j])
+        loss = loss / L
+        wm.optimizer.zero_grad()
+        loss.backward()
+        wm.optimizer.step()
+        loss_v = loss.item()
+    return loss_v
