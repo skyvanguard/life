@@ -56,7 +56,7 @@ reason, measured (exp_mundo_propio_entre_suenos.py, re-running coin pair 0 twin 
 probing the home world with the active expert at every tick, after its online step and
 before its sleep): the slept expert is precise only right after each sleep. Over the
 last 150 childhood ticks it reads 0.004-0.006 right after a sleep, median 0.012, mean
-0.046, above 0.05 in 43/151 ticks, up to 0.215 (online learning between two sleeps
+0.046, above 0.05 in 44/151 ticks, up to 0.215 (online learning between two sleeps
 erodes what the sleep consolidated, sometimes from 0.004 to 0.2 in ~25 ticks). The
 block-end probes of every experiment so far are taken right after a sleep (block ends
 fall on dream ticks), so the "0.005" of §K7-§K9 is the just-slept state. The rule was
@@ -83,6 +83,16 @@ coin_sin_sueno_foto (never sleeps) PERSISTS 10/12 (+0.43) and CHOOSES 12/12 (24/
 settle on h at T2) -- §K8's POR EL SUENO was obtained with the lagged snapshot. Part of
 coin_ninez_foto's larger H is a worse abroad cost (0.707 vs coin 0.489: its Tm/T2
 clones do not sleep); home at T2 it is as good as coin (0.138 vs 0.146).
+
+REPLICATION RESULT (pairs 12-23, results/mundo_propio_foto_replica_run.txt, 52.8 min;
+childhoods without a restore equal their reference, diff 0). REPLICADO: BASTA LA NINEZ
+again -- FOTO A TIEMPO 21/24, PERSISTE_F 11/12, NINEZ_F 10/12, RESTO_F 7/12; ELIGE_F
+10/12, PERSISTE_SSF 9/12. Pooled 24: PERSISTE_F 23/24, NINEZ_F 20/24, RESTO_F 12/24,
+ELIGE_F 18/24; the never-sleeping coin_sin_sueno_foto PERSISTS 19/24 and CHOOSES 22/24
+(§K8 with the lagged snapshot: 14/24 and 12/24). A precise frozen childhood expert
+holds the identity; with the snapshot in time the separation alone holds it too,
+weaker, and the childhood's sleep adds; sleeping after the childhood is not needed.
+The test's "worse abroad" did not repeat (abroad at T2 0.522 vs coin 0.611).
 
 48 new lives per run; 3 CPU processes, one torch thread each (the declared kernel
 exception; the GPU is slower for this batch-1 loop, measured 2026-10-27). `reanudar`

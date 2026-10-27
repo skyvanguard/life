@@ -1,0 +1,47 @@
+================================================================================
+§K10 REPLICATION (pairs 12-23) -- the snapshot in time
+================================================================================
+pairs 12-23, 'una'; new: ['coin_ninez_foto', 'coin_sin_sueno_foto'] (snapshot_lag 50); read: coin (§K7), coin_ninez (§K9), coin_sin_sueno (§K8); run 52.8 min
+verification: coin_ninez_foto childhood vs coin_ninez, max diff 0.0 over 22 lives with no restore before the exile (2 had one: they may differ)
+verification: coin_sin_sueno_foto childhood vs coin_sin_sueno, max diff 0.0 over 23 lives with no restore before the exile (1 had one: they may differ)
+
+H_early (cross) medians and H>0 per assay
+                 coin | T1 +1.000 (12/12) | Tm +1.063 (12/12) | T2 +0.983 (12/12)
+           coin_ninez | T1 +1.000 (12/12) | Tm +0.531 (10/12) | T2 +0.181 (8/12)
+      coin_ninez_foto | T1 +0.963 (12/12) | Tm +1.046 (12/12) | T2 +0.804 (11/12)
+       coin_sin_sueno | T1 +0.977 (12/12) | Tm +0.165 (8/12) | T2 +0.091 (7/12)
+  coin_sin_sueno_foto | T1 +0.977 (12/12) | Tm +0.350 (11/12) | T2 +0.354 (9/12)
+costs (medians): home T1 | abroad T1 | home T2 | abroad T2 | first exile block | stuck blocks (twins)
+                 coin | 0.032 | 0.533 | 0.141 | 0.611 | 0.601 | stuck 1 (1/24)
+           coin_ninez | 0.032 | 0.533 | 0.454 | 0.540 | 0.547 | stuck 1 (1/24)
+      coin_ninez_foto | 0.032 | 0.516 | 0.141 | 0.522 | 0.567 | stuck 0 (0/24)
+       coin_sin_sueno | 0.033 | 0.522 | 0.378 | 0.485 | 0.463 | stuck 0 (0/24)
+  coin_sin_sueno_foto | 0.033 | 0.522 | 0.298 | 0.485 | 0.463 | stuck 0 (0/24)
+experts
+  coin_ninez_foto: in use [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2]
+  coin_ninez_foto: (h, e) [(0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 0), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1)]; e != h in 23/24 twins
+  coin_ninez_foto  T1: settled at home on h 24/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 9/12; latency to h at home median 0 ticks
+  coin_ninez_foto  Tm: settled at home on h 21/24 twins; ELIGE pairs 10/12; NO CONFUNDE pairs 12/12; latency to h at home median 12 ticks
+  coin_ninez_foto  T2: settled at home on h 21/24 twins; ELIGE pairs 10/12; NO CONFUNDE pairs 12/12; latency to h at home median 12 ticks
+  coin_sin_sueno_foto: in use [2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]
+  coin_sin_sueno_foto: (h, e) [(0, 1), (1, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2)]; e != h in 24/24 twins
+  coin_sin_sueno_foto  T1: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 0 ticks
+  coin_sin_sueno_foto  Tm: settled at home on h 23/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 12/12; latency to h at home median 28 ticks
+  coin_sin_sueno_foto  T2: settled at home on h 22/24 twins; ELIGE pairs 10/12; NO CONFUNDE pairs 12/12; latency to h at home median 20 ticks
+the restore at the exile's spawn (new arms): before the exile | median age of the snapshot (ticks)
+      coin_ninez_foto | 21/24 | 85 (no exile restore in 1)
+  coin_sin_sueno_foto | 24/24 | 127 (no exile restore in 0)
+home oracle (median over twins): end of the childhood | first exile block | last | DANO | CONGELADO
+                 coin | 0.005 | 0.006 | 0.006 | 14/24 | 15/24
+           coin_ninez | 0.005 | 0.110 | 0.110 | 23/24 | 20/24
+      coin_ninez_foto | 0.005 | 0.005 | 0.005 | 14/24 | 23/24
+       coin_sin_sueno | 0.089 | 0.111 | 0.111 | 16/24 | 19/24
+  coin_sin_sueno_foto | 0.089 | 0.061 | 0.061 | 7/24 | 22/24
+
+--------------------------------------------------------------------------------
+FOTO A TIEMPO coin_ninez_foto: 21/24 twins (needs >= 20/24)
+PERSISTE_F H(T2) coin_ninez_foto > 0: 11/12
+NINEZ_F H(T2) coin_ninez_foto > coin_sin_sueno_foto: 10/12
+RESTO_F H(T2) coin > coin_ninez_foto: 7/12
+(secondary) REPARA_F H(T2) coin_ninez_foto > coin_ninez: 11/12 | PERSISTE_SSF: 9/12 | ELIGE_F: 10/12 | FOTO A TIEMPO coin_sin_sueno_foto: 24/24
+VERDICT (pre-registered rule): BASTA LA NINEZ

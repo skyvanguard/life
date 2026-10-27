@@ -7,8 +7,9 @@ compares it with the block-end oracle the experiments record (taken right after 
 sleep: block ends fall on dream ticks). The life itself is unchanged (the probe only
 reads); its file is not kept.
 
-RESULT (2026-10-27, run first from the scratchpad with the same code): right after a
-sleep 0.004-0.006; over the 151 ticks median 0.012, mean 0.046, above 0.05 in 43, up to
+RESULT (2026-10-27, results/mundo_propio_entre_suenos_run.txt; first run from the scratchpad
+with the same code, which counted 43 above 0.05 from 3-decimal rounded values): right after a
+sleep 0.004-0.006; over the 151 ticks median 0.012, mean 0.046, above 0.05 in 44, up to
 0.215 -- online learning between two sleeps erodes what the sleep consolidated.
 
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_entre_suenos.py          # ~8 min, 1 process

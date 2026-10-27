@@ -997,7 +997,7 @@ bajo la crianza `una`, con la vida, los papeles, el exilio y los ensayos del §K
   casa del experto activo en cada tick, después del paso en línea y antes del
   sueño): el experto que duerme es preciso sólo justo después de cada sueño.
   - En los últimos 150 ticks de la niñez marca 0.004–0.006 recién dormido.
-  - La mediana es 0.012 y la media 0.046. Pasa de 0.05 en 43/151 ticks, con un
+  - La mediana es 0.012 y la media 0.046. Pasa de 0.05 en 44/151 ticks, con un
     máximo de 0.215.
   - Entre dos sueños, el aprendizaje en línea erosiona lo que el sueño
     consolidó: a veces de 0.004 a 0.2 en unos 25 ticks.
@@ -2303,3 +2303,93 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
     PERSISTE_SSF, que se daba por incierta, pasó (10/12).
 
 La réplica (pares 12–23, pre-registrada) está corriendo.
+
+### §K10, réplica — REPLICADO: un experto preciso y congelado sostiene la identidad (2026-10-27)
+
+`results/mundo_propio_foto_replica_run.txt`: pares 12–23, 52.8 min.
+- Verificación: las niñeces sin restauración antes del exilio son iguales a las
+  de referencia, con diferencia 0 (22/24 y 23/24 vidas).
+
+**Veredicto pre-registrado: BASTA LA NIÑEZ. REPLICADO.**
+- FOTO A TIEMPO: 21/24 (`coin_sin_sueno_foto`, 24/24). El oráculo de casa de
+  `coin_ninez_foto` queda en 0.005 durante todo el exilio (CONGELADO 23/24).
+- **PERSISTE_F: 11/12** (H(T2) +0.80; `coin`, +0.98).
+- **NIÑEZ_F: 10/12**, en el umbral otra vez.
+- **RESTO_F: 7/12.**
+- Secundarias:
+  - REPARA_F: 11/12.
+  - ELIGE_F: 10/12. Pasa esta vez: 21/24 gemelos se asientan en h, con una
+    latencia de 12 ticks.
+  - PERSISTE_SSF: 9/12. No pasa por la letra (H(T2) +0.35).
+  - ELIGE de `coin_sin_sueno_foto`: 10/12. En T2, 22/24 gemelos se asientan en h.
+- Costos en T2: `coin_ninez_foto` en casa 0.141 y afuera 0.522; `coin`, 0.141 y
+  0.611. El "peor afuera" del test no se repite.
+
+**Sobre los 24 pares juntos** (tests de signo de una cola):
+
+| Lectura | 24 pares |
+|---|---|
+| FOTO A TIEMPO (`coin_ninez_foto`) | 43/48 gemelos |
+| PERSISTE_F | 23/24 |
+| NIÑEZ_F | 20/24 (p 0.0008) |
+| RESTO_F | 12/24 |
+| REPARA_F | 23/24 |
+| ELIGE_F | 18/24 (p 0.01) |
+| PERSISTE_SSF (sin sueño, foto a tiempo) | 19/24 (p 0.003) |
+| ELIGE de `coin_sin_sueno_foto` | 22/24 |
+
+- En el §K8, con la foto atrasada, `coin_sin_sueno` daba PERSISTE 14/24 y
+  ELIGE 12/24.
+
+**Lectura del §K10 completo.**
+- **Un experto de casa preciso y congelado sostiene la identidad.**
+  - Restaurado a tiempo, el experto que durmió en la niñez queda preciso (0.005)
+    y congelado durante todo el exilio.
+  - Sin volver a dormir, los gemelos siguen distintos en 23/24 pares.
+  - Al volver a casa eligen su experto en 18/24 pares y vuelven a su casa tan
+    bien como el kernel que duerme toda la vida (en casa en T2: 0.138–0.141
+    contra 0.141–0.146).
+  - El sueño posterior a la niñez no suma (RESTO_F 12/24).
+- **Lo que en el §K9 parecía "hace falta seguir durmiendo" era la foto
+  atrasada.** El sueño del exilio en `coin` reparaba un daño que la foto a
+  tiempo directamente evita.
+- **El veredicto del §K8 queda acotado.** POR EL SUEÑO se obtuvo con la foto
+  atrasada.
+  - Con la foto a tiempo, la separación sola, sin dormir nunca, sostiene la
+    identidad en 19/24 pares y elige en 22/24.
+  - Es más débil: H(T2) +0.35–0.43, contra +0.80–1.02 con sueño en la niñez.
+  - El sueño de la niñez suma (NIÑEZ_F 20/24), porque vuelve al experto
+    preciso.
+  - Lo que el §K8 replicó sigue en pie con la foto del §K6: sin sueño, la
+    identidad queda al azar.
+- **En una frase:** con una memoria por casa protegida a tiempo, la identidad es
+  de la separación; el sueño de la niñez la hace más precisa, y dormir después
+  no hace falta.
+- **El hallazgo de medición.** El experto que duerme es preciso sólo justo
+  después de cada sueño (`exp_mundo_propio_entre_suenos.py`: 0.004–0.006
+  recién dormido, mediana 0.012 y hasta 0.215 entre sueños). En todos los loops
+  del programa la sonda se toma al final del bloque (D = 300), y el kernel
+  duerme cada 50 pasos, así que en los brazos que duermen cae justo después de un
+  sueño. Esto se verificó en el código de los §K1–§K10; la erosión se midió sólo
+  en el loop del §K4. Las lecturas de identidad (H) son de conducta y no
+  dependen de eso.
+- **Predicciones:**
+  - Acertadas: el veredicto BASTA LA NIÑEZ, en las dos corridas; FOTO A TIEMPO;
+    el DAÑO desaparece; REPARA_F.
+  - Fallidas: ELIGE_F en el test (8/12); "PERSISTE_SSF incierta", que pasó
+    juntando las corridas.
+- **Manos declaradas:**
+  - L = 50.
+  - La regla de la foto se enmendó después del primer humo, antes de cualquier
+    par de test.
+  - Los clones de los ensayos Tm y T2 de `coin_ninez_foto` no duermen.
+  - No hubo calibración.
+
+**Lo que sigue abierto:**
+- Llevar la foto a tiempo al `coin` completo y a la crianza `dos`: ¿cambia algo
+  donde el sueño ya reparaba?
+- Por qué el aprendizaje en línea erosiona tan rápido lo que el sueño consolidó
+  (¿la conducta propia es un flujo estrecho y el aprendizaje en línea se
+  sobreajusta a él?), y si una tasa menor en vigilia lo evita.
+- Lo que quedó de antes: un umbral relativo, re-entrar más rápido, INVIERTE, y
+  un `self_embedding` que lea el modelo del mundo.
