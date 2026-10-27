@@ -1,0 +1,60 @@
+================================================================================
+§K6 REPLICATION (seeds 12-23) -- a ROBUST repertoire of the world (COIN-style contexts)
+================================================================================
+seeds 12-23; run coin, read error_x4 (§K3) and kernel / secuencia / congelado / reactivo (§K2); run 19.0 min (median 4.8 min/life)
+
+mean ||s - C|| per cycle (median over seeds), early/late
+   cycle |        kernel |     secuencia |      error_x4 |          coin
+       1 |   0.531/0.532 |   0.531/0.532 |   0.531/0.532 |   0.531/0.532
+       2 |   0.536/0.098 |   0.323/0.070 |   0.256/0.066 |   0.157/0.041
+       3 |   0.524/0.177 |   0.338/0.094 |   0.166/0.067 |   0.142/0.040
+       4 |   0.545/0.117 |   0.211/0.092 |   0.103/0.070 |   0.135/0.038
+       5 |   0.587/0.128 |   0.208/0.100 |   0.098/0.073 |   0.115/0.038
+       6 |   0.536/0.133 |   0.203/0.084 |   0.084/0.062 |   0.113/0.037
+   NOVEL |   0.638/0.143 |   0.604/0.121 |   0.337/0.161 |   0.308/0.044
+       7 |   0.573/0.175 |   0.425/0.112 |   0.173/0.072 |   0.134/0.038
+       8 |   0.490/0.123 |   0.326/0.106 |   0.090/0.068 |   0.107/0.038
+
+mean probe over the 3 known regimes, end of visit (median over seeds); exact average 0.103
+   cycle |       kernel |    secuencia |     error_x4 |         coin
+       1 |        0.142 |        0.117 |        0.111 |        0.062
+       2 |        0.264 |        0.111 |        0.105 |        0.009
+       3 |        0.256 |        0.112 |        0.105 |        0.012
+       4 |        0.252 |        0.112 |        0.098 |        0.012
+       5 |        0.276 |        0.112 |        0.068 |        0.013
+       6 |        0.264 |        0.112 |        0.037 |        0.012
+   NOVEL |        0.331 |        0.125 |        0.110 |        0.011
+       7 |        0.271 |        0.117 |        0.078 |        0.013
+       8 |        0.256 |        0.116 |        0.053 |        0.014
+
+         arm | known 7-8 | / avg | below 0.9 | burn gain | NOVEL 7-8 | current 7-8
+      kernel |     0.263 |  2.57 |      0/12 |    +0.011 |     0.281 |       0.240
+   secuencia |     0.116 |  1.13 |      0/12 |    +0.012 |     0.131 |       0.110
+    error_x4 |     0.065 |  0.64 |      8/12 |    +0.027 |     0.139 |       0.076
+        coin |     0.013 |  0.13 |     12/12 |    +0.025 |     0.049 |       0.014
+
+known-regime probe / exact average at the END OF THE NOVEL visit (§K3: 1.06 / 1.07):
+      kernel median 3.23, below 0.9 0/12: [3.57, 3.09, 3.25, 3.45, 3.2, 3.77, 2.03, 1.81, 4.99, 2.62, 4.73, 3.18]
+   secuencia median 1.23, below 0.9 0/12: [1.23, 1.22, 1.24, 1.2, 1.17, 1.2, 1.27, 1.32, 1.26, 1.18, 1.2, 1.23]
+    error_x4 median 1.07, below 0.9 0/12: [1.05, 1.1, 1.08, 1.11, 1.08, 1.06, 1.12, 1.06, 1.03, 1.03, 1.07, 1.06]
+        coin median 0.11, below 0.9 12/12: [0.11, 0.12, 0.13, 0.12, 0.15, 0.1, 0.11, 0.11, 0.1, 0.12, 0.11, 0.11]
+  coin ORACLE (best expert per sequence) median 0.11
+contexts in use per seed: [4, 4, 4, 6, 5, 4, 4, 5, 5, 4, 4, 4]; NOVEL has its own expert 12/12; median majority share per regime 1.00
+
+--------------------------------------------------------------------------------
+         arm | CONTROLA APRENDE RECUERDA | NOVEL late | stuck | median RECUERDA dif | verdict
+      kernel |    11/12    12/12     8/12 |      0.143 |    39 |              +0.129 | APRENDE SIN RECORDAR
+   secuencia |    12/12    12/12    10/12 |      0.121 |     1 |              +0.312 | APRENDE Y RECUERDA
+    error_x4 |    12/12    12/12    12/12 |      0.161 |     0 |              +0.210 | APRENDE Y RECUERDA
+        coin |    12/12    12/12    12/12 |      0.044 |     0 |              +0.175 | APRENDE Y RECUERDA
+  paired known entry (cycles 7-8): coin < error_x4 7/12 (medians 0.130 vs 0.137)
+  paired              NOVEL entry: coin < error_x4 7/12 (medians 0.308 vs 0.337)
+  (reported) ESPECIFICIDAD  RECUERDA dif coin > secuencia: 5/12
+  (reported) ESPECIFICIDAD  RECUERDA dif coin > error_x4: 6/12
+  (reported) DISTINGUE coin 12/12; paired gap coin > kernel 10/12
+
+ROBUSTO   (primary)   NOVEL-end ratio < 0.9, coin: 12/12
+CONTEXTO              known 7-8 ratio < 0.9, coin: 12/12
+CONDUCTA              the §K1 rule, coin: APRENDE Y RECUERDA
+PAREADO   (secondary) NOVEL-end ratio coin < error_x4: 12/12
+VERDICT (pre-registered rule): REPERTORIO ROBUSTO

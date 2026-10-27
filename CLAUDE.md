@@ -192,6 +192,9 @@ PYTHONPATH=src python experiments/kernel/exp_mundo_propio_gemelos.py humo       
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_gemelos.py calibracion  # §K4 calibration (pairs 100-102, ~16 min): error_x4 H(T2) +0.74 3/3; kernel -0.51 (predicted DESVENTAJA, which then failed)
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_gemelos.py              # §K4 IDENTITY, twins raised in different worlds (pairs 0-11, ~63 min): IDENTIDAD (por el sueño) by the letter -- PERSISTE 12/12 after an exile as long as the childhood; kernel 9/12, paired 11/12; RECONOCE 8/12
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_gemelos.py replica      # §K4 replication (pairs 12-23, ~62 min): REPLICADO (PERSISTE 12/12, kernel 6/12, paired 12/12; pooled 24/24, 15/24, 23/24); RECONOCE 11/12 (pooled 19/24); RIGIDEZ 12/12 pre-registered: the kernel that keeps its childhood enters a never-lived world worse. Identity lives in the world model, not in self_embedding
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_coin.py calibracion  # §K6 calibration (seeds 100-102, ~9 min): coin (error_x4 + wm_contexts=6, COIN-style context experts) keeps the known regimes at 0.13 x the exact average through the NOVEL visit; error_x4 breaks (1.02-1.10)
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_coin.py              # §K6 (seeds 0-11, ~18 min): REPERTORIO ROBUSTO by the letter -- ROBUSTO 12/12 (NOVEL-end 0.14 vs error_x4 1.06), CONTEXTO 12/12, APRENDE Y RECUERDA, PAREADO 12/12
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_coin.py replica      # §K6 replication (seeds 12-23, ~19 min): REPLICADO (24/24 pooled on ROBUSTO, CONTEXTO, PAREADO); robust, not faster (known re-entry 16/24, NOVEL entry 13/24); spurious contexts in 9/24 lives
 PYTHONPATH=src python experiments/kernel/exp_agency.py
 PYTHONPATH=src python experiments/kernel/exp_zeta_vs_baselines.py    # zeta vs fourier/random/learned/rnn
 PYTHONPATH=src python experiments/kernel/exp_spacing_statistics.py --kernel  # GUE vs Poisson vs lattice
@@ -322,6 +325,7 @@ PERCEIVE → PREDICT → COMPARE → UPDATE → MEMORIZE → ACT → REFLECT →
 |------|------|
 | `conscious_kernel.py` | Orchestrator; the step loop, Psi computation, EFE agency |
 | `world_model.py` | Learned latent dynamics (encoder + GRUCell transition + predictor); `imagine()` for counterfactual rollouts |
+| `contextual_world_model.py` | §K6 `ContextualWorldModel` (`wm_contexts=K`): K `WorldModel` experts with hard context inference, spawn-on-unexplained and per-expert sleep (COIN-style) |
 | `self_model.py` | Recursive self-model / identity embedding (Strange-Loop-flavored EMA + trained self-prediction) |
 | `prediction_error.py` | Multi-channel precision-weighted errors; **precision learning** toward inverse error variance |
 | `complementary_memory.py` | `FastMemory` (episodic deque, surprise-gated) + `SlowMemory` (slow-lr semantic net) — CLS |
@@ -470,6 +474,7 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
 | `action_dim` / `dreamer_reward` | None / kl | decouple action from obs space; `neg_distance` reward for regulation to a raw goal state (e.g. CartPole) |
 | `wm_sleep_replay` / `wm_sleep_seq_len` / `wm_sleep_batch` | 0 / 16 / 8 | §K2: the WORLD MODEL replays lived transitions in sleep (every `dream_interval`): N gradient steps on windows of consecutive ticks through its own recurrence with BPTT (seq_len 1 = context-free one-step replay). 0 = off, byte-identical (`tests/test_sleep_replay.py`) |
 | `wm_error_input` | False | §K3: the world model's GRU also sees its own last prediction error (observation - prediction); zero in imagination and at the start of each sleep window. With 4x sleep replay it infers the hidden regime (context) instead of averaging. False = byte-identical (`tests/test_error_input.py`) |
+| `wm_contexts` / `wm_context_kwargs` | 0 / None | §K6: a COIN-style repertoire -- K world-model experts allocated at birth, one active; hard switch on the running prediction error, a NEW expert (copy of the active one) when none explains for `persist` ticks, the old one restored to its pre-streak weights; each expert sleeps on its own transitions. With error_x4 it keeps the known regimes through a never-seen one (§K6, replicated 24/24). 0 = byte-identical (`tests/test_contextual_world_model.py`) |
 | `precision_hypermodel` | False | epistemic depth ("A beautiful loop", Friston 2025): a hyper-model that PREDICTS per-channel precisions globally and reports a **second-order error over precision** (`StepResult.second_order_error`). OFF = byte-identical kernel. The signal spikes at regime change and is independent of free energy (|corr|≈0 vs Psi's 0.53) — see `precision_hypermodel.py`, `exp_epistemic_depth.py`, `docs/SCIENCE_PLAN.md` |
 
 ## Documentation

@@ -1049,3 +1049,56 @@ correrla).**
   - ESPECIFICIDAD: 7/12 contra `secuencia` y 5/12 contra `error_x4`. Los ahorros
     no son más específicos de lo vivido.
   - DISTINGUE: 11/12; el pareado contra el kernel sin sueño da 8/12.
+
+### §K6, réplica — REPLICADO: el repertorio sobrevive a lo nuevo (2026-10-26)
+
+`results/mundo_propio_coin_replica_run.txt`: semillas 12–23, 19.0 min.
+
+- **ROBUSTO: 12/12.** Al final de lo NUEVO, la sonda de los conocidos da 0.11
+  (rango 0.10–0.15). `error_x4` da 1.07, con 0/12 debajo de 0.9.
+- **CONTEXTO: 12/12**, con 0.13. Es la misma lectura que en la réplica del §K3
+  daba 8/12 en `error_x4`.
+- **CONDUCTA: APRENDE Y RECUERDA** (12/12 ×3, 0 atascos). **PAREADO: 12/12.**
+- Veredicto pre-registrado: **REPERTORIO ROBUSTO. REPLICADO.**
+- **Contextos:** 4 en 8 vidas, 5 o 6 en 4. Lo NUEVO tiene su propio experto en
+  12/12. El oráculo da 0.11, igual que la selección.
+- **Control:** `e_late` al final de lo NUEVO da 0.044, contra 0.161 de `error_x4`.
+- Re-entrada a lo conocido, `coin` < `error_x4`: 7/12. Entrada a lo NUEVO: 7/12.
+- ESPECIFICIDAD: 5/12 y 6/12. DISTINGUE: 12/12; el pareado contra el kernel sin
+  sueño da 10/12.
+
+**Sobre las 24 semillas juntas:**
+- ROBUSTO, CONTEXTO y PAREADO: 24/24.
+- Re-entrada a lo conocido mejor que `error_x4`: 16/24 (p 0.08). Entrada a lo
+  NUEVO: 13/24.
+- DISTINGUE: 23/24; el pareado contra el kernel sin sueño da 18/24 (p 0.01).
+
+**Lectura del §K6 completo.**
+- **El repertorio robusto existe y es del mecanismo.** Con un experto por
+  contexto inferido, y uno nuevo para lo que ningún conocido explica, el kernel
+  sabe en qué régimen está y una visita a lo nunca visto ya no le borra lo que
+  sabía. En el §K3, la misma lectura daba 1.06–1.07; acá da 0.11–0.14, en 24/24
+  semillas.
+- **Lo hace desde temprano.** La sonda de los conocidos baja a ~0.01 desde el
+  ciclo 2. El modelo único del §K3 necesitaba 4 o 5 ciclos y un sueño 4×.
+- **Controla mejor dentro de cada visita** (`e_late` 0.04 en todos los ciclos) y
+  aprende lo nuevo mejor (0.04 contra 0.13–0.16).
+- **No vuelve más rápido.** El costo de re-entrada (`e_early`) a lo conocido y
+  a lo nuevo casi no mejora (16/24 y 13/24). El cambio de contexto espera a que
+  el error corriente lo justifique, unos 10–30 ticks; ese es su precio.
+- **Los ahorros no son más específicos de lo vivido** (ESPECIFICIDAD no pasa en
+  ninguna de las dos corridas). Re-entra a lo conocido como `error_x4`; la
+  diferencia está en que no lo olvida.
+- **Manos declaradas.** El mecanismo es modular y está diseñado a mano: 6
+  lugares, un umbral absoluto y constantes que salieron de una vida de
+  exploración. Hay contextos espurios en 9/24 vidas (5 o 6 para 4 regímenes).
+  Lo que se crea en vida son los contextos y su contenido, no la arquitectura.
+
+**Lo que sigue abierto:**
+- Un umbral relativo (o una inferencia bayesiana del contexto, como en COIN) en
+  lugar del absoluto, para no depender de la escala del error.
+- Re-entrar más rápido: inferir el contexto antes de que el error lo confirme
+  (por ejemplo, con la sorpresa de los primeros ticks o con señales del mundo).
+- Juntar el §K6 con la identidad (§K4) y la crianza (§K5): un kernel con
+  repertorio, ¿sigue teniendo identidad? ¿sigue siendo rígido?
+- Un repertorio robusto ya no está abierto (§K6, replicado).

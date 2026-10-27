@@ -75,6 +75,10 @@ letter -- ROBUSTO 12/12 (NOVEL-end ratio 0.14 vs error_x4 1.06, 0/12), CONTEXTO 
 selection; 4-6 contexts (spurious in 5/12), NOVEL own expert 12/12; e_late 0.039 in
 every cycle; known re-entry 9/12 better than error_x4 (prediction failed, the good
 way), NOVEL entry 6/12; ESPECIFICIDAD 7/12 and 5/12.
+RESULT of the replication (results/mundo_propio_coin_replica_run.txt): REPLICADO --
+REPERTORIO ROBUSTO again: ROBUSTO 12/12 (0.11 vs error_x4 1.07), CONTEXTO 12/12
+(0.13), APRENDE Y RECUERDA, PAREADO 12/12; pooled 24/24 on all three. Known re-entry
+better than error_x4 16/24 (p 0.08), NOVEL entry 13/24: robust, not faster.
 
 3 CPU processes, one torch thread each (the declared kernel exception); ~4.5 min
 per life, 12 lives, ~20 min.
