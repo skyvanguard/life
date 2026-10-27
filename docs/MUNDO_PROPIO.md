@@ -722,3 +722,73 @@ correrla).**
   - En el §K3, criado entre tres regímenes, entraba mejor a lo nuevo. Acá,
     criado en uno solo, se vuelve rígido.
   - Pre-registrado como secundaria (RIGIDEZ) en la réplica.
+
+### §K4, réplica — REPLICADO; la atribución al sueño se afirma, y su precio también (2026-10-26)
+
+`results/mundo_propio_gemelos_replica_run.txt`: pares 12–23, 62.2 min.
+
+- **SE DIFERENCIA: 12/12 en los dos brazos.** H(T1) da +1.36 en `error_x4` y
+  +0.91 en `kernel`.
+- **PERSISTE (primaria): 12/12.** H(T2) da +0.72, con mínimo +0.38.
+  - Por gemelo, vuelve a su casa con un costo de 0.22, contra 0.58 en la del
+    hermano. Pasa en 23/24 gemelos.
+  - Entre Tm y T2, H baja un poco: +0.91 y +0.72. En el test no se movía.
+- **ATRIBUCIÓN: PERSISTE en `kernel` da 6/12 (H +0.01) y el pareado, 12/12.**
+  Veredicto pre-registrado: **IDENTIDAD (por el sueño). REPLICADO.**
+  - La moneda que se predijo cayó del lado favorable: el kernel sin sueño
+    queda en el azar. Por gemelo, 11/24 vuelven mejor a su casa (0.47, contra
+    0.45 en la del hermano).
+  - Su sonda vuelve a olvidar la casa (0.243, contra 0.254 en la del hermano)
+    y a aprender el exilio (0.137).
+- **La sonda de `error_x4`** repite el test: casa 0.012, hermano 0.182, exilio
+  0.178 y N 0.183. El exilio sigue sin aparecer en la sonda.
+- **RECONOCE: 11/12, pasa en la réplica.** Falló la predicción, del lado bueno.
+  Como en el test dio 8/12, no queda replicado por la letra. Juntando las dos
+  corridas da 19/24 (p 0.003), lectura posterior.
+- **RIGIDEZ (secundaria pre-registrada): 12/12. Pasa.** En T1, el ensayo en la
+  casa del hermano cuesta 0.71 con sueño, contra 0.49 sin sueño.
+  - El primer bloque del exilio cuesta 0.85, contra 0.38 (22/24 gemelos).
+  - 15 de los 24 gemelos con sueño se atascan al empezar el exilio, en los
+    bloques 18–19; sin sueño, ninguno. Todos se recuperan en uno o dos bloques.
+  - **El precio de la identidad queda pre-registrado y replicado.**
+- **DESVENTAJA: 6/12. Falla otra vez** (9/24 juntando las dos corridas).
+- **El `self_embedding` crece en vez de achicarse.** T2/T1 da una mediana de
+  1.21 con sueño y 1.15 sin sueño, y se achica sólo en 4/12 y 3/12 pares. La
+  predicción falla otra vez, y sigue sin haber un nulo de deriva.
+
+**Sobre los 24 pares juntos:**
+- PERSISTE da 24/24 (mediana +0.59, mínimo +0.26).
+- PERSISTE en `kernel` da 15/24 (p 0.15).
+- El pareado da 23/24 (p ≈ 10⁻⁶).
+
+**Lectura del §K4 completo.**
+- **Identidad, en el sentido declarado.** Dos gemelos idénticos al nacer,
+  criados en mundos distintos, quedan diferentes. La diferencia sobrevive a un
+  exilio compartido tan largo como la niñez: cada uno vuelve más rápido a su
+  propia casa que a la del hermano, en 24/24 pares. Es continuidad psicológica
+  medida en conducta; no mide un sentido de sí.
+- **Por el sueño.** Sin el repaso del sueño, el exilio borra la casa (15/24,
+  en el azar), y el contraste pareado da 23/24. La sostiene el sueño, que repasa
+  la niñez guardada en el buffer. Mano declarada: la vida entra entera en el
+  buffer, y con una vida más larga la niñez se olvidaría por construcción.
+- **Dónde vive.** Vive en el modelo del mundo y no en el módulo de identidad
+  declarado. La sonda conserva la casa, y la distancia entre los
+  `self_embedding` no se achica ni sigue a la vida de forma legible.
+- **Su propia señal.** La energía libre al entrar reconoce la casa en 19/24
+  pares, pero por la letra el test falló. Ψ, saturado, no la reconoce.
+- **El precio.** Criado en un solo mundo, el kernel que conserva su niñez entra
+  peor a uno que nunca vivió, y al principio se atasca. En el §K3, criado entre
+  tres regímenes, entraba mejor a lo nuevo. La identidad y la rigidez salen del
+  mismo mecanismo.
+- **El exilio se aprende estrecho.** Sin balbuceo, el modelo del mundo aprende
+  el exilio sólo en las acciones que usa, y la sonda de acciones al azar no lo
+  ve.
+
+**Lo que sigue abierto:**
+- Un repertorio robusto a lo nuevo (COIN), que viene del §K3.
+- La rigidez. ¿Una crianza en varios regímenes la evita sin perder la
+  identidad? El §K3 sugiere que sí, pero no se midió.
+- Un nulo de deriva para el `self_embedding`: ¿lleva algo de la vida, o sólo
+  deriva?
+- La identidad, como continuidad medida en conducta, ya no está abierta (§K4,
+  replicado).

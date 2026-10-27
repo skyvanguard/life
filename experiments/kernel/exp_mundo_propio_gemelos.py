@@ -92,6 +92,10 @@ calibration's prediction failed), self_embedding, stuck blocks.
 PREDICTIONS: PERSISTE replicates (12/12, minimum H +0.26 in the test); kernel
 PERSISTE is a coin at the threshold (9/12), so the attribution "por el sueño" is
 at risk; RECONOCE fails again; RIGIDEZ passes.
+RESULT of the replication (results/mundo_propio_gemelos_replica_run.txt): REPLICADO --
+IDENTIDAD (por el sueño) again: PERSISTE 12/12, kernel 6/12, paired 12/12 (pooled 24/24,
+15/24, 23/24); RECONOCE 11/12 (pooled 19/24, not replicated by the letter); RIGIDEZ
+12/12; DESVENTAJA 6/12; the self_embedding distance grows (T2/T1 median 1.21).
 
 3 CPU processes, one torch thread each (declared exception to the GPU rule: the
 kernel is tiny); ~4 min per life, 48 lives, ~65 min.
