@@ -177,15 +177,18 @@ def pruebas(par: int, n_bloques: int, babble: int,
 
 
 def clonar(k):
-    """Deep copy of a kernel between steps. The only non-leaf tensor it holds there is the
-    world model's prior latent, which is only ever read detached; the original keeps its own."""
-    wm = k.world_model
-    p = wm._prior_latent
-    wm._prior_latent = None if p is None else p.detach()
+    """Deep copy of a kernel between steps. The only non-leaf tensors it holds there are the
+    world models' prior latents (one per expert with wm_contexts, §K7), which are only ever
+    read detached; the original keeps its own."""
+    modelos = list(getattr(k.world_model, "experts", (k.world_model,)))
+    previos = [m._prior_latent for m in modelos]
+    for m, p in zip(modelos, previos):
+        m._prior_latent = None if p is None else p.detach()
     try:
         return copy.deepcopy(k)
     finally:
-        wm._prior_latent = p
+        for m, p in zip(modelos, previos):
+            m._prior_latent = p
 
 
 def ensayo(k, s, mundo: int, semilla: int) -> dict:
@@ -197,13 +200,15 @@ def ensayo(k, s, mundo: int, semilla: int) -> dict:
     torch.manual_seed(semilla)
     pref = torch.tensor(mp.C)
     dist, fe, psi = np.empty(D), np.empty(D), np.empty(D)
+    ctx = np.zeros(D, dtype=np.int8)
     for t in range(D):
         r = c.step(s)
         dist[t] = float(torch.linalg.vector_norm(s - pref))
         fe[t], psi[t] = r.free_energy, r.psi
+        ctx[t] = getattr(c.world_model, "active", 0)
         s = ms.mover(s, r.action.detach(), mundo)
     torch.set_rng_state(estado)
-    return {"dist": dist, "fe": fe, "psi": psi}
+    return {"dist": dist, "fe": fe, "psi": psi, "ctx": ctx}
 
 
 def vivir(args: tuple) -> dict:
