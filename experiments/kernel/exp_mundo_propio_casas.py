@@ -107,6 +107,10 @@ not keep more identity than error_x4, but it nearly stops paying §K4's price.
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_casas.py calibracion
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_casas.py
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_casas.py replica   # pairs 12-23
+    # `reanudar` after any mode loads the lives already on disk instead of re-running them
+    # (added 2026-10-27, when the replication was killed for low system memory; a stored
+    # life is the loop's own deterministic output, so the report is unchanged):
+    PYTHONPATH=src python experiments/kernel/exp_mundo_propio_casas.py replica reanudar
 """
 
 from __future__ import annotations
@@ -147,14 +151,24 @@ LEIDOS = ("error_x4", "kernel")
 ULTIMOS = 5
 
 
+def salida(args: tuple, vida: dict, t0: float) -> dict:
+    brazo, par, gemelo, escala, crianza = args[:5]
+    return {"brazo": brazo, "par": par, "gemelo": gemelo, "crianza": crianza,
+            "T": [T for T, _ in escala["ensayos"]], "bloque": [b for _, b in escala["ensayos"]],
+            "vida_bloques": escala["vida"], "min": (time.time() - t0) / 60, **vida}
+
+
 def vivir(args: tuple) -> dict:
     """One twin's life: exp_mundo_propio_gemelos.vivir's loop with the arm's kernel, plus the
-    active expert per tick and per assay tick, the context events and the context probe."""
+    active expert per tick and per assay tick, the context events and the context probe.
+    With `reanudar`, a life already on disk is loaded instead of re-run."""
     import torch
 
     from zeta_life.kernel import ConsciousKernel
-    brazo, par, gemelo, escala, crianza, archivo = args
+    brazo, par, gemelo, escala, crianza, archivo, reanudar = args
     t0 = time.time()
+    if reanudar and (DATA / f"{archivo}.npz").exists():
+        return salida(args, dict(np.load(DATA / f"{archivo}.npz")), t0)
     torch.set_num_threads(1)
     nb, nn, ne = escala["vida"]
     n_bloques = nb + nn + ne
@@ -215,21 +229,19 @@ def vivir(args: tuple) -> dict:
             "yo": yo, "eventos": ev}
     DATA.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(DATA / f"{archivo}.npz", **vida)
-    return {"brazo": brazo, "par": par, "gemelo": gemelo, "crianza": crianza, "T": nombres,
-            "bloque": [b for _, b in escala["ensayos"]], "vida_bloques": escala["vida"],
-            "min": (time.time() - t0) / 60, **vida}
+    return salida(args, vida, t0)
 
 
-def tareas(pares: tuple, escala: dict) -> list[tuple]:
+def tareas(pares: tuple, escala: dict, reanudar: bool = False) -> list[tuple]:
     h = cr.humo(escala)
-    t = [("error_x4", pares[0], "A", escala, "una", f"verif_error_x4_{pares[0]}_A{h}")]
-    return t + [("coin", p, gm, escala, crianza, f"{crianza}_coin_{p}_{gm}{h}")
+    t = [("error_x4", pares[0], "A", escala, "una", f"verif_error_x4_{pares[0]}_A{h}", reanudar)]
+    return t + [("coin", p, gm, escala, crianza, f"{crianza}_coin_{p}_{gm}{h}", reanudar)
                 for crianza in CRIANZAS for p in pares for gm in GEMELOS]
 
 
-def correr(pares: tuple, escala: dict) -> tuple[dict, dict]:
+def correr(pares: tuple, escala: dict, reanudar: bool = False) -> tuple[dict, dict]:
     with ProcessPoolExecutor(max_workers=g.WORKERS) as pool:
-        vidas = list(pool.map(vivir, tareas(pares, escala)))
+        vidas = list(pool.map(vivir, tareas(pares, escala, reanudar)))
     V = {crianza: {} for crianza in CRIANZAS}
     for x in vidas[1:]:
         V[x["crianza"]][(x["brazo"], x["par"], x["gemelo"])] = x
@@ -432,9 +444,9 @@ def informe(V: dict, brazos: list, pares: tuple, escala: dict, nombre: str, titu
     (RESULTS / f"{nombre}_run.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def main(pares: tuple, escala: dict, nombre: str, titulo: str) -> None:
+def main(pares: tuple, escala: dict, nombre: str, titulo: str, reanudar: bool = False) -> None:
     t0 = time.time()
-    V, x0 = correr(pares, escala)
+    V, x0 = correr(pares, escala, reanudar)
     ref = cargar("error_x4", pares[0], "A", "una", escala)
     verif = cr.diferencia(x0, ref) if ref is not None else float("nan")
     brazos = leidos(V, pares, escala)
@@ -446,14 +458,17 @@ def main(pares: tuple, escala: dict, nombre: str, titulo: str) -> None:
 
 
 if __name__ == "__main__":
-    modo = sys.argv[1] if len(sys.argv) > 1 else ""
+    argumentos = sys.argv[1:]
+    reanudar = "reanudar" in argumentos
+    modo = next((a for a in argumentos if a != "reanudar"), "")
     if modo == "humo":
-        main((0,), g.HUMO, "mundo_propio_casas_humo", "§K7 SMOKE TEST (pair 0, short life)")
+        main((0,), g.HUMO, "mundo_propio_casas_humo", "§K7 SMOKE TEST (pair 0, short life)", reanudar)
     elif modo == "calibracion":
         main(g.PAIRS_CAL, g.ESCALA, "mundo_propio_casas_calibracion",
-             "§K7 CALIBRATION (pairs 100-102) -- the houses: identity with a repertoire")
+             "§K7 CALIBRATION (pairs 100-102) -- the houses: identity with a repertoire", reanudar)
     elif modo == "replica":
         main(tuple(range(12, 24)), g.ESCALA, "mundo_propio_casas_replica",
-             "§K7 REPLICATION (pairs 12-23) -- the houses: identity with a repertoire")
+             "§K7 REPLICATION (pairs 12-23) -- the houses: identity with a repertoire", reanudar)
     else:
-        main(PAIRS, g.ESCALA, "mundo_propio_casas", "§K7 -- the houses: identity with a repertoire")
+        main(PAIRS, g.ESCALA, "mundo_propio_casas", "§K7 -- the houses: identity with a repertoire",
+             reanudar)
