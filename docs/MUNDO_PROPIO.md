@@ -371,6 +371,117 @@ test:**
   - RECONOCE vuelve a fallar.
   - RIGIDEZ pasa.
 
+## §K5 — el precio de la identidad y dónde vive (pre-registrado el 2026-10-26, antes de correr)
+
+Decisión de Fran tras el §K4: "push todo a main, luego vamos con los 3 pasos que
+mencionaste". Los pasos eran tres: la rigidez, un nulo de deriva para el
+`self_embedding` y un repertorio robusto a lo nuevo. Este experimento cubre los
+dos primeros; el repertorio robusto necesita un mecanismo nuevo y va aparte.
+
+**Por qué.** El §K4 dejó dos cosas abiertas.
+- **El precio.** Criado en un solo mundo, el kernel que conserva su niñez entra
+  peor que el kernel sin sueño a un mundo que nunca vivió. Fue RIGIDEZ 12/12,
+  pre-registrada en la réplica. En el §K3, criado entre tres regímenes, ese
+  mismo kernel aprendía a inferir el régimen. ¿Una niñez plural quita el precio
+  sin perder la identidad?
+- **Dónde vive.** La distancia entre los `self_embedding` de los gemelos no se
+  achicó en el exilio; en la réplica creció. Sin un nulo, no se puede saber si
+  lleva algo de la vida o si es deriva.
+
+**P1 — crianza** (`experiments/kernel/exp_mundo_propio_crianza.py`).
+- Mismos gemelos, mismos papeles, mismo exilio y mismos ensayos que el §K4. Sólo
+  cambia la niñez.
+- **`una`** es el §K4. Sus vidas guardadas se reutilizan y no se vuelven a
+  correr. Se verifica que el camino del código es el mismo re-corriendo una vida:
+  la diferencia máxima tiene que dar 0. En la prueba de humo dio 0.
+- **`dos`.** Los 18 bloques de la niñez alternan la casa y una ESCUELA, que es el
+  régimen N: lo comparten los dos gemelos y en el §K4 nadie lo vivía. El último
+  bloque de la niñez es en casa: los bloques 1, 3, …, 17 en casa y los 0, 2, …,
+  16 en la escuela, 9 y 9. De los de balbuceo, 1 es en casa y 2 en la escuela.
+- Manos declaradas:
+  - La casa recibe la mitad de la niñez.
+  - Para cada gemelo, la casa del hermano y X siguen sin haber sido vividas. Las
+    lecturas de rigidez del §K4 conservan su sentido, y en T1 las dos crianzas
+    ensayan desde la casa.
+- Brazos: `error_x4` y `kernel` (sin sueño), en las dos crianzas.
+- **Lecturas.** El costo es el de T1 en la casa del hermano (la media de los
+  gemelos), la lectura de RIGIDEZ del §K4. La brecha es costo(`error_x4`) −
+  costo(`kernel`): el precio del sueño.
+
+| Lectura | Criterio (≥ 10/12) |
+|---|---|
+| ACHICA (primaria) | brecha(`dos`) < brecha(`una`), pareado por par |
+| CONSERVA | H(T2) > 0 en `error_x4` bajo `dos` (el PERSISTE del §K4) |
+| INVIERTE (secundaria) | bajo `dos`, costo(`error_x4`) < costo(`kernel`): el sueño pasa de precio a ventaja |
+
+Veredicto:
+- sin ACHICA → **LA RIGIDEZ SE QUEDA**;
+- ACHICA sin CONSERVA → **MENOS RÍGIDO, SIN IDENTIDAD**;
+- ACHICA y CONSERVA → **MENOS RÍGIDO, CON IDENTIDAD**, y se agrega "y la
+  invierte" si pasa INVIERTE.
+
+Se reportan, sin ser veredictos:
+- FLEXIBLE: costo(`error_x4`, `dos`) < costo(`error_x4`, `una`), y lo mismo en
+  `kernel`. Sería un efecto genérico de haber practicado cambios de régimen.
+- El primer bloque del exilio (`e_early` del bloque 18, media de los gemelos) y
+  los bloques atascados, por crianza.
+- H en T1, Tm y T2; PERSISTE en `kernel` bajo `dos`; la sonda (casa, hermano, X
+  y escuela).
+
+**P2 — deriva.** Cada gemelo `error_x4` del §K4 (crianza `una`) se vuelve a vivir
+con OTROS DADOS. Mantiene los mismos pesos al nacer, la misma casa, el mismo
+exilio y el mismo azar en los ensayos. Cambian dos cosas: `torch` se vuelve a
+sembrar después de construirlo (50000 + par), y las pruebas y el balbuceo salen
+de otro azar (58000 + par). Es la misma vida salvo el azar, y diverge desde el
+tick 0, igual que los gemelos del §K4.
+- d_mundo(T) = ‖yo_A − yo_B‖: los gemelos del §K4, otro mundo y el mismo azar.
+- d_dados(T) = media(‖yo_A − yo_A'‖, ‖yo_B − yo_B'‖): el mismo mundo y otro azar.
+
+| Lectura | Criterio (≥ 10/12) |
+|---|---|
+| CONTROL (la vara lee) | la misma comparación sobre el perfil de la sonda del modelo del mundo (las 4 sondas del bloque anterior al ensayo): d_mundo > d_dados en T1 |
+| LLEVA | d_mundo > d_dados en el `self_embedding` en T1: lleva algo del mundo más allá del azar |
+| NIÑEZ | lo mismo en T2, después del exilio: lleva la identidad |
+
+Veredicto:
+- sin CONTROL → **LA VARA NO LEE**;
+- sin LLEVA → **DERIVA**;
+- LLEVA sin NIÑEZ → **LLEVA LA VIDA, NO LA NIÑEZ**;
+- las dos → **EL YO LLEVA LA NIÑEZ**.
+
+Se reportan el CONTROL en T2, las medianas y el control de conducta de los
+gemelos con otros dados (`e_late`).
+
+**Prueba de humo** (`humo`, par 0, vida corta).
+- El camino `una` reproduce la vida guardada del §K4 con diferencia 0.
+- El gemelo con otros dados nace con el mismo `self_embedding` (diferencia 0) y
+  su vida diverge.
+- El calendario de `dos` es casa, escuela, casa, y después el exilio.
+
+**Predicciones, escritas antes de correr:**
+- P1:
+  - ACHICA pasa. Con dos regímenes, el modelo del mundo aprende a leer su error
+    como "cambió el régimen", como en el §K3. Un mundo nuevo pasa a ser un
+    contexto nuevo y no un error confiado.
+  - CONSERVA pasa: 9 bloques en casa siguen entrando en el buffer del sueño.
+  - INVIERTE falla: el sueño sigue repasando los mundos viejos mientras entra a
+    uno nuevo.
+- P2:
+  - CONTROL pasa.
+  - DERIVA. El `self_embedding` es un EMA, con τ de unos 100 ticks, del estado
+    reflejado, y un kernel que controla bien ve un estado cercano a C en
+    cualquier mundo.
+  - La prueba de humo ya mostró d_mundo > d_dados en un par corto (3.6 contra
+    1.3). La predicción queda como estaba escrita.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, reutilizando las
+vidas de la réplica del §K4 para `una`, con la misma regla. Se lanza apenas
+termine el test, salvo que aparezca un bug (todo cambio se registra). Cada
+pregunta queda REPLICADA si su veredicto se repite.
+
+Cada corrida tiene 72 vidas nuevas más una de verificación, en 3 procesos de CPU
+con 1 hilo cada uno (la excepción declarada del kernel). Unos 95 min.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*

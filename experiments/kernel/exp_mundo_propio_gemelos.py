@@ -150,10 +150,21 @@ def papeles(par: int) -> dict:
     return {"A": a, "B": b, "X": x, "N": ({0, 1, 2, 3} - {a, b, x}).pop()}
 
 
-def pruebas(par: int, n_bloques: int, babble: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def regimen(papel: dict, gemelo: str, v: int, nb: int, nn: int, crianza: str = "una") -> int:
+    """Regime lived in block v. Childhood at home ("una"), or alternating home and the
+    school N with the last childhood block at home ("dos", §K5); then the exile X."""
+    if v >= nb + nn:
+        return papel["X"]
+    if crianza == "dos" and (nb + nn - 1 - v) % 2:
+        return papel["N"]
+    return papel[gemelo]
+
+
+def pruebas(par: int, n_bloques: int, babble: int,
+            semilla: int | None = None) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """The §K1 test-tick protocol per tick (0 none, 1 EFERENCIA, 2 EXO), the test actions and
     the babbling actions; shared by both twins and both arms of a pair."""
-    rng = np.random.default_rng(8000 + par)
+    rng = np.random.default_rng(8000 + par if semilla is None else semilla)
     n = n_bloques * D
     tipo = np.zeros(n, dtype=int)
     ultimo = -mp.GAP
@@ -197,17 +208,24 @@ def ensayo(k, s, mundo: int, semilla: int) -> dict:
 
 def vivir(args: tuple) -> dict:
     """One twin's life: babble and childhood at home, then the shared exile; before the
-    step of each assay block, clones visit both twins' homes."""
+    step of each assay block, clones visit both twins' homes. Optional 5th element (§K5):
+    {"crianza": "una"|"dos", "dados": torch seed set after the kernel is built (same
+    weights, other draws), "pruebas": seed of the test/babbling draws, "dir": output
+    directory, "archivo": file stem}; absent = §K4."""
     import torch
-    brazo, par, gemelo, escala = args
+    brazo, par, gemelo, escala, *resto = args
+    op = resto[0] if resto else {}
+    crianza = op.get("crianza", "una")
     t0 = time.time()
     torch.set_num_threads(1)
     nb, nn, ne = escala["vida"]
     n_bloques = nb + nn + ne
     papel = papeles(par)
-    tipo, a_test, a_babble = pruebas(par, n_bloques, nb)
+    tipo, a_test, a_babble = pruebas(par, n_bloques, nb, op.get("pruebas"))
     torch.manual_seed(par)
     k = cx.nuevo_kernel(brazo, False)
+    if op.get("dados") is not None:
+        torch.manual_seed(op["dados"])
     probes = ms.sondas()
     pref = torch.tensor(mp.C)
     n = n_bloques * D
@@ -228,7 +246,7 @@ def vivir(args: tuple) -> dict:
         if t == n:
             break
         v = t // D
-        reg = papel[gemelo] if v < nb + nn else papel["X"]
+        reg = regimen(papel, gemelo, v, nb, nn, crianza)
         r = k.step(s)
         dist[t] = float(torch.linalg.vector_norm(s - pref))
         psi[t], fe[t] = r.psi, r.free_energy
@@ -247,9 +265,11 @@ def vivir(args: tuple) -> dict:
                 sonda[v, kk] = cx.error_sonda(k.world_model, *probes[kk])[0]
     vida = {"dist": dist, "psi": psi, "fe": fe, "tipo": tipo, "sonda": sonda,
             "ens_dist": ens[0], "ens_fe": ens[1], "ens_psi": ens[2], "yo": yo}
-    DATA.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(DATA / f"{brazo}_{par}_{gemelo}{'_humo' if escala == HUMO else ''}.npz", **vida)
-    return {"brazo": brazo, "par": par, "gemelo": gemelo, "T": nombres,
+    destino = op.get("dir", DATA)
+    destino.mkdir(parents=True, exist_ok=True)
+    archivo = op.get("archivo", f"{brazo}_{par}_{gemelo}{'_humo' if escala == HUMO else ''}")
+    np.savez_compressed(destino / f"{archivo}.npz", **vida)
+    return {"brazo": brazo, "par": par, "gemelo": gemelo, "crianza": crianza, "T": nombres,
             "bloque": [b for _, b in escala["ensayos"]], "vida_bloques": escala["vida"],
             "min": (time.time() - t0) / 60, **vida}
 
@@ -298,7 +318,7 @@ def por_bloque(x: dict, par: int) -> list[dict]:
     nb, nn, _ = x["vida_bloques"]
     papel = papeles(par)
     n_bloques = len(x["dist"]) // D
-    vis = [("babble" if v < nb else "act", papel[x["gemelo"]] if v < nb + nn else papel["X"], v)
+    vis = [("babble" if v < nb else "act", regimen(papel, x["gemelo"], v, nb, nn, x.get("crianza", "una")), v)
            for v in range(n_bloques)]
     return mp.por_visita(x, vis)
 
