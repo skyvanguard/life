@@ -1020,3 +1020,32 @@ correrla).**
   deriva?
 - La identidad, como continuidad medida en conducta, ya no está abierta (§K4,
   replicado).
+
+### §K6 — REPERTORIO ROBUSTO por la letra (2026-10-26)
+
+`results/mundo_propio_coin_run.txt`: semillas 0–11, 18.0 min.
+
+- **ROBUSTO (primaria): 12/12.** Al final de la visita NUEVA, la sonda de los
+  regímenes conocidos vale 0.14 × el promedio exacto (rango 0.11–0.16).
+  - `error_x4` vale 1.06 en las mismas semillas y ninguna baja de 0.9 (0/12): es
+    la fragilidad del §K3, otra vez.
+- **CONTEXTO: 12/12**, con 0.15 × (`error_x4` da 0.64).
+  - Desde el ciclo 2, la sonda de los conocidos ya vale 0.010.
+  - `error_x4` necesitaba hasta el ciclo 6 para bajar a 0.048.
+- **CONDUCTA: APRENDE Y RECUERDA** (12/12, 12/12 y 12/12; 0 atascos).
+  **PAREADO: 12/12.**
+- Veredicto pre-registrado: **REPERTORIO ROBUSTO.** La réplica está corriendo.
+- **La inferencia de contexto.** El oráculo da 0.14, igual que la selección: la
+  inferencia encuentra al experto correcto.
+  - Contextos: 4 en 7 vidas, y 5 o 6 en las otras 5 (espurios).
+  - Lo NUEVO tiene su propio experto en 12/12. La proporción del experto
+    mayoritario por régimen tiene mediana 1.00.
+- **El control.** `e_late` vale 0.039 en todos los ciclos (`error_x4`, 0.06–0.08).
+  Al final de lo NUEVO, 0.041 contra 0.133.
+- **Predicción fallida, del lado bueno.** La re-entrada a lo conocido tiende a
+  mejorar: 9/12, con 0.122 contra 0.134. No llega al umbral. La entrada a lo
+  NUEVO da 6/12.
+- **Lo que no cambió.**
+  - ESPECIFICIDAD: 7/12 contra `secuencia` y 5/12 contra `error_x4`. Los ahorros
+    no son más específicos de lo vivido.
+  - DISTINGUE: 11/12; el pareado contra el kernel sin sueño da 8/12.

@@ -69,6 +69,12 @@ the NOVEL regime with its own expert in >= 10/12.
 REPLICATION, pre-registered with the test: seeds 12-23 (error_x4 from §K3's
 replication, the other arms from §K2's), the same rule, launched right after the
 test unless a bug is found (any change recorded). REPLICADO if the verdict repeats.
+RESULT of the test (results/mundo_propio_coin_run.txt): REPERTORIO ROBUSTO by the
+letter -- ROBUSTO 12/12 (NOVEL-end ratio 0.14 vs error_x4 1.06, 0/12), CONTEXTO 12/12
+(0.15 vs 0.64), APRENDE Y RECUERDA (12/12 x3, 0 stuck), PAREADO 12/12; oracle = the
+selection; 4-6 contexts (spurious in 5/12), NOVEL own expert 12/12; e_late 0.039 in
+every cycle; known re-entry 9/12 better than error_x4 (prediction failed, the good
+way), NOVEL entry 6/12; ESPECIFICIDAD 7/12 and 5/12.
 
 3 CPU processes, one torch thread each (the declared kernel exception); ~4.5 min
 per life, 12 lives, ~20 min.
