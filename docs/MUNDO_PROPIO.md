@@ -1700,3 +1700,78 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
   vez de la acción.
 - Ya no está abierto si un kernel con repertorio tiene identidad (§K7,
   replicado): la tiene, y su identidad es a qué experto vuelve.
+
+### §K8 — POR EL SUEÑO por la letra; sin sueño, el repertorio olvida la casa (2026-10-27)
+
+`results/mundo_propio_separacion_run.txt`: pares 0–11, 27.9 min.
+- Verificación: el loop re-corrido sobre `coin` (par 0, gemelo A) reproduce la
+  vida del §K7 con diferencia 0.
+
+**Veredicto pre-registrado: POR EL SUEÑO.**
+- **SE DIFERENCIA: 12/12** (H(T1) de `coin_sin_sueno`, +0.86).
+- **PERSISTE_SS: 7/12. Falla.** H(T2) da +0.06: sin sueño, la identidad del
+  repertorio queda al azar, como la del kernel sin sueño en el §K4.
+- **SEPARA: 6/12.** Sin sueño, separar el exilio en su propio experto no
+  conserva más identidad que el modelo único.
+- **SUEÑO: 12/12.** H(T2) da +0.69 con sueño y +0.06 sin él.
+
+**Secundarias.**
+- **ELIGE_SS: 5/12. Falla.** El exilio sí tuvo su propio experto (24/24
+  gemelos), pero al volver a casa sólo 13/24 gemelos se asientan en h.
+  - En T2, la latencia mediana es de 90 ticks.
+  - En Tm, 11/24 gemelos, con una latencia mediana de 300 ticks: la mitad
+    nunca vuelve en el ensayo.
+  - NO CONFUNDE: 12/12.
+- **EXILIO_SS: 4/12** (0.44 contra 0.43).
+- **PERSISTE de `error_sin_sueno`: 8/12** (+0.12). Queda al azar, como predijo
+  la predicción escrita.
+- **ERROR_SS: 6/12.** La sorpresa de la calibración no se sostuvo: sin sueño,
+  ver su propio error no le da identidad al modelo único.
+- **Reportado: el sueño con un solo modelo, `error_x4` > `error_sin_sueno`,
+  10/12.** Es la atribución del §K4 con el error de entrada fijo. En el §K4,
+  `error_x4` contra `kernel` cambiaba también el error de entrada; acá sólo
+  cambia el sueño.
+
+**Dónde se pierde.** Costos en medianas:
+
+| Brazo | En casa T1 | En casa T2 | Afuera T2 |
+|---|---|---|---|
+| `coin` | 0.032 | 0.146 | 0.489 |
+| `coin_sin_sueno` | 0.034 | 0.460 | 0.489 |
+| `error_sin_sueno` | 0.033 | 0.428 | 0.522 |
+| `kernel` | 0.033 | 0.474 | 0.554 |
+
+- Sin sueño, la identidad se pierde porque vuelve mal a su propia casa. En la
+  del hermano, en cambio, le va igual.
+
+**Lectura posterior, no veredicto** (sobre las vidas guardadas).
+- **El experto de casa de `coin_sin_sueno` empeora sin estar activo.**
+  - El oráculo (el mejor experto, por secuencia) en casa pasa de 0.086 en T1 a
+    0.131 en Tm y T2. En `coin` queda en 0.005–0.007.
+  - Pero en el exilio el experto de casa está activo una mediana de 33 de los
+    4500 ticks (0/24 gemelos pasan del 5 %), con una mediana de 0 cambios de
+    experto.
+- **Hipótesis, a verificar: la foto vieja.**
+  - La foto del experto activo se toma cuando su error corriente pasa el umbral
+    absoluto (0.08), y sólo se descarta si vuelve a bajar.
+  - Sin sueño, el experto de casa queda apenas encima del umbral (sonda 0.086).
+    La foto se tomaría en algún momento de la niñez y nunca se descartaría.
+  - Al nacer el experto del exilio, el de casa se restaura a esa foto vieja y
+    pierde lo que aprendió después.
+  - Si es así, `coin_sin_sueno` no es "el repertorio sin sueño" a secas: es un
+    mecanismo de protección calibrado para un modelo preciso, que sin sueño se
+    dispara mal. El umbral absoluto es la mano declarada desde el §K6.
+
+**Las predicciones, contra el resultado.**
+- **Escritas antes de la calibración:**
+  - Acertadas: SE DIFERENCIA 12/12; PERSISTE de `error_sin_sueno`, al azar.
+  - Fallidas: el veredicto POR LA SEPARACIÓN; PERSISTE_SS; SEPARA; ELIGE_SS;
+    "SUEÑO falla". La razón escrita (sólo aprende el activo, así que la niñez
+    queda protegida) no tuvo en cuenta la foto.
+- **Agregadas después de la calibración:**
+  - Acertadas: SUEÑO.
+  - Fallidas: PERSISTE_SS, ELIGE_SS y EXILIO_SS.
+- La calibración de 3 pares volvió a engañar: PERSISTE_SS 3/3 → 7/12, ELIGE_SS
+  3/3 → 5/12, ERROR_SS 3/3 → 6/12.
+
+La réplica (pares 12–23, pre-registrada) está corriendo.

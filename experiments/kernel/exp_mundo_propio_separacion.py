@@ -74,6 +74,18 @@ REPLICATION, pre-registered with the test: pairs 12-23 (the replication lives of
 §K4 and §K7 are read), the same rule, launched right after the test unless a bug is
 found (any change recorded). REPLICADO if the verdict repeats.
 
+RESULT (pairs 0-11, results/mundo_propio_separacion_run.txt, 27.9 min; verification max
+diff 0). Pre-registered verdict: POR EL SUENO -- SE DIFERENCIA 12/12, PERSISTE_SS 7/12
+(H(T2) +0.06), SEPARA 6/12, SUENO 12/12 (+0.69 vs +0.06). Secondary: ELIGE_SS 5/12
+(the exile gets its own expert in 24/24 twins, but back home only 13/24 settle on h,
+latency 90 ticks), EXILIO_SS 4/12, PERSISTE error_sin_sueno 8/12, ERROR_SS 6/12;
+reported, the sleep with one model (error_x4 > error_sin_sueno, the error input held
+fixed) 10/12. Without sleep the identity is lost at HOME (home cost at T2 0.46 vs coin
+0.15; abroad equal). Post hoc: coin_sin_sueno's home expert degrades while inactive
+(oracle at home 0.086 -> 0.131; active a median 33 of 4500 exile ticks). Hypothesis, to
+verify: a stale snapshot -- the home expert hovers just above the absolute threshold,
+so the pre-streak snapshot is taken in the childhood and the exile's spawn restores it.
+
 48 new lives + 1 verification life per run; 3 CPU processes, one torch thread each
 (the declared kernel exception). `reanudar` after any mode loads the lives already
 on disk instead of re-running them.
