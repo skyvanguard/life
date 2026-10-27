@@ -1102,3 +1102,52 @@ correrla).**
 - Juntar el §K6 con la identidad (§K4) y la crianza (§K5): un kernel con
   repertorio, ¿sigue teniendo identidad? ¿sigue siendo rígido?
 - Un repertorio robusto ya no está abierto (§K6, replicado).
+
+### §K5 — MENOS RÍGIDO, CON IDENTIDAD; el `self_embedding` lleva la vida, no la niñez (2026-10-27)
+
+`results/mundo_propio_crianza_run.txt`: pares 0–11, 122.7 min. La corrida tardó
+más que los 95 min previstos porque compartió la CPU con el §K6.
+- Verificación: el camino `una` re-corrido sobre el par 0 reproduce la vida del
+  §K4 con diferencia 0.
+
+**P1 — crianza. Veredicto pre-registrado: MENOS RÍGIDO, CON IDENTIDAD.**
+- **ACHICA (primaria): 10/12, justo en el umbral.** La brecha (costo en T1 de
+  `error_x4` − el de `kernel`) baja de +0.26 a +0.03, en medianas.
+- El cambio viene casi entero de `error_x4`. Su costo en la casa del hermano
+  baja de 0.71 a 0.47 (FLEXIBLE 9/12). El del `kernel` sin sueño no baja: 0.46 y
+  0.51 (6/12).
+- **CONSERVA: 12/12**, con H(T2) de +0.38 (en `una`, +0.53). La identidad
+  queda, algo más débil: la casa tuvo la mitad de la niñez.
+- **INVIERTE: 5/12. No pasa.** Con niñez plural, el sueño deja de ser un precio
+  pero no se vuelve una ventaja. Era la predicción.
+- **El exilio.** El primer bloque del exilio de `error_x4` baja de 0.68 a 0.43
+  (11/12). Los atascos al empezar el exilio pasan de 12 bloques (11/24 gemelos)
+  a 1.
+- **Lectura posterior: el que se atasca ahora es el kernel sin sueño.** En la
+  crianza `dos` acumula 27 bloques atascados en 11/24 gemelos (en `una`, 1). 25
+  de esos 27 caen en la niñez: 18 en la escuela y 7 en casa. Re-aprende en cada
+  cambio de régimen, como en el §K1.
+- **La sonda de `error_x4` bajo `dos`** conserva las dos casas de su niñez: casa
+  0.025 y escuela 0.021. Hermano 0.17 y exilio 0.17: el exilio sigue aprendido
+  estrecho.
+- **Reportado, no veredicto: la atribución de la identidad al sueño se debilita
+  bajo `dos`.** PERSISTE en `kernel` da 7/12, y el pareado `error_x4` > `kernel`
+  en H(T2), 7/12. En `una` daba 11/12.
+
+**P2 — deriva. Veredicto pre-registrado: LLEVA LA VIDA, NO LA NIÑEZ.**
+- **CONTROL: 12/12, en T1 y en T2.** El perfil de la sonda separa con claridad
+  a los gemelos de otro mundo (0.25) de los de otros dados (0.006–0.013).
+- **LLEVA: 11/12.** En T1, el `self_embedding` de gemelos de mundos distintos
+  está más lejos (2.75) que el de gemelos con otros dados (1.88).
+- **NIÑEZ: 7/12. No pasa.** En el exilio compartido la diferencia se borra: Tm
+  2.67 contra 2.57 (7/12) y T2 2.49 contra 2.45 (7/12).
+- Por qué la distancia del §K4 "no se achicaba": la deriva sola también crece
+  (d_dados va de 1.88 a 2.45). El `self_embedding` sigue el presente, es decir,
+  la acción que el kernel elige, y acumula deriva. La niñez no queda en él.
+- **La predicción escrita (DERIVA) falló.** La nota agregada antes del resultado
+  ("LLEVA pasa en T1, NIÑEZ es incierta") acertó. La identidad del §K4 vive en
+  el modelo del mundo.
+- Los gemelos con otros dados controlan normal: `e_late` 0.046 al final del
+  exilio.
+
+La réplica (pares 12–23, pre-registrada) está corriendo.

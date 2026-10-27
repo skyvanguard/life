@@ -77,6 +77,15 @@ REPLICATION, pre-registered with the test: pairs 12-23 (§K4 replication lives
 reused for "una"), the same rule, launched right after the test unless a bug is
 found (any change recorded). REPLICADO per question if its verdict repeats.
 
+RESULT of the test (results/mundo_propio_crianza_run.txt, 122.7 min): Q1 MENOS
+RIGIDO, CON IDENTIDAD -- ACHICA 10/12 (at the threshold; brecha +0.26 -> +0.03, the
+change is error_x4's: 0.71 -> 0.47), CONSERVA 12/12 (H(T2) +0.38), INVIERTE 5/12;
+error_x4's exile entry 0.68 -> 0.43 and stuck 12 -> 1; post hoc, under 'dos' the
+kernel WITHOUT sleep gets stuck (27 blocks, 25 in the alternating childhood).
+Q2 LLEVA LA VIDA, NO LA NIÑEZ -- CONTROL 12/12, LLEVA 11/12 (2.75 vs 1.88), NIÑEZ
+7/12 (2.49 vs 2.45): the self_embedding tracks the present and drifts; the written
+prediction (DERIVA) failed, the note added before the result held.
+
 72 new lives + 1 verification life per run; 3 CPU processes, one torch thread each
 (the declared kernel exception); ~95 min.
 
