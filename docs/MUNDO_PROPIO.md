@@ -1151,3 +1151,90 @@ más que los 95 min previstos porque compartió la CPU con el §K6.
   exilio.
 
 La réplica (pares 12–23, pre-registrada) está corriendo.
+
+### §K5, réplica — REPLICADO en las dos preguntas (2026-10-27)
+
+`results/mundo_propio_crianza_replica_run.txt`: pares 12–23, 119.1 min.
+- Verificación: el camino `una` re-corrido sobre el par 12 reproduce la vida de
+  la réplica del §K4 con diferencia 0.
+
+**P1 — crianza: MENOS RÍGIDO, CON IDENTIDAD. REPLICADO.**
+- **ACHICA: 10/12 otra vez, en el umbral.** La brecha baja de +0.23 a +0.05.
+- El cambio vuelve a ser de `error_x4`: su costo en la casa del hermano baja de
+  0.71 a 0.55 (FLEXIBLE 9/12). El del `kernel` sin sueño, 0.49 y 0.47 (6/12).
+- **CONSERVA: 11/12**, con H(T2) de +0.41 (en `una`, +0.72).
+- **INVIERTE: 4/12. No pasa**, como en el test.
+- **El exilio.** El primer bloque de `error_x4` baja de 0.71 a 0.43 (11/12). Sus
+  atascos pasan de 16 bloques (15/24 gemelos) a 1.
+- **Posterior, repetido: el que se atasca es el kernel sin sueño.** Bajo `dos`
+  acumula 31 bloques atascados en 14/24 gemelos. 27 caen en la niñez (16 en la
+  escuela y 11 en casa) y 4 en el exilio.
+- **La sonda de `error_x4` bajo `dos`**, igual que en el test: casa 0.024 y
+  escuela 0.021; hermano 0.175 y exilio 0.173.
+- **La atribución al sueño, débil otra vez.** PERSISTE en `kernel` da 7/12, y el
+  pareado `error_x4` > `kernel` en H(T2), 8/12.
+
+**P2 — deriva: LLEVA LA VIDA, NO LA NIÑEZ. REPLICADO.**
+- **CONTROL: 12/12** en T1 y en T2. El perfil de la sonda da 0.25 entre mundos
+  y 0.005–0.011 entre dados.
+- **LLEVA: 12/12** (2.45 contra 1.87).
+- **NIÑEZ: 7/12. No pasa** (3.01 contra 2.65). En Tm daba 10/12 (3.03 contra
+  2.60); en el test, 7/12.
+- La deriva sola vuelve a crecer: d_dados va de 1.87 a 2.65.
+- Los gemelos con otros dados controlan normal: `e_late` 0.043.
+
+**Sobre los 24 pares juntos:**
+- ACHICA 20/24 (p 0.0008): la brecha mediana baja de +0.24 a +0.04.
+- CONSERVA 23/24. INVIERTE 9/24.
+- FLEXIBLE: `error_x4` 18/24 (p 0.01); `kernel` 12/24.
+- Primer bloque del exilio de `error_x4`, `dos` < `una`: 22/24.
+- Atascos de `error_x4`: con una casa, 28 bloques en 26/48 gemelos, todos al
+  empezar el exilio. Con dos, 2 en 2/48.
+- Atascos del `kernel` sin sueño bajo `dos`: 58 bloques en 25/48 gemelos. 52
+  caen en la niñez (34 en la escuela y 18 en casa).
+- Bajo `dos`, el `kernel` PERSISTE en 14/24 (azar). El pareado `error_x4` >
+  `kernel` da 15/24 (p 0.15); en el §K4 daba 23/24.
+- P2: CONTROL 24/24, LLEVA 23/24, NIÑEZ 14/24 (p 0.27).
+
+**Lectura del §K5 completo.**
+- **La rigidez del §K4 era de la crianza, no de la identidad.** Criado entre su
+  casa y una escuela, el kernel con sueño entra mejor a la casa del hermano
+  (0.71 → 0.47–0.55) y entra al exilio sin atascarse (28 bloques → 2). Y sigue
+  distinto de su gemelo después del exilio, en 23/24 pares. El precio se
+  achica, pero no se vuelve ventaja (INVIERTE 9/24). ACHICA quedó en el umbral
+  en las dos corridas; juntas dan 20/24.
+- **La rigidez se mudó al kernel sin sueño.** Bajo la crianza alternada, el que
+  se atasca es el que no repasa: 58 bloques, casi todos en la niñez. Re-aprende
+  en cada cambio entre casa y escuela, como en el §K1. Es el sueño lo que le
+  permite tener dos casas.
+- **La identidad sobrevive, más débil y menos atribuible.** H(T2) baja de
+  +0.53/+0.72 a +0.38/+0.41: la casa tuvo la mitad de la niñez. El kernel sin
+  sueño sigue en el azar (14/24), pero el pareado contra él cae de 23/24 a
+  15/24. Con media niñez en una escuela común, la parte de la diferencia que se
+  le puede atribuir al sueño ya no es clara. Es una lectura reportada, no un
+  veredicto.
+- **Dónde vive.** En el modelo del mundo: el perfil de la sonda separa a los
+  gemelos de mundos distintos en 24/24 pares en cada ensayo (0.23–0.25 contra
+  0.005–0.013). El `self_embedding` lleva la vida, pero no la niñez. Separa a
+  los gemelos al terminar la niñez (23/24) y no después del exilio (14/24).
+  Sigue al presente, que es la acción elegida (`action_dim == obs_dim`), y su
+  deriva sola crece de 1.87 a 2.45–2.65. La identidad del §K4 no está en el
+  módulo que se llama identidad.
+- **Predicciones fallidas.** DERIVA (que el `self_embedding` no llevara ni la
+  vida) falló en las dos corridas. Acertó la nota agregada antes del resultado.
+- **Manos declaradas.** La escuela es un régimen fijo (N) que comparten los dos
+  gemelos. La vida entra entera en el buffer del sueño. INVIERTE y la
+  atribución al sueño bajo `dos` no pasan.
+
+**Lo que sigue abierto:**
+- Juntar el §K6 con el §K4 y el §K5. Con un experto por casa (`wm_contexts`),
+  la rigidez podría desaparecer sin achicar la identidad. O la identidad podría
+  pasar a ser qué experto se elige al volver.
+- Por qué INVIERTE no pasa: con dos casas, el sueño deja de costar, pero no
+  ayuda a entrar a lo nunca vivido. ¿Haría falta una crianza más diversa, de
+  tres o cuatro regímenes, como en el §K3?
+- Un `self_embedding` que lleve la niñez. Hoy refleja la acción elegida. Que el
+  modelo de sí lea el modelo del mundo, o dejar de llamarlo el portador de la
+  identidad.
+- Ya no está abierto si la rigidez es el precio inevitable de la identidad
+  (§K5, replicado): con una crianza plural se achica sin perderla.

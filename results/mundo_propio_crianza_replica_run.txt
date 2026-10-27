@@ -1,0 +1,52 @@
+================================================================================
+§K5 REPLICATION (pairs 12-23) -- the price of identity and where it lives
+================================================================================
+pairs 12-23; crianza 'una' = stored §K4 lives, 'dos' = home/school alternating; dice twins of error_x4 (una); run 119.1 min
+verification: the 'una' code path re-run on error_x4 pair 12 twin A vs the stored §K4 life, max diff 0.0
+
+Q1 -- CRIANZA
+T1 cost in the sibling's home (mean of twins; median over pairs) | first exile block e_early | stuck blocks (twins)
+  una error_x4 | 0.710 | 0.709 | stuck 16 (15/24)
+  una   kernel | 0.489 | 0.398 | stuck 0 (0/24)
+  dos error_x4 | 0.548 | 0.433 | stuck 1 (1/24)
+  dos   kernel | 0.469 | 0.547 | stuck 31 (14/24)
+
+H_early (cross) medians and H>0, per crianza x arm x assay
+  una error_x4 | T1 +1.356 (12/12) | Tm +0.913 (12/12) | T2 +0.715 (12/12)
+  una   kernel | T1 +0.906 (12/12) | Tm -0.001 (6/12) | T2 +0.008 (6/12)
+  dos error_x4 | T1 +0.985 (12/12) | Tm +0.374 (12/12) | T2 +0.414 (11/12)
+  dos   kernel | T1 +0.845 (12/12) | Tm +0.065 (6/12) | T2 +0.056 (7/12)
+
+probe under 'dos' (median over twins and pairs): home | sibling | X | school
+  error_x4  T1 | 0.024 | 0.175 | 0.173 | 0.021
+  error_x4  Tm | 0.040 | 0.170 | 0.158 | 0.029
+  error_x4  T2 | 0.031 | 0.168 | 0.158 | 0.023
+    kernel  T1 | 0.178 | 0.247 | 0.247 | 0.226
+    kernel  Tm | 0.240 | 0.246 | 0.150 | 0.239
+    kernel  T2 | 0.238 | 0.243 | 0.149 | 0.245
+
+brecha (error_x4 - kernel T1 cost) per pair:
+  una: [0.36, 0.227, 0.242, 0.076, 0.108, 0.38, 0.13, 0.37, 0.451, 0.027, 0.26, 0.026]
+  dos: [0.241, 0.219, 0.012, -0.223, 0.468, 0.069, 0.025, -0.026, 0.084, 0.119, -0.062, -0.041]
+--------------------------------------------------------------------------------
+ACHICA   (primary)   brecha(dos) < brecha(una): 10/12 (medians +0.047 vs +0.234)
+CONSERVA             H(T2) > 0 on error_x4 under dos: 11/12
+INVIERTE (secondary) under dos, cost error_x4 < kernel: 4/12
+(reported) FLEXIBLE  cost dos < una: error_x4 9/12, kernel 6/12
+(reported) first exile block, error_x4 dos < una: 11/12; under dos error_x4 > kernel: 3/12
+(reported) kernel PERSISTE under dos: 7/12; paired H(T2) error_x4 > kernel under dos: 8/12
+VERDICT Q1 (pre-registered rule): MENOS RIGIDO, CON IDENTIDAD
+
+Q2 -- DERIVA (error_x4, crianza una)
+     yo  T1 | d_mundo 2.4539 | d_dados 1.8697 | d_mundo > d_dados 12/12
+     yo  Tm | d_mundo 3.0281 | d_dados 2.6033 | d_mundo > d_dados 10/12
+     yo  T2 | d_mundo 3.0137 | d_dados 2.6507 | d_mundo > d_dados 7/12
+  probe  T1 | d_mundo 0.2495 | d_dados 0.0047 | d_mundo > d_dados 12/12
+  probe  Tm | d_mundo 0.2310 | d_dados 0.0111 | d_mundo > d_dados 12/12
+  probe  T2 | d_mundo 0.2391 | d_dados 0.0105 | d_mundo > d_dados 12/12
+  dice twins' control: median e_late of the last 5 exile blocks 0.043
+--------------------------------------------------------------------------------
+CONTROL  probe profile d_mundo > d_dados at T1: 12/12 (T2 12/12)
+LLEVA    self_embedding d_mundo > d_dados at T1: 12/12
+NIÑEZ    self_embedding d_mundo > d_dados at T2: 7/12
+VERDICT Q2 (pre-registered rule): LLEVA LA VIDA, NO LA NIÑEZ

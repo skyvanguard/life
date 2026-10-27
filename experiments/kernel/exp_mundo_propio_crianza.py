@@ -86,6 +86,14 @@ Q2 LLEVA LA VIDA, NO LA NIÑEZ -- CONTROL 12/12, LLEVA 11/12 (2.75 vs 1.88), NI�
 7/12 (2.49 vs 2.45): the self_embedding tracks the present and drifts; the written
 prediction (DERIVA) failed, the note added before the result held.
 
+RESULT of the replication (results/mundo_propio_crianza_replica_run.txt, 119.1 min):
+REPLICADO on both questions. Q1 MENOS RIGIDO, CON IDENTIDAD -- ACHICA 10/12 again
+(brecha +0.23 -> +0.05), CONSERVA 11/12, INVIERTE 4/12; Q2 LLEVA LA VIDA, NO LA NIÑEZ --
+CONTROL 12/12, LLEVA 12/12, NIÑEZ 7/12. Pooled over 24 pairs: ACHICA 20/24 (p 0.0008),
+CONSERVA 23/24, INVIERTE 9/24; error_x4's stuck blocks 28 (all at the exile start) ->
+2; the kernel without sleep under 'dos' 58 (52 in the alternating childhood); paired
+H(T2) error_x4 > kernel under 'dos' 15/24 (23/24 in §K4); LLEVA 23/24, NIÑEZ 14/24.
+
 72 new lives + 1 verification life per run; 3 CPU processes, one torch thread each
 (the declared kernel exception); ~95 min.
 
