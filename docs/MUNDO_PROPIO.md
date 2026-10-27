@@ -473,6 +473,14 @@ gemelos con otros dados (`e_late`).
     cualquier mundo.
   - La prueba de humo ya mostró d_mundo > d_dados en un par corto (3.6 contra
     1.3). La predicción queda como estaba escrita.
+- **Nota agregada con el test ya corriendo y antes de ver su resultado.** El
+  razonamiento de la predicción de P2 estaba mal. El auto-modelo no refleja lo
+  que el kernel observa: con `action_dim == obs_dim`, el `self_state` que entra
+  en `reflect()` es la acción que el kernel elige (`conscious_kernel.py`, paso
+  ACT). En mundos distintos, la acción que lleva a C es otra coordenada. La
+  regla y la predicción escrita no cambian. Lo que ahora espero es que LLEVA
+  pase en T1 y que NIÑEZ sea incierta, porque en el exilio los dos gemelos eligen
+  la misma acción.
 
 **Réplica, pre-registrada junto con el test.** Pares 12–23, reutilizando las
 vidas de la réplica del §K4 para `una`, con la misma regla. Se lanza apenas

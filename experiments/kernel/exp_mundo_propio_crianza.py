@@ -66,6 +66,12 @@ old worlds while it enters a new one). Q2 -- CONTROL passes, DERIVA (the
 self_embedding is an EMA, tau ~100 ticks, of the reflected state, and a kernel
 that controls well sees ~C in any world). The smoke test already showed d_mundo > d_dados on
 one short pair (3.6 vs 1.3); the prediction stays as written.
+NOTE added while the test was running, before its result was seen: the rationale
+of the Q2 prediction was wrong -- with action_dim == obs_dim the self_state fed to
+reflect() is the kernel's own CHOSEN ACTION (conscious_kernel.py, ACT step), not
+what it observes, and the action that reaches C is a different coordinate in each
+world. The rule and the written prediction are unchanged; my expectation is now
+LLEVA passing at T1 and NIÑEZ uncertain (in the exile both twins choose alike).
 
 REPLICATION, pre-registered with the test: pairs 12-23 (§K4 replication lives
 reused for "una"), the same rule, launched right after the test unless a bug is
