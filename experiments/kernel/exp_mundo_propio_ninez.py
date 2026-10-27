@@ -70,6 +70,19 @@ is repaired within the block (coin 0.005 -> 0.006). The first exile steps, befor
 snapshot, take ANY home expert to ~0.12-0.13, precise or not: the question could not be
 asked clean, because the expert that gets frozen is no longer the childhood's.
 
+REPLICATION RESULT (pairs 12-23, results/mundo_propio_ninez_replica_run.txt; two legs:
+the first killed for low system memory after 9/24 lives, the second loaded them with
+`reanudar` and ran 15 in 19.7 min; every childhood equals §K7's, diff 0). Verdict: HACE
+FALTA SEGUIR DURMIENDO (PERSISTE_N 8/12, NINEZ 7/12, EXILIO 11/12; ELIGE_N 4/12) -- the
+test gave INDETERMINADO, so NOT REPLICATED by the letter. DANO 23/24 again (0.005 ->
+0.110, coin_sin_sueno 0.111). Pooled 24: PERSISTE_N 17/24 (p 0.03), NINEZ 15/24, EXILIO
+19/24 (p 0.003), ELIGE_N 8/24; DANO 46/48, CONGELADO 41/48. Sleeping only in the
+childhood does not hold the repertoire's identity: the childhood's precision does not
+reach the exile (the first exile steps, before the snapshot, take the home expert to
+the never-slept level and it freezes there); in coin the exile's sleep REPAIRS that
+damage within the block. Open: a snapshot taken in time (weights from before the
+streak), so the clean question can be asked.
+
 24 new lives per run; 3 CPU processes, one torch thread each (the declared kernel
 exception). `reanudar` after any mode loads the lives already on disk.
 

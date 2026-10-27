@@ -2049,3 +2049,78 @@ sueño).
 - La nota del humo, escrita antes del test, avisó el riesgo y se cumplió.
 
 La réplica (pares 12–23, pre-registrada) está corriendo.
+
+### §K9, réplica — HACE FALTA SEGUIR DURMIENDO; NO REPLICADO por la letra (2026-10-27)
+
+`results/mundo_propio_ninez_replica_run.txt`: pares 12–23.
+- **Corrió en dos tramos.** El primero se cortó por falta de memoria en el
+  sistema, con 9 de las 24 vidas escritas. El segundo las cargó del disco
+  (`replica reanudar`) y corrió las 15 restantes en 19.7 min.
+- Verificación: las 24 niñeces son iguales a las del §K7, con diferencia 0.
+
+**Veredicto pre-registrado: HACE FALTA SEGUIR DURMIENDO.**
+- **PERSISTE_N: 8/12** (H(T2) +0.18).
+- **NIÑEZ: 7/12.**
+- **EXILIO: 11/12.**
+- ELIGE_N: 4/12. En T2, 16/24 gemelos se asientan en h.
+- **El test había dado INDETERMINADO** (EXILIO 8/12). El veredicto no se repite:
+  **NO REPLICADO** por la letra.
+- **DAÑO 23/24 otra vez.** El oráculo de casa pasa de 0.005 a 0.110 en el primer
+  bloque del exilio y queda congelado (20/24). `coin_sin_sueno` queda en 0.111.
+
+**Sobre los 24 pares juntos** (tests de signo de una cola):
+
+| Lectura | 24 pares |
+|---|---|
+| PERSISTE_N | 17/24 (p 0.03) |
+| NIÑEZ | 15/24 (p 0.15) |
+| EXILIO | 19/24 (p 0.003) |
+| ELIGE_N | 8/24 |
+| DAÑO | 46/48 gemelos |
+| CONGELADO | 41/48 gemelos |
+
+- En T2 se asientan en h 31/48 gemelos de `coin_ninez`, 32/48 de
+  `coin_sin_sueno` y 46/48 de `coin`.
+
+**Lectura del §K9 completo.**
+- **Dormir sólo en la niñez no sostiene la identidad del repertorio.**
+  - Juntando las dos corridas, el sueño posterior a la niñez suma en 19/24 pares.
+  - El de la niñez sola no se distingue de no dormir nunca (15/24).
+  - Por la letra, el test quedó INDETERMINADO y la réplica dio HACE FALTA SEGUIR
+    DURMIENDO: el veredicto no se replicó.
+- **Por qué: la precisión de la niñez no llega al exilio.**
+  - El sueño de la niñez deja al experto de casa preciso (0.005).
+  - Los primeros pasos del exilio, antes de la foto, lo llevan a 0.110–0.121.
+    Es lo mismo que el experto que nunca durmió (0.111–0.131), y queda
+    congelado ahí.
+  - Al volver, el clon lo elige tan poco como si nunca hubiera dormido (31/48
+    contra 32/48).
+- **Lo que el sueño del exilio hace en `coin`: repara ese daño durante el mismo
+  bloque** (0.005 → 0.006). No es sólo mantener; es deshacer lo que los primeros
+  pasos del exilio le hacen al experto de casa.
+- **La pregunta limpia ("¿alcanza un experto preciso y congelado?") no se pudo
+  hacer.** El experto que se congela no es el de la niñez. Para hacerla, la foto
+  tiene que tomarse antes de que el experto aprenda del exilio.
+- **Predicciones fallidas:**
+  - LA NIÑEZ SOSTIENE, EL RESTO SUMA (la escrita).
+  - PERSISTE_N, NIÑEZ y ELIGE_N.
+  - Acertó la nota del humo, escrita antes del test: el experto preciso es frágil
+    a los primeros pasos del exilio.
+  - La explicación de esa nota (Adam) no se probó.
+- **Manos declaradas:**
+  - EXILIO mide todo el sueño posterior a la niñez, también el de los ensayos
+    Tm y T2.
+  - No hubo calibración.
+  - La réplica corrió en dos tramos.
+
+**Lo que sigue abierto:**
+- **La foto a tiempo.** Guardar los pesos de unos ticks antes y restaurar ésos
+  al nacer el experto nuevo, en vez de la foto que se toma cuando el promedio
+  móvil ya cruzó el umbral. Recién así se puede preguntar si alcanza un experto
+  preciso y congelado (`coin_ninez` con la foto a tiempo), y si sin sueño
+  alguno el repertorio conserva algo más.
+- Si el daño es de Adam (pasos grandes para un experto preciso) o de la sola
+  tasa de aprendizaje: un control con SGD, o con la tasa reducida en los
+  primeros pasos de una racha.
+- Lo que quedó del §K7 y del §K8: un umbral relativo, re-entrar más rápido,
+  INVIERTE y un `self_embedding` que lea el modelo del mundo.
