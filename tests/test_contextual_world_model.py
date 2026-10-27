@@ -17,9 +17,10 @@ def _mover(s: torch.Tensor, a: torch.Tensor, k: int) -> torch.Tensor:
     return s / s.sum()
 
 
-def _vivir(cwm: ContextualWorldModel, plan: list[tuple[int, int]], seed: int = 0) -> None:
+def _vivir(cwm: ContextualWorldModel, plan: list[tuple[int, int]], seed: int = 0, cada=None) -> None:
     """Drive the model the way the kernel does (predict -> update_from_error -> observe)
-    on a babbled stream through the regimes of `plan` [(regime, ticks)]."""
+    on a babbled stream through the regimes of `plan` [(regime, ticks)]; `cada(cwm)` is
+    called after every tick (the kernel's dream slot)."""
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
     s = torch.full((4,), 0.25)
@@ -30,6 +31,8 @@ def _vivir(cwm: ContextualWorldModel, plan: list[tuple[int, int]], seed: int = 0
             s = _mover(s, a, reg)
             cwm.update_from_error(s - pred)
             cwm.observe(s)
+            if cada is not None:
+                cada(cwm)
 
 
 class TestTakeLast:
@@ -83,6 +86,50 @@ class TestContextInference:
         drift = max(float((p.detach() - snap[k]).abs().max()) for k, p in cwm.experts[0].named_parameters())
         moved = max(float((p.detach() - snap[k]).abs().max()) for k, p in cwm.experts[1].named_parameters())
         assert drift < moved
+
+    @staticmethod
+    def _pesos(cwm: ContextualWorldModel, c: int) -> dict:
+        return {k: p.detach().clone() for k, p in cwm.experts[c].named_parameters()}
+
+    def test_snapshot_lag_restores_weights_from_before_the_change(self):
+        # §K10. Lag 0: the snapshot is taken when the EMA crosses the threshold, after the
+        # change at tick 600. Lag 50, no sleep: the restored weights are exactly the
+        # expert's at a tick before the change, at least 50 ticks before the restore's crossing.
+        cwm0 = ContextualWorldModel(4, error_input=True)
+        _vivir(cwm0, [(0, 600), (2, 300)])
+        assert cwm0.restores and cwm0.restores[0][1] > 600
+        cwm = ContextualWorldModel(4, error_input=True, snapshot_lag=50)
+        pesos = {}
+        _vivir(cwm, [(0, 600)], cada=lambda m: pesos.__setitem__(m._t, self._pesos(m, 0)))
+        _vivir(cwm, [(2, 300)], seed=1)
+        assert cwm.in_use == 2
+        t_restore, t_foto = cwm.restores[0]
+        assert t_foto <= 600 and t_foto in pesos
+        for k, p in cwm.experts[0].named_parameters():
+            assert torch.equal(p, pesos[t_foto][k]), k
+
+    def test_snapshot_lag_with_sleep_restores_the_slept_weights(self):
+        # With a sleep every 50 ticks the checkpoints are the weights right after each
+        # sleep (online learning between sleeps erodes what the sleep consolidated).
+        cwm = ContextualWorldModel(4, error_input=True, snapshot_lag=50)
+        dormidos = {}
+
+        def dormir(m):
+            if m._t % 50 == 0:
+                m.sleep(20, 8, 4)
+                dormidos[m._t] = self._pesos(m, 0)
+
+        _vivir(cwm, [(0, 600)], cada=dormir)
+        _vivir(cwm, [(2, 300)], seed=1)
+        assert cwm.in_use == 2
+        t_foto = cwm.restores[0][1]
+        assert t_foto <= 600 and t_foto in dormidos
+        for k, p in cwm.experts[0].named_parameters():
+            assert torch.equal(p, dormidos[t_foto][k]), k
+
+    def test_snapshot_lag_must_be_non_negative(self):
+        with pytest.raises(ValueError):
+            ContextualWorldModel(4, snapshot_lag=-1)
 
     def test_streak_transitions_move_to_the_new_context(self):
         cwm = ContextualWorldModel(4, error_input=True)

@@ -949,6 +949,119 @@ del §K7 y del §K8, con la misma regla. Se lanza apenas termine el test, salvo 
 aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO si el
 veredicto se repite.
 
+## §K10 — la foto a tiempo: ¿alcanza un experto preciso y congelado? (pre-registrado el 2026-10-27, antes de correr, sin calibración)
+
+Decisión de Fran tras el §K9: "push todo a main, luego sigamos".
+
+**Por qué.**
+- El §K9 no pudo hacer su pregunta limpia.
+- El error corriente del modelo de contextos es un promedio móvil y cruza el
+  umbral 4–24 ticks después de empezar el exilio. La foto "previa a la racha" ya
+  trae los primeros pasos del exilio.
+- Al restaurarla, el experto de casa queda al nivel del que nunca durmió y se
+  congela ahí.
+
+**El mecanismo nuevo:** `ContextualWorldModel(snapshot_lag=L)`, con tests en
+`tests/test_contextual_world_model.py`.
+- Se guarda un checkpoint del experto activo al final de cada sueño, y cada L
+  ticks si no hubo sueño en ese lapso.
+- La foto es el checkpoint más reciente que tenga al menos L ticks de
+  antigüedad al cruzar el umbral.
+- Con L = 0 el comportamiento es el de antes, igual byte a byte; lo cubren los
+  14 tests anteriores.
+- `restores` registra (tick de la restauración, tick de la foto).
+- **L = 50,** por encima del retraso máximo medido en el §K8 (24 ticks).
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_foto.py`). Dos brazos nuevos,
+bajo la crianza `una`, con la vida, los papeles, el exilio y los ensayos del §K4:
+
+| Brazo | Qué es |
+|---|---|
+| `coin_ninez_foto` | `coin_ninez` (§K9: el sueño del modelo del mundo se apaga en el exilio) + L |
+| `coin_sin_sueno_foto` | `coin_sin_sueno` (§K8: nunca duerme) + L |
+
+- Se leen `coin` (§K7), `coin_ninez` (§K9) y `coin_sin_sueno` (§K8).
+- **Verificación.** El retraso sólo actúa al restaurar. Una vida sin
+  restauraciones antes del exilio tiene que tener la niñez de su brazo de
+  referencia con diferencia 0: las series por tick, las sondas, el
+  `self_embedding` y los eventos. Los ensayos no se comparan, porque un clon de
+  ensayo también restaura.
+- **El loop del §K7 ahora guarda las restauraciones.** Es sólo un registro.
+
+**Enmienda después del primer humo, antes de cualquier par de test.**
+- **La primera versión fallaba.** Tomaba el checkpoint cada L ticks dentro del
+  tick del modelo, antes del sueño de ese tick. En el humo, el experto de casa
+  restaurado de `coin_ninez_foto` volvía en 0.086, el nivel del que nunca
+  durmió.
+- **Por qué, medido** (`exp_mundo_propio_entre_suenos.py`: re-corre `coin`, par 0, gemelo A, con la sonda de
+  casa del experto activo en cada tick, después del paso en línea y antes del
+  sueño): el experto que duerme es preciso sólo justo después de cada sueño.
+  - En los últimos 150 ticks de la niñez marca 0.004–0.006 recién dormido.
+  - La mediana es 0.012 y la media 0.046. Pasa de 0.05 en 43/151 ticks, con un
+    máximo de 0.215.
+  - Entre dos sueños, el aprendizaje en línea erosiona lo que el sueño
+    consolidó: a veces de 0.004 a 0.2 en unos 25 ticks.
+- **Las sondas de fin de bloque de todos los experimentos se toman justo
+  después de un sueño,** porque los finales de bloque caen en ticks de sueño.
+  El "0.005" de los §K7–§K9 es el estado recién dormido, no el de cualquier
+  tick. Las lecturas de identidad (H) son ensayos de conducta y no dependen de
+  esto.
+- **Se cambió la regla** a checkpoints después de cada sueño. En el segundo humo,
+  el experto de casa restaurado queda en 0.003–0.004 durante todo el exilio.
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola):
+
+| Lectura | Criterio |
+|---|---|
+| FOTO A TIEMPO (chequeo de la manipulación) | en `coin_ninez_foto`, la restauración del nacimiento del exilio usa pesos de antes del exilio en ≥ 20/24 gemelos |
+| PERSISTE_F (primaria) | H(T2) de `coin_ninez_foto` > 0, ≥ 10/12 |
+| NIÑEZ_F (primaria) | H(T2) `coin_ninez_foto` > `coin_sin_sueno_foto`, ≥ 10/12 |
+| RESTO_F (primaria) | H(T2) `coin` > `coin_ninez_foto`, ≥ 10/12: el sueño del exilio y el de los ensayos Tm y T2 |
+
+Veredicto:
+- sin FOTO A TIEMPO → **NO SE PUDO HACER**;
+- PERSISTE_F y NIÑEZ_F, sin RESTO_F → **BASTA LA NIÑEZ**;
+- PERSISTE_F, NIÑEZ_F y RESTO_F → **LA NIÑEZ SOSTIENE, EL RESTO SUMA**;
+- PERSISTE_F sin NIÑEZ_F → **PERSISTE SIN ATRIBUIR**;
+- sin PERSISTE_F, con RESTO_F → **HACE FALTA SEGUIR DURMIENDO**;
+- el resto → **INDETERMINADO**.
+
+Secundarias:
+- REPARA_F: H(T2) `coin_ninez_foto` > `coin_ninez`.
+- PERSISTE_SSF: H(T2) de `coin_sin_sueno_foto` > 0.
+- ELIGE_F.
+- FOTO A TIEMPO en `coin_sin_sueno_foto`.
+
+Se reportan:
+- H en T1, Tm y T2;
+- los costos en casa y afuera;
+- los atascos y los expertos;
+- el oráculo de casa por bloque (DAÑO, CONGELADO);
+- la antigüedad de la foto restaurada.
+
+**Prueba de humo** (par 0, vida corta, con la regla enmendada).
+- Las niñeces son iguales a las de referencia (diferencia 0, 2/2 en cada brazo).
+- FOTO A TIEMPO: 2/2 en los dos brazos.
+- El oráculo de casa de `coin_ninez_foto`: 0.003 al final de la niñez y 0.004
+  en el primer y el último bloque del exilio. El de `coin_sin_sueno_foto`: 0.087
+  → 0.050.
+
+**Predicciones, escritas antes de cualquier par de test.** Quedan después de la
+enmienda.
+- FOTO A TIEMPO 24/24 en los dos brazos.
+- El DAÑO desaparece en `coin_ninez_foto`: su oráculo de casa en el primer
+  bloque del exilio queda cerca del de fin de la niñez (0.005–0.01) y se congela.
+- PERSISTE_F y NIÑEZ_F pasan; RESTO_F falla. Veredicto previsto: **BASTA LA
+  NIÑEZ**.
+- REPARA_F y ELIGE_F pasan.
+- `coin_sin_sueno_foto` conserva intacto su experto impreciso (~0.087).
+  PERSISTE_SSF, incierta.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, leyendo las réplicas
+del §K7, el §K8 y el §K9, con la misma regla. Se lanza apenas termine el test,
+salvo que aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO
+si el veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*

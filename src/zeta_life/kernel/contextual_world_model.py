@@ -32,6 +32,17 @@ version of that principle built from the kernel's own WorldModel:
   what it began to learn about the new context, and the general physics), and
   the active one is restored. The copy diverges by learning; the original is
   protected.
+- ``snapshot_lag`` (§K10, 0 = off): the running error is an EMA, so it crosses the
+  threshold a few ticks after the stream changed, and the snapshot taken then already
+  holds the first steps learned on the new context (§K8/§K9: 4-24 ticks, and without
+  sleep that damage is never repaired). With ``snapshot_lag = L`` the active expert is
+  checkpointed at the end of every sleep, and every L ticks when it does not sleep,
+  and the snapshot is the latest checkpoint at least L ticks old at the crossing:
+  weights from before the change, as consolidated as they were then (online learning
+  between two sleeps erodes what the sleep consolidated, so a checkpoint taken before a
+  sleep would hold the eroded weights). Right after a change, with no checkpoint old
+  enough yet, it falls back to the oldest one or to the current weights. ``restores``
+  logs (tick of the restore, tick of the snapshot) for every restore.
 - Each transition (prev obs, action, obs) is stored in the buffer of the expert
   that predicted it; sleep replays each expert on its own buffer, the dose split
   in proportion to the buffer sizes (the total is the kernel's dose).
@@ -47,6 +58,7 @@ update_from_error / imagine and the active expert's attributes).
 from __future__ import annotations
 
 import copy
+from collections import deque
 
 import torch
 from torch import Tensor, nn
@@ -76,6 +88,11 @@ class ContextualWorldModel(nn.Module):
         Minimum ticks since the last change before a switch / a spawn.
     replay_capacity, replay_seed : int
         Capacity and base seed of the per-expert transition buffers.
+    snapshot_lag : int
+        0 = the snapshot is taken when the running error crosses the threshold (§K6).
+        L > 0 = checkpoint the active expert after every sleep and every L ticks without
+        one, and restore the latest checkpoint at least L ticks old (§K10): weights from
+        before the EMA's crossing lag.
     """
 
     def __init__(
@@ -94,12 +111,15 @@ class ContextualWorldModel(nn.Module):
         grace_spawn: int = 150,
         replay_capacity: int = 10000,
         replay_seed: int = 20261026,
+        snapshot_lag: int = 0,
     ) -> None:
         super().__init__()
         if n_contexts < 1:
             raise ValueError(f"n_contexts must be >= 1, got {n_contexts}")
         if tau < 1.0 or not 0.0 <= margin < 1.0 or threshold <= 0.0:
             raise ValueError("need tau >= 1, 0 <= margin < 1 and threshold > 0")
+        if snapshot_lag < 0:
+            raise ValueError(f"snapshot_lag must be >= 0, got {snapshot_lag}")
         self.n_contexts = n_contexts
         self.experts = nn.ModuleList([
             WorldModel(obs_dim, latent_dim, action_dim, learning_rate=learning_rate,
@@ -128,7 +148,11 @@ class ContextualWorldModel(nn.Module):
         self._above = 0
         self._t = 0
         self._snapshot: tuple[dict, dict] | None = None
+        self._snapshot_t: int | None = None
         self._streak = 0
+        self.snapshot_lag = snapshot_lag
+        self._ckpts: deque[tuple[int, tuple[dict, dict]]] = deque(maxlen=8)
+        self.restores: list[tuple[int, int]] = []
 
     # ------------------------------------------------------------------
     # The active expert, as the kernel sees a WorldModel
@@ -266,8 +290,14 @@ class ContextualWorldModel(nn.Module):
         a = self.active
         if self.running[a] is None:
             return
+        if self.snapshot_lag and (not self._ckpts or self._t - self._ckpts[-1][0] > self.snapshot_lag):
+            self._checkpoint()
         if self.running[a] > self.threshold and self._snapshot is None and self.established[a]:
-            self._snapshot = self._take(self.experts[a])
+            previa = self._previa() if self.snapshot_lag else None
+            if previa is None:
+                self._snapshot_t, self._snapshot = self._t, self._take(self.experts[a])
+            else:
+                self._snapshot_t, self._snapshot = previa
             self._streak = 0
         elif self.running[a] <= self.threshold and self._snapshot is not None:
             self._snapshot = None
@@ -298,13 +328,26 @@ class ContextualWorldModel(nn.Module):
         streak's transitions to `new`."""
         if self._snapshot is not None:
             self._restore(self.experts[old], self._snapshot)
+            self.restores.append((self._t, self._snapshot_t))
             for tr in self.buffers[old].take_last(self._streak):
                 self.buffers[new].add(*tr)
         self._snapshot = None
+        self._snapshot_t = None
+        self._ckpts.clear()
         self._streak = 0
         self._above = 0
         self._since = 0
         self.active_index.fill_(new)
+
+    def _checkpoint(self) -> None:
+        self._ckpts.append((self._t, self._take(self.experts[self.active])))
+
+    def _previa(self) -> tuple[int, tuple[dict, dict]] | None:
+        """The latest checkpoint at least snapshot_lag ticks old (else the oldest, else None)."""
+        viejas = [c for c in self._ckpts if c[0] <= self._t - self.snapshot_lag]
+        if viejas:
+            return viejas[-1]
+        return self._ckpts[0] if self._ckpts else None
 
     @staticmethod
     def _take(wm: WorldModel) -> tuple[dict, dict]:
@@ -341,4 +384,6 @@ class ContextualWorldModel(nn.Module):
                 value = sleep_replay(self.experts[c], self.buffers[c], k, seq_len, batch)
                 if c == self.active:
                     loss = value
+        if self.snapshot_lag:
+            self._checkpoint()
         return loss

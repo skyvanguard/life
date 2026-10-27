@@ -245,6 +245,9 @@ def vivir(args: tuple) -> dict:
     vida = {"dist": dist, "psi": psi, "fe": fe, "tipo": tipo, "sonda": sonda, "oraculo": oraculo,
             "ctx": ctx, "ens_dist": ens[0], "ens_fe": ens[1], "ens_psi": ens[2], "ens_ctx": ens_ctx,
             "yo": yo, "eventos": ev}
+    if contextos:
+        # §K10: (tick of the restore, tick of the restored snapshot) -- a log, nothing reads it here.
+        vida["restauraciones"] = np.array(k.world_model.restores, dtype=int).reshape(-1, 2)
     DATA.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(DATA / f"{archivo}.npz", **vida)
     return salida(args, vida, t0)
