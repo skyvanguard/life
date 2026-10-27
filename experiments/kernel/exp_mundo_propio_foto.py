@@ -73,6 +73,17 @@ REPLICATION, pre-registered with the test: pairs 12-23 (reading the replication 
 of §K7, §K8 and §K9), the same rule, launched right after the test unless a bug is
 found (any change recorded). REPLICADO if the verdict repeats.
 
+RESULT (pairs 0-11, results/mundo_propio_foto_run.txt, 42.4 min; childhoods without a
+restore before the exile equal their reference, diff 0, 21/24 and 20/24 lives). The
+manipulation works: FOTO A TIEMPO 22/24 (coin_sin_sueno_foto 24/24); coin_ninez_foto's
+home oracle stays at 0.005 through the exile (CONGELADO 22/24), the §K9 damage is gone.
+Pre-registered verdict: BASTA LA NINEZ -- PERSISTE_F 12/12 (H(T2) +1.02; coin +0.69),
+NINEZ_F 10/12 (at the threshold), RESTO_F 5/12; REPARA_F 12/12, ELIGE_F 8/12. Surprise:
+coin_sin_sueno_foto (never sleeps) PERSISTS 10/12 (+0.43) and CHOOSES 12/12 (24/24 twins
+settle on h at T2) -- §K8's POR EL SUENO was obtained with the lagged snapshot. Part of
+coin_ninez_foto's larger H is a worse abroad cost (0.707 vs coin 0.489: its Tm/T2
+clones do not sleep); home at T2 it is as good as coin (0.138 vs 0.146).
+
 48 new lives per run; 3 CPU processes, one torch thread each (the declared kernel
 exception; the GPU is slower for this batch-1 loop, measured 2026-10-27). `reanudar`
 after any mode loads the lives already on disk.

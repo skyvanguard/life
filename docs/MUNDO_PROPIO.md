@@ -2237,3 +2237,69 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
   primeros pasos de una racha.
 - Lo que quedó del §K7 y del §K8: un umbral relativo, re-entrar más rápido,
   INVIERTE y un `self_embedding` que lea el modelo del mundo.
+
+### §K10 — BASTA LA NIÑEZ por la letra; con la foto a tiempo, también la separación sola sostiene la identidad (2026-10-27)
+
+`results/mundo_propio_foto_run.txt`: pares 0–11, 42.4 min.
+- **Verificación.** Las niñeces sin restauración antes del exilio son iguales a
+  las de referencia, con diferencia 0. Son 21/24 vidas de `coin_ninez_foto` y
+  20/24 de `coin_sin_sueno_foto`. Las demás tuvieron una restauración en la
+  niñez, y pueden diferir.
+
+**Chequeo de la manipulación: pasa.**
+- FOTO A TIEMPO en `coin_ninez_foto`: 22/24 gemelos. En `coin_sin_sueno_foto`:
+  24/24.
+- La foto restaurada tiene una antigüedad mediana de 86 y 98 ticks.
+- El oráculo de casa de `coin_ninez_foto` queda en 0.005 al final de la niñez, en
+  el primer bloque del exilio y en el último (CONGELADO 22/24). El DAÑO del §K9
+  (0.005 → 0.121) desaparece.
+
+**Veredicto pre-registrado: BASTA LA NIÑEZ.**
+- **PERSISTE_F: 12/12,** con H(T2) +1.02. En `coin`, que duerme toda la vida,
+  +0.69.
+- **NIÑEZ_F: 10/12, en el umbral.**
+- **RESTO_F: 5/12.** El sueño posterior a la niñez no suma.
+- Secundarias:
+  - REPARA_F: 12/12. La foto a tiempo rescata al `coin_ninez` del §K9 (+0.35).
+  - ELIGE_F: 8/12. No pasa: en T2, 20/24 gemelos se asientan en h, con una
+    latencia de 11 ticks.
+
+**La sorpresa: la separación sola, con la foto a tiempo.**
+- `coin_sin_sueno_foto`, que nunca duerme, PERSISTE en 10/12 (H(T2) +0.43).
+- **ELIGE 12/12:** en T2 se asienta en h en 24/24 gemelos, con una latencia de
+  21 ticks. Elige mejor que `coin_ninez_foto`.
+- Sin foto a tiempo, en el §K8, eso daba 7/12 y 5/12.
+- Su experto de casa queda intacto, impreciso (0.066) y congelado (24/24).
+- **El veredicto del §K8 (POR EL SUEÑO: "separar no alcanza") se obtuvo con la
+  foto atrasada.** Con la foto a tiempo, separar sí sostiene la identidad, más
+  débil que con sueño en la niñez (+0.43 contra +1.02; NIÑEZ_F 10/12). Queda
+  pendiente de la réplica.
+
+**Costos en medianas.**
+
+| Brazo | En casa T2 | Afuera T2 |
+|---|---|---|
+| `coin` | 0.146 | 0.489 |
+| `coin_ninez` | 0.382 | 0.640 |
+| `coin_ninez_foto` | 0.138 | 0.707 |
+| `coin_sin_sueno` | 0.460 | 0.489 |
+| `coin_sin_sueno_foto` | 0.222 | 0.489 |
+
+- `coin_ninez_foto` vuelve a su casa tan bien como `coin` (0.138 contra 0.146).
+- Le va peor en la casa del hermano (0.707 contra 0.489): sus clones de los
+  ensayos Tm y T2 no duermen. Parte de su H(T2) mayor viene de ahí. Es una
+  lectura, no un veredicto.
+
+**Las predicciones, contra el resultado.**
+- Acertadas:
+  - FOTO A TIEMPO (22/24, no 24/24).
+  - El DAÑO desaparece.
+  - PERSISTE_F y NIÑEZ_F pasan; RESTO_F falla.
+  - El veredicto BASTA LA NIÑEZ.
+  - REPARA_F.
+- Fallidas:
+  - ELIGE_F (8/12).
+  - "`coin_sin_sueno_foto` conserva intacto su experto": lo conserva, pero
+    PERSISTE_SSF, que se daba por incierta, pasó (10/12).
+
+La réplica (pares 12–23, pre-registrada) está corriendo.
