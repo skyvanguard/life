@@ -1368,3 +1368,86 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
   identidad.
 - Ya no está abierto si la rigidez es el precio inevitable de la identidad
   (§K5, replicado): con una crianza plural se achica sin perderla.
+
+### §K7 — IDENTIDAD EN EL REPERTORIO por la letra; no conserva más identidad, pero cuesta menos (2026-10-27)
+
+`results/mundo_propio_casas_run.txt`: pares 0–11, 137.2 min. Tardó más que los
+100–110 min previstos: cada vida de `coin` llevó unos 8 min.
+- Verificación: el loop re-corrido sobre `error_x4` (par 0, gemelo A, `una`)
+  reproduce la vida del §K4 con diferencia 0.
+
+**Veredicto pre-registrado (`una`): IDENTIDAD EN EL REPERTORIO.**
+- **SE DIFERENCIA: 12/12**, con H(T1) +0.96.
+- **PERSISTE: 12/12**, con H(T2) +0.69. Queda debajo de H(T1), como se predijo.
+- **ELIGE: 11/12.** El exilio tuvo su propio experto en 24/24 gemelos. En T2,
+  23/24 gemelos vuelven a h en casa. La latencia mediana es de 11 ticks; la
+  predicción decía 10–30.
+- **El par que falla es el 1, y falla en el gemelo A.** En la niñez abrió un
+  segundo experto, así que h = 1. En T2 se asienta en el 0, que también es de su
+  niñez: 222 de los 300 ticks en el 0 y 64 en el 1. Falla por la letra: vuelve a
+  la niñez, pero no a su último experto.
+- Contextos en uso: 2 en 18/24 gemelos y 3 en 6/24.
+- NO CONFUNDE: 12/12 en T2, reportado.
+- La sonda de `coin` en T2: casa 0.007, exilio 0.030 y casa del hermano 0.185.
+  Conserva su casa a través del exilio; la del hermano nunca la vivió.
+
+**Secundarias bajo `una`.**
+- **PAREADO: 6/12. Falla.** Se había predicho que pasaba, antes y después de la
+  calibración. En medianas `coin` queda arriba (+0.69 contra +0.53), pero par a
+  par empata: las diferencias van de −0.35 a +1.28.
+- **ACHICA: 10/12. Pasa.** La predicción escrita decía que fallaba, y la de
+  después de la calibración la daba por incierta. El costo en T1 en la casa del
+  hermano baja de 0.71 (`error_x4`) a 0.51.
+- **RIGIDEZ: 7/12. Falla.** Se había predicho que pasaba, las dos veces. `coin`
+  entra a la casa del hermano casi como el kernel sin sueño (0.51 contra 0.46).
+  La calibración engañó: ahí dio 3/3 (0.77 contra 0.44).
+- **EXILIO: 11/12. Pasa**, como se predijo. El primer bloque del exilio da 0.50
+  contra 0.68. Bloques atascados: 2 (2/24 gemelos) contra 12 (11/24).
+- RECONOCE (el cruce de la energía libre en T2): 8/12, reportado.
+
+**Bajo `dos`, contra las vidas del §K5.**
+- **SE DIFERENCIA 12/12.**
+- **CONSERVA 12/12**, con H(T2) +0.46 (`error_x4`, +0.38). El riesgo que
+  mostraba la calibración (+0.10) no apareció.
+- **ELIGE 12/12**, con una latencia de 17 ticks en T2.
+- PAREADO 8/12. ACHICA 7/12: el costo de `coin` (0.51) queda como el de
+  `error_x4` (0.47), y ésa era la predicción escrita. RIGIDEZ 5/12. EXILIO 10/12
+  (0.33 contra 0.43).
+- Contextos: 3 en 19/24 gemelos y 4 en 5/24. El experto de casa es siempre el 1
+  y el del exilio, el 2 o el 3.
+- La sonda en T2: casa 0.014, escuela 0.011, exilio 0.033 y hermano 0.185.
+- RECONOCE 2/12, reportado.
+
+**Lectura posterior, no veredicto** (sobre las vidas guardadas).
+- **`coin` se diferencia menos en T1 y pierde menos en el exilio.** H(T1) da
+  +0.96 contra +1.36 de `error_x4`; `coin` queda abajo en 10/12 pares.
+- **La retención H(T2)/H(T1) da 0.76 contra 0.43** (8/12, no llega al umbral).
+  Por eso PAREADO empata: `coin` empieza con menos identidad y pierde menos.
+- **La identidad en T1 es más chica porque `coin` paga menos afuera.** H es el
+  cruce afuera − en casa. La diferencia de costo (0.71 − 0.51, por dos gemelos)
+  da 0.40, la misma diferencia que en H(T1), en medianas.
+- **Por qué paga menos: en la casa del hermano, el clon abre un experto nuevo.**
+  En T1 se asienta en h en sólo 2/24 gemelos; en el resto, en un experto nuevo.
+- **La predicción escrita (ACHICA falla) suponía que esa copia de h no ganaba
+  nada, y ganó.** La hipótesis, sin probar, es la misma de EXILIO: la copia
+  sueña sólo sobre lo nuevo, y la niñez no la arrastra hacia la casa.
+- **En resumen, el repertorio no conserva más identidad que `error_x4`, pero
+  casi no cobra el precio del §K4.** Lo nunca vivido va a un experto aparte, y
+  la identidad pasa a ser a qué experto vuelve al volver a casa.
+
+**Las predicciones, contra el resultado.**
+- **Escritas antes de la calibración:**
+  - Acertadas: SE DIFERENCIA; PERSISTE; H(T2) < H(T1); la latencia; ELIGE.
+    También, bajo `dos`: CONSERVA, ELIGE y el costo como el de `error_x4`.
+  - Fallidas: PAREADO, RIGIDEZ y "ACHICA falla".
+- **Agregadas después de la calibración:**
+  - Acertadas: PERSISTE, ELIGE y EXILIO.
+  - Fallidas: PAREADO y RIGIDEZ.
+  - La de CONSERVA "en riesgo" no se cumplió: pasó 12/12.
+
+**Manos declaradas:**
+- `coin` nace con 6 expertos, así que sus pesos y su azar no son los de
+  `error_x4` en el mismo par.
+- El cambio de experto usa un umbral absoluto sobre el error corriente (§K6).
+
+La réplica (pares 12–23, pre-registrada) está corriendo.

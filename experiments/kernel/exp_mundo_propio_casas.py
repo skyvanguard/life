@@ -86,6 +86,20 @@ REPLICATION, pre-registered with the test: pairs 12-23 (the replication lives of
 and §K5 are read), the same rule, launched right after the test unless a bug is found
 (any change recorded). REPLICADO if the verdict repeats.
 
+RESULT (pairs 0-11, results/mundo_propio_casas_run.txt, 137.2 min; verification max
+diff 0). Pre-registered verdict ("una"): IDENTIDAD EN EL REPERTORIO -- SE DIFERENCIA
+12/12 (H(T1) +0.96), PERSISTE 12/12 (H(T2) +0.69), ELIGE 11/12 (the exile got its own
+expert in 24/24 twins; back to h at home in 23/24, latency 11 ticks; the failing pair
+opened a second childhood expert and settled on the first). Secondary: PAREADO 6/12
+(FAILED, predicted to pass), ACHICA 10/12 (passed; the written prediction said it
+fails: T1 cost 0.51 vs error_x4 0.71), RIGIDEZ 7/12 (FAILED, predicted to pass: 0.51
+vs kernel 0.46), EXILIO 11/12 (0.50 vs 0.68; stuck 2 vs 12). "dos": SE DIFERENCIA
+12/12, CONSERVA 12/12 (+0.46), ELIGE 12/12, PAREADO 8/12, ACHICA 7/12, RIGIDEZ 5/12,
+EXILIO 10/12. Post hoc: coin differentiates less at T1 (10/12 below error_x4) and
+keeps more through the exile (retention 0.76 vs 0.43, 8/12); in the sibling's home
+at T1 its clone opens a new expert (settles on h in 2/24 twins). The repertoire does
+not keep more identity than error_x4, but it nearly stops paying §K4's price.
+
 48 new lives + 1 verification life per run; 3 CPU processes, one torch thread each
 (the declared kernel exception); ~7 min per coin life.
 
