@@ -729,6 +729,98 @@ del §K4 y del §K5, con la misma regla. Se lanza apenas termine el test, salvo 
 aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO si el
 veredicto se repite.
 
+## §K8 — ¿sueño o separación? De dónde viene la identidad del repertorio (escrito el 2026-10-27, antes de la calibración)
+
+Decisión de Fran tras el §K7: "push todo, luego vamos con tu siguiente
+recomendacion". La recomendación era un `coin` sin sueño.
+
+**Por qué.**
+- En el §K4 la identidad es POR EL SUEÑO. El kernel sin sueño la conserva al
+  azar (15/24), y el pareado da 23/24.
+- En el §K7, un kernel con repertorio también la conserva (PERSISTE 24/24). Su
+  identidad pasa a ser a qué experto vuelve (ELIGE 22/24).
+- Pero en el §K7 no había un `coin` sin sueño. No se sabe si esa identidad sigue
+  siendo del sueño o si alcanza con separar el exilio en su propio experto. El
+  experto de casa vuelve a su foto y deja de aprender mientras está inactivo,
+  con sueño o sin él.
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_separacion.py`). Un 2 × 2 de
+sueño × separación, todo bajo la crianza `una` del §K7:
+
+| Brazo | Sueño | Expertos | De dónde |
+|---|---|---|---|
+| `coin` | sí | sí | leído del §K7 |
+| `error_x4` | sí | no | leído del §K4 |
+| `coin_sin_sueno` | no | sí | nuevo: `coin` con `wm_sleep_replay = 0` |
+| `error_sin_sueno` | no | no | nuevo: `error_x4` con `wm_sleep_replay = 0` |
+
+- El `kernel` del §K4 (sin sueño y sin ver su error) se lee como referencia.
+- Los brazos nuevos difieren de los leídos SÓLO en el sueño del modelo del
+  mundo. El sueño del `DreamEngine`, que nunca toca el modelo del mundo, corre en
+  todos.
+- La vida, los papeles, el exilio y los ensayos son los del §K4. El loop es el
+  `vivir` del §K7, re-corrido sobre `coin` (par 0, gemelo A): tiene que
+  reproducir la vida guardada del §K7 con diferencia 0. En el humo dio 0.
+- `elige` y `confunde` del §K7 se generalizaron para recibir el brazo; para
+  `coin` quedan iguales.
+- Manos declaradas: no se corre `dos`. `error_sin_sueno` tiene un solo modelo,
+  así que sus lecturas de expertos son triviales (h = e = 0).
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola):
+
+| Lectura | Criterio (≥ 10/12) |
+|---|---|
+| SE DIFERENCIA (control positivo) | H(T1) de `coin_sin_sueno` > 0 |
+| PERSISTE_SS (primaria) | H(T2) de `coin_sin_sueno` > 0 |
+| SEPARA (primaria) | H(T2) `coin_sin_sueno` > `error_sin_sueno`, pareado |
+| SUEÑO (primaria) | H(T2) `coin` > `coin_sin_sueno`, pareado |
+
+Veredicto:
+- sin SE DIFERENCIA → **NO SE DIFERENCIA**;
+- PERSISTE_SS y SEPARA, sin SUEÑO → **POR LA SEPARACIÓN**;
+- PERSISTE_SS, SEPARA y SUEÑO → **SEPARACIÓN Y SUEÑO**;
+- PERSISTE_SS sin SEPARA → **PERSISTE SIN SUEÑO, SIN ATRIBUIR**;
+- sin PERSISTE_SS, con SUEÑO → **POR EL SUEÑO**;
+- el resto → **INDETERMINADO**.
+
+Secundarias:
+- ELIGE_SS: el ELIGE del §K7 sobre `coin_sin_sueno` en T2.
+- EXILIO_SS: el `e_early` del primer bloque del exilio, `coin_sin_sueno` <
+  `error_sin_sueno`.
+- La lectura del §K4 sobre el brazo nuevo de un solo modelo: PERSISTE de
+  `error_sin_sueno`.
+
+Se reportan, sin ser veredictos: H en T1, Tm y T2 de cada brazo; los costos en
+casa y afuera en T1 y T2; los bloques atascados; para los dos brazos con
+expertos, los contextos en uso, (h, e), el asentado, NO CONFUNDE y la latencia;
+la sonda de `coin_sin_sueno` por papel; el sueño con un solo modelo (H(T2)
+`error_x4` > `error_sin_sueno`).
+
+**Prueba de humo** (`humo`, par 0, vida corta).
+- El loop reproduce la vida guardada del §K7 con diferencia 0.
+- Los gemelos `coin_sin_sueno` recién nacidos dan ensayos idénticos
+  (`ens_dist` igual en T0). H(T0) da 2.8e-17, que es redondeo de la suma.
+- El exilio de `coin_sin_sueno` tiene su propio experto.
+
+**Predicciones, escritas antes de la calibración:**
+- SE DIFERENCIA 12/12: el kernel sin sueño del §K4 se diferenciaba en T1 12/12.
+- PERSISTE_SS y SEPARA pasan; SUEÑO falla. Veredicto previsto: **POR LA
+  SEPARACIÓN**.
+- La razón: en el modelo de contextos sólo aprende el experto ACTIVO, y cuando
+  nace el experto del exilio el de casa vuelve a sus pesos de antes de la racha.
+  La niñez queda protegida sin ningún repaso. El modelo único sin sueño, en
+  cambio, la sobrescribe en el exilio (§K4: 15/24).
+- ELIGE_SS pasa.
+- Riesgo: sin sueño, el error corriente del aprendiz en línea puede rondar el
+  umbral absoluto (0.08) y abrir contextos espurios. Eso rompería ELIGE_SS: los
+  dos fallos del §K7 tenían un tercer experto.
+- PERSISTE de `error_sin_sueno`, al azar, como el kernel del §K4.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, leyendo las réplicas
+del §K4 y del §K7, con la misma regla. Se lanza apenas termine el test, salvo que
+aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO si el
+veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*

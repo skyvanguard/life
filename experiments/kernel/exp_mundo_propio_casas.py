@@ -309,19 +309,19 @@ def asentado(x: dict, j: int, w: int) -> int:
     return moda(x["ens_ctx"][j, w, mp.EARLY:])
 
 
-def elige(V: dict, par: int, j: int) -> bool:
+def elige(V: dict, par: int, j: int, brazo: str = "coin") -> bool:
     """Both twins: the exile got its own expert and, back home, the clone settles on h."""
     for i, gm in enumerate(GEMELOS):
-        x = V[("coin", par, gm)]
+        x = V[(brazo, par, gm)]
         h, e = casa_exilio(x, par)
         if e == h or asentado(x, j, i) != h:
             return False
     return True
 
 
-def confunde(V: dict, par: int, j: int) -> bool:
+def confunde(V: dict, par: int, j: int, brazo: str = "coin") -> bool:
     """Some twin settles on its home expert in its sibling's home."""
-    return any(asentado(V[("coin", par, gm)], j, 1 - i) == casa_exilio(V[("coin", par, gm)], par)[0]
+    return any(asentado(V[(brazo, par, gm)], j, 1 - i) == casa_exilio(V[(brazo, par, gm)], par)[0]
                for i, gm in enumerate(GEMELOS))
 
 
