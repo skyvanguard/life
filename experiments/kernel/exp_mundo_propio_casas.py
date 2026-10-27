@@ -100,6 +100,19 @@ keeps more through the exile (retention 0.76 vs 0.43, 8/12); in the sibling's ho
 at T1 its clone opens a new expert (settles on h in 2/24 twins). The repertoire does
 not keep more identity than error_x4, but it nearly stops paying §K4's price.
 
+REPLICATION RESULT (pairs 12-23, results/mundo_propio_casas_replica_run.txt; run in two
+legs: the first was killed for low system memory after 28/48 lives, the second loaded
+them with `reanudar` and ran the other 20 in 42.2 min; verification max diff 0).
+REPLICADO: IDENTIDAD EN EL REPERTORIO again -- SE DIFERENCIA 12/12, PERSISTE 12/12
+(H(T2) +0.98), ELIGE 11/12. Secondary: PAREADO 9/12, ACHICA 9/12, RIGIDEZ 8/12 (none
+passes by the letter), EXILIO 11/12 (stuck 1 vs 16). "dos": CONSERVA 10/12, ELIGE
+12/12, ACHICA 10/12, RIGIDEZ 3/12, EXILIO 10/12. Pooled 24: PERSISTE 24/24, ELIGE
+22/24, PAREADO 15/24, ACHICA 19/24 (p 0.003), RIGIDEZ 15/24, EXILIO 22/24; under
+"dos" coin < kernel T1 cost 16/24 (p 0.08). The identity survives the repertoire and
+becomes WHICH EXPERT IT GOES BACK TO; it is not larger than error_x4's, and §K4's
+price nearly vanishes (the never-lived goes to a new expert). Open: a coin arm without
+sleep (attribution), a relative threshold (the two ELIGE misses have a third expert).
+
 48 new lives + 1 verification life per run; 3 CPU processes, one torch thread each
 (the declared kernel exception); ~7 min per coin life.
 

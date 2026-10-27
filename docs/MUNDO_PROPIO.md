@@ -1451,3 +1451,127 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
 - El cambio de experto usa un umbral absoluto sobre el error corriente (§K6).
 
 La réplica (pares 12–23, pre-registrada) está corriendo.
+
+### §K7, réplica — REPLICADO: la identidad es a qué experto vuelve (2026-10-27)
+
+`results/mundo_propio_casas_replica_run.txt`: pares 12–23.
+- **Corrió en dos tramos.** El primero se cortó a las 12:56 por falta de memoria
+  en el sistema, con 28 de las 48 vidas escritas. El segundo las cargó del disco
+  (`replica reanudar`, commit `c6c60cd`) y corrió las 20 que faltaban en 42.2 min.
+- Una vida guardada es la salida determinista del loop. El modo `reanudar` se
+  validó recargando el test: el informe salió idéntico, salvo los minutos.
+- Verificación: el loop re-corrido sobre `error_x4` (par 12, gemelo A) reproduce
+  la vida de la réplica del §K4 con diferencia 0.
+
+**Veredicto pre-registrado (`una`): IDENTIDAD EN EL REPERTORIO. REPLICADO.**
+- **SE DIFERENCIA 12/12** (H(T1) +1.00) y **PERSISTE 12/12** (H(T2) +0.98).
+- **ELIGE 11/12.** El exilio tuvo su propio experto en 24/24 gemelos, y en T2
+  23/24 vuelven a h en casa, con una latencia de 11 ticks.
+- **Falla el par 17, por el gemelo B.** Su vida abrió tres expertos; en T2 se
+  asienta en el 1 (240 de 300 ticks), que no es ni el de casa ni el del exilio.
+- Contextos en uso: 2 en 23/24 gemelos.
+- La sonda en T2: casa 0.006, exilio 0.025 y hermano 0.186.
+- RECONOCE 6/12, reportado.
+
+**Secundarias bajo `una`.**
+- **PAREADO 9/12.** No pasa por la letra (en el test, 6/12). Medianas: +0.98
+  contra +0.72.
+- **ACHICA 9/12.** No pasa por la letra (en el test, 10/12). Costo 0.53 contra
+  0.71.
+- **RIGIDEZ 8/12.** No pasa (en el test, 7/12): 0.53 contra 0.49 del `kernel`.
+- **EXILIO 11/12. Pasa otra vez:** 0.60 contra 0.71. Atascos: 1 bloque contra
+  16 (15/24 gemelos).
+
+**Bajo `dos`.**
+- **SE DIFERENCIA 12/12.**
+- **CONSERVA 10/12, en el umbral:** H(T2) +0.66 (`error_x4`, +0.41).
+- **ELIGE 12/12**, con una latencia de 18 ticks.
+- PAREADO 7/12. ACHICA 10/12 (0.30 contra 0.55). EXILIO 10/12.
+- RIGIDEZ 3/12: `coin` entra a la casa del hermano mejor que el kernel sin
+  sueño en 9/12 pares (0.30 contra 0.47).
+- Contextos: 3 en 22/24 gemelos. El de casa es siempre el 1.
+
+**Sobre los 24 pares juntos** (tests de signo de una cola).
+- `una`:
+  - SE DIFERENCIA y PERSISTE: 24/24.
+  - ELIGE: 22/24 (p < 0.0001).
+  - PAREADO: 15/24 (p 0.15).
+  - ACHICA: 19/24 (p 0.003).
+  - RIGIDEZ: 15/24 (p 0.15).
+  - EXILIO: 22/24.
+  - Bloques atascados: 3 en 3/48 gemelos, contra 28 en 26/48 de `error_x4`.
+- `dos`:
+  - CONSERVA: 22/24.
+  - ELIGE: 24/24.
+  - PAREADO: 15/24.
+  - ACHICA: 17/24 (p 0.03).
+  - EXILIO: 20/24 (p 0.0008).
+  - RIGIDEZ: 8/24; es decir, `coin` < `kernel` en 16/24 (p 0.08).
+- Posterior: la retención H(T2)/H(T1), `coin` > `error_x4`, da 17/24 (p 0.03)
+  en `una` y 16/24 en `dos`. H(T1) de `coin` queda por debajo en 19/24 y 17/24.
+- Posterior: en T1, en la casa del hermano, el clon de `coin` se asienta en h en
+  sólo 4/48 gemelos (`una`) y 1/48 (`dos`). En el resto abre un experto nuevo.
+- Posterior, en medianas de los 24 pares, bajo `una`:
+
+  | Brazo | Costo en casa en T2 | Afuera en T2 |
+  |---|---|---|
+  | `coin` | 0.145 | 0.523 |
+  | `error_x4` | 0.248 | 0.613 |
+  | `kernel` | 0.489 | 0.530 |
+
+**Lectura del §K7 completo.**
+- **La identidad sobrevive al repertorio y se vuelve una elección.**
+  - En 24/24 pares los gemelos siguen distintos después del exilio.
+  - En 96/96 gemelos (las dos crianzas, las dos corridas) el exilio tuvo su
+    propio experto.
+  - Al volver a casa, en 22/24 pares (`dos`: 24/24) los dos gemelos se asientan
+    en el experto de su niñez, en 11–18 ticks.
+  - La sonda conserva la casa a través del exilio: 0.006 contra 0.18 de la casa
+    del hermano.
+  - El §K4 decía que la identidad vive en el modelo del mundo. Con repertorio, es
+    cuál de sus modelos elige al volver.
+- **No conserva más identidad que `error_x4`, pero la conserva de otra forma.**
+  - PAREADO 15/24.
+  - Arranca con menos, porque paga menos en la casa del hermano.
+  - Retiene más a través del exilio: 17/24, p 0.03, posterior.
+  - En T2 vuelve mejor a su propia casa: 0.145 contra 0.248.
+- **El precio del §K4 casi desaparece.**
+  - Bajo `una`, ACHICA da 19/24 y RIGIDEZ cae al azar (15/24): `coin` entra a la
+    casa del hermano casi como el kernel sin sueño.
+  - Bajo `dos`, entra mejor que él en 16/24 (p 0.08). Es casi la inversión que
+    el §K5 no logró con `error_x4` (INVIERTE 9/24).
+  - Al exilio entra sin atascarse: 3 bloques contra 28.
+  - El mecanismo, visto: lo nunca vivido va a un experto nuevo (en T1 sólo 5/96
+    gemelos se quedan en el de casa).
+  - La hipótesis, sin probar: el experto nuevo sueña sólo sobre lo suyo, y la
+    niñez no lo arrastra.
+- **Lo que el §K5 lograba con la crianza, el §K7 lo logra con la arquitectura.**
+  Una crianza plural achicaba la rigidez en `error_x4`. Un experto por casa la
+  achica aun con una sola casa.
+- **Dónde falla la elección.** Los dos pares que fallan ELIGE tienen un gemelo
+  con un tercer experto: uno abierto en la niñez, o uno que no es ni la casa ni
+  el exilio. Son los contextos espurios del §K6, con su umbral absoluto.
+- **Predicciones fallidas, en las dos corridas:**
+  - PAREADO (6/12 y 9/12).
+  - RIGIDEZ (7/12 y 8/12). La calibración engañó: dio 3/3.
+  - "ACHICA falla": pasó, 19/24.
+- **Manos declaradas:**
+  - `coin` nace con 6 expertos.
+  - El umbral de cambio es absoluto.
+  - La réplica corrió en dos tramos.
+  - No hay un brazo `coin` sin sueño, así que acá no se prueba que la identidad
+    del repertorio sea del sueño.
+
+**Lo que sigue abierto:**
+- Un `coin` sin sueño. Sin él no se sabe si la identidad del repertorio es del
+  sueño, como la del §K4, o de la sola separación en expertos.
+- Una elección más limpia, con un umbral relativo o una inferencia bayesiana
+  del contexto (el COIN completo): menos contextos espurios.
+- Re-entrar más rápido: el cambio espera al error corriente, 11–18 ticks.
+- INVIERTE bajo `dos` quedó en p 0.08. ¿Una crianza más diversa, con tres o
+  cuatro regímenes como en el §K3, haría del repertorio una ventaja ante lo
+  nunca vivido?
+- Un `self_embedding` que lea el modelo del mundo, o el experto que elige, en
+  vez de la acción.
+- Ya no está abierto si un kernel con repertorio tiene identidad (§K7,
+  replicado): la tiene, y su identidad es a qué experto vuelve.
