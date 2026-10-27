@@ -352,6 +352,25 @@ test:**
   ≥ 10/12. Es la desventaja de la propia casa que se vio en la calibración
   (2/3). Predicción: pasa.
 
+**Réplica (pre-registrada el 2026-10-26, después del test y antes de correrla).**
+- Pares 12–23 (cada régimen sigue jugando cada papel 3 veces), los dos brazos y
+  la misma regla.
+- **REPLICADO** si el veredicto vuelve a ser IDENTIDAD. La atribución se lee con
+  la misma regla y se reporta también sobre los 24 pares juntos.
+- Secundaria, sacada de una lectura posterior del test (11/12 ahí; el primer
+  bloque del exilio, 21/24 gemelos): **RIGIDEZ**. El costo en T1 en la casa del
+  hermano (media de los gemelos) de `error_x4` > el de `kernel`, en ≥ 10/12. El
+  kernel que conserva su niñez entra peor a un mundo que nunca vivió.
+- Se reportan otra vez RECONOCE (8/12 en el test), DESVENTAJA (3/12 en el test:
+  falló la predicción de la calibración), el `self_embedding` y los bloques
+  atascados.
+- Predicciones:
+  - PERSISTE se replica: 12/12 en el test, con H mínimo +0.26.
+  - PERSISTE en `kernel` es una moneda en el umbral (9/12), así que la
+    atribución "por el sueño" está en riesgo.
+  - RECONOCE vuelve a fallar.
+  - RIGIDEZ pasa.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
@@ -655,3 +674,51 @@ correrla).**
   en vez de reescribir los viejos.
 - La identidad: gemelos criados en mundos distintos.
 - Distinguir lo que hizo de lo que le pasó ya no está abierto (§K3, replicado).
+
+### §K4 — IDENTIDAD por la letra, por el sueño; su propia sorpresa no reconoce la casa (2026-10-26)
+
+`results/mundo_propio_gemelos_run.txt`: pares 0–11, 62.9 min.
+
+- **SE DIFERENCIA: 12/12 en los dos brazos.** H(T1) da +1.36 en `error_x4` y
+  +0.85 en `kernel`.
+- **PERSISTE (primaria): 12/12.** Después de 4500 ticks de exilio compartido,
+  H(T2) da +0.53, con mínimo +0.26.
+  - Por gemelo, vuelve a su casa con un costo de 0.21, contra 0.55 en la del
+    hermano. Pasa en 21/24 gemelos.
+  - Entre Tm y T2, H no se mueve (+0.53 y +0.53): lo que queda a los 1500 ticks
+    de exilio sigue ahí a los 4500. H(T1) no es comparable, porque en T1 el
+    ensayo en casa no cambia de régimen.
+- **ATRIBUCIÓN: PERSISTE en `kernel` da 9/12 (H +0.18) y el pareado, 11/12.**
+  Veredicto pre-registrado: **IDENTIDAD (por el sueño).**
+  - El kernel sin sueño no está en cero: 9/12 queda a un par del umbral.
+  - Por gemelo, la ventaja de casa no es consistente. Las medianas dan 0.45 al
+    volver a su casa contra 0.56 en la del hermano, pero sólo 11/24 gemelos
+    andan mejor en su casa.
+  - Su sonda olvidó la casa por completo (0.223, contra 0.224 en la del
+    hermano) y aprendió el exilio (0.111).
+- **La sonda de `error_x4`.** El modelo del mundo conserva la casa (0.012,
+  contra 0.182 en la del hermano). El régimen del exilio nunca aparece en la
+  sonda: da 0.181, igual que N.
+  - La sonda usa acciones al azar, y el exilio no tuvo balbuceo: lo aprendió
+    estrecho, sólo en las acciones que usa.
+  - Lo que sostiene la identidad es el conocimiento amplio de la infancia, que
+    el sueño repasa.
+- **RECONOCE: 8/12, no pasa.** La energía libre del propio kernel al entrar no
+  dice de forma confiable "esta es mi casa": cuatro pares dan negativo. Ψ se
+  satura después de T1, y sus cruces dan 0.
+- **Predicciones fallidas:**
+  - DESVENTAJA da 3/12. La desventaja de la propia casa que se vio en la
+    calibración no se sostuvo. Dos de los tres pares negativos son del patrón de
+    la calibración (B − A = 2), pero con n = 4 por patrón eso no se cree.
+  - El `self_embedding` no se achica: T2/T1 da una mediana de 0.92 con sueño y
+    1.0 sin sueño. El módulo declarado conserva una diferencia, pero este diseño
+    no puede decir si es sobre el mundo vivido o deriva (no tiene un nulo).
+- **Posterior, no pre-registrado: la identidad tiene un precio.**
+  - El kernel con sueño entra peor a un mundo que nunca vivió. En T1, el ensayo
+    en la casa del hermano cuesta 0.71, contra 0.46 sin sueño (11/12 pares).
+  - El primer bloque del exilio cuesta 0.58, contra 0.40 (21/24 gemelos).
+  - 11 de los 24 gemelos con sueño se atascaron al empezar el exilio, contra 1
+    sin sueño. Todos se recuperan en uno o dos bloques.
+  - En el §K3, criado entre tres regímenes, entraba mejor a lo nuevo. Acá,
+    criado en uno solo, se vuelve rígido.
+  - Pre-registrado como secundaria (RIGIDEZ) en la réplica.

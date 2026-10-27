@@ -1,0 +1,47 @@
+================================================================================
+§K4 -- IDENTITY: twins raised in different worlds
+================================================================================
+pairs 0-11 x ('error_x4', 'kernel') x twins A/B; life = 3 babble + 15 childhood at home + 15 exile blocks of 300; assays [('T1', 18), ('Tm', 23), ('T2', 33)]; run 62.9 min (median 3.8 min/life)
+
+life: median e_late (last 5 childhood blocks | last 5 exile blocks); stuck act blocks (late > 0.3)
+  error_x4 | 0.037 | 0.043 | stuck 12
+    kernel | 0.039 | 0.039 | stuck 1
+
+ASSAYS (clones visit each twin's home; medians over pairs)
+       arm   T | early home  abroad  H_early | fe home abroad H_fe | Psi<.85 H | probe H | H>0
+  error_x4  T1 |      0.032   0.710   +1.357 |   1.447 33.981 +64.565 |    +0.275 |  +0.350 | 12/12
+  error_x4  Tm |      0.198   0.456   +0.532 |  38.324 44.358 +10.442 |    +0.000 |  +0.320 | 12/12
+  error_x4  T2 |      0.300   0.562   +0.531 |  57.587 75.418 +41.048 |    +0.000 |  +0.339 | 12/12
+    kernel  T1 |      0.033   0.459   +0.848 |   1.797 56.022 +107.832 |    +0.225 |  +0.198 | 12/12
+    kernel  Tm |      0.433   0.469   +0.048 |  46.486 44.134 -2.153 |    +0.000 |  +0.000 | 8/12
+    kernel  T2 |      0.474   0.554   +0.180 |  78.856 73.945 +3.655 |    +0.000 |  -0.002 | 9/12
+
+H_early per pair:
+    error_x4  T1: [1.113, 0.727, 1.267, 1.078, 1.611, 0.806, 1.794, 1.813, 1.639, 1.42, 1.595, 1.293]
+    error_x4  Tm: [0.942, 0.011, 0.44, 0.656, 0.872, 0.429, 0.472, 0.315, 0.327, 1.046, 0.593, 0.777]
+    error_x4  T2: [0.51, 0.543, 0.518, 0.263, 0.798, 0.545, 0.587, 1.134, 0.379, 0.931, 0.263, 0.322]
+      kernel  T1: [0.795, 0.6, 1.003, 0.58, 1.048, 1.178, 1.027, 0.656, 0.597, 0.829, 1.027, 0.867]
+      kernel  Tm: [0.338, 0.048, 0.241, -0.167, 0.507, 0.041, -0.114, -0.363, -0.271, 0.164, 0.689, 0.048]
+      kernel  T2: [0.194, 0.682, 0.436, -0.164, 0.109, -0.452, -0.168, 0.198, 0.119, 0.202, 0.166, 0.202]
+
+self_embedding: ||A - B|| at each assay (median over pairs)
+  error_x4 | T1 2.754 | Tm 2.669 | T2 2.489
+    kernel | T1 2.423 | Tm 2.726 | T2 2.551
+
+probe after the burn-in on each role's regime (median over twins and pairs), at each assay
+  error_x4  T1 | home 0.006 | sibling 0.181 | X 0.182 | N 0.181
+  error_x4  Tm | home 0.019 | sibling 0.180 | X 0.175 | N 0.182
+  error_x4  T2 | home 0.012 | sibling 0.182 | X 0.181 | N 0.183
+    kernel  T1 | home 0.119 | sibling 0.232 | X 0.242 | N 0.236
+    kernel  Tm | home 0.243 | sibling 0.246 | X 0.130 | N 0.246
+    kernel  T2 | home 0.223 | sibling 0.224 | X 0.111 | N 0.225
+
+H_fe per pair (error_x4, T2): [53.5, 42.96, 56.83, 54.03, -36.87, 42.5, -12.68, 36.19, -0.68, -65.41, 40.88, 41.22]
+--------------------------------------------------------------------------------
+SE DIFERENCIA (positive control)  H(T1) > 0, error_x4: 12/12   (kernel 12/12)
+PERSISTE (primary)                H(T2) > 0, error_x4: 12/12
+RECONOCE (secondary)              H_fe(T2) > 0, error_x4: 8/12
+ATTRIBUTION  PERSISTE on kernel: 9/12; paired H(T2) error_x4 > kernel: 11/12
+(reported) DESVENTAJA  H(T2) < 0 on kernel: 3/12
+
+VERDICT (pre-registered rule): IDENTIDAD (por el sueño)

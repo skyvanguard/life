@@ -79,12 +79,27 @@ RECONOCE pass on error_x4; kernel PERSISTE fails; reported, with its own
 criterion: DESVENTAJA = H(T2) < 0 on kernel in >= 10/12 (the home disadvantage
 seen in calibration, 2/3); predicted to pass.
 
+REPLICATION (pre-registered 2026-10-26 after the test landed -- IDENTIDAD (por el
+sueño): PERSISTE 12/12, kernel 9/12, paired 11/12 -- and before running): pairs
+12-23 (each regime still plays each role 3 times), both arms, the same rule.
+REPLICADO if the verdict is IDENTIDAD again; the attribution is read by the same
+rule and reported pooled over the 24 pairs. Secondary, from a post hoc reading of
+the test (11/12 there; the first exile block 21/24 twins): RIGIDEZ = the T1 cost
+in the sibling's home (mean of the twins) of error_x4 > that of kernel, >= 10/12:
+the kernel that keeps its childhood enters a never-lived world worse. Reported
+again: RECONOCE (8/12 in the test), DESVENTAJA (3/12 in the test, the
+calibration's prediction failed), self_embedding, stuck blocks.
+PREDICTIONS: PERSISTE replicates (12/12, minimum H +0.26 in the test); kernel
+PERSISTE is a coin at the threshold (9/12), so the attribution "por el sueño" is
+at risk; RECONOCE fails again; RIGIDEZ passes.
+
 3 CPU processes, one torch thread each (declared exception to the GPU rule: the
 kernel is tiny); ~4 min per life, 48 lives, ~65 min.
 
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_gemelos.py humo
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_gemelos.py calibracion
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_gemelos.py
+    PYTHONPATH=src python experiments/kernel/exp_mundo_propio_gemelos.py replica   # pairs 12-23
 """
 
 from __future__ import annotations
@@ -262,6 +277,12 @@ def leer(V: dict, brazo: str, par: int, T: str, campo: str) -> np.ndarray:
     return m
 
 
+def afuera(V: dict, brazo: str, par: int, T: str) -> float:
+    """Mean over the twins of the re-entry cost in the sibling's home."""
+    m = leer(V, brazo, par, T, "early")
+    return float((m[0, 1] + m[1, 0]) / 2)
+
+
 def cruce(m: np.ndarray) -> float:
     """Crossed home advantage (A abroad + B abroad) - (A home + B home): the world and twin
     main effects cancel; > 0 = each twin does better in its own world than its sibling."""
@@ -363,6 +384,10 @@ def informe(V: dict, pares: tuple, arms: tuple, nombre: str, titulo: str, minuto
     out(f"RECONOCE (secondary)              H_fe(T2) > 0, error_x4: {rec}/{n}")
     out(f"ATTRIBUTION  PERSISTE on kernel: {per_k}/{n}; paired H(T2) error_x4 > kernel: {par}/{n}")
     out(f"(reported) DESVENTAJA  H(T2) < 0 on kernel: {desv}/{n}")
+    rig = sum(afuera(V, "error_x4", p, t1) > afuera(V, "kernel", p, t1) for p in pares)
+    out(f"RIGIDEZ (secondary in the replication)  T1 cost in the sibling's home, error_x4 > kernel: "
+        f"{rig}/{n} (medians {np.median([afuera(V, 'error_x4', p, t1) for p in pares]):.3f} vs "
+        f"{np.median([afuera(V, 'kernel', p, t1) for p in pares]):.3f})")
     if n == len(PAIRS):
         out("")
         out(f"VERDICT (pre-registered rule): {veredicto(dif, per, per_k, par)}")
@@ -437,5 +462,8 @@ if __name__ == "__main__":
     elif modo == "calibracion":
         main(PAIRS_CAL, "mundo_propio_gemelos_calibracion",
              "§K4 CALIBRATION (pairs 100-102; not test pairs)")
+    elif modo == "replica":
+        main(tuple(range(12, 24)), "mundo_propio_gemelos_replica",
+             "§K4 REPLICATION (pairs 12-23) -- IDENTITY: twins raised in different worlds")
     else:
         main(PAIRS, "mundo_propio_gemelos", "§K4 -- IDENTITY: twins raised in different worlds")
