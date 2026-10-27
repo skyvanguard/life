@@ -854,6 +854,101 @@ del §K4 y del §K7, con la misma regla. Se lanza apenas termine el test, salvo 
 aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO si el
 veredicto se repite.
 
+## §K9 — el sueño de la niñez: ¿alcanza un experto preciso y congelado? (pre-registrado el 2026-10-27, antes de correr, sin calibración)
+
+Decisión de Fran tras el §K8: "sigamos con eso". La recomendación era un `coin`
+que duerme sólo en la niñez.
+
+**Por qué.**
+- En el §K8, la identidad del repertorio es del sueño.
+- Sin sueño, el experto de casa queda congelado durante el exilio (39/48), pero
+  impreciso (0.087 contra 0.005) y dañado al empezarlo. Al volver, el clon no lo
+  distingue del experto del exilio.
+- El sueño hace ahí dos cosas: vuelve preciso al experto de casa en la niñez y
+  repasa a cada experto, también a los inactivos, durante el exilio.
+- El §K9 las separa.
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_ninez.py`).
+- **El brazo nuevo, `coin_ninez`:** es `coin`, pero su modelo del mundo deja de
+  dormir cuando empieza el exilio (`k.wm_sleep_replay = 0`, justo después del
+  ensayo T1). Los clones de los ensayos Tm y T2 lo heredan.
+- **Se leen** `coin` (§K7, duerme toda la vida, ensayos incluidos) y
+  `coin_sin_sueno` (§K8, nunca duerme).
+- Crianza `una`; la vida, los papeles, el exilio y los ensayos son los del §K4.
+- **El corte va en el loop del §K7** (`SUENO_SOLO_NINEZ`, vacío allí, así que
+  ese loop no cambia).
+- **Se verifica cada vida.** Hasta el exilio, `coin_ninez` es `coin`, así que
+  cada niñez tiene que ser igual a la vida guardada del §K7 con diferencia 0:
+  - las series por tick y las sondas;
+  - los ensayos anteriores al exilio;
+  - el `self_embedding`;
+  - los eventos de contexto.
+- **Manos declaradas:**
+  - EXILIO mide todo el sueño posterior a la niñez: el del exilio y el de los
+    ensayos Tm y T2, no sólo el del exilio.
+  - No hay calibración: en el §K7 y el §K8 la de 3 pares engañó y no se ajustó
+    nada. El humo verifica el mecanismo.
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola):
+
+| Lectura | Criterio (≥ 10/12) |
+|---|---|
+| PERSISTE_N (primaria) | H(T2) de `coin_ninez` > 0 |
+| NIÑEZ (primaria) | H(T2) `coin_ninez` > `coin_sin_sueno`, pareado: el sueño de la niñez |
+| EXILIO (primaria) | H(T2) `coin` > `coin_ninez`, pareado: el sueño posterior |
+
+Veredicto:
+- PERSISTE_N y NIÑEZ, sin EXILIO → **BASTA LA NIÑEZ**: un experto preciso y
+  congelado sostiene la identidad.
+- PERSISTE_N, NIÑEZ y EXILIO → **LA NIÑEZ SOSTIENE, EL RESTO SUMA**.
+- PERSISTE_N sin NIÑEZ → **PERSISTE SIN ATRIBUIR**.
+- Sin PERSISTE_N, con EXILIO → **HACE FALTA SEGUIR DURMIENDO**.
+- El resto → **INDETERMINADO**.
+
+Secundaria: ELIGE_N, el ELIGE del §K7 sobre `coin_ninez` en T2.
+
+Se reporta, para los tres brazos:
+- H en T1, Tm y T2;
+- los costos en casa y afuera;
+- los atascos, los contextos, el asentado, NO CONFUNDE y la latencia;
+- la sonda por papel;
+- el oráculo de casa al final de la niñez y en el primer y el último bloque del
+  exilio: DAÑO (el primero del exilio, peor que el fin de la niñez) y CONGELADO
+  (el último igual al primero, ±0.002).
+
+**Prueba de humo** (`humo`, par 0, vida corta).
+- Las 2 niñeces son iguales a las del §K7 (diferencia 0).
+- La vida entera difiere de la de `coin` (diferencia 40): el sueño se corta.
+
+**Predicciones, escritas antes de cualquier par de test:**
+- Cada niñez es igual a la de `coin`.
+- PERSISTE_N y NIÑEZ pasan. El sueño de la niñez vuelve preciso al experto de
+  casa (~0.005), y sin sueño queda congelado durante el exilio.
+- EXILIO también pasa. Los primeros pasos del exilio, antes de la foto, dañan al
+  experto de casa y después nada lo repara; además, el clon de T2 no duerme.
+- Veredicto previsto: **LA NIÑEZ SOSTIENE, EL RESTO SUMA**.
+- ELIGE_N pasa: un experto de casa preciso es fácil de distinguir del del
+  exilio.
+- DAÑO y CONGELADO, en la mayoría de los gemelos, como en el §K8.
+
+**Nota después del humo, antes del test** (una vida corta y un par; no es
+evidencia).
+- Al empezar el exilio, el oráculo de casa de `coin_ninez` salta de 0.003 a
+  0.184. El de `coin_sin_sueno` va de 0.087 a 0.169, y el de `coin`, de 0.003 a
+  0.009.
+- El experto preciso parece más frágil a los primeros pasos del exilio que el
+  impreciso. Una explicación posible, sin probar: Adam (el optimizador del
+  modelo del mundo) divide el paso por la magnitud reciente de los gradientes.
+  Para un experto preciso esa magnitud es chica, así que los primeros errores
+  grandes dan pasos grandes.
+- Si se repite, PERSISTE_N y ELIGE_N corren riesgo. Las predicciones de arriba
+  quedan como se escribieron.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, leyendo las réplicas
+del §K7 y del §K8, con la misma regla. Se lanza apenas termine el test, salvo que
+aparezca un bug (cualquier cambio queda registrado). Queda REPLICADO si el
+veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*

@@ -162,6 +162,9 @@ GEMELOS = g.GEMELOS
 CRIANZAS = ("una", "dos")
 LEIDOS = ("error_x4", "kernel")
 ULTIMOS = 5
+# §K9: arms whose world model stops sleeping when the exile begins (after the T1 assay,
+# so the clones of later assays inherit it). Empty here: byte-identical for §K7.
+SUENO_SOLO_NINEZ: set[str] = set()
 
 
 def salida(args: tuple, vida: dict, t0: float) -> dict:
@@ -214,6 +217,8 @@ def vivir(args: tuple) -> dict:
         if t == n:
             break
         v = t // D
+        if brazo in SUENO_SOLO_NINEZ and t == (nb + nn) * D:
+            k.wm_sleep_replay = 0
         reg = g.regimen(papel, gemelo, v, nb, nn, crianza)
         r = k.step(s)
         dist[t] = float(torch.linalg.vector_norm(s - pref))
