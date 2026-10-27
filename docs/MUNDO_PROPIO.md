@@ -490,6 +490,115 @@ pregunta queda REPLICADA si su veredicto se repite.
 Cada corrida tiene 72 vidas nuevas más una de verificación, en 3 procesos de CPU
 con 1 hilo cada uno (la excepción declarada del kernel). Unos 95 min.
 
+## §K6 — un repertorio robusto: contextos al estilo COIN (pre-registrado el 2026-10-26, después de la calibración y antes de correr)
+
+El tercer paso que pidió Fran. El §K3 le dio al kernel un repertorio: viendo su
+propio error y con 4× sueño, el modelo del mundo infiere en qué régimen está.
+Pero el repertorio no se replicó por la letra (8/12). La razón, vista en una
+lectura posterior: la única visita NUEVA pisa los regímenes conocidos. El cociente
+de la sonda pasa de 0.47 y 0.36 a 1.06 y 1.07, y el sueño tarda unos dos ciclos
+en reconstruirlo. COIN (Heald, Lengyel y Wolpert, 2021) evita esa interferencia
+creando una memoria nueva para un contexto nuevo.
+
+**El mecanismo** (`src/zeta_life/kernel/contextual_world_model.py`, activado con
+`ConsciousKernel(wm_contexts=K)`, probado en `tests/test_contextual_world_model.py`).
+- K expertos (cada uno un `WorldModel`) se crean al nacer, vacíos. Al principio
+  se usa uno solo.
+- Todos los expertos en uso predicen cada tick, con la misma acción ejecutada, y
+  siguen el flujo con su propia recurrencia. Sólo el activo aprende.
+- Cada uno lleva un error corriente: un EMA de ‖obs − pred‖ con τ de 10 ticks.
+- **Cambio:** pasa al experto que mejor explica cuando le gana al activo por un
+  margen del 20 %.
+- **Contexto nuevo:** nace cuando ninguno explica (error > 0.08) durante 30 ticks
+  seguidos. Arranca con los pesos actuales del activo, así hereda la física
+  general.
+- **Protección:** cuando un experto establecido deja de explicar, se guarda una
+  foto de sus pesos. Si otro toma el control, el viejo vuelve a esa foto y las
+  transiciones de la racha pasan al buffer del que tomó el control.
+- **Establecido** quiere decir que alguna vez explicó el flujo. Mientras un
+  experto aprende su primer contexto, no saca foto ni da lugar a uno nuevo.
+- **Sueño:** cada experto duerme sobre su propio buffer. La dosis total es la del
+  kernel, repartida según el tamaño de cada buffer.
+- **Verificaciones:**
+  - Con `wm_contexts=0` es idéntico byte a byte: una vida `error_x4` del §K4 se
+    reproduce con diferencia 0.
+  - Pasan los 803 tests.
+  - Con un solo experto, la sonda contextual da lo mismo que la del §K3.
+
+**El experimento** (`experiments/kernel/exp_mundo_propio_coin.py`).
+- El brazo `coin` es `error_x4` con `wm_contexts=6`.
+- El mundo, el calendario, los ticks de prueba, la sonda, las lecturas y la regla
+  del §K1 son los del §K3.
+- Se reutilizan de disco las vidas `error_x4` (§K3) y las de `kernel`,
+  `secuencia`, `congelado` y `reactivo` (§K2).
+- Declarado: `coin` crea 6 expertos al nacer, así que sus pesos iniciales y su
+  azar difieren de los de `error_x4` en la misma semilla. El contraste es
+  pareado por semilla, pero no comparte el azar.
+- **La sonda con contextos.** Todos los expertos en uso recorren cada secuencia
+  de prueba. En cada secuencia, el paso j lo predice el experto con menor error
+  medio en los pasos anteriores; en el paso 0, el activo. Es el régimen inferido
+  con los primeros ticks. Se reporta también el oráculo: el mejor experto por
+  secuencia.
+
+**Manos declaradas.**
+- 6 lugares para expertos.
+- Las constantes de inferencia (τ, umbral, margen, persistencia y gracias) salieron
+  de una sola vida de exploración (semilla 100, nunca de test) y de los tests
+  unitarios.
+- La condición de "establecido" se agregó cuando el driver de los tests mostró
+  que un experto recién nacido sacaba foto de sus pesos vacíos.
+- No se cambió nada después de la calibración.
+
+**Calibración** (`calibracion`, semillas 100–102, vida actuando del §K3, `coin` y
+`error_x4`; `results/mundo_propio_coin_calibracion_run.txt`).
+
+| | Sonda de los conocidos / promedio exacto, al final de la visita NUEVA | Desde qué ciclo baja |
+|---|---|---|
+| `coin` | 0.13–0.14 (oráculo igual) | 0.10–0.15 desde el ciclo 2 |
+| `error_x4` | 1.02–1.10: la fragilidad del §K3, reproducida | 1.0 hasta los ciclos 4–6 |
+
+- Contextos: 4–5 para 4 regímenes; uno espurio en dos semillas.
+- Lo NUEVO tiene su propio experto en 3/3; en la semilla 101 se reparte 0.53.
+- Control al final de las visitas: mejor (`e_late` 0.04, contra 0.06–0.10). Fin
+  de lo NUEVO: 0.04–0.07, contra 0.10–0.17.
+- La re-entrada a lo conocido NO es mejor: `e_early` 0.18 / 0.11 / 0.12, contra
+  0.12 / 0.26 / 0.09. El cambio espera al error corriente.
+- Una entrada a lo NUEVO fue mala: 0.82, en la semilla 101.
+
+**La regla** (tests de signo sobre 12 semillas, ≥ 10/12):
+
+| Lectura | Criterio |
+|---|---|
+| ROBUSTO (primaria) | sonda de los conocidos / promedio exacto al FINAL de la visita NUEVA < 0.9 en `coin`: el momento en que se rompía el repertorio del §K3 |
+| CONTEXTO | la primaria del §K3 en `coin` (ciclos 7–8, < 0.9) |
+| CONDUCTA | la regla del §K1 en `coin` |
+| PAREADO (secundaria) | cociente al final de lo NUEVO, `coin` < `error_x4`: la robustez es del mecanismo |
+
+Veredicto:
+- ROBUSTO y CONTEXTO → **REPERTORIO ROBUSTO**. Si la conducta no es APRENDE Y
+  RECUERDA, se agrega "SIN CONDUCTA (…)".
+- Sólo CONTEXTO → **REPERTORIO FRÁGIL**.
+- Sólo ROBUSTO → **ROBUSTO SIN CONTEXTO**.
+- Ninguno → **SIN REPERTORIO**.
+
+Se reportan: el oráculo, los contextos por vida, la proporción del experto
+mayoritario por régimen, si lo NUEVO tiene su propio experto, los costos de
+entrada pareados contra `error_x4` (conocidos de los ciclos 7–8 y NUEVO),
+ESPECIFICIDAD, DISTINGUE y los atascos.
+
+**Predicciones (después de la calibración, antes del test):**
+- ROBUSTO 12/12, CONTEXTO 12/12 y PAREADO 12/12.
+- CONDUCTA: APRENDE Y RECUERDA.
+- La re-entrada a lo conocido no mejora contra `error_x4`: el pareado queda en el
+  azar o peor.
+- Contextos espurios en algunas vidas.
+- Lo NUEVO con su propio experto en ≥ 10/12.
+
+**Réplica, pre-registrada junto con el test.** Semillas 12–23 (`error_x4` de la
+réplica del §K3, el resto de la del §K2), con la misma regla. Se lanza apenas
+termine el test, salvo que aparezca un bug, y todo cambio se registra. Queda
+REPLICADO si el veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
