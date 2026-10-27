@@ -1775,3 +1775,117 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
   3/3 → 5/12, ERROR_SS 3/3 → 6/12.
 
 La réplica (pares 12–23, pre-registrada) está corriendo.
+
+### §K8, réplica — REPLICADO: la identidad del repertorio es del sueño (2026-10-27)
+
+`results/mundo_propio_separacion_replica_run.txt`: pares 12–23, 29.2 min.
+- Verificación: el loop re-corrido sobre `coin` (par 12, gemelo A) reproduce la
+  vida de la réplica del §K7 con diferencia 0.
+
+**Veredicto pre-registrado: POR EL SUEÑO. REPLICADO.**
+- **SE DIFERENCIA: 12/12** (+0.98).
+- **PERSISTE_SS: 7/12**, otra vez (H(T2) +0.09).
+- **SEPARA: 8/12.**
+- **SUEÑO: 11/12** (+0.98 contra +0.09).
+- Secundarias:
+  - ELIGE_SS 7/12: 19/24 gemelos vuelven a h en T2, con una latencia de 32
+    ticks.
+  - EXILIO_SS 8/12.
+  - PERSISTE de `error_sin_sueno` 5/12.
+  - ERROR_SS 5/12.
+- Reportado: el sueño con un solo modelo (`error_x4` > `error_sin_sueno`) da
+  12/12.
+- Costo en casa en T2: `coin` 0.141, `coin_sin_sueno` 0.378, `error_sin_sueno`
+  0.646, `kernel` 0.504.
+
+**Sobre los 24 pares juntos** (tests de signo de una cola):
+
+| Lectura | 24 pares |
+|---|---|
+| SE DIFERENCIA | 24/24 |
+| PERSISTE_SS | 14/24 (p 0.27) |
+| SEPARA | 14/24 |
+| SUEÑO | 23/24 (p < 0.0001) |
+| ELIGE_SS | 12/24 |
+| EXILIO_SS | 12/24 |
+| PERSISTE de `error_sin_sueno` | 13/24 |
+| ERROR_SS | 11/24 |
+| Sueño con un solo modelo | 22/24 (p < 0.0001) |
+
+- En T2 se asientan en h 32/48 gemelos sin sueño y 46/48 con sueño.
+
+**La hipótesis de la foto vieja: REFUTADA**
+(`experiments/kernel/exp_mundo_propio_separacion_foto.py`,
+`results/mundo_propio_separacion_foto_run.txt`, posterior).
+- Se re-corrieron 6 vidas de `coin_sin_sueno` (pares 0–2) y 2 de `coin` (par 0)
+  registrando cuándo se toma, se descarta y se restaura cada foto. Las 8
+  reprodujeron la vida guardada con diferencia 0.
+- En las 6 vidas sin sueño, la foto que se restaura al nacer el experto del
+  exilio se tomó 29 ticks antes, entre 4 y 24 ticks después de empezar el exilio.
+- Al terminar la niñez, el error corriente estaba debajo del umbral, entre 0.003
+  y 0.047. No hay una foto vieja de la niñez.
+
+**Lo que sí pasa** (posterior, sobre el oráculo de casa de los 48 gemelos sin
+sueño).
+- **Durante el exilio, el experto de casa queda congelado.** El oráculo en el
+  bloque 32 es igual al del bloque 18 en 39/48 gemelos. La lectura del test ("se
+  degrada estando inactivo") estaba mal: el cambio ocurre entero al empezar el
+  exilio.
+- **Al empezar el exilio empeora.** El oráculo pasa de 0.087 (bloque 17, fin de
+  la niñez) a 0.122 (bloque 18), y sube en 31/48 gemelos.
+- **Por qué empeora.** El error corriente es un promedio móvil, así que cruza el
+  umbral unos ticks tarde. La foto "previa a la racha" ya incluye los primeros
+  pasos de aprendizaje del exilio, con errores grandes. Sin sueño, nada repara
+  ese daño.
+- **Además, es impreciso.** Sin sueño, el experto de casa queda en 0.087 (con
+  sueño, 0.005), y en la niñez fluctúa 0.030 de un bloque al siguiente.
+- **Con sueño pasa lo mismo, pero se repara.** En `coin`, la foto también se toma
+  29 ticks antes del nacimiento del experto del exilio. Pero el sueño repasa a
+  cada experto sobre su propio buffer, también a los inactivos, y el de casa se
+  mantiene en 0.005–0.007 a lo largo del exilio.
+- **Así, al volver, el experto de casa no se distingue del experto del exilio.**
+  El clon tarda en volver a él (32–90 ticks) o no se asienta en él (16/48
+  gemelos en T2), y
+  vuelve mal a su propia casa.
+
+**Lectura del §K8 completo.**
+- **La identidad del repertorio es del sueño, como la del §K4.** Sin sueño, en
+  el modelo de contextos o en el modelo único, la identidad después del exilio
+  queda al azar (14/24 y 13/24). Con sueño, 24/24.
+- **Separar no alcanza.** El exilio tiene su propio experto también sin sueño
+  (48/48 gemelos), y el de casa queda congelado. Pero no se conserva más
+  identidad que con un solo modelo (SEPARA 14/24).
+- **Sin sueño, el experto de casa se conserva, pero no se distingue.** Queda
+  impreciso, dañado por los primeros pasos del exilio, y el clon no lo elige al
+  volver.
+- **Lo que el sueño hace en el repertorio:** vuelve preciso al experto de la
+  niñez y lo mantiene así mientras está inactivo. Con eso, al volver, la
+  elección es clara.
+- **La atribución del §K4, limpia.** Con el error de entrada fijo, el sueño solo
+  da la identidad en 22/24 pares (`error_x4` > `error_sin_sueno`). En el §K4, la
+  comparación con `kernel` cambiaba dos cosas a la vez.
+- **Predicciones fallidas:**
+  - POR LA SEPARACIÓN (la escrita).
+  - PERSISTE_SS, ELIGE_SS y EXILIO_SS (las posteriores a la calibración).
+  - La hipótesis de la foto vieja, del test.
+  - La calibración de 3 pares volvió a engañar, como en el §K7.
+- **Manos declaradas:**
+  - No se corrió `dos`.
+  - El umbral de cambio es absoluto.
+  - La foto se toma con el retraso del promedio móvil.
+  - `coin_sin_sueno` es `coin` sin el sueño del modelo del mundo; el resto del
+    kernel no cambia.
+
+**Lo que sigue abierto:**
+- **¿El sueño de la niñez o el del exilio?** El sueño vuelve preciso al experto
+  de casa en la niñez y lo mantiene en el exilio. Un `coin` que duerme sólo en
+  la niñez separaría las dos cosas: si conserva la identidad, alcanza con un
+  experto preciso congelado.
+- La foto a tiempo: tomarla con la ventana del promedio móvil, unos ticks antes
+  del cruce del umbral, o detectar el cambio más rápido. Es barato, pero
+  probablemente no rescata la identidad sin sueño, porque el experto sigue
+  impreciso.
+- Lo que quedó del §K7: un umbral relativo, re-entrar más rápido, INVIERTE, y un
+  `self_embedding` que lea el modelo del mundo.
+- Ya no está abierto si la identidad del repertorio es de la separación (§K8,
+  replicado): es del sueño.

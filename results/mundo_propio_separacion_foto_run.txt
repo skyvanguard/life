@@ -1,0 +1,27 @@
+================================================================================
+§K8 MECHANISM -- the snapshot and the home expert without sleep
+================================================================================
+1. instrumented re-runs (the childhood ends at tick 5400)
+coin_sin_sueno pair 0 twin A: re-run diff 0.0; running error of the active expert at the end of the childhood 0.047; snapshots taken 3, dropped 2
+   spawn at tick 5433 (exile), restored a snapshot: True; taken at tick 5404 (29 ticks before; r 0.093)
+coin_sin_sueno pair 0 twin B: re-run diff 0.0; running error of the active expert at the end of the childhood 0.039; snapshots taken 8, dropped 7
+   spawn at tick 5433 (exile), restored a snapshot: True; taken at tick 5404 (29 ticks before; r 0.093)
+coin_sin_sueno pair 1 twin A: re-run diff 0.0; running error of the active expert at the end of the childhood 0.003; snapshots taken 10, dropped 9
+   spawn at tick 5453 (exile), restored a snapshot: True; taken at tick 5424 (29 ticks before; r 0.082)
+coin_sin_sueno pair 1 twin B: re-run diff 0.0; running error of the active expert at the end of the childhood 0.004; snapshots taken 4, dropped 3
+   spawn at tick 5436 (exile), restored a snapshot: True; taken at tick 5407 (29 ticks before; r 0.086)
+coin_sin_sueno pair 2 twin A: re-run diff 0.0; running error of the active expert at the end of the childhood 0.008; snapshots taken 10, dropped 9
+   spawn at tick 5435 (exile), restored a snapshot: True; taken at tick 5406 (29 ticks before; r 0.080)
+coin_sin_sueno pair 2 twin B: re-run diff 0.0; running error of the active expert at the end of the childhood 0.011; snapshots taken 9, dropped 8
+   spawn at tick 5436 (exile), restored a snapshot: True; taken at tick 5407 (29 ticks before; r 0.087)
+coin pair 0 twin A: re-run diff 0.0; running error of the active expert at the end of the childhood 0.044; snapshots taken 9, dropped 5
+   spawn at tick 5433 (exile), restored a snapshot: True; taken at tick 5404 (29 ticks before; r 0.086)
+   spawn at tick 5603 (exile), restored a snapshot: True; taken at tick 5553 (50 ticks before; r 0.101)
+coin pair 0 twin B: re-run diff 0.0; running error of the active expert at the end of the childhood 0.030; snapshots taken 5, dropped 4
+   spawn at tick 5434 (exile), restored a snapshot: True; taken at tick 5405 (29 ticks before; r 0.089)
+
+2. the home oracle of the 48 sleepless twins (pairs 0-23), by block
+  end of the childhood (block 17) median 0.087; first exile block 0.122; last 0.122
+  first exile block > end of the childhood in 31/48 twins; median jump +0.022
+  childhood block-to-block |change| (blocks 10-17), median 0.030
+  frozen through the exile (last == first exile block within 0.002): 39/48

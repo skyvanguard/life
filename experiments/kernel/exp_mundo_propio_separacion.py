@@ -86,6 +86,21 @@ fixed) 10/12. Without sleep the identity is lost at HOME (home cost at T2 0.46 v
 verify: a stale snapshot -- the home expert hovers just above the absolute threshold,
 so the pre-streak snapshot is taken in the childhood and the exile's spawn restores it.
 
+REPLICATION RESULT (pairs 12-23, results/mundo_propio_separacion_replica_run.txt, 29.2
+min; verification max diff 0). REPLICADO: POR EL SUENO -- SE DIFERENCIA 12/12,
+PERSISTE_SS 7/12, SEPARA 8/12, SUENO 11/12; ELIGE_SS 7/12, EXILIO_SS 8/12; the sleep with
+one model 12/12. Pooled 24: PERSISTE_SS 14/24, SEPARA 14/24, SUENO 23/24, ELIGE_SS 12/24,
+error_x4 > error_sin_sueno 22/24. The stale-snapshot hypothesis was REFUTED by re-running
+8 lives with the contextual model instrumented (each reproduces its stored life, diff
+0): the restored snapshot is taken 4-24 ticks into the exile, and the running error at
+the end of the childhood is below the threshold. What happens instead (48 sleepless
+twins): the home expert is FROZEN through the exile (block 32 == block 18 in 39/48), but
+it gets worse at the exile's start (0.087 -> 0.122, up in 31/48) because the running
+error crosses the threshold a few ticks late and the snapshot already holds the first
+exile updates; without sleep nothing repairs it, and it is coarse anyway (0.087 vs
+coin's 0.005). Sleep keeps every expert, the inactive ones too, precise. Open: sleep in
+the childhood only vs in the exile (a precise frozen expert vs maintained).
+
 48 new lives + 1 verification life per run; 3 CPU processes, one torch thread each
 (the declared kernel exception). `reanudar` after any mode loads the lives already
 on disk instead of re-running them.
