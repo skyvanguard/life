@@ -1828,7 +1828,7 @@ correrla).**
   - `error_x4` necesitaba hasta el ciclo 6 para bajar a 0.048.
 - **CONDUCTA: APRENDE Y RECUERDA** (12/12, 12/12 y 12/12; 0 atascos).
   **PAREADO: 12/12.**
-- Veredicto pre-registrado: **REPERTORIO ROBUSTO.** La réplica está corriendo.
+- Veredicto pre-registrado: **REPERTORIO ROBUSTO.** La réplica está más abajo.
 - **La inferencia de contexto.** El oráculo da 0.14, igual que la selección: la
   inferencia encuentra al experto correcto.
   - Contextos: 4 en 7 vidas, y 5 o 6 en las otras 5 (espurios).
@@ -1944,7 +1944,7 @@ más que los 95 min previstos porque compartió la CPU con el §K6.
 - Los gemelos con otros dados controlan normal: `e_late` 0.046 al final del
   exilio.
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
 
 ### §K5, réplica — REPLICADO en las dos preguntas (2026-10-27)
 
@@ -2114,7 +2114,7 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
   `error_x4` en el mismo par.
 - El cambio de experto usa un umbral absoluto sobre el error corriente (§K6).
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
 
 ### §K7, réplica — REPLICADO: la identidad es a qué experto vuelve (2026-10-27)
 
@@ -2313,7 +2313,7 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
 - La calibración de 3 pares volvió a engañar: PERSISTE_SS 3/3 → 7/12, ELIGE_SS
   3/3 → 5/12, ERROR_SS 3/3 → 6/12.
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
 
 ### §K8, réplica — REPLICADO: la identidad del repertorio es del sueño (2026-10-27)
 
@@ -2492,7 +2492,7 @@ sueño).
   EL RESTO SUMA.
 - La nota del humo, escrita antes del test, avisó el riesgo y se cumplió.
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
 
 ### §K9, réplica — HACE FALTA SEGUIR DURMIENDO; NO REPLICADO por la letra (2026-10-27)
 
@@ -2633,7 +2633,7 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
   - "`coin_sin_sueno_foto` conserva intacto su experto": lo conserva, pero
     PERSISTE_SSF, que se daba por incierta, pasó (10/12).
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
 
 ### §K10, réplica — REPLICADO: un experto preciso y congelado sostiene la identidad (2026-10-27)
 
@@ -3224,4 +3224,152 @@ más simple a la más fina:
     `coin`), AFUERA, la casa en Tm, ELIGE y los atascos.
 - Ninguna errada en este test.
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
+
+### §K13, réplica — REPLICADO: el experto que vuelve, protegido, ya no se daña (2026-10-28)
+
+`results/mundo_propio_regreso_replica_run.txt`: pares 12–23, 58.1 min, en un solo tramo.
+- **Verificación.** El `coin_madurez` re-corrido (par 12, gemelo A) es igual a su vida
+  del §K12: diferencia máxima 0.0.
+- **MISMA VIDA: 23/24 gemelos,** y 23/23 de los que no tienen cambios de experto en la
+  vida principal. El que difiere es el par 14, gemelo A, el del único atasco del §K12.
+  En `coin_madurez` su vida principal salta entre expertos en el primer bloque del
+  exilio (6 cambios); con `slow_return`, 2. El atasco del primer bloque es el mismo
+  (`e_late` 0.593 y 0.612), pero el segundo bloque arranca en 0.065 contra 0.38
+  (`e_early`).
+
+**Veredicto pre-registrado: VUELVE A CASA. REPLICADO.**
+- **PROTEGE: 12/12.** La casa en T2 cuesta 0.105 contra 0.163 de `coin_madurez`.
+- **VUELVE_R: 11/12.** Contra 0.141 de `coin` (`coin_vigilia`, 0.121).
+- **CONSERVA_R: 12/12 y 12/12.** El oráculo de casa despierto queda en 0.008 (`coin`,
+  0.042) y el primer bloque del exilio en 0.348 (`coin_vigilia`, 0.956).
+- **PERSISTE_R: 12/12,** con H(T2) +0.594 (`coin_madurez` +0.468, `coin` +0.983).
+- **RIGIDO_R: no pasa.** Afuera es peor que en `coin_madurez` en 3/12 pares en T1 y en
+  2/12 en T2.
+- Secundarias:
+  - RECUPERA 11/12: después del cambio a `h` en T2 cuesta 0.059, contra 0.106 de
+    `coin_madurez` y 0.065 de `coin`.
+  - PAREADO: H(T2) mayor que el de `coin_madurez` en 12/12; que el de `coin`, en
+    2/12.
+  - AFUERA 12/12. La casa en Tm, 10/12 (0.120 contra 0.126). ELIGE 12/12.
+  - Atascos: 1, el mismo de `coin_madurez` (par 14 A, primer bloque del exilio).
+
+**Por par** (análisis posterior de las mismas vidas):
+- **Después del cambio,** `coin_regreso` cuesta 0.051–0.067 en los 12 pares;
+  `coin_madurez`, 0.049–0.193.
+- **El par que falla VUELVE_R** (el 15: 0.191 contra 0.150) lo pierde, otra vez, antes
+  del cambio. Su gemelo A vuelve a `h` tarde, en el tick 28, y cuesta lo mismo en los
+  dos brazos (0.281 contra 0.278).
+- **El par que falla RECUPERA** (el 14: 0.054 contra 0.049) es uno en que
+  `coin_madurez` ya volvía al nivel de un experto intacto.
+- **El precio afuera,** gemelo por gemelo:
+  - En T1, tres gemelos: 17 B (0.486 → 0.681), 18 B (0.771 → 0.814) y 20 A
+    (0.341 → 0.594). Empiezan en `h`, lo dejan, vuelven a él y lo sostienen lento.
+  - En T2, dos: 13 B (0.625 → 0.889), que vuelve a `h` en el tick 9 y se queda ahí 91
+    de los 100 ticks (en `coin_madurez`, 20), y 14 A (0.238 → 0.365), que nunca pasa
+    por `h`: es el gemelo cuya vida principal difiere.
+  - En Tm, que no es una lectura de la regla, dos peores (21 A, 0.484 → 0.566; 23 A,
+    0.661 → 0.916) y uno mejor (14 A, 0.455 → 0.344).
+- **Corrección al test.** La entrada del test dice que, fuera de los tres gemelos de
+  T1, la casa del hermano cuesta exactamente lo mismo. Es falso: había un cuarto, en
+  T2, el par 5 B, que vuelve a `h` en el tick 81 y cuesta 0.742 contra 0.698. Es el
+  1/12 de RIGIDO_R en T2. El docstring quedó corregido.
+
+**Sobre los 24 pares juntos** (tests de signo de una cola; 24/24 = p 6 × 10⁻⁸):
+
+| Lectura | Test | Réplica | 24 pares |
+|---|---|---|---|
+| PROTEGE | 12/12 | 12/12 | 24/24 |
+| VUELVE_R | 11/12 | 11/12 | 22/24 |
+| CONSERVA_R (oráculo / exilio) | 12/12 / 12/12 | 12/12 / 12/12 | 24/24 / 24/24 |
+| PERSISTE_R | 12/12 | 12/12 | 24/24 |
+| RIGIDO_R (T1 / T2) | 3/12 / 1/12 | 3/12 / 2/12 | 6/24 / 3/24 |
+| RECUPERA | 12/12 | 11/12 | 23/24 |
+| PAREADO (contra `coin_madurez` / `coin`) | 12/12 / 5/12 | 12/12 / 2/12 | 24/24 / 7/24 |
+| AFUERA | 12/12 | 12/12 | 24/24 |
+| Casa en Tm, contra `coin_madurez` | 11/12 | 10/12 | 21/24 |
+| ELIGE | 12/12 | 12/12 | 24/24 |
+| MISMA VIDA (gemelos) | 24/24 | 23/24 | 47/48 |
+
+**Costos en medianas, 24 pares.**
+
+| Brazo | En casa T1 | Afuera T1 | En casa Tm | En casa T2 | Afuera T2 | Después del cambio, T2 | 1.er bloque del exilio | H(T2) | Atascos |
+|---|---|---|---|---|---|---|---|---|---|
+| `coin` | 0.032 | 0.526 | 0.159 | 0.145 | 0.523 | 0.064 | 0.560 | +0.788 | 3 |
+| `coin_vigilia` | 0.032 | 0.937 | 0.120 | 0.115 | 0.977 | 0.063 | 0.959 | +1.664 | 59 |
+| `coin_madurez` | 0.032 | 0.338 | 0.128 | 0.165 | 0.396 | 0.114 | 0.367 | +0.412 | 1 |
+| `coin_regreso` | 0.032 | 0.351 | 0.117 | 0.111 | 0.402 | 0.056 | 0.367 | +0.567 | 1 |
+
+**Análisis posteriores sobre los 24 pares** (no son evidencia pre-registrada):
+- **Después del cambio,** el experto de casa de `coin_regreso` cuesta menos que el de
+  `coin` en 21/24 pares y que el de `coin_vigilia` en 19/24.
+- **La casa en T2** queda al nivel de la vigilia lenta: 0.111 contra 0.115, mejor en
+  14/24 pares.
+- **El precio afuera:** 9 de los 96 ensayos de un gemelo en la casa del hermano (48
+  gemelos, T1 y T2) cuestan más que en `coin_madurez`, y ninguno menos. Ocho son
+  gemelos que sostienen a `h` lento en la casa del hermano (6 en T1, 2 en T2); el
+  noveno es el 14 A, cuya vida principal difiere. Los otros 87 cuestan exactamente lo
+  mismo.
+
+**Lectura del §K13 completo.**
+- **Proteger al experto que vuelve arregla la vuelta a casa, sin perder nada de lo del
+  §K12.** La vuelta en T2 es mejor que en `coin_madurez` en 24/24 pares y que en `coin`
+  en 22/24. Los dos pares que fallan contra `coin` (el 11 y el 15) lo pierden antes del
+  cambio, por una vuelta tardía a `h`, no después. Lo del §K12 queda entero: la vida
+  principal es la misma en 47/48 gemelos, y CONSERVA_R pasa 24/24 y 24/24.
+- **Después del cambio, el experto de casa cuesta lo que cuesta uno intacto** (0.056,
+  contra 0.114 sin protección). El daño que encontró el mecanismo del §K12 era eso:
+  reaprender despierto a tasa entera al volver. Sacado eso, el costo extra de la
+  vuelta desaparece.
+- **El kernel tiene las tres cosas en el mismo brazo,** en 24 pares:
+  - conserva lo que el sueño consolida, como la vigilia lenta (0.009);
+  - entra a lo nunca vivido mejor que `coin` (0.367 contra 0.560), con un atasco en
+    48 gemelos;
+  - vuelve a casa mejor que `coin` y al nivel de la vigilia lenta (0.111 contra 0.145
+    y 0.115).
+- **El precio es chico, localizado y medido:** 9 de 96 ensayos afuera. Es el gemelo
+  que, en un mundo que no es el suyo, vuelve a su experto de casa y lo sostiene lento
+  hasta 30 ticks, porque ese experto no llega a explicar un flujo ajeno. El tope de
+  `persist` lo acota; no lo elimina.
+- **Un efecto que no se buscó:** en el gemelo 14 A, la protección también vale para el
+  experto del exilio cuando vuelve a él dentro del exilio. Deja de saltar entre
+  expertos, y su segundo bloque del exilio arranca en 0.065 contra 0.38.
+- **La identidad crece** de +0.412 a +0.567 (24/24), por una casa mejor: afuera queda
+  casi igual. Sigue por debajo de la de `coin` en 17/24 pares, porque `coin` es más
+  rígido afuera.
+
+**Las predicciones, contra el resultado,** en las dos corridas:
+- Acertadas:
+  - VERIFICACIÓN 2/2, y MISMA VIDA en todo gemelo sin cambios en la vida principal
+    (45/45).
+  - CONSERVA_R, PERSISTE_R, PROTEGE y VUELVE_R.
+  - RIGIDO_R, que no pasa.
+  - El veredicto VUELVE A CASA.
+  - En las secundarias: RECUPERA, PAREADO (pasa contra `coin_madurez` y no contra
+    `coin`), AFUERA, la casa en Tm, ELIGE y los atascos (los de `coin_madurez`).
+- Ninguna errada.
+
+**Manos declaradas:**
+- s = 0.1 y s_l = 1.0, las del §K12, y el tope en `persist` = 30 ticks, la paciencia
+  del modelo antes de un contexto nuevo. Un solo valor cada uno; no se barrieron.
+- "Volver" es un cambio a un experto establecido; un nacimiento no lo es. "Explicar"
+  usa el mismo umbral que el cambio de contexto, como en el §K12.
+- Ningún brazo usa `snapshot_lag`.
+- `coin` y `coin_vigilia` se cargaron del §K11 y `coin_madurez` del §K12, sin
+  re-correrlos, con una vida re-corrida por corrida como verificación (diferencia 0 en
+  las dos).
+- El primer diseño, sin tope, se descartó después del humo y antes del pre-registro;
+  está registrado.
+- El test corrió en dos tramos: el sistema cortó el primero por falta de memoria.
+- No hubo calibración.
+
+**Lo que sigue abierto:**
+- **El precio afuera.** Un experto que vuelve a un mundo ajeno se sostiene lento hasta
+  30 ticks. El experto de casa protegido explicaba su flujo en una mediana de 3–4
+  ticks (mecanismo del §K12), así que un tope más corto, o uno relativo a ese tiempo,
+  podría achicar el precio sin tocar la vuelta.
+- **Por qué el daño era mayor en `coin_madurez` que en `coin`** (0.23 contra 0.09 a
+  los 40 ticks en el mecanismo).
+- La madurez y el regreso con la foto a tiempo del §K10, y bajo la crianza `dos`.
+- Lo que quedó de antes: un umbral relativo o una inferencia bayesiana del contexto,
+  INVIERTE, y un `self_embedding` que lea el modelo del mundo.

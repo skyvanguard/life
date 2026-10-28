@@ -94,7 +94,25 @@ Secondary: RECUPERA 12/12 (after the switch at T2 0.054 vs 0.122; coin 0.061), P
 12/12; stuck blocks 0. Per pair (post hoc): after the switch coin_regreso costs
 0.049-0.060 in all 12; the one VUELVE_R miss (pair 11) is before the switch. The price
 is three twins in their sibling's home at T1 (pairs 4, 7, 10, the ones that go back to h
-there): 0.642 / 0.755 / 0.773 vs 0.425 / 0.441 / 0.661; abroad is otherwise identical.
+there): 0.642 / 0.755 / 0.773 vs 0.425 / 0.441 / 0.661, plus one at T2 (pair 5 B, back to h
+at tick 81: 0.742 vs 0.698; missed here, corrected after the replication); abroad is
+otherwise identical.
+
+REPLICATION RESULT (pairs 12-23, results/mundo_propio_regreso_replica_run.txt, 58.1 min;
+the coin_madurez re-run of pair 12 twin A equals its §K12 life, max diff 0.0). VUELVE A
+CASA again: REPLICADO. PROTEGE 12/12 (home T2 0.105 vs 0.163), VUELVE_R 11/12 (coin 0.141;
+coin_vigilia 0.121), CONSERVA_R 12/12 and 12/12, PERSISTE_R 12/12 (H(T2) +0.594 vs
++0.468), RIGIDO_R T1 3/12, T2 2/12. Secondary: RECUPERA 11/12 (after the switch 0.059 vs
+0.106), PAREADO > coin_madurez 12/12 and > coin 2/12, AFUERA 12/12, home Tm 10/12, ELIGE
+12/12; one stuck block, coin_madurez's (pair 14 A, first exile block). MISMA VIDA 23/24:
+pair 14 A, whose coin_madurez main life flaps between experts in the exile (6 switches),
+has 2 under slow_return, and its second exile block starts at 0.065 vs 0.38 (e_early).
+Pooled over the 24 pairs: PROTEGE 24/24, VUELVE_R 22/24 (both misses, pairs 11 and 15,
+are before the switch), CONSERVA_R 24/24 and 24/24, PERSISTE_R 24/24, RIGIDO_R T1 6/24,
+T2 3/24; after the switch home 0.056 (coin 0.064, coin_vigilia 0.063, coin_madurez 0.114);
+home T2 0.111, the slow wake's level (0.115). The price: 9 of the 96 twin-assays abroad at
+T1/T2 cost more and none less -- 8 twins that hold h slow in their sibling's home, and
+pair 14 A, whose main life differs. Every prediction of the two runs held.
 
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_regreso.py humo
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_regreso.py
