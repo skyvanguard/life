@@ -1,99 +1,136 @@
 # Zeta Life
 
-**Emergent coherent integration in adaptive multi-agent systems**
+**Can a system be born empty, learn from its own experience in life, and sustain an
+identity -- without pretraining?**
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Tests](https://img.shields.io/badge/tests-643%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-810%20passed-brightgreen.svg)](tests/)
 
 ---
 
 ## Overview
 
-Zeta Life is a computational framework for studying **phase transitions in adaptive integration systems**. It models how independent processing units (kernels) can transition from fragmented computation to coherent, unified integration -- and how populations of such units exhibit emergent collective behavior.
+Zeta Life is a research repository built around **one invariant question**
+([`docs/NORTE.md`](docs/NORTE.md)): can a system be born empty, learn from its own
+experience while it lives, and keep an identity, with no pretraining? Every program
+here is one incarnation of that question. When an incarnation hits a wall, the work
+moves down a level and the wall is written down.
 
-The core equation predicts when integration emerges:
+The discipline is the same in every program: the yardstick is written before looking,
+every verdict is a pre-registered rule (sign tests over 12 seeds or pairs, then a
+replication on 12 others), the adversarial control is built before a result is
+believed, and refutations go into the ledger with the same weight as positives.
 
-$$\Psi = B^3 + \Phi \qquad \text{(integration index, supercritical regime)}$$
+### The programs, in the order they were built
 
-$$\Phi_c = \frac{F_i}{\alpha - C} \qquad \text{(critical threshold for phase transition)}$$
-
-$$B = \frac{\Phi - \Phi_c}{\Phi_c} \qquad \text{(binding factor)}$$
-
-The cubic term $B^3$ creates a **sharp phase transition**: below the critical threshold $\Phi_c$, integration is zero. Above it, the system amplifies nonlinearly -- a mathematical signature of emergent coherence.
-
-### Three programs, in the order they were built
-
-| # | Program | Question | Status |
-|---|---------|----------|--------|
-| 1 | **The Conscious Kernel** (`kernel/`) | Can one adaptive unit integrate its own experience? | Mature substrate — architecture below |
-| 2 | **The North** (`introspection/`) | Can $\Psi$ live in a real LLM's own activations, and can the model *learn to perceive it*? | **Closed 2026-07-02 as an honest negative** |
-| 3 | **El Útero** (`utero/`) | What if the physics itself is mutable, and only what sustains itself persists? | **Live frontier** |
-
-The north asked the harder question — *adaptation, not scale* — and answered it
-honestly in the negative: a model trained to name a non-textual injected state
-memorizes the exact vectors rather than reading the concept direction, at 0.6B and
-at 8B alike. That closure is what moved the work down a level, to a substrate with
-no pretrained anything in it at all.
+| Program | Question | Answer | Status |
+|---------|----------|--------|--------|
+| **Zeta / IPUESA / psyche** (2025-12 to 2026-03) | Do the Riemann zeta zeros give structure to an adaptive AI? | No: zeta == uniform outside the spatial cellular automata | archived |
+| **The Conscious Kernel** (`kernel/`, 2026-03 to 2026-06) | Can one active-inference unit integrate its experience with a persistent identity? | Yes as a harness: learns in life, solves CartPole / Pendulum / Reacher with $\Psi$ live; $\Psi$ is a heuristic, not a consciousness measure | mature substrate |
+| **The North** (`introspection/`, 2026-06 to 2026-07) | Can $\Psi$ live in a real LLM's own activations, and can the model learn to read it? | No: trained introspection is a lookup, not a general read (0.6B and 8B alike) | closed, honest negative |
+| **El Útero** (`utero/`, 2026-07 to 2026-10-26) | What emerges from a physics that rewrites itself, with nothing pretrained in it? | Rare sustained novelty behind five named cages; a measured, replicated Darwinian adaptation; learning in life that does not generalize | closed |
+| **The kernel coupled to Yvyra** (Phase A/B, 2026-06 to 2026-10-26) | Does an LLM's introspection anchor to the kernel's $\Psi$? | Inconclusive; $\Psi$ turned out to be a relative-surprise detector | closed as a vehicle: the kernel *is* the agent |
+| **The kernel in its own world** (2026-10-26 on, [`docs/MUNDO_PROPIO.md`](docs/MUNDO_PROPIO.md)) | Does it learn in life, remember, tell what it did from what happened to it, and keep an identity? | §K1–§K11, below | **live frontier** |
 
 ---
 
-## El Útero — the live frontier
+## The kernel in its own world — the live frontier
 
-> Full design, the three principles, and the honest results ledger:
-> [`docs/EL_UTERO.md`](docs/EL_UTERO.md) (written in Spanish, like this line's code
-> comments).
+> Design, every pre-registration and the honest ledger:
+> [`docs/MUNDO_PROPIO.md`](docs/MUNDO_PROPIO.md) (written in Spanish).
 
-The smallest universe where something could emerge without anyone dictating what it
-will be. Conway-style — minimal local rules, undictated emergence — with one twist:
+The kernel is the agent: no LLM, no pretraining. It lives in a small world where **its
+own actions cause its experience** -- an action moves a state on the simplex, and a
+hidden regime decides how (four remappings: three recur, one is never seen until late).
+It is born empty, plans by expected free energy toward a preferred state, and learns
+its world model awake and in sleep.
 
-**the rules are part of the mutable state.**
+The experiments change one variable at a time:
 
-Three non-negotiable principles:
+- **§K1–§K3, memory.** Does it learn, remember, and distinguish what it did from what
+  happened to it?
+- **§K4–§K5, identity.** Identical newborn twins are raised in different worlds, then
+  share a long exile in a world neither has lived. Do they stay different? The readout
+  H > 0 means each twin does better in its own childhood world than its sibling does.
+- **§K6–§K11, a repertoire.** A COIN-style set of context experts in the world model,
+  and what holds the identity inside it: the sleep, the separation, the snapshot, the
+  wake.
 
-1. **Rules-as-state.** No untouchable law outside the world. The law lives inside,
-   mutable — like a genome, which is at once the instruction that builds *and* the
-   matter that can mutate.
-2. **Closed loop (physics ↔ physics).** A cell's rule acts on the world *and on
-   itself*: `(v', r') = APPLY(r_i, {v, r}_{i-1, i, i+1})`. Local, self-referential,
-   with no outer level.
-3. **Persistence as the only filter.** No goal, no reward, no judge. A cell becomes
-   VOID if its next rule is degenerate. *Alive is what manages to keep being.*
+| § | Mechanism | Pre-registered verdict (pairs 0–11) | Replication (pairs 12–23) |
+|---|-----------|-------------------------------------|---------------------------|
+| §K1 | the plain kernel: online world model only | NO CONTROLA by the letter (9/12); learns the never-seen regime 12/12, does not remember 6/12 | — |
+| §K2 | `wm_sleep_replay`: sleep replays lived sequences (BPTT) | APRENDE Y RECUERDA (12/12, 12/12, 11/12), by averaging the lived regimes, not by context | REPLICADO |
+| §K3 | + `wm_error_input`, 4× sleep | REPERTORIO; DISTINGUE 12/12 | repertoire NOT replicated (8/12); DISTINGUE replicated |
+| §K4 | twins raised in different worlds | IDENTIDAD (por el sueño): PERSISTE 12/12 after an exile as long as the childhood | REPLICADO (24/24); its price, rigidity before the never-lived, 12/12 |
+| §K5 | raised between home and a school | MENOS RÍGIDO, CON IDENTIDAD; the `self_embedding` carries the life, not the childhood | REPLICADO |
+| §K6 | `wm_contexts=6`: COIN-style context experts | REPERTORIO ROBUSTO 12/12: known regimes survive a never-seen one | REPLICADO (24/24) |
+| §K7 | the repertoire + the twins | IDENTIDAD EN EL REPERTORIO: the identity is which expert it returns to (PERSISTE 12/12, ELIGE 11/12); §K4's price nearly vanishes | REPLICADO (24/24, 22/24) |
+| §K8 | 2×2, sleep × experts | POR EL SUEÑO: without sleep the home expert stays frozen but coarse | REPLICADO; later traced to a lagged snapshot (§K10) |
+| §K9 | sleep only in the childhood | INDETERMINADO: the first exile steps damage the precise expert before the snapshot | NOT replicated (HACE FALTA SEGUIR DURMIENDO) |
+| §K10 | `snapshot_lag=50`: a snapshot in time | BASTA LA NIÑEZ: a precise frozen expert holds the identity; never sleeping, separation alone holds it too (19/24) | REPLICADO |
+| §K11 | `wake_lr_scale=0.1`: a slower wake | PRECISA PERO LENTA: the slow wake keeps what sleep consolidates (home oracle 0.009 vs 0.042 awake) but enters never-lived worlds late (first exile block 0.970 vs 0.497) | REPLICADO (24/24 pooled on every readout); the price falls in the first two exile blocks |
+
+**What it adds up to, so far.** The kernel learns in life from its own stream. With a
+sleep that replays what it lived, it remembers. With a repertoire of experts it keeps
+the known through the new. Twins raised apart stay different after a long shared
+exile, and the identity lives in the world model -- in *which expert it goes back to*
+-- not in the `self_embedding`. What holds it is a precise expert kept frozen at the
+right time. Online learning between two sleeps erodes what sleep consolidated; a
+slower wake prevents that, at the price of entering the never-lived late. That is the
+stability–plasticity dilemma, measured inside the kernel.
 
 ```python
-from zeta_life.utero import UteroCreciente, run_history_creciente
+import torch
+from zeta_life.kernel import ConsciousKernel
 
-# v1..v5 are boolean flags on one class, not separate implementations.
-# All-False == v1, byte-identical to the committed v1 results.
-utero = UteroCreciente(n0=16, seed=13, toroidal=True, memoria=True)   # v3 + v5
+# The §K7 "coin" kernel, with §K11's slower wake.
+kernel = ConsciousKernel(
+    obs_dim=4, action_mode="efe", preference=torch.tensor([0.7, 0.1, 0.1, 0.1]),
+    efe_n_samples=48, efe_obs_norm="l1",
+    wm_sleep_replay=200, wm_sleep_seq_len=16, wm_sleep_batch=8,  # §K2, 4x dose (§K3)
+    wm_error_input=True,                                          # §K3
+    wm_contexts=6,                                                # §K6
+    wm_context_kwargs={"wake_lr_scale": 0.1},                     # §K11 (snapshot_lag: §K10)
+)
 ```
 
-| Flag | Version | Hypothesis about where the "cage" moved |
-|------|---------|------------------------------------------|
-| *(none)* | v1 | Async update + a space that opens from the inside (the world grows only where a physics `SPAWN`s past the border) |
-| `germinal=True` | v2 | Offspring vary from the matter present at birth — variation from the world's state, not from an RNG of ours |
-| `toroidal=True` | v3 | Matter on a circle (`v' = R3 mod 1`) so expansive maps become expressible |
-| `muerte_equilibrio=True` | v4 | Still matter = dead standing |
-| `memoria=True` | v5 | Each cell retains its raw internal potential and re-injects it next tick — 2nd-order dynamics |
+Every one of these mechanisms is off by default, and off is byte-identical to the
+plain kernel (tested).
 
-**The yardstick (anti-illusion).** With random update ordering, "it didn't cycle"
-proves nothing. The honest measure is **never-before-seen genomes minted per
-segment**, because new code can only come from write events (`MUTO`/`COPY`), never
-from the ordering RNG. Every experiment declares its "visible hands" (seeded order,
-the `max_n` wall, probe thresholds) in its docstring.
+---
 
-**Honest ledger** — more refutations than wins, and that is the point:
+## El Útero — closed 2026-10-26
 
-| Version | Result |
-|---------|--------|
-| **Nivel 1** — rewrite a law's *content* | 20/20 seeds beat at 500 ticks (0 thermal deaths, real death + re-colonization). At 5000 ticks: **slow-motion crystallization** — only 3/20 sustain macroscopic change |
-| **Nivel 2** — rewrite the law's *form* | Richer attractors (real ecology: 75% extinction → 70% recovery via `SPAWN`), **but the anti-cycle control unmasks it**: 20/20 in short limit cycles. Determinism + fixed space + synchrony ⇒ recurrence |
-| **v1** creciente | The space **does** open (13/20 worlds grow 16→256, growth done by the physics itself) — **but novelty dries up**: ~12 new genomes in the first segment, zero after. Cage moved to frozen code |
-| **v2** germinal | Doubles early novelty (23.6 vs 12.1) and **still dries up**. Sharp diagnosis: births continue (3465 late ones) minting **zero** new genomes — same context → same offspring. Cage moved to frozen *matter* |
-| **v3** toroidal | **First sustained structural novelty** — seed 13 still minting new genomes at t=12000. Survived a noise-vs-function ablation control: verdict **function** (novelty propagates and persists), though the pump does not regenerate |
-| **v4** equilibrium-death | **Hypothesis REFUTED** — killing still matter produces a desert, not self-repair. 15/20 thermal deaths; the ablated pump does not come back |
-| **v5** memoria | **First self-repair**: with recurrent hidden state the post-ablation tail sustains where without it it collapses to ~0. Caveats kept: not universal (early ablation, OFF even wins), n=1 seed, the regime is still 1/20 |
+> Design, the three principles and the honest ledger: [`docs/EL_UTERO.md`](docs/EL_UTERO.md);
+> paper draft: [`docs/papers/utero-paper.md`](docs/papers/utero-paper.md) (both in Spanish).
+
+The smallest universe where something could emerge without anyone dictating what it
+will be: Conway-style minimal local rules, with one twist -- **the rules are part of
+the mutable state.**
+
+1. **Rules-as-state.** No untouchable law outside the world. The law lives inside,
+   mutable -- like a genome, at once the instruction that builds *and* the matter that
+   can mutate.
+2. **Closed loop (physics ↔ physics).** A cell's rule acts on the world *and on itself*,
+   locally, with no outer level.
+3. **Persistence as the only filter.** No goal, no reward, no judge. *Alive is what
+   manages to keep being.*
+
+| Arc | Result |
+|-----|--------|
+| **Novelty** (Nivel 1/2, v1–v8) | The first sustained structural novelty (v3, toroidal matter) and the first self-repair (v5, memory) -- but rare (4–6% of 1-D worlds, intrinsic to 1-D) and bounded by named cages: frozen code, frozen matter, sterile plains, operands no variation operator could write (the fourth cage), a program→matter map with no locality (the fifth) |
+| **Intelligence under a sun** (`docs/PLAN_INTELIGENCIA.md`) | Nineteen pre-registered emergence runs, zero vestiges of regulation, anticipation or learning; a hand-designed famine anticipator is viable but not selected |
+| **Evolution** (§17–§35) | Without a local knob the substrate does not evolve: heritable variation is load. With heritable expression knobs, the first measured Darwinian adaptation (§34), replicated with another sun and other soups (§35). Evolution, not intelligence |
+| **Learning in life** (§43–§49) | A plastic tissue learns in life from its own income (§45, two suns) but does not generalize: its cells live two seasons and never see the same one twice (§49). Closed by the `docs/NORTE.md` rule; the frontier went back to the kernel |
+
+```python
+from zeta_life.utero import UteroCreciente
+
+# The versions are flags on one class; all off == v1, byte-identical to the committed results.
+utero = UteroCreciente(n0=16, seed=13, toroidal=True, memoria=True)   # v3 + v5
+```
 
 ---
 
@@ -115,6 +152,7 @@ PERCEIVE -> PREDICT -> COMPARE -> UPDATE -> MEMORIZE -> ACT -> REFLECT -> DREAM
 | PrecisionController | Learned precision hyper-model (attention) |
 | FastMemory / SlowMemory | Complementary Learning Systems (episodic + semantic) |
 | DreamEngine | Zeta-driven offline consolidation |
+| ContextualWorldModel | COIN-style repertoire of world-model experts: hard context inference, spawn on the unexplained, per-expert sleep, snapshots (`snapshot_lag`), a slower wake (`wake_lr_scale`) -- §K6–§K11 |
 | PersistenceLayer | Identity save/load across sessions |
 
 The integration index $\Psi$ is derived from internal signals:
@@ -211,8 +249,8 @@ from zeta_life.introspection import psi_act_all   # 4 integration metrics over h
 ## Installation
 
 ```bash
-git clone https://github.com/skyvanguard/zeta-life.git
-cd zeta-life
+git clone https://github.com/skyvanguard/life.git
+cd life
 pip install -e .
 
 # With all extras (mpmath for exact zeta zeros, jupyter)
@@ -255,46 +293,49 @@ print(f"Dreamed: {result.dreamed}")
 
 ### Run Experiments
 
-Experiments are self-pathing; each writes `results/<name>_run.txt` (+ a `.png`).
+Experiments are self-pathing; each writes `results/<name>_run.txt` (some also a `.png`).
+The full list, with every verdict, is in [`CLAUDE.md`](CLAUDE.md).
 
 ```bash
-# El Utero -- the live line (docs/EL_UTERO.md)
-python experiments/utero/exp_primer_latido.py         # Nivel 1: rewrite a rule's CONTENT
-python experiments/utero/exp_nivel2_latido.py         # Nivel 2: rewrite the rule's FORM
-python experiments/utero/exp_utero_creciente.py       # v1: async + self-opening space
-python experiments/utero/exp_utero_germinal.py        # v2: germinal variation
-python experiments/utero/exp_utero_toroidal.py        # v3: toroidal matter (sustained novelty)
-python experiments/utero/exp_utero_ruido_vs_funcion.py  # control: noise vs function (seed 13)
-python experiments/utero/exp_utero_motor.py           # v4: equilibrium-death (REFUTED)
-python experiments/utero/exp_utero_memoria.py         # v5: memory (first self-repair)
+# The kernel in its own world -- the live line (docs/MUNDO_PROPIO.md; 3 CPU processes)
+python experiments/kernel/exp_mundo_propio.py               # §K1: learns in life, does not remember
+python experiments/kernel/exp_mundo_propio_sueno.py         # §K2: sleep replay of lived sequences
+python experiments/kernel/exp_mundo_propio_contexto.py      # §K3: error input + 4x sleep (DISTINGUE)
+python experiments/kernel/exp_mundo_propio_gemelos.py       # §K4: twins raised in different worlds
+python experiments/kernel/exp_mundo_propio_crianza.py       # §K5: home + school upbringing
+python experiments/kernel/exp_mundo_propio_coin.py          # §K6: COIN-style context experts
+python experiments/kernel/exp_mundo_propio_casas.py         # §K7: identity in the repertoire
+python experiments/kernel/exp_mundo_propio_separacion.py    # §K8: sleep or separation (2x2)
+python experiments/kernel/exp_mundo_propio_ninez.py         # §K9: sleep only in the childhood
+python experiments/kernel/exp_mundo_propio_foto.py          # §K10: the snapshot in time
+python experiments/kernel/exp_mundo_propio_vigilia.py       # §K11: the wake that does not erase
+# most take `humo` (smoke), `calibracion`, `replica` and `reanudar` (resume from disk)
 
-# Psi validation on real datasets
-python experiments/datasets/exp_real_data_psi.py
+python experiments/kernel/exp_psi_quiebres.py               # Psi as a relative-surprise detector
 
-# Kernel validation (compositionality, grounding, emergence)
+# El Utero -- closed (docs/EL_UTERO.md)
+python experiments/utero/exp_utero_toroidal.py              # v3: first sustained novelty
+python experiments/utero/exp_utero_memoria.py               # v5: first self-repair
+python experiments/utero/exp_utero_escala.py                # §34: first Darwinian adaptation
+python experiments/utero/exp_utero_tejido_plastico.py       # §45: learns in life, does not generalize
+
+# Kernel validation and the science pipeline (docs/SCIENCE_PLAN.md)
 python experiments/kernel/exp_conscious_kernel_validation.py
-
-# Multi-kernel organism dynamics
-python experiments/kernel/exp_organism_emergence.py
-
-# Science pipeline (toy -> instrument; see docs/SCIENCE_PLAN.md)
-python experiments/kernel/exp_psi_vs_free_energy.py   # validate Psi (Albantakis method)
-python experiments/kernel/exp_epistemic_depth.py      # precision hyper-model (epistemic depth)
-python experiments/kernel/exp_yvyra_experiment.py     # Yvyra pipeline (modes + blind re-scorer)
+python experiments/kernel/exp_psi_vs_free_energy.py         # validate Psi (Albantakis method)
+python experiments/kernel/exp_epistemic_depth.py            # precision hyper-model (epistemic depth)
 
 # Introspection / the north (needs the GPU stack: transformers + bitsandbytes)
-python experiments/introspection/exp_pik_probe.py          # is "I know" in the activations?
-python experiments/introspection/exp_pik_train.py          # train P(IK) self-report (LoRA)
-python experiments/introspection/exp_f3_inject_train.py    # trained injected-concept detection
+python experiments/introspection/exp_pik_probe.py           # is "I know" in the activations?
+python experiments/introspection/exp_f3_inject_train.py     # trained injected-concept detection
 ```
 
 ### Run Tests
 
 ```bash
-PYTHONPATH=src pytest tests/ -q                    # 643 tests, ~105s (or `pip install -e .` first)
-PYTHONPATH=src pytest tests/test_utero_memoria.py -q   # a single file
-make lint                                          # ruff + mypy
-make format                                        # black + ruff --fix
+PYTHONPATH=src pytest tests/ -q                         # 810 tests (or `pip install -e .` first)
+PYTHONPATH=src pytest tests/test_contextual_world_model.py -q   # a single file
+make lint                                               # ruff + mypy
+make format                                             # black + ruff --fix
 ```
 
 ---
@@ -304,28 +345,27 @@ make format                                        # black + ruff --fix
 ```
 zeta-life/
 |-- src/zeta_life/
-|   |-- utero/           # LIVE FRONTIER - self-rewriting substrate (nivel1, nivel2, creciente)
-|   |-- kernel/          # Active Inference kernel + Darwinian organism (21 files)
-|   |-- bridge/          # Yvyra coupling - feed a live agent's experience to the kernel
+|   |-- kernel/          # Active Inference kernel (21 modules): world model, contextual
+|   |                    #   world model (§K6-§K11), self model, CLS memory, dream, organism
+|   |-- utero/           # El Utero (closed) - self-rewriting substrate, 1-D/2-D, sun, GPU engine
+|   |-- bridge/          # Yvyra coupling (closed as a vehicle)
 |   |-- introspection/   # the north (closed) - Psi over an LLM's activations
 |   |-- instrumentation/ # TickLogger - paired per-tick logging (science pipeline)
 |   |-- integration/     # formal_equations.py - the integration index Psi
-|   |-- datasets/        # Real-world dataset adapters (for Psi validation)
+|   |-- datasets/        # real-world dataset adapters (for Psi validation)
 |   |-- core/            # zeta_constants, vertex, tetrahedral geometry
-|   +-- utils/           # Shared utilities
+|   +-- utils/           # shared utilities
 |
 |-- experiments/
-|   |-- utero/           # 8 experiments - the live line (Nivel 1/2, v1..v5, controls)
-|   |-- kernel/          # 31 kernel experiments
+|   |-- kernel/          # 49 experiments - the kernel's own world (§K1-§K11) and earlier
+|   |-- utero/           # 71 experiments - the útero line, closed
 |   |-- introspection/   # the north - probe, P(IK) LoRA, injected-concept detection
 |   +-- datasets/        # Psi on real data
 |
 |-- demos/               # quickstart.py - the 60-line kernel demo
 |-- deploy/zeta/         # yvyra_kernel.py - tick-driven entry point for Yvyra
-|
-|-- tests/               # 41 test files (643 tests)
-+-- docs/                # Documentation, papers, plans (start at EL_UTERO.md;
-                         #   also ANTHROPIC_NORTH, TRAINED_INTROSPECTION, SCIENCE_PLAN)
+|-- tests/               # 65 test files (810 tests)
++-- docs/                # start at NORTE.md, then MUNDO_PROPIO.md (the live ledger)
 
 (Legacy subsystems -- psyche, hierarchical/IPUESA integration, organism,
 evolution -- were archived on 2026-06-08 to the legacy/pre-refocus-snapshot branch.)
@@ -343,7 +383,7 @@ evolution -- were archived on 2026-06-08 to the legacy/pre-refocus-snapshot bran
 | Critical mass | $M_c = \frac{F_i}{\alpha - C}$ | Minimum units for integration to emerge |
 | Corruption threshold | $1 - \frac{F_i}{\alpha \cdot M \cdot \alpha_s}$ | Maximum damage ratio before collapse |
 
-These are implemented as pure functions in `integration/formal_equations.py` and consumed by the kernel's `_compute_psi()`.
+These are implemented as pure functions in `integration/formal_equations.py` and consumed by the kernel's `_compute_psi()`. $\Psi$ is a bespoke, hand-tuned heuristic, not a measure of consciousness: measured alone, it behaves as a **relative-surprise detector** -- it sees rare large breaks in a predictable stream, not frequent ones (`experiments/kernel/exp_psi_quiebres.py`).
 
 ---
 
@@ -351,6 +391,7 @@ These are implemented as pure functions in `integration/formal_equations.py` and
 
 - **Active Inference / Free Energy Principle** (Friston) -- the kernel minimizes prediction error
 - **Complementary Learning Systems** (McClelland et al.) -- fast episodic + slow semantic memory
+- **Contextual inference / COIN** (Heald, Lengyel & Wolpert, 2021) -- a repertoire of context-specific models, the basis of `ContextualWorldModel`
 - **Darwinian Brain** -- multi-kernel competition via Global Workspace
 - **Integrated Information Theory** (Tononi) -- Phi as integration measure
 - **LLM introspection** (Lindsey/Anthropic concept injection; Binder privileged access) -- the basis of the introspection program (see "The North")
@@ -366,7 +407,7 @@ These are implemented as pure functions in `integration/formal_equations.py` and
   author = {Francisco Ruiz},
   title = {Zeta Life: Emergent Coherent Integration in Adaptive Multi-Agent Systems},
   year = {2026},
-  url = {https://github.com/skyvanguard/zeta-life}
+  url = {https://github.com/skyvanguard/life}
 }
 ```
 
