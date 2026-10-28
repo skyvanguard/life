@@ -1,0 +1,61 @@
+================================================================================
+§K13 -- the return
+================================================================================
+pairs 0-11, 'una'; coin and coin_vigilia loaded from §K11, coin_madurez from §K12, coin_regreso (coin_madurez + slow_return) new; run 53.8 min
+verification: coin_madurez pair 0 twin A re-run vs its stored §K12 life (every stored key), max diff 0.0
+MISMA VIDA (coin_regreso main life == coin_madurez's): 24/24 twins; 22/22 of those whose coin_madurez main life has no switch; with switches: [(3, 'B', True, 18), (8, 'A', True, 6)]
+
+H_early (cross) medians and H>0 per assay
+          coin | T1 +0.961 (12/12) | Tm +0.782 (12/12) | T2 +0.685 (12/12)
+  coin_vigilia | T1 +1.809 (12/12) | Tm +1.631 (12/12) | T2 +1.703 (12/12)
+  coin_madurez | T1 +0.632 (12/12) | Tm +0.597 (12/12) | T2 +0.375 (12/12)
+  coin_regreso | T1 +0.632 (12/12) | Tm +0.625 (12/12) | T2 +0.567 (12/12)
+costs (medians): home T1 | abroad T1 | home Tm | home T2 | abroad T2 | first exile block | stuck blocks (twins)
+          coin | 0.032 | 0.512 | 0.161 | 0.146 | 0.489 | 0.497 | stuck 2 (2/24)
+  coin_vigilia | 0.032 | 0.937 | 0.126 | 0.109 | 0.969 | 0.970 | stuck 31 (23/24)
+  coin_madurez | 0.032 | 0.347 | 0.128 | 0.168 | 0.387 | 0.367 | stuck 0 (0/24)
+  coin_regreso | 0.032 | 0.347 | 0.113 | 0.117 | 0.387 | 0.367 | stuck 0 (0/24)
+home assay, after the switch to h (median over pairs of the twins' mean) | first tick on h (median over twins)
+          coin | Tm 0.056 (tick 16) | T2 0.061 (tick 11)
+  coin_vigilia | Tm 0.061 (tick 10) | T2 0.064 (tick 8)
+  coin_madurez | Tm 0.068 (tick 8) | T2 0.122 (tick 8)
+  coin_regreso | Tm 0.054 (tick 8) | T2 0.054 (tick 8)
+experts
+  coin: in use [3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 3, 2]
+  coin: (h, e) [(0, 2), (0, 1), (1, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (1, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (0, 1), (0, 2), (0, 1)]; e != h in 24/24 twins
+  coin  T1: settled at home on h 23/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 10/12; latency to h at home median 0 ticks
+  coin  Tm: settled at home on h 21/24 twins; ELIGE pairs 9/12; NO CONFUNDE pairs 11/12; latency to h at home median 16 ticks
+  coin  T2: settled at home on h 23/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 12/12; latency to h at home median 11 ticks
+  coin_vigilia: in use [3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 2, 3, 3, 3, 3, 4, 2, 4]
+  coin_vigilia: (h, e) [(0, 2), (0, 2), (0, 1), (0, 2), (0, 2), (0, 2), (0, 2), (0, 1), (0, 2), (0, 2), (0, 1), (0, 1), (0, 2), (0, 2), (0, 2), (0, 1), (0, 1), (0, 2), (0, 2), (0, 2), (0, 2), (0, 3), (0, 1), (0, 3)]; e != h in 24/24 twins
+  coin_vigilia  T1: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 0 ticks
+  coin_vigilia  Tm: settled at home on h 23/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 12/12; latency to h at home median 10 ticks
+  coin_vigilia  T2: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 8 ticks
+  coin_madurez: in use [2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2]
+  coin_madurez: (h, e) [(0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1)]; e != h in 24/24 twins
+  coin_madurez  T1: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 10/12; latency to h at home median 0 ticks
+  coin_madurez  Tm: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 8 ticks
+  coin_madurez  T2: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 8 ticks
+  coin_regreso: in use [2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2]
+  coin_regreso: (h, e) [(0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1)]; e != h in 24/24 twins
+  coin_regreso  T1: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 9/12; latency to h at home median 0 ticks
+  coin_regreso  Tm: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 8 ticks
+  coin_regreso  T2: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 8 ticks
+oracle (median over pairs of the twins' mean; median over the last 5 blocks): right after a sleep | awake (49 online steps later)
+          coin home, childhood | 0.005 | 0.042
+          coin      exile, end | 0.031 | 0.062
+  coin_vigilia home, childhood | 0.004 | 0.009
+  coin_vigilia      exile, end | 0.023 | 0.022
+  coin_madurez home, childhood | 0.004 | 0.009
+  coin_madurez      exile, end | 0.027 | 0.028
+  coin_regreso home, childhood | 0.004 | 0.009
+  coin_regreso      exile, end | 0.027 | 0.028
+
+--------------------------------------------------------------------------------
+PROTEGE home T2 coin_regreso < coin_madurez: 12/12
+VUELVE_R home T2 coin_regreso < coin: 11/12
+CONSERVA_R awake home oracle coin_regreso < coin: 12/12; first exile block coin_regreso < coin_vigilia: 12/12
+PERSISTE_R H(T2) coin_regreso > 0: 12/12
+RIGIDO_R abroad coin_regreso > coin_madurez: T1 3/12, T2 1/12
+(secondary) RECUPERA after the switch T2 coin_regreso < coin_madurez: 12/12 | PAREADO H(T2) coin_regreso > coin_madurez: 12/12, > coin: 5/12 | AFUERA abroad T2 coin_regreso < coin_vigilia: 12/12 | home Tm coin_regreso < coin_madurez: 11/12 | ELIGE coin_regreso: 12/12
+VERDICT (pre-registered rule): VUELVE A CASA

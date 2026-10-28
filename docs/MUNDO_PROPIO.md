@@ -3148,3 +3148,80 @@ más simple a la más fina:
   experto estuvo activo, guardado y restaurado con su foto.
 - (c) La racha que empieza en una reactivación restaura la foto si el error de la sonda
   propia sube.
+
+### §K13 — VUELVE A CASA por la letra: el experto que vuelve, protegido, ya no se daña (2026-10-28)
+
+`results/mundo_propio_regreso_run.txt`: pares 0–11.
+- **Corrió en dos tramos.** El sistema cortó el primero por falta de memoria, con 3
+  vidas en disco (la máquina se compartía con procesos de otras sesiones). `reanudar`
+  corrió las 22 restantes en 53.8 min.
+- **Verificación.** El `coin_madurez` re-corrido (par 0, gemelo A) es igual a su vida
+  del §K12 en todas las claves: diferencia máxima 0.0.
+- **MISMA VIDA: 24/24 gemelos.** La vida principal de `coin_regreso` es la de
+  `coin_madurez`, también en los dos gemelos cuya vida principal tiene cambios de
+  experto (par 3 B, con 18, y par 8 A, con 6). Los brazos se distinguen sólo en los
+  clones de los ensayos.
+
+**Veredicto pre-registrado: VUELVE A CASA,** el previsto.
+- **PROTEGE: 12/12.** La casa en T2 cuesta 0.117 contra 0.168 de `coin_madurez`.
+- **VUELVE_R: 11/12.** Contra 0.146 de `coin` (`coin_vigilia`, 0.109).
+- **CONSERVA_R: 12/12 y 12/12.** El oráculo de casa despierto (0.009) y el primer
+  bloque del exilio (0.367) son los de `coin_madurez`, porque la vida principal es la
+  misma.
+- **PERSISTE_R: 12/12,** con H(T2) +0.567 (`coin_madurez` +0.375, `coin` +0.685).
+- **RIGIDO_R: no pasa.** Afuera es peor que en `coin_madurez` en 3/12 pares en T1 y en
+  1/12 en T2.
+- Secundarias:
+  - RECUPERA 12/12: después del cambio a `h` en T2 cuesta 0.054, contra 0.122 de
+    `coin_madurez` y 0.061 de `coin`.
+  - PAREADO: H(T2) mayor que el de `coin_madurez` en 12/12; que el de `coin`, en
+    5/12.
+  - AFUERA 12/12. La casa en Tm, 11/12 (0.113 contra 0.128). ELIGE 12/12. Atascos: 0.
+
+**Costos en medianas.**
+
+| Brazo | En casa T1 | Afuera T1 | En casa Tm | En casa T2 | Afuera T2 | Después del cambio, T2 | H(T2) |
+|---|---|---|---|---|---|---|---|
+| `coin` | 0.032 | 0.512 | 0.161 | 0.146 | 0.489 | 0.061 | +0.685 |
+| `coin_vigilia` | 0.032 | 0.937 | 0.126 | 0.109 | 0.969 | 0.064 | +1.703 |
+| `coin_madurez` | 0.032 | 0.347 | 0.128 | 0.168 | 0.387 | 0.122 | +0.375 |
+| `coin_regreso` | 0.032 | 0.347 | 0.113 | 0.117 | 0.387 | 0.054 | +0.567 |
+
+**Por par** (análisis posterior de las mismas vidas):
+- **Después del cambio,** `coin_regreso` cuesta 0.049–0.060 en los 12 pares;
+  `coin_madurez`, 0.055–0.335.
+- **El par que falla VUELVE_R** (el 11: 0.185 contra 0.134) lo pierde antes del cambio,
+  no después.
+- **El precio son tres gemelos en la casa del hermano en T1,** uno en cada uno de los
+  pares 4, 7 y 10: los que vuelven a `h` ahí. Cuestan 0.642, 0.755 y 0.773, contra
+  0.425, 0.441 y 0.661. En el resto, la casa del hermano cuesta exactamente lo mismo
+  que en `coin_madurez`.
+
+**Lectura.**
+- **Proteger al experto que vuelve arregla la vuelta a casa sin tocar nada más.** La
+  vida principal es la misma; lo único que cambia es que, al volver, el experto de casa
+  no reaprende a tasa entera. Después del cambio cuesta lo que cuesta un experto
+  intacto (0.054), y la casa en T2 queda mejor que en `coin` (11/12) y cerca de
+  `coin_vigilia`.
+- **El kernel tiene ahora las tres cosas en el mismo brazo:**
+  - conserva lo que el sueño consolida (0.009, como la vigilia lenta);
+  - entra a lo nunca vivido mejor que `coin` (0.367, sin atascos);
+  - vuelve a casa mejor que `coin`.
+- **El precio es chico y está localizado:** cuando el clon vuelve al experto de casa
+  en un mundo que no es el suyo, lo sostiene lento hasta 30 ticks. Pasa en 3 de 24
+  gemelos.
+- **La identidad crece:** H(T2) pasa de +0.375 a +0.567, todo por una casa mejor
+  (afuera queda igual). Sigue por debajo de la de `coin` en 7/12 pares, porque `coin`
+  es más rígido afuera.
+
+**Las predicciones, contra el resultado.**
+- Acertadas:
+  - VERIFICACIÓN, MISMA VIDA (incluso en los dos gemelos con cambios), CONSERVA_R,
+    PERSISTE_R, PROTEGE y VUELVE_R.
+  - RIGIDO_R, que no pasa.
+  - El veredicto VUELVE A CASA.
+  - En las secundarias: RECUPERA, PAREADO (pasa contra `coin_madurez` y no contra
+    `coin`), AFUERA, la casa en Tm, ELIGE y los atascos.
+- Ninguna errada en este test.
+
+La réplica (pares 12–23, pre-registrada) está corriendo.

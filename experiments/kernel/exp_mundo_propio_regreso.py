@@ -82,6 +82,20 @@ REPLICATION, pre-registered with the test: pairs 12-23, the same rule, launched 
 after the test unless a bug is found (any change recorded). REPLICADO if the verdict
 repeats.
 
+RESULT (pairs 0-11, results/mundo_propio_regreso_run.txt; two stretches: the system killed
+the first for low memory with 3 lives on disk, `reanudar` ran the other 22 in 53.8 min;
+the coin_madurez re-run equals its §K12 life, max diff 0.0). Pre-registered verdict:
+VUELVE A CASA, as predicted. PROTEGE 12/12 (home T2 0.117 vs coin_madurez 0.168),
+VUELVE_R 11/12 (coin 0.146; coin_vigilia 0.109), CONSERVA_R 12/12 and 12/12 (the oracle
+and the exile entry are coin_madurez's: MISMA VIDA 24/24 twins, also the two whose main
+life has switches), PERSISTE_R 12/12 (H(T2) +0.567 vs +0.375), RIGIDO_R T1 3/12, T2 1/12.
+Secondary: RECUPERA 12/12 (after the switch at T2 0.054 vs 0.122; coin 0.061), PAREADO
+> coin_madurez 12/12 and > coin 5/12, AFUERA 12/12, home Tm 11/12 (0.113 vs 0.128), ELIGE
+12/12; stuck blocks 0. Per pair (post hoc): after the switch coin_regreso costs
+0.049-0.060 in all 12; the one VUELVE_R miss (pair 11) is before the switch. The price
+is three twins in their sibling's home at T1 (pairs 4, 7, 10, the ones that go back to h
+there): 0.642 / 0.755 / 0.773 vs 0.425 / 0.441 / 0.661; abroad is otherwise identical.
+
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_regreso.py humo
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_regreso.py
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_regreso.py replica   # pairs 12-23
