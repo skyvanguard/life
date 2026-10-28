@@ -2934,3 +2934,99 @@ La réplica (pares 12–23, pre-registrada) está más abajo.
 - La madurez bajo la crianza `dos`.
 - Lo que quedó de antes: un umbral relativo o una inferencia bayesiana del
   contexto, INVIERTE, y un `self_embedding` que lea el modelo del mundo.
+
+### §K12, mecanismo — la vuelta a casa: el experto de casa vuelve intacto y se daña reaprendiendo despierto (2026-10-28)
+
+`experiments/kernel/exp_mundo_propio_madurez_vuelta.py`,
+`results/mundo_propio_madurez_vuelta_run.txt`: posterior al test y a la réplica, 47.7
+min. No es evidencia pre-registrada. La hipótesis y las predicciones quedaron escritas
+en el docstring antes de correr.
+
+**De dónde salió.** En las vidas guardadas (los 24 pares), en el ensayo de casa de T2
+`coin_madurez` vuelve a su experto de casa `h` antes que `coin` (9 contra 12 ticks) y
+paga menos hasta ese momento (0.054 contra 0.082). Pero paga más **después** (0.114
+contra 0.064; ticks 20–40, 0.180 contra 0.070; 21/24 pares). `coin_vigilia` paga 0.034
+en esa ventana.
+
+**Qué se hizo.** Se re-corrieron 16 vidas: `coin` y `coin_madurez`, pares 0–3, los dos
+gemelos. Los pares se eligieron sin mirar; en las vidas guardadas muestran el efecto
+en 4/4. En los ensayos de casa Tm y T2 se lanzaron clones extra desde el mismo estado
+y con la misma semilla:
+- `instr`: lecturas tick a tick (experto activo, errores corrientes, si `h` explica).
+- `sonda`: además, el error propio de `h` en la sonda de casa en ticks fijos.
+- `lento_h`: `h` aprende despierto a lr × 0.1. Los demás expertos siguen la regla de su
+  brazo.
+- `congelado_h`: `h` no aprende despierto (lr × 0); sigue durmiendo.
+- **Verificación.** Las 16 vidas dan diferencia 0 contra las guardadas. `instr`
+  reproduce el ensayo guardado (0.0) y la sonda sólo lee (0.0).
+- **Enmienda después del humo, antes de correr.** La primera versión de los
+  contrafactuales pisaba `_explica` para todos los expertos. En `coin_madurez` eso
+  ponía también al experto del exilio a tasa entera desde el primer tick en casa, y
+  el cambio de experto en Tm se movía de 33 a 15 ticks. Se corrigió para que sólo
+  cambie la tasa de `h`.
+
+**Resultado en T2** (medianas de 8 gemelos por brazo).
+
+| | `coin` | `coin_madurez` |
+|---|---|---|
+| Cambio a `h` (tick) | 12 | 8 |
+| Error corriente de `h` al cambiar (umbral 0.08) | 0.105; arriba en 6/8 | 0.093; arriba en 7/8 |
+| Costo antes del cambio | 0.087 | 0.046 |
+| Costo después del cambio: `instr` | 0.058 | 0.083 |
+| Costo después del cambio: `lento_h` | 0.055 | 0.055 |
+| Costo después del cambio: `congelado_h` | 0.053 | 0.055 |
+| Error propio de `h` en casa, ticks 0 → 20 → 40 → 50 | 0.008 → 0.059 → 0.090 → 0.011 | 0.007 → 0.157 → 0.230 → 0.010 |
+| Lo mismo con `lento_h`, tick 40 | 0.013 | 0.017 |
+| Lo mismo con `congelado_h` | 0.008 en todo el ensayo | 0.007 en todo el ensayo |
+
+- En `coin_madurez`, `lento_h` baja el costo después del cambio en 7/8 gemelos y
+  `congelado_h` en 6/8. En `coin`, 7/8 los dos.
+- En Tm pasa lo mismo. El error propio de `h` en `coin_madurez` sube de 0.007 a 0.106,
+  y los dos contrafactuales bajan el costo después del cambio en 7/8.
+
+**Lectura.**
+- **El experto de casa vuelve intacto y se daña al volver.** Despierto, aprende en
+  línea de los primeros ticks en casa, y eso le multiplica el error en casa por 10–30
+  en 20–40 ticks, hasta que el sueño del tick 50 lo repara. Lento o congelado
+  despierto, no se daña, y el costo extra desaparece: `coin_madurez` queda en 0.055
+  después del cambio, por debajo de `coin` (0.058). Con el experto de casa protegido,
+  su costo en casa en T2 sería 0.105 contra 0.147 de `coin`. Es una cuenta sobre 8
+  gemelos, no una corrida.
+- **Por qué aprende rápido justo ahí.** Todos los expertos predicen en cada tick, así
+  que el error corriente de `h` llega a casa cargado con el exilio, y el cambio de
+  experto es relativo (por margen), no por el umbral. Al reactivarse, `h` no "explica"
+  (7/8 gemelos arriba del umbral) y la madurez le da la tasa entera. En eso la
+  hipótesis escrita antes de correr se confirma.
+- **Pasa también en `coin`, pero menos.** `coin` aprende siempre a tasa entera y su
+  experto de casa también se daña (0.090 a los 40 ticks); congelarlo le baja el costo
+  en 7/8 gemelos.
+- **En `coin_madurez` el daño es mayor y se concentra en la mitad de los gemelos,**
+  con costos después del cambio de 0.10 a 0.35.
+  - En 3 de ellos, `h` pasa 43–92 ticks seguidos sin explicar; en `coin`, 12 como
+    mucho.
+  - El cuarto (par 2, gemelo A) llega a 0.353 con un primer tramo de un tick. Sólo se
+    midió el primer tramo sin explicar, no las recaídas.
+- **Lo que no se probó:** por qué el daño es mayor en `coin_madurez` que en `coin` a la
+  misma tasa entera. Hay dos candidatos sin probar:
+  - el cambio más temprano le pasa a `h` el pico del transitorio (ticks 5–10, a 0.8–0.9
+    de la preferencia);
+  - un lazo en el que el daño mantiene el error arriba del umbral y la tasa entera
+    sigue.
+- **La foto no lo protege** (lectura del código, no medida). Al reactivarse con el
+  error arriba del umbral se toma una foto de `h`. Pero esa foto se descarta sin
+  restaurar cuando el error corriente baja del umbral; sólo un nuevo cambio o un
+  nacimiento la restaurarían.
+- **Predicciones:**
+  - Acertadas: el error de `h` por arriba del umbral al cambiar en la mayoría (6/8 y
+    7/8), y que los dos contrafactuales bajan el costo de `coin_madurez` después del
+    cambio (7/8 y 6/8).
+  - Lo que no se predijo: el tamaño del daño (×30) y que también aparezca en `coin`.
+
+**Lo que sigue (propuesta de §K13): proteger al experto que vuelve.** Opciones, de la
+más simple a la más fina:
+- (a) Un experto establecido que se reactiva aprende despierto lento durante una
+  gracia, o hasta que su error lo justifique. Es lo que hace `lento_h`.
+- (b) El "explica" se decide con un error corriente que sólo cuenta los ticks en que el
+  experto estuvo activo, guardado y restaurado con su foto.
+- (c) La racha que empieza en una reactivación restaura la foto si el error de la sonda
+  propia sube.

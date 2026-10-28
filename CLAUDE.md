@@ -72,7 +72,7 @@ zeta-life/
 │   └── utils/           # statistics helpers
 ├── experiments/
 │   ├── utero/           # 71 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
-│   ├── kernel/          # 50 kernel experiments (§K1-§K12: the kernel in its own world)
+│   ├── kernel/          # 51 kernel experiments (§K1-§K12: the kernel in its own world)
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
@@ -220,6 +220,7 @@ PYTHONPATH=src python experiments/kernel/exp_mundo_propio_vigilia.py replica  # 
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_madurez.py humo     # §K12 smoke (pair 0, short life): coin_vigilia re-run equals its §K11 life (diff 0); coin/coin_vigilia loaded from §K11
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_madurez.py          # §K12 MATURITY (ContextualWorldModel(wake_lr_scale_learning=1.0): slow wake (0.1) only while an expert explains its stream, full rate while newborn or failing; coin_madurez vs the stored §K11 coin / coin_vigilia; pairs 0-11, 25 lives, ~72 min shared): VIGILIA QUE NO BORRA -- PRECISA_M 12/12 (awake home oracle 0.009 vs coin 0.042), ENTRA 12/12 (first exile block 0.367 vs coin_vigilia 0.970; coin 0.497), PERSISTE_M 12/12, LENTO_M 3/12; 0 stuck blocks (coin 2, coin_vigilia 31); VUELVE 3/12 failed
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_madurez.py replica  # §K12 replication (pairs 12-23, ~69 min): REPLICADO (pooled PRECISA_M, ENTRA, PERSISTE_M 24/24; LENTO_M 4/24; 1 stuck block in 48 twins vs coin 3, coin_vigilia 59): a per-expert awake rate gives stability and plasticity; VUELVE 7/24 failed -- the home expert is intact (0.007), the cost is in the return
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_madurez_vuelta.py  # §K12 mechanism (post hoc, ~48 min, 16 lives re-run, diff 0): the home expert comes back intact and is DAMAGED by its own awake relearning on return (home error 0.007 -> 0.23 by tick 40, coin 0.09, until the next sleep): its running error carries the exile, so it 'does not explain' and learns at the full rate; slowing or freezing it removes VUELVE's excess (after-switch 0.083 -> 0.055, 7/8 and 6/8 twins)
 PYTHONPATH=src python experiments/kernel/exp_agency.py
 PYTHONPATH=src python experiments/kernel/exp_zeta_vs_baselines.py    # zeta vs fourier/random/learned/rnn
 PYTHONPATH=src python experiments/kernel/exp_spacing_statistics.py --kernel  # GUE vs Poisson vs lattice

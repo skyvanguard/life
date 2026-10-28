@@ -1,0 +1,66 @@
+================================================================================
+§K12 MECHANISM -- the return home after the exile
+================================================================================
+pairs 0-3, arms ('coin', 'coin_madurez'), 16 lives re-run; 47.7 min
+verification: life re-run vs stored, max diff 0.0; instr assay vs stored assay 0.0; sonda vs instr 0.0
+threshold 0.08; tick 0 = the clone's first tick at home; costs over the first 100 ticks (sum before / after the switch, divided by EARLY: they add up to the assay's e_early)
+
+--- Tm home assay
+          coin       instr | switch  16.5 | r_h at switch nan | h not explaining after it   0.5 ticks | before 0.124 after 0.050 total 0.177 | ticks 20-70 0.040
+          coin     lento_h | switch  16.5 | r_h at switch nan | h not explaining after it   0.5 ticks | before 0.124 after 0.050 total 0.176 | ticks 20-70 0.037
+          coin congelado_h | switch  16.5 | r_h at switch nan | h not explaining after it   0.5 ticks | before 0.124 after 0.049 total 0.176 | ticks 20-70 0.036
+          coin r_h > threshold at the switch: 4/8 twins
+          coin       sonda h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.007 0.013 0.027 0.051 0.04  0.009 0.01  0.007]
+          coin     lento_h h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.007 0.011 0.012 0.019 0.02  0.007 0.006 0.009]
+          coin congelado_h h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.007 0.007 0.007 0.007 0.007 0.006 0.006 0.01 ]
+  coin_madurez       instr | switch   8.0 | r_h at switch 0.095 | h not explaining after it  10.0 ticks | before 0.050 after 0.066 total 0.126 | ticks 20-70 0.050
+  coin_madurez     lento_h | switch   8.0 | r_h at switch 0.095 | h not explaining after it   4.0 ticks | before 0.050 after 0.053 total 0.108 | ticks 20-70 0.031
+  coin_madurez congelado_h | switch   8.0 | r_h at switch 0.095 | h not explaining after it   3.5 ticks | before 0.050 after 0.056 total 0.108 | ticks 20-70 0.033
+  coin_madurez r_h > threshold at the switch: 7/8 twins
+  coin_madurez       sonda h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.014 0.061 0.097 0.098 0.106 0.007 0.007 0.008]
+  coin_madurez     lento_h h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.008 0.012 0.016 0.018 0.018 0.005 0.005 0.006]
+  coin_madurez congelado_h h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.007 0.007 0.007 0.007 0.007 0.005 0.005 0.008]
+      lento_h lowers the cost after the switch, coin: 4/8 twins
+      lento_h lowers the cost after the switch, coin_madurez: 7/8 twins
+  congelado_h lowers the cost after the switch, coin: 5/8 twins
+  congelado_h lowers the cost after the switch, coin_madurez: 7/8 twins
+  after the switch coin_madurez > coin: 6/8 twins
+
+--- T2 home assay
+          coin       instr | switch  12.0 | r_h at switch 0.105 | h not explaining after it   6.0 ticks | before 0.087 after 0.058 total 0.147 | ticks 20-70 0.042
+          coin     lento_h | switch  12.0 | r_h at switch 0.105 | h not explaining after it   4.0 ticks | before 0.087 after 0.055 total 0.145 | ticks 20-70 0.036
+          coin congelado_h | switch  12.0 | r_h at switch 0.105 | h not explaining after it   3.5 ticks | before 0.087 after 0.053 total 0.142 | ticks 20-70 0.034
+          coin r_h > threshold at the switch: 6/8 twins
+          coin       sonda h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.008 0.008 0.008 0.022 0.059 0.099 0.09  0.011 0.02  0.009]
+          coin     lento_h h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.008 0.008 0.008 0.009 0.011 0.011 0.013 0.01  0.012 0.009]
+          coin congelado_h h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.008 0.008 0.008 0.008 0.008 0.008 0.008 0.008 0.008 0.009]
+  coin_madurez       instr | switch   8.0 | r_h at switch 0.093 | h not explaining after it   7.0 ticks | before 0.046 after 0.083 total 0.163 | ticks 20-70 0.083
+  coin_madurez     lento_h | switch   8.0 | r_h at switch 0.093 | h not explaining after it   3.5 ticks | before 0.046 after 0.055 total 0.105 | ticks 20-70 0.035
+  coin_madurez congelado_h | switch   8.0 | r_h at switch 0.093 | h not explaining after it   3.0 ticks | before 0.046 after 0.055 total 0.104 | ticks 20-70 0.034
+  coin_madurez r_h > threshold at the switch: 7/8 twins
+  coin_madurez       sonda h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.017 0.073 0.157 0.215 0.23  0.01  0.021 0.011]
+  coin_madurez     lento_h h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.007 0.011 0.015 0.016 0.017 0.007 0.007 0.007]
+  coin_madurez congelado_h h's own home-probe error at ticks (0, 5, 10, 15, 20, 30, 40, 50, 70, 100): [0.007 0.007 0.007 0.007 0.007 0.007 0.007 0.006 0.006 0.009]
+      lento_h lowers the cost after the switch, coin: 7/8 twins
+      lento_h lowers the cost after the switch, coin_madurez: 7/8 twins
+  congelado_h lowers the cost after the switch, coin: 7/8 twins
+  congelado_h lowers the cost after the switch, coin_madurez: 6/8 twins
+  after the switch coin_madurez > coin: 6/8 twins
+
+per twin, T2 (instr): arm pair twin | switch | r_h | ticks not explaining | after: instr / lento_h / congelado_h
+          coin 0 A |  38 | 0.184 |  12 | 0.043 / 0.043 / 0.042
+          coin 0 B |  11 | 0.102 |   7 | 0.066 / 0.049 / 0.049
+          coin 1 A |  34 | 0.024 |   0 | 0.025 / 0.024 / 0.025
+          coin 1 B |   9 | 0.089 |   2 | 0.063 / 0.057 / 0.056
+          coin 2 A |  11 | 0.108 |   6 | 0.061 / 0.057 / 0.056
+          coin 2 B |  13 | 0.078 |   0 | 0.059 / 0.060 / 0.055
+          coin 3 A |  44 | 0.117 |  11 | 0.058 / 0.053 / 0.051
+          coin 3 B |  10 | 0.109 |   6 | 0.058 / 0.057 / 0.056
+  coin_madurez 0 A |  12 | 0.078 |   0 | 0.054 / 0.054 / 0.055
+  coin_madurez 0 B |   8 | 0.091 |   5 | 0.065 / 0.055 / 0.051
+  coin_madurez 1 A |   8 | 0.088 |  57 | 0.182 / 0.065 / 0.065
+  coin_madurez 1 B |   6 | 0.103 |   6 | 0.056 / 0.055 / 0.058
+  coin_madurez 2 A |  10 | 0.083 |   1 | 0.353 / 0.057 / 0.057
+  coin_madurez 2 B |   7 | 0.095 |  92 | 0.316 / 0.052 / 0.051
+  coin_madurez 3 A |  12 | 0.108 |  43 | 0.102 / 0.056 / 0.056
+  coin_madurez 3 B |   6 | 0.100 |   8 | 0.058 / 0.053 / 0.054
