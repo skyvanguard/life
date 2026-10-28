@@ -1,0 +1,45 @@
+================================================================================
+§K14 CALIBRATION (pairs 100-102) -- the school
+================================================================================
+pairs 100-102, 'dos'; coin re-run (control) and coin_regreso (§K13's arm); run 36.2 min (report regenerated from the lives on disk with `reanudar` after adding the per-twin line)
+verification: every coin re-run vs its stored §K7 'dos' life (stored keys), max diff 0.0 over 6 lives (6 equal)
+
+H_early (cross) medians and H>0 per assay
+          coin | T1 +1.439 (3/3) | Tm +0.364 (3/3) | T2 +0.100 (3/3)
+  coin_regreso | T1 +0.586 (3/3) | Tm +0.142 (3/3) | T2 +0.373 (3/3)
+costs (medians): home T1 | abroad T1 | home Tm | home T2 | abroad T2 | first exile block | childhood returns home | to the school | stuck blocks (twins)
+          coin | 0.034 | 0.753 | 0.250 | 0.341 | 0.345 | 0.253 | 0.107 | 0.109 | stuck 0 (0/6)
+  coin_regreso | 0.037 | 0.355 | 0.251 | 0.207 | 0.394 | 0.476 | 0.112 | 0.125 | stuck 0 (0/6)
+first exile block e_early per twin (coin / coin_regreso): 100A 0.18/0.27, 100B 0.33/0.88, 101A 0.29/0.23, 101B 0.37/0.73, 102A 0.21/0.18, 102B 0.23/0.22
+home assay, after the switch to h (median over pairs of the twins' mean) | first tick on h (median over twins) | switches in the childhood (median over twins)
+          coin | Tm 0.042 (tick 26) | T2 0.037 (tick 42) | 16
+  coin_regreso | Tm 0.027 (tick 34) | T2 0.037 (tick 26) | 16
+experts
+  coin: in use [3, 3, 3, 3, 3, 4]
+  coin: (h, e) [(1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2)]; e != h in 6/6 twins
+  coin  T1: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 2/3; latency to h at home median 0 ticks
+  coin  Tm: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 26 ticks
+  coin  T2: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 42 ticks
+  coin_regreso: in use [3, 3, 3, 4, 3, 3]
+  coin_regreso: (h, e) [(1, 2), (1, 2), (1, 2), (1, 3), (1, 2), (1, 2)]; e != h in 6/6 twins
+  coin_regreso  T1: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 0 ticks
+  coin_regreso  Tm: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 34 ticks
+  coin_regreso  T2: settled at home on h 6/6 twins; ELIGE pairs 3/3; NO CONFUNDE pairs 3/3; latency to h at home median 26 ticks
+oracle (median over pairs of the twins' mean; median over the last 5 blocks there): right after a sleep | awake (49 online steps later)
+          coin   home, childhood | 0.013 | 0.049
+          coin school, childhood | 0.011 | 0.051
+          coin        exile, end | 0.049 | 0.065
+  coin_regreso   home, childhood | 0.014 | 0.016
+  coin_regreso school, childhood | 0.012 | 0.014
+  coin_regreso        exile, end | 0.032 | 0.034
+
+--------------------------------------------------------------------------------
+(reported) EROSIONA coin awake > right after sleep (home, childhood): 3/3
+CONSERVA_D awake home oracle coin_regreso < coin: 3/3
+ENTRA_D first exile block coin_regreso < coin: 1/3
+VUELVE_D home T2 coin_regreso < coin: 2/3
+PERSISTE_D H(T2) coin_regreso > 0: 3/3
+RIGIDO_D abroad coin_regreso > coin: T1 0/3, T2 2/3
+(secondary) NINEZ_D childhood returns home coin_regreso < coin: 2/3 | ESCUELA_D returns to the school: 1/3 | home Tm coin_regreso < coin: 0/3 | AFUERA abroad T2 coin_regreso < coin: 1/3
+(secondary) RECUPERA after the switch T2 coin_regreso < coin: 1/3 | PAREADO H(T2) coin_regreso > coin: 3/3 | ELIGE coin_regreso: 3/3, coin: 3/3
+(n < 12: no verdict)

@@ -1393,6 +1393,142 @@ T1/Tm/T2, los costos, la tabla del oráculo, los expertos y la latencia a `h`.
 lanza apenas termine el test, salvo que aparezca un bug (cualquier cambio queda
 registrado). Queda REPLICADO si el veredicto se repite.
 
+## §K14 — la escuela: ¿aguantan las tres cosas del brazo completo la otra crianza? (pre-registrado el 2026-10-28, después del humo y la calibración, antes de correr)
+
+Fran, tras la réplica del §K13: "sigamos con tu recomendacion" (probar el brazo
+completo bajo la crianza `dos` antes de ajustar el tope del regreso).
+
+**Por qué.**
+- **Del §K11 al §K13 todo se midió bajo `una`,** con la niñez en casa. Ahí
+  `coin_regreso` es el primer brazo que hace las tres cosas a la vez (§K13, replicado):
+  - conserva lo que el sueño consolida: oráculo de casa despierto 0.008 contra 0.042
+    de `coin`, 24/24;
+  - entra a lo nunca vivido mejor que `coin`: primer bloque del exilio 0.367 contra
+    0.560, 20/24;
+  - vuelve a casa mejor que `coin`: casa en T2 0.111 contra 0.145, 22/24.
+- **`dos` es la otra vida que tiene el programa** (§K5, §K7): casa y la escuela N
+  alternadas durante la niñez, terminando en casa. Hay tres expertos en vez de dos, y
+  el experto de casa vuelve de la escuela siete veces en la niñez. Con la regla del
+  §K13 cada una de esas vueltas es lenta, algo que bajo `una` no pasaba nunca.
+- **La pregunta:** ¿el brazo completo es una propiedad del kernel o de la única crianza
+  en la que se construyó?
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_escuela.py`).
+- **Dos brazos bajo `dos`,** con la vida, los papeles, el exilio y los ensayos del §K4
+  y el bucle del §K7:
+  - `coin`, re-corrido. Sus vidas del §K7 bajo `dos` no tienen la sonda despierta, que
+    se agregó en el §K11. La sonda sólo lee, así que cada gemelo re-corrido tiene que
+    ser igual a su vida guardada del §K7 en todas las claves guardadas: 24
+    verificaciones por corrida.
+  - `coin_regreso`, el brazo del §K13 sin cambios.
+- **No se ajusta nada.**
+- **Declarado:** no hay `coin_vigilia` ni `coin_madurez` bajo `dos`. La pregunta es el
+  brazo completo contra el repertorio que mejora, no cuál de sus tres manos hace qué.
+- **Cambio declarado en una lectura.** Bajo `dos` el experto de casa sólo se erosiona
+  despierto en los bloques de casa: despierto aprende sólo el experto activo, y todos
+  duermen. Por eso el oráculo de casa despierto es la mediana sobre los últimos 5
+  bloques de la niñez vividos en casa. Bajo `una` son los mismos 5 bloques del §K11.
+
+**Lecturas por par** (la media de los gemelos):
+- el oráculo de casa despierto;
+- el primer bloque del exilio (`e_early`);
+- el costo en casa en T1, Tm y T2, y afuera (la casa del hermano) en T1 y T2;
+- H en T1, Tm y T2;
+- en cada ensayo de casa, el costo después del cambio a `h` (la lectura del §K13);
+- **las vueltas de la niñez:** el `e_early` medio de los bloques de casa después del
+  primero (7 vueltas desde la escuela) y de los de la escuela después del primero (6).
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola). E =
+`coin_regreso`, C = `coin`, los dos bajo `dos`.
+
+| Lectura | Criterio |
+|---|---|
+| VERIFICACIÓN | cada `coin` re-corrido igual a su vida del §K7; si no, se para |
+| CONSERVA_D (primaria) | oráculo de casa despierto, E < C, ≥ 10/12 |
+| ENTRA_D (primaria) | primer bloque del exilio, E < C, ≥ 10/12 |
+| VUELVE_D (primaria) | costo en casa en T2, E < C, ≥ 10/12 |
+| PERSISTE_D (primaria) | H(T2) de E > 0, ≥ 10/12 |
+| RIGIDO_D (primaria, el precio) | costo afuera E > C en T1 o en T2, ≥ 10/12 en alguno |
+
+Veredicto:
+- sin PERSISTE_D → **SIN IDENTIDAD EN LA ESCUELA**;
+- si no, si falta alguna de CONSERVA_D, ENTRA_D o VUELVE_D → **NO AGUANTA**, nombrando
+  las que fallan;
+- las tres sin RIGIDO_D → **AGUANTA LA ESCUELA**;
+- las tres y RIGIDO_D → **AGUANTA, MÁS RÍGIDO AFUERA**.
+
+Secundarias:
+- NINEZ_D: las vueltas a casa en la niñez, E < C.
+- ESCUELA_D: las vueltas a la escuela, E < C.
+- El costo en casa en Tm, E < C.
+- AFUERA: el costo afuera en T2, E < C.
+- RECUPERA: el costo después del cambio en T2, E < C.
+- PAREADO: H(T2), E > C.
+- ELIGE de E en T2 y los atascos.
+
+Se reportan EROSIONA (el oráculo de casa de `coin` despierto, peor que recién dormido:
+la premisa de CONSERVA_D bajo `dos`), la tabla del oráculo (casa y escuela en la niñez,
+el exilio al final), los expertos, `h` y `e`, la latencia a `h`, los cambios de experto
+en la niñez y, agregado después de la calibración, el primer bloque del exilio por
+gemelo.
+
+**Predicciones escritas antes del humo y de la calibración:**
+- VERIFICACIÓN 24/24.
+- PERSISTE_D pasa: `coin` bajo `dos` da 22/24 juntos (§K7), y la vigilia lenta
+  conserva al experto de casa como estaba.
+- CONSERVA_D pasa: la vigilia lenta conserva lo que el sueño consolida, sea cual sea la
+  crianza.
+- VUELVE_D, inclinada a pasar: bajo `dos` la latencia de `coin` para volver a `h` en
+  T2 es de 17 ticks, contra 11 bajo `una`, así que el regreso lento tiene más para
+  proteger.
+- ENTRA_D, incierta: bajo `dos` `coin` ya entra al exilio en 0.327 (§K7), contra 0.50
+  bajo `una`, y eso es menos que el 0.367 de `coin_regreso` bajo `una`.
+- RIGIDO_D no pasa.
+- NINEZ_D pasa: cada vuelta desde la escuela está protegida.
+- Veredicto previsto: **AGUANTA LA ESCUELA** o **NO AGUANTA: ENTRA_D**.
+
+**Humo** (par 0, vida corta; no es evidencia).
+- Verificación 2/2, con diferencia máxima 0.0.
+- E contra C: oráculo de casa despierto 0.013 contra 0.028; primer bloque del exilio
+  0.347 contra 0.418; casa en T2 0.143 contra 0.184; H(T2) +1.19 contra +0.84.
+- Afuera, E paga más: 0.416 contra 0.287 en T1 y 0.736 contra 0.604 en T2.
+- Las vueltas de la niñez no se pueden leer: hay un solo bloque de casa y uno de
+  escuela.
+
+**Calibración** (pares 100–102, nunca de test;
+`results/mundo_propio_escuela_calibracion_run.txt`, 36.2 min). No se ajustó nada.
+- Verificación 6/6, con diferencia máxima 0.0.
+- CONSERVA_D 3/3 (oráculo de casa despierto 0.016 contra 0.049; EROSIONA 3/3).
+- **ENTRA_D 1/3:** el primer bloque del exilio cuesta 0.476 contra 0.253.
+- VUELVE_D 2/3 (casa en T2, 0.207 contra 0.341).
+- PERSISTE_D 3/3 (H(T2) +0.37 contra +0.10).
+- RIGIDO_D: T1 0/3, T2 2/3 (afuera en T2, 0.394 contra 0.345).
+- Secundarias: NINEZ_D 2/3 (0.112 contra 0.107: no hay diferencia), ESCUELA_D 1/3,
+  casa en Tm 0/3 (0.251 contra 0.250), ELIGE 3/3.
+- **Análisis posterior de esas vidas.**
+  - Al empezar el exilio los dos brazos hacen lo mismo: `h` activo 33–37 ticks y
+    después nace un experto. El oráculo de X antes del exilio también es el mismo
+    (0.17–0.19).
+  - Los fallos de ENTRA_D son dos gemelos (100 B y 101 B). Su `coin_regreso` se atasca
+    actuando unos 150 ticks del primer bloque del exilio (costo ~0.8–1.1).
+  - Mientras tanto su modelo del mundo aprende X igual o mejor que el de `coin`: el
+    oráculo de X al final del bloque da 0.055 contra 0.085 y 0.076 contra 0.058.
+
+**Predicciones agregadas después de la calibración, antes de cualquier par de test**
+(las de arriba quedan como se escribieron):
+- VERIFICACIÓN 24/24.
+- CONSERVA_D y PERSISTE_D pasan.
+- ENTRA_D no pasa: bajo `dos` `coin` ya entra en 0.33, y `coin_regreso` puede quedar
+  atascado ahí.
+- VUELVE_D, inclinada a pasar.
+- RIGIDO_D no pasa en T1; en T2, incierta.
+- NINEZ_D no pasa (sin diferencia en la calibración).
+- Veredicto previsto: **NO AGUANTA: ENTRA_D**.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, con la misma regla. Se
+lanza apenas termine el test, salvo que aparezca un bug (cualquier cambio queda
+registrado). Queda REPLICADO si el veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*

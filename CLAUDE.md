@@ -72,7 +72,7 @@ zeta-life/
 │   └── utils/           # statistics helpers
 ├── experiments/
 │   ├── utero/           # 71 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
-│   ├── kernel/          # 52 kernel experiments (§K1-§K13: the kernel in its own world)
+│   ├── kernel/          # 53 kernel experiments (§K1-§K14: the kernel in its own world)
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
@@ -224,6 +224,10 @@ PYTHONPATH=src python experiments/kernel/exp_mundo_propio_madurez_vuelta.py  # �
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_regreso.py humo     # §K13 smoke (pair 0, short life): the coin_madurez re-run equals its §K12 life (diff 0); coin_regreso's main life equals coin_madurez's
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_regreso.py          # §K13 THE RETURN (ContextualWorldModel(slow_return=True): an established expert made active by a switch learns awake slowly until it explains, at most persist ticks; coin_regreso vs the stored coin / coin_vigilia / coin_madurez; pairs 0-11, 25 lives, ~60 min): VUELVE A CASA -- PROTEGE 12/12 (home T2 0.117 vs coin_madurez 0.168), VUELVE_R 11/12 (coin 0.146), CONSERVA_R and PERSISTE_R 12/12, RIGIDO_R T1 3/12, T2 1/12; the main life is coin_madurez's in 24/24 twins; after the switch home 0.054 vs 0.122; the price is 3/24 twins that go back to h in their sibling's home at T1
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_regreso.py replica  # §K13 replication (pairs 12-23, ~58 min): REPLICADO (pooled PROTEGE 24/24, VUELVE_R 22/24, CONSERVA_R and PERSISTE_R 24/24, RIGIDO_R T1 6/24, T2 3/24; after the switch home 0.056 vs coin_madurez 0.114, coin 0.064): the same arm keeps what sleep consolidates, enters the never-lived better than coin and returns home better than coin; the price is 9/96 twin-assays abroad that hold h slow in their sibling's home
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py humo         # §K14 smoke (pair 0, short life): every coin re-run under 'dos' equals its §K7 life (diff 0)
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py calibracion  # §K14 calibration (pairs 100-102, ~36 min): CONSERVA_D 3/3, ENTRA_D 1/3 (two twins stuck in the first exile block), VUELVE_D 2/3, PERSISTE_D 3/3
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py              # §K14 THE SCHOOL (coin_regreso vs coin re-run, both under §K5's 'dos'; every coin re-run must equal its §K7 life; pairs 0-11, 48 lives): pre-registered, see docs/MUNDO_PROPIO.md
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py replica      # §K14 replication (pairs 12-23)
 PYTHONPATH=src python experiments/kernel/exp_agency.py
 PYTHONPATH=src python experiments/kernel/exp_zeta_vs_baselines.py    # zeta vs fourier/random/learned/rnn
 PYTHONPATH=src python experiments/kernel/exp_spacing_statistics.py --kernel  # GUE vs Poisson vs lattice
