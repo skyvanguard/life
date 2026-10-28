@@ -2744,3 +2744,78 @@ La réplica (pares 12–23, pre-registrada) está más abajo.
 - La foto a tiempo en el `coin` completo y bajo la crianza `dos`.
 - Lo que quedó de antes: un umbral relativo, re-entrar más rápido, INVIERTE, y
   un `self_embedding` que lea el modelo del mundo.
+
+### §K12 — VIGILIA QUE NO BORRA por la letra: lenta mientras explica, rápida mientras aprende (2026-10-28)
+
+`results/mundo_propio_madurez_run.txt`: pares 0–11, 72.2 min (la máquina se
+compartía con procesos de otra sesión).
+- **Verificación.** El `coin_vigilia` re-corrido (par 0, gemelo A) es igual a su
+  vida del §K11 en todas las claves: diferencia máxima 0.0.
+
+**Veredicto pre-registrado: VIGILIA QUE NO BORRA.** Es mejor que lo previsto (MEJOR
+PERO NO GRATIS).
+- **PRECISA_M: 12/12.** El oráculo de casa despierto queda en 0.009, como en
+  `coin_vigilia` (0.009); `coin`, 0.042.
+- **ENTRA: 12/12.** El primer bloque del exilio cuesta 0.367 contra 0.970 de
+  `coin_vigilia`.
+- **PERSISTE_M: 12/12,** con H(T2) +0.375.
+- **LENTO_M: 3/12.** No pasa: el primer bloque del exilio de `coin` cuesta 0.497.
+- **Atascos: 0** en 24 gemelos (`coin` 2, `coin_vigilia` 31). El experto del
+  exilio nace entre los 31 y los 35 ticks en los 24 gemelos.
+- Secundarias:
+  - CONTROLA: 12/12. El `e_late` medio de la niñez, 0.034 contra 0.038.
+  - AFUERA: 12/12. La casa del hermano en T2 cuesta 0.387 contra 0.969 de
+    `coin_vigilia`.
+  - El oráculo despierto del experto del exilio al final: 0.028 contra 0.062 de
+    `coin` (12/12). Tampoco se gasta.
+  - ELIGE: 12/12. En T2 se asientan en h los 24 gemelos, con una latencia de 8
+    ticks.
+  - **PAREADO no pasa:** H(T2) mayor que el de `coin` en 3/12, que el de
+    `coin_vigilia` en 0/12.
+  - **VUELVE no pasa:** 3/12. En casa en T2 cuesta 0.168 contra 0.146.
+
+**Costos en medianas.**
+
+| Brazo | En casa T1 | Afuera T1 | En casa T2 | Afuera T2 | 1.er bloque del exilio | Atascos |
+|---|---|---|---|---|---|---|
+| `coin` | 0.032 | 0.512 | 0.146 | 0.489 | 0.497 | 2 |
+| `coin_vigilia` | 0.032 | 0.937 | 0.109 | 0.969 | 0.970 | 31 |
+| `coin_madurez` | 0.032 | 0.347 | 0.168 | 0.387 | 0.367 | 0 |
+
+**Análisis posteriores de las mismas vidas** (no son evidencia pre-registrada).
+- **Entra antes que `coin`.** El primer bloque del exilio es más barato que el de
+  `coin` en 9/12 pares. Por bloque del exilio (`e_early`, medianas): `coin`
+  0.497 → 0.044; `coin_vigilia` 0.970 → 0.611 → 0.056; `coin_madurez` 0.367 →
+  0.042. Desde el segundo bloque, `coin_madurez` queda donde está `coin`.
+- **La casa del hermano también le cuesta menos que a `coin`:** en 11/12 pares en
+  T1, 10/12 en Tm y 9/12 en T2.
+- **El H más chico es menos rigidez afuera, no una casa más débil.** En casa es
+  mejor que `coin` en Tm (9/12) y peor en T2 (9/12); afuera es mejor en los tres
+  ensayos.
+
+**Lectura.**
+- **La tasa que sigue a si el experto explica resuelve el dilema del §K11.** Lento
+  mientras explica conserva lo que el sueño consolida (0.009, igual que la
+  vigilia lenta). Rápido mientras aprende (recién nacido o fallando) entra a lo
+  nunca vivido como `coin` o mejor, y sin atascarse nunca.
+- **El precio del §K11 era de la tasa única, no de la vigilia lenta.**
+- **Por qué funciona:** el aprendizaje rápido mientras falla el experto de casa
+  queda protegido por la foto del §K6. Al nacer el experto del exilio, el de
+  casa se restaura y lo aprendido pasa a la copia.
+- **La identidad se sostiene** (PERSISTE_M 12/12, ELIGE 12/12), con menos ventaja
+  de casa que `coin` porque el kernel es menos rígido afuera.
+- **Lo que no salió:** VUELVE. Después del exilio, la casa en T2 queda algo peor
+  que en `coin`.
+
+**Las predicciones, contra el resultado.**
+- Acertadas: VERIFICACIÓN, PRECISA_M, ENTRA y PERSISTE_M.
+- Erradas:
+  - LENTO_M, que se daba inclinada a pasar: 3/12.
+  - El veredicto previsto, MEJOR PERO NO GRATIS: fue VIGILIA QUE NO BORRA. El
+    gemelo B del humo, atascado, no era representativo: en el test no se atascó
+    ninguno.
+  - Los atascos, previstos entre los de `coin` y los de `coin_vigilia`: 0.
+  - VUELVE, inclinada a pasar: 3/12.
+- AFUERA, que se daba por incierta, pasó 12/12.
+
+La réplica (pares 12–23, pre-registrada) está corriendo.

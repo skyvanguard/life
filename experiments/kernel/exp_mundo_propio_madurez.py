@@ -74,6 +74,19 @@ REPLICATION, pre-registered with the test: pairs 12-23, the same rule, launched 
 after the test unless a bug is found (any change recorded). REPLICADO if the verdict
 repeats.
 
+RESULT (pairs 0-11, results/mundo_propio_madurez_run.txt, 72.2 min on a shared machine;
+the coin_vigilia re-run equals its §K11 life, max diff 0.0). Pre-registered verdict:
+VIGILIA QUE NO BORRA -- better than predicted (MEJOR PERO NO GRATIS). PRECISA_M 12/12
+(awake home oracle 0.009, coin 0.042, coin_vigilia 0.009), ENTRA 12/12 (first exile
+block 0.367 vs coin_vigilia 0.970), PERSISTE_M 12/12 (H(T2) +0.375), LENTO_M 3/12 (coin
+0.497). Stuck blocks 0 (coin 2, coin_vigilia 31); the exile spawn at 31-35 ticks in all
+24 twins. Secondary: CONTROLA 12/12, AFUERA 12/12 (abroad T2 0.387 vs 0.969), the exile
+expert's awake oracle at the end 0.028 vs coin's 0.062 (12/12), ELIGE 12/12; PAREADO
+H(T2) > coin 3/12 (> coin_vigilia 0/12) and VUELVE 3/12 failed (home T2 0.168 vs 0.146).
+Post hoc: the first exile block is BELOW coin's in 9/12 pairs, and the sibling's home
+too (T1 11/12, Tm 10/12, T2 9/12): the smaller H is less rigidity abroad, not a weaker
+home (home at Tm better 9/12, at T2 worse 9/12).
+
 25 lives per run (24 new + 1 verification); 3 CPU processes, one torch thread each.
 `reanudar` after any mode loads the lives already on disk.
 
