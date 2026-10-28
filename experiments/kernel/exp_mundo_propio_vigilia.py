@@ -71,6 +71,16 @@ and from the third exile block on e_late is coin's (0.033-0.036); the sibling's 
 the assays costs 0.94-0.97 (coin 0.49-0.51). Much of the larger H is that price (home at
 T2 0.109 vs 0.146, abroad 0.969 vs 0.489).
 
+REPLICATION RESULT (pairs 12-23, results/mundo_propio_vigilia_replica_run.txt, 122.8 min;
+every coin re-run equals its §K7 life, max diff 0.0 over 24). REPLICADO: PRECISA PERO
+LENTA again, 12/12 on all four (home oracle awake 0.009 vs 0.042; H(T2) +1.56 vs +0.98;
+first exile block 0.956 vs 0.601); PAREADO, CONTROLA and ELIGE 12/12. Pooled 24: every
+primary and secondary readout 24/24. Post hoc, both runs: all 59 stuck blocks fall in the
+first two exile blocks (44 + 15; coin 3); home after the exile coin_vigilia is better
+than coin in 21/24 (Tm) and 19/24 (T2) pairs, at T1 11/24; abroad worse in 23-24/24. One
+awake rate does not give both: the slow wake keeps what sleep consolidates and enters the
+never-lived late.
+
 48 lives per run (24 coin re-runs + 24 new); 3 CPU processes, one torch thread each.
 `reanudar` after any mode loads the lives already on disk.
 

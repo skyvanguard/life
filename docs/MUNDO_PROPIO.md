@@ -2546,4 +2546,83 @@ evidencia pre-registrada).
   veredicto PRECISA PERO LENTA.
 - CONTROLA, que se daba por incierta, pasó 12/12.
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
+
+### §K11, réplica — REPLICADO: la vigilia lenta no borra, y entra tarde a lo nuevo (2026-10-28)
+
+`results/mundo_propio_vigilia_replica_run.txt`: pares 12–23, 122.8 min.
+- **Verificación.** Los 24 `coin` re-corridos son iguales a sus vidas del §K7:
+  diferencia máxima 0.0.
+
+**Veredicto pre-registrado: PRECISA PERO LENTA. REPLICADO.**
+- **EROSIONA: 12/12.** El oráculo de casa de `coin` pasa de 0.005 a 0.042
+  despierto.
+- **PRECISA: 12/12.** En `coin_vigilia`, de 0.004 a 0.009.
+- **PERSISTE_V: 12/12,** con H(T2) +1.56. En `coin`, +0.98.
+- **LENTO: 12/12.** El primer bloque del exilio cuesta 0.956 contra 0.601.
+- Secundarias: PAREADO 12/12 (al revés, 0/12), CONTROLA 12/12 (0.035 contra
+  0.038), ELIGE 12/12.
+- El experto del exilio, al final: `coin` 0.025 → 0.055 despierto;
+  `coin_vigilia` 0.021 → 0.023.
+- Costos en T2: `coin_vigilia` en casa 0.121 y afuera 0.979; `coin`, 0.141 y
+  0.611.
+
+**Sobre los 24 pares juntos** (tests de signo de una cola; 24/24 = p 6 × 10⁻⁸):
+
+| Lectura | 24 pares |
+|---|---|
+| EROSIONA (control) | 24/24 |
+| PRECISA | 24/24 |
+| PERSISTE_V | 24/24 |
+| LENTO | 24/24 |
+| PAREADO, CONTROLA, ELIGE | 24/24 cada una |
+
+**Análisis posteriores sobre las 96 vidas** (no son evidencia pre-registrada).
+- **Dónde cae el precio.** Los 59 bloques atascados de `coin_vigilia` caen todos
+  en los dos primeros bloques del exilio (44 en el primero y 15 en el segundo),
+  en 44/48 gemelos; ninguno en la niñez. `coin` tiene 3. Desde el tercer bloque
+  del exilio, el `e_late` de los dos brazos es el mismo (0.034–0.040).
+- **En casa, después del exilio, `coin_vigilia` vuelve mejor.** Es mejor que
+  `coin` en 21/24 pares en Tm y en 19/24 en T2. En T1, antes del exilio, 11/24.
+  Afuera, en la casa del hermano, es peor en 23–24/24.
+- El H mayor tiene dos partes: una ventaja real al volver a casa, más chica, y
+  la rigidez ante lo nunca vivido, más grande.
+
+**Lectura del §K11 completo.**
+- **La erosión entre sueños es el paso en línea con la tasa entera.** Con una
+  vigilia diez veces más lenta, lo que el sueño consolida llega casi intacto al
+  sueño siguiente: el oráculo de casa despierto baja de 0.042 a 0.009 en 24/24
+  pares. Lo mismo pasa con el experto del exilio (0.055–0.062 → 0.022–0.023).
+- **El kernel planea con un modelo más preciso y controla mejor lo conocido:**
+  CONTROLA 24/24, aunque la diferencia es chica (0.034–0.035 contra 0.038).
+- **La identidad se sostiene y elige siempre** (ELIGE 24/24). Vuelve a su casa
+  mejor que `coin` después del exilio (21/24 y 19/24, posterior).
+- **El precio es la entrada a lo nunca vivido.** Pasa 300–600 ticks atascado
+  en el exilio, y se atasca también en la casa del hermano en los ensayos. El
+  experto nuevo nace como copia del activo y aprende despierto a la décima
+  parte; sólo el sueño, cada 50 ticks, lo saca.
+- **En una frase:** una sola tasa despierta no da estabilidad y plasticidad a la
+  vez. La vigilia lenta conserva y la rápida entra; el dilema
+  estabilidad–plasticidad quedó medido dentro del kernel.
+- **Predicciones:** acertadas todas, en las dos corridas: VERIFICACIÓN 48/48,
+  EROSIONA, PRECISA, PERSISTE_V, LENTO y el veredicto PRECISA PERO LENTA.
+  CONTROLA, que se daba por incierta, pasó 24/24.
+- **Manos declaradas:**
+  - s = 0.1, un solo valor; no se barrió.
+  - La sonda despierta se toma un tick antes del último paso del bloque: 49
+    pasos en línea después de un sueño.
+  - Ninguno de los dos brazos usa `snapshot_lag`.
+  - No hubo calibración.
+
+**Lo que sigue abierto:**
+- **Una tasa por experto,** el paso siguiente natural: tasa entera para el
+  experto nuevo, que todavía no durmió, y tasa chica para el que ya consolidó.
+  Predicción: conserva PRECISA y pierde LENTO, es decir, VIGILIA QUE NO BORRA.
+  Es la idea de la metaplasticidad y de la consolidación sináptica.
+- Combinar la vigilia lenta con la foto a tiempo del §K10.
+- Por qué el aprendizaje en línea erosiona, más allá del tamaño del paso (¿la
+  conducta propia es un flujo estrecho y el modelo se sobreajusta a él?): sigue
+  sin probarse directamente.
+- La foto a tiempo en el `coin` completo y bajo la crianza `dos`.
+- Lo que quedó de antes: un umbral relativo, re-entrar más rápido, INVIERTE, y
+  un `self_embedding` que lea el modelo del mundo.

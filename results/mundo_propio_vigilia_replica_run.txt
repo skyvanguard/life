@@ -1,0 +1,36 @@
+================================================================================
+§K11 REPLICATION (pairs 12-23) -- the wake that does not erase
+================================================================================
+pairs 12-23, 'una'; coin re-run (control) and coin_vigilia (wake_lr_scale 0.1); run 122.8 min
+verification: every coin re-run vs its stored §K7 life (stored keys), max diff 0.0 over 24 lives
+
+H_early (cross) medians and H>0 per assay
+          coin | T1 +1.000 (12/12) | Tm +1.063 (12/12) | T2 +0.983 (12/12)
+  coin_vigilia | T1 +1.803 (12/12) | Tm +1.666 (12/12) | T2 +1.559 (12/12)
+costs (medians): home T1 | abroad T1 | home T2 | abroad T2 | first exile block | childhood e_late | stuck blocks (twins)
+          coin | 0.032 | 0.533 | 0.141 | 0.611 | 0.601 | 0.038 | stuck 1 (1/24)
+  coin_vigilia | 0.032 | 0.933 | 0.121 | 0.979 | 0.956 | 0.035 | stuck 28 (21/24)
+experts
+  coin: in use [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+  coin: (h, e) [(0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1), (0, 1)]; e != h in 24/24 twins
+  coin  T1: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 10/12; latency to h at home median 0 ticks
+  coin  Tm: settled at home on h 23/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 12/12; latency to h at home median 12 ticks
+  coin  T2: settled at home on h 23/24 twins; ELIGE pairs 11/12; NO CONFUNDE pairs 12/12; latency to h at home median 11 ticks
+  coin_vigilia: in use [3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3]
+  coin_vigilia: (h, e) [(0, 2), (0, 2), (0, 2), (0, 1), (0, 2), (0, 2), (0, 2), (0, 2), (0, 2), (0, 1), (0, 2), (0, 2), (0, 1), (0, 2), (0, 2), (0, 2), (0, 1), (0, 2), (0, 2), (0, 2), (0, 2), (0, 1), (0, 1), (0, 2)]; e != h in 24/24 twins
+  coin_vigilia  T1: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 11/12; latency to h at home median 0 ticks
+  coin_vigilia  Tm: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 8 ticks
+  coin_vigilia  T2: settled at home on h 24/24 twins; ELIGE pairs 12/12; NO CONFUNDE pairs 12/12; latency to h at home median 10 ticks
+oracle (median over pairs of the twins' mean; median over the last 5 blocks): right after a sleep | awake (49 online steps later)
+          coin home, childhood | 0.005 | 0.042
+          coin      exile, end | 0.025 | 0.055
+  coin_vigilia home, childhood | 0.004 | 0.009
+  coin_vigilia      exile, end | 0.021 | 0.023
+
+--------------------------------------------------------------------------------
+EROSIONA coin awake > right after sleep (home, childhood): 12/12
+PRECISA awake home oracle coin_vigilia < coin: 12/12
+PERSISTE_V H(T2) coin_vigilia > 0: 12/12
+LENTO first exile block coin_vigilia > coin: 12/12
+(secondary) PAREADO H(T2) coin_vigilia > coin: 12/12, coin > coin_vigilia: 0/12 | CONTROLA childhood e_late coin_vigilia < coin: 12/12 | ELIGE coin_vigilia: 12/12
+VERDICT (pre-registered rule): PRECISA PERO LENTA
