@@ -32,7 +32,7 @@ believed, and refutations go into the ledger with the same weight as positives.
 | **The North** (`introspection/`, 2026-06 to 2026-07) | Can $\Psi$ live in a real LLM's own activations, and can the model learn to read it? | No: trained introspection is a lookup, not a general read (0.6B and 8B alike) | closed, honest negative |
 | **El Útero** (`utero/`, 2026-07 to 2026-10-26) | What emerges from a physics that rewrites itself, with nothing pretrained in it? | Rare sustained novelty behind five named cages; a measured, replicated Darwinian adaptation; learning in life that does not generalize | closed |
 | **The kernel coupled to Yvyra** (Phase A/B, 2026-06 to 2026-10-26) | Does an LLM's introspection anchor to the kernel's $\Psi$? | Inconclusive; $\Psi$ turned out to be a relative-surprise detector | closed as a vehicle: the kernel *is* the agent |
-| **The kernel in its own world** (2026-10-26 on, [`docs/MUNDO_PROPIO.md`](docs/MUNDO_PROPIO.md)) | Does it learn in life, remember, tell what it did from what happened to it, and keep an identity? | §K1–§K11, below | **live frontier** |
+| **The kernel in its own world** (2026-10-26 on, [`docs/MUNDO_PROPIO.md`](docs/MUNDO_PROPIO.md)) | Does it learn in life, remember, tell what it did from what happened to it, and keep an identity? | §K1–§K12, below | **live frontier** |
 
 ---
 
@@ -54,9 +54,9 @@ The experiments change one variable at a time:
 - **§K4–§K5, identity.** Identical newborn twins are raised in different worlds, then
   share a long exile in a world neither has lived. Do they stay different? The readout
   H > 0 means each twin does better in its own childhood world than its sibling does.
-- **§K6–§K11, a repertoire.** A COIN-style set of context experts in the world model,
+- **§K6–§K12, a repertoire.** A COIN-style set of context experts in the world model,
   and what holds the identity inside it: the sleep, the separation, the snapshot, the
-  wake.
+  wake, and a wake rate per expert.
 
 | § | Mechanism | Pre-registered verdict (pairs 0–11) | Replication (pairs 12–23) |
 |---|-----------|-------------------------------------|---------------------------|
@@ -71,6 +71,7 @@ The experiments change one variable at a time:
 | §K9 | sleep only in the childhood | INDETERMINADO: the first exile steps damage the precise expert before the snapshot | NOT replicated (HACE FALTA SEGUIR DURMIENDO) |
 | §K10 | `snapshot_lag=50`: a snapshot in time | BASTA LA NIÑEZ: a precise frozen expert holds the identity; never sleeping, separation alone holds it too (19/24) | REPLICADO |
 | §K11 | `wake_lr_scale=0.1`: a slower wake | PRECISA PERO LENTA: the slow wake keeps what sleep consolidates (home oracle 0.009 vs 0.042 awake) but enters never-lived worlds late (first exile block 0.970 vs 0.497) | REPLICADO (24/24 pooled on every readout); the price falls in the first two exile blocks |
+| §K12 | `wake_lr_scale_learning=1.0`: slow wake only while an expert explains its stream | VIGILIA QUE NO BORRA: keeps like the slow wake (0.009) and enters never-lived worlds faster than the full-rate kernel (first exile block 0.367 vs 0.497); 0 stuck blocks | REPLICADO (24/24 pooled; 1 stuck block in 48 twins); the return home after the exile costs a bit more (VUELVE 7/24) |
 
 **What it adds up to, so far.** The kernel learns in life from its own stream. With a
 sleep that replays what it lived, it remembers. With a repertoire of experts it keeps
@@ -79,20 +80,24 @@ exile, and the identity lives in the world model -- in *which expert it goes bac
 -- not in the `self_embedding`. What holds it is a precise expert kept frozen at the
 right time. Online learning between two sleeps erodes what sleep consolidated; a
 slower wake prevents that, at the price of entering the never-lived late. That is the
-stability–plasticity dilemma, measured inside the kernel.
+stability–plasticity dilemma, measured inside the kernel -- and a wake rate per expert
+resolves it: each expert learns slowly while it explains its stream and at the full
+rate while it is newborn or failing. What it learns fast while failing is safe, because
+the §K6 snapshot restores the home expert when the new one is born.
 
 ```python
 import torch
 from zeta_life.kernel import ConsciousKernel
 
-# The §K7 "coin" kernel, with §K11's slower wake.
+# The §K7 "coin" kernel, with §K12's per-expert wake.
 kernel = ConsciousKernel(
     obs_dim=4, action_mode="efe", preference=torch.tensor([0.7, 0.1, 0.1, 0.1]),
     efe_n_samples=48, efe_obs_norm="l1",
     wm_sleep_replay=200, wm_sleep_seq_len=16, wm_sleep_batch=8,  # §K2, 4x dose (§K3)
     wm_error_input=True,                                          # §K3
     wm_contexts=6,                                                # §K6
-    wm_context_kwargs={"wake_lr_scale": 0.1},                     # §K11 (snapshot_lag: §K10)
+    wm_context_kwargs={"wake_lr_scale": 0.1,                      # §K11 (snapshot_lag: §K10)
+                       "wake_lr_scale_learning": 1.0},            # §K12
 )
 ```
 
