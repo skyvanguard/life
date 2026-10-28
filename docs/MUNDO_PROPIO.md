@@ -2818,4 +2818,119 @@ PERO NO GRATIS).
   - VUELVE, inclinada a pasar: 3/12.
 - AFUERA, que se daba por incierta, pasó 12/12.
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
+
+### §K12, réplica — REPLICADO: lenta mientras explica, rápida mientras aprende (2026-10-28)
+
+`results/mundo_propio_madurez_replica_run.txt`: pares 12–23, 68.8 min.
+- **Verificación.** El `coin_vigilia` re-corrido (par 12, gemelo A) es igual a su
+  vida del §K11: diferencia máxima 0.0.
+
+**Veredicto pre-registrado: VIGILIA QUE NO BORRA. REPLICADO.**
+- **PRECISA_M: 12/12.** El oráculo de casa despierto queda en 0.008; `coin`,
+  0.042.
+- **ENTRA: 12/12.** El primer bloque del exilio cuesta 0.348 contra 0.956 de
+  `coin_vigilia`.
+- **PERSISTE_M: 12/12,** con H(T2) +0.468.
+- **LENTO_M: 1/12.** No pasa: el primer bloque del exilio de `coin` cuesta 0.601.
+- **Atascos: 1** en 24 gemelos (`coin` 1, `coin_vigilia` 28).
+- Secundarias:
+  - CONTROLA 12/12 (0.034 contra 0.038).
+  - AFUERA 12/12 (la casa del hermano en T2, 0.396 contra 0.979).
+  - El oráculo despierto del experto del exilio al final: 11/12 (0.031 contra
+    0.055).
+  - ELIGE 12/12.
+  - **No pasan:** PAREADO, 1/12 contra `coin` y 0/12 contra `coin_vigilia`, y
+    VUELVE, 4/12 (en casa en T2, 0.163 contra 0.141).
+
+**Sobre los 24 pares juntos** (tests de signo de una cola; 24/24 = p 6 × 10⁻⁸):
+
+| Lectura | Test | Réplica | 24 pares |
+|---|---|---|---|
+| PRECISA_M | 12/12 | 12/12 | 24/24 |
+| ENTRA | 12/12 | 12/12 | 24/24 |
+| PERSISTE_M | 12/12 | 12/12 | 24/24 |
+| LENTO_M | 3/12 | 1/12 | 4/24 |
+| PAREADO (contra `coin` / `coin_vigilia`) | 3/12 / 0/12 | 1/12 / 0/12 | 4/24 / 0/24 |
+| CONTROLA | 12/12 | 12/12 | 24/24 |
+| VUELVE | 3/12 | 4/12 | 7/24 |
+| AFUERA | 12/12 | 12/12 | 24/24 |
+| Oráculo del experto del exilio al final | 12/12 | 11/12 | 23/24 |
+| ELIGE | 12/12 | 12/12 | 24/24 |
+
+**Costos en medianas, 24 pares.**
+
+| Brazo | En casa T1 | Afuera T1 | En casa T2 | Afuera T2 | 1.er bloque del exilio | H(T2) | Atascos |
+|---|---|---|---|---|---|---|---|
+| `coin` | 0.032 | 0.526 | 0.145 | 0.523 | 0.560 | +0.788 | 3 |
+| `coin_vigilia` | 0.032 | 0.937 | 0.115 | 0.977 | 0.959 | +1.664 | 59 |
+| `coin_madurez` | 0.032 | 0.338 | 0.165 | 0.396 | 0.367 | +0.412 | 1 |
+
+- El único atasco de `coin_madurez` es del par 14, gemelo A, en el primer bloque
+  del exilio (`e_late` 0.593). Es el par en que su primer bloque cuesta más que el
+  de `coin` (0.672 contra 0.659).
+- El experto del exilio nace entre los 31 y los 35 ticks en los 48 gemelos.
+
+**Análisis posteriores sobre las 72 vidas** (no son evidencia pre-registrada).
+- **Entra antes que `coin`:** el primer bloque del exilio es más barato en 20/24
+  pares (p 8 × 10⁻⁴ en esa dirección, que no se registró). Por bloque del exilio
+  (`e_early`, medianas): `coin` 0.560 → 0.044 → 0.037; `coin_vigilia` 0.959 →
+  0.544 → 0.055; `coin_madurez` 0.367 → 0.042 → 0.038. Desde el segundo bloque,
+  igual que `coin`.
+- **Afuera es mejor que `coin` en los tres ensayos:** 22/24 en T1, 19/24 en Tm y
+  20/24 en T2.
+- **En casa,** igual en T1 (0.032 los dos, 12/24), mejor en Tm (18/24) y peor en
+  T2 (17/24 peor; 0.165 contra 0.145).
+- **El experto de casa llega intacto al final del exilio.** El mejor experto para
+  la casa de cada gemelo (el oráculo, despierto) cuesta 0.006–0.007 al final del
+  exilio en los tres brazos. Entonces el costo de VUELVE no es un experto de casa
+  dañado: está en la vuelta misma, en los primeros ticks en casa. Hay que
+  instrumentarla para saber qué experto actúa y a qué tasa aprende en esos
+  ticks.
+- **El H más chico tiene dos partes.** La mayor es menos rigidez afuera (20/24).
+  La menor, una vuelta a casa algo más cara en T2 (17/24). Esto corrige la lectura
+  del test, que con 12 pares atribuía todo a lo de afuera.
+
+**Lectura del §K12 completo.**
+- **Una tasa despierta por experto da estabilidad y plasticidad a la vez,** en
+  24/24 pares. El experto aprende lento mientras explica su flujo y rápido
+  mientras es nuevo o está fallando. Así conserva lo que el sueño consolida, igual
+  que la vigilia lenta (0.009 contra 0.042), y entra a lo nunca vivido mejor que
+  `coin` (0.367 contra 0.560), con un atasco en 48 gemelos.
+- **El dilema del §K11 era de la tasa única,** no de la vigilia lenta.
+- **Por qué funciona:** el aprendizaje rápido mientras el experto de casa falla
+  queda protegido por la foto del §K6. Al nacer el experto del exilio, el de casa
+  se restaura a sus pesos de antes de la racha, y lo aprendido pasa a la copia.
+  Por eso aprender rápido mientras falla no cuesta nada: el experto de casa
+  termina el exilio a 0.007.
+- **La identidad se sostiene** (PERSISTE_M 24/24, ELIGE 24/24), con la mitad de
+  ventaja de casa que `coin` (+0.41 contra +0.79), sobre todo porque el kernel es
+  menos rígido afuera.
+- **Lo que no salió:** VUELVE (7/24). Después del exilio, la vuelta a casa cuesta
+  algo más que en `coin`, y bastante más que en `coin_vigilia` (0.115).
+- **Predicciones,** en las dos corridas:
+  - Acertadas: VERIFICACIÓN 2/2, PRECISA_M, ENTRA y PERSISTE_M.
+  - Erradas: LENTO_M, que se daba inclinada a pasar (4/24); el veredicto previsto,
+    MEJOR PERO NO GRATIS; VUELVE, inclinada a pasar (7/24); y los atascos,
+    previstos entre los de `coin` y los de `coin_vigilia` (1, menos que los 3 de
+    `coin`).
+  - AFUERA, que se daba por incierta, pasó 24/24.
+- **Manos declaradas:**
+  - s = 0.1 y s_l = 1.0, un solo valor cada una; no se barrieron.
+  - El criterio de "explica" usa el mismo umbral que el cambio de contexto: el
+    experto está establecido y su error corriente no pasa el umbral.
+  - Ningún brazo usa `snapshot_lag`.
+  - `coin` y `coin_vigilia` no se re-corrieron: se cargaron del §K11, con una vida
+    re-corrida por corrida como verificación (diferencia 0 en las dos).
+  - El primer diseño (tasa rápida sólo para el experto no establecido) se
+    descartó después del humo y antes del pre-registro; está registrado.
+  - No hubo calibración.
+
+**Lo que sigue abierto:**
+- **La vuelta a casa (VUELVE).** El experto de casa está intacto y la vuelta igual
+  cuesta más que en `coin`. Paso siguiente: instrumentar los primeros ticks de T2
+  (qué experto actúa, si "explica", a qué tasa aprende, cuánto tarda el cambio).
+- Combinar la madurez con la foto a tiempo del §K10.
+- La madurez bajo la crianza `dos`.
+- Lo que quedó de antes: un umbral relativo o una inferencia bayesiana del
+  contexto, INVIERTE, y un `self_embedding` que lea el modelo del mundo.

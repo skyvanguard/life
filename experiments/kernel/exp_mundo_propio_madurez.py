@@ -87,6 +87,18 @@ Post hoc: the first exile block is BELOW coin's in 9/12 pairs, and the sibling's
 too (T1 11/12, Tm 10/12, T2 9/12): the smaller H is less rigidity abroad, not a weaker
 home (home at Tm better 9/12, at T2 worse 9/12).
 
+REPLICATION RESULT (pairs 12-23, results/mundo_propio_madurez_replica_run.txt, 68.8 min;
+the coin_vigilia re-run of pair 12 equals its §K11 life, max diff 0.0). REPLICADO:
+VIGILIA QUE NO BORRA again -- PRECISA_M 12/12 (0.008 vs coin 0.042), ENTRA 12/12 (0.348
+vs 0.956), PERSISTE_M 12/12 (H(T2) +0.468), LENTO_M 1/12 (coin 0.601); stuck blocks 1
+(coin 1, coin_vigilia 28). Pooled 24: PRECISA_M, ENTRA, PERSISTE_M, CONTROLA, AFUERA and
+ELIGE 24/24, the exile expert's awake oracle 23/24, LENTO_M 4/24, PAREADO 4/24 (0/24 vs
+coin_vigilia), VUELVE 7/24; one stuck block in 48 twins (coin 3, coin_vigilia 59); the
+exile spawn at 31-35 ticks in all 48. Post hoc: the first exile block is below coin's in
+20/24 pairs (0.367 vs 0.560); abroad better than coin in 20-22/24 per assay; home at T2
+worse in 17/24 (0.165 vs 0.145) although the best home expert is intact at the end of
+the exile in all three arms (0.006-0.007): the VUELVE cost is in the return itself.
+
 25 lives per run (24 new + 1 verification); 3 CPU processes, one torch thread each.
 `reanudar` after any mode loads the lives already on disk.
 
