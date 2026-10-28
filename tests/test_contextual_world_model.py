@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import copy
+
 import numpy as np
 import pytest
 import torch
@@ -33,6 +35,18 @@ def _vivir(cwm: ContextualWorldModel, plan: list[tuple[int, int]], seed: int = 0
             cwm.observe(s)
             if cada is not None:
                 cada(cwm)
+
+
+def _copia(cwm: ContextualWorldModel) -> ContextualWorldModel:
+    """Deep copy between ticks (the prior latents are non-leaf; they are only read detached)."""
+    previos = [m._prior_latent for m in cwm.experts]
+    for m in cwm.experts:
+        m._prior_latent = None if m._prior_latent is None else m._prior_latent.detach()
+    try:
+        return copy.deepcopy(cwm)
+    finally:
+        for m, x in zip(cwm.experts, previos):
+            m._prior_latent = x
 
 
 class TestTakeLast:
@@ -200,6 +214,74 @@ class TestContextInference:
     def test_wake_lr_scale_learning_must_be_in_the_unit_interval(self, escala):
         with pytest.raises(ValueError):
             ContextualWorldModel(2, wake_lr_scale_learning=escala)
+
+    @staticmethod
+    def _hasta_volver(cwm: ContextualWorldModel) -> None:
+        # Home (regime 0), an exile (regime 2) that spawns expert 1, then home until the
+        # switch back to expert 0.
+        _vivir(cwm, [(0, 600), (2, 600)])
+        assert cwm.in_use == 2 and cwm.active == 1
+        for t in range(400):
+            _vivir(cwm, [(0, 1)], seed=100 + t)
+            if cwm.active == 0:
+                return
+        raise AssertionError("no switch back to the home expert")
+
+    def test_slow_return_the_returning_expert_learns_slow_until_it_explains(self):
+        # §K13: an established expert made active by a switch learns awake at wake_lr_scale
+        # while its running error (which carries the exile) is above the threshold; once it
+        # explains, the §K12 rule again (above the threshold = the full rate).
+        torch.manual_seed(7)
+        cwm = ContextualWorldModel(3, error_input=True, wake_lr_scale=0.1, wake_lr_scale_learning=1.0,
+                                   slow_return=True)
+        self._hasta_volver(cwm)
+        assert cwm._return_t is not None and cwm.established[0]
+        cwm.running[0] = 10.0
+        sin = _copia(cwm)
+        sin._return_t = None
+        lleno = self._paso(sin)
+        assert 0.05 * lleno < self._paso(cwm) < 0.2 * lleno
+        cwm.running[0] = 0.0
+        _vivir(cwm, [(0, 1)], seed=9)
+        assert cwm._return_t is None
+        cwm.running[0] = 10.0
+        sin = _copia(cwm)
+        assert self._paso(cwm) == self._paso(sin) > 0.0
+
+    def test_slow_return_lasts_at_most_persist_ticks(self):
+        # A returning expert that does not explain is back on the §K12 rule after persist ticks.
+        torch.manual_seed(7)
+        cwm = ContextualWorldModel(3, error_input=True, wake_lr_scale=0.1, wake_lr_scale_learning=1.0,
+                                   slow_return=True)
+        self._hasta_volver(cwm)
+        cwm.grace_switch = 10_000
+        for t in range(cwm.persist):
+            assert cwm._return_t is not None
+            cwm.running[0] = 10.0
+            _vivir(cwm, [(0, 1)], seed=200 + t)
+        assert cwm._return_t is None
+
+    def test_slow_return_false_is_byte_identical(self):
+        pesos = []
+        for kw in ({}, {"slow_return": False}, {"slow_return": True}):
+            torch.manual_seed(7)
+            cwm = ContextualWorldModel(2, error_input=True, wake_lr_scale=0.1, wake_lr_scale_learning=1.0, **kw)
+            _vivir(cwm, [(0, 600), (2, 600), (0, 300)])
+            assert ("switch", 0) in [(e[0], e[2]) for e in cwm.events]
+            pesos.append([p.detach().clone() for p in cwm.parameters()])
+        assert all(torch.equal(a, b) for a, b in zip(pesos[0], pesos[1]))
+        assert not all(torch.equal(a, b) for a, b in zip(pesos[0], pesos[2]))
+
+    def test_slow_return_a_spawn_is_not_a_return(self):
+        torch.manual_seed(7)
+        cwm = ContextualWorldModel(3, error_input=True, wake_lr_scale=0.1, wake_lr_scale_learning=1.0,
+                                   slow_return=True)
+        _vivir(cwm, [(0, 600), (2, 600)])
+        assert ("spawn", 1) in [(e[0], e[2]) for e in cwm.events] and cwm._return_t is None
+
+    def test_slow_return_needs_wake_lr_scale_learning(self):
+        with pytest.raises(ValueError):
+            ContextualWorldModel(2, slow_return=True)
 
     def test_streak_transitions_move_to_the_new_context(self):
         cwm = ContextualWorldModel(4, error_input=True)

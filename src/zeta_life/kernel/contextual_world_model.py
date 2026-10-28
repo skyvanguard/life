@@ -52,6 +52,14 @@ version of that principle built from the kernel's own WorldModel:
   rate for all trades stability for plasticity (§K11: the slow wake keeps the
   consolidated experts and enters a never-lived world late). Learning fast while the
   established expert fails is protected by the snapshot: a spawn or a switch restores it.
+- ``slow_return`` (§K13, False = off; needs ``wake_lr_scale_learning``): an established
+  expert that becomes active again by a SWITCH learns awake at ``wake_lr_scale`` until it
+  explains its stream or for at most ``persist`` ticks, then by the §K12 rule. Every expert
+  predicts every tick, so the running error of an expert coming back carries the context
+  it was not active in, and the switch is by margin, not by the threshold: under §K12 it
+  came back "not explaining" and relearned at the full rate, which damaged it (home error
+  x30) until the next sleep (§K12 mechanism). The cap: a wrong expert that comes back never
+  explains, and without it it stayed slow until a spawn (``grace_spawn`` ticks).
 - Each transition (prev obs, action, obs) is stored in the buffer of the expert
   that predicted it; sleep replays each expert on its own buffer, the dose split
   in proportion to the buffer sizes (the total is the kernel's dose).
@@ -103,6 +111,10 @@ class ContextualWorldModel(nn.Module):
     wake_lr_scale_learning : float or None
         The factor while an expert does not explain its stream (not established, or
         running error above ``threshold``); None = ``wake_lr_scale`` (§K12).
+    slow_return : bool
+        An established expert made active by a switch learns awake at ``wake_lr_scale``
+        until it explains its stream, for at most ``persist`` ticks (§K13); needs
+        ``wake_lr_scale_learning``.
     snapshot_lag : int
         0 = the snapshot is taken when the running error crosses the threshold (§K6).
         L > 0 = checkpoint the active expert after every sleep and every L ticks without
@@ -129,6 +141,7 @@ class ContextualWorldModel(nn.Module):
         snapshot_lag: int = 0,
         wake_lr_scale: float = 1.0,
         wake_lr_scale_learning: float | None = None,
+        slow_return: bool = False,
     ) -> None:
         super().__init__()
         if n_contexts < 1:
@@ -141,8 +154,12 @@ class ContextualWorldModel(nn.Module):
             raise ValueError(f"wake_lr_scale must be in (0, 1], got {wake_lr_scale}")
         if wake_lr_scale_learning is not None and not 0.0 < wake_lr_scale_learning <= 1.0:
             raise ValueError(f"wake_lr_scale_learning must be in (0, 1], got {wake_lr_scale_learning}")
+        if slow_return and wake_lr_scale_learning is None:
+            raise ValueError("slow_return needs wake_lr_scale_learning")
         self.wake_lr_scale = wake_lr_scale
         self.wake_lr_scale_learning = wake_lr_scale_learning
+        self.slow_return = slow_return
+        self._return_t: int | None = None
         self.n_contexts = n_contexts
         self.experts = nn.ModuleList([
             WorldModel(obs_dim, latent_dim, action_dim, learning_rate=learning_rate,
@@ -314,6 +331,8 @@ class ContextualWorldModel(nn.Module):
                 self.established[c] = True
         self._since += 1
         a = self.active
+        if self._return_t is not None and (self._explica(a) or self._t - self._return_t >= self.persist):
+            self._return_t = None
         if self.running[a] is None:
             return
         if self.snapshot_lag and (not self._ckpts or self._t - self._ckpts[-1][0] > self.snapshot_lag):
@@ -334,6 +353,7 @@ class ContextualWorldModel(nn.Module):
         if (best != a and self._since >= self.grace_switch
                 and self.running[best] < (1.0 - self.margin) * self.running[a]):
             self._hand_over(a, best)
+            self._return_t = self._t if self.slow_return and self.established[best] else None
             self.events.append(("switch", self._t, best))
         elif (self._above >= self.persist and self._since >= self.grace_spawn
               and self.established[a] and n < self.n_contexts):
@@ -359,6 +379,7 @@ class ContextualWorldModel(nn.Module):
                 self.buffers[new].add(*tr)
         self._snapshot = None
         self._snapshot_t = None
+        self._return_t = None
         self._ckpts.clear()
         self._streak = 0
         self._above = 0
@@ -368,8 +389,10 @@ class ContextualWorldModel(nn.Module):
     @contextmanager
     def _despierto(self, c: int):
         """Expert c's online learning rate: the optimizer's times wake_lr_scale, or times
-        wake_lr_scale_learning while c does not explain its stream."""
-        aprende = self.wake_lr_scale_learning is not None and not self._explica(c)
+        wake_lr_scale_learning while c does not explain its stream (not while it is the
+        returning expert, with slow_return)."""
+        aprende = (self.wake_lr_scale_learning is not None and not self._explica(c)
+                   and not (self._return_t is not None and c == self.active))
         escala = self.wake_lr_scale_learning if aprende else self.wake_lr_scale
         if escala == 1.0:
             yield

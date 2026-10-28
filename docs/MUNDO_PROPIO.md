@@ -1275,6 +1275,124 @@ expertos y, para E, el tick del nacimiento del experto del exilio.
 Se lanza apenas termine el test, salvo que aparezca un bug (cualquier cambio
 queda registrado). Queda REPLICADO si el veredicto se repite.
 
+## §K13 — el regreso: ¿proteger al experto que vuelve arregla la vuelta a casa sin perder lo del §K12? (pre-registrado el 2026-10-28, antes de correr, sin calibración)
+
+Fran, tras el mecanismo del §K12: "sigamos con tu recomendacion".
+
+**Por qué.**
+- **El §K12, replicado** (24/24 en PRECISA_M, ENTRA y PERSISTE_M): la tasa por experto
+  conserva lo que el sueño consolida y entra a lo nunca vivido mejor que `coin`.
+- **Lo que falló es VUELVE (7/24):** después del exilio, la vuelta a casa cuesta más
+  que en `coin` (0.165 contra 0.145).
+- **El mecanismo** (`exp_mundo_propio_madurez_vuelta.py`, 16 vidas re-corridas con
+  diferencia 0). El error corriente del experto de casa llega cargado con el exilio,
+  porque todos los expertos predicen en cada tick, y el cambio de experto es por
+  margen, no por el umbral. Bajo la madurez, el experto de casa vuelve "sin explicar"
+  (7/8 gemelos arriba del umbral) y reaprende despierto a tasa entera. Eso le
+  multiplica el error en casa por ~30 hasta el sueño siguiente. Lento o congelado, el
+  costo extra desaparece (0.083 → 0.055 después del cambio, 7/8 y 6/8).
+
+**El mecanismo nuevo:** `ContextualWorldModel(slow_return=True)`, con tests en
+`tests/test_contextual_world_model.py`.
+- Un experto establecido que vuelve a estar activo por un **cambio** aprende despierto
+  a lr × `wake_lr_scale` hasta que explica su flujo, o como mucho `persist` ticks (30:
+  la paciencia que el modelo ya usa antes de declarar un contexto nuevo). Después
+  sigue la regla del §K12.
+- Un nacimiento no es una vuelta.
+- Necesita `wake_lr_scale_learning`. Con `False` el comportamiento es el de antes
+  (test).
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_regreso.py`).
+- **El brazo nuevo, `coin_regreso`:** es `coin_madurez` con `slow_return`. Corre
+  bajo `una`, con la vida, los papeles, el exilio y los ensayos del §K4.
+- **No se re-corre nada de antes:** `coin` y `coin_vigilia` se cargan del §K11
+  (`data/mundo_propio_vigilia`) y `coin_madurez` del §K12 (`data/mundo_propio_madurez`).
+- **Verificación:** en cada corrida se re-corre `coin_madurez` del primer par, gemelo
+  A, y tiene que ser igual a su vida del §K12 en todas las claves, con diferencia 0. Si
+  no, se para: es un bug.
+- **MISMA VIDA.** En las vidas guardadas del §K12, 44/48 vidas principales no tienen
+  ningún cambio de experto (sólo el nacimiento del experto del exilio). En ellas la
+  vida principal de `coin_regreso` tiene que ser la de `coin_madurez`, y los brazos se
+  distinguen sólo en los clones de los ensayos, que es donde están las vueltas.
+  - En casa, en Tm y T2, hay una vuelta al experto de casa en 48/48 ensayos.
+  - Afuera, en Tm y T2, el cambio es casi siempre un nacimiento (45–46/48), no una
+    vuelta.
+
+**Enmienda después del humo, antes de este pre-registro** (par 0, vida corta; no es
+evidencia).
+- **El primer diseño no tenía tope:** lento hasta que el experto que vuelve explica.
+- **Su humo:** verificación con diferencia 0 y MISMA VIDA 2/2. Pero el gemelo B, en la
+  casa del hermano en T1, volvió a `h` en el tick 52 y se quedó ahí, lento y sin
+  explicar nunca, porque un nacimiento espera `grace_spawn` = 150 ticks. Costó 0.841
+  en los primeros 100 ticks, contra 0.547 de `coin_madurez`, que alterna `h` y el
+  experto nuevo cada 20 ticks. En las vidas guardadas del §K12, esa vuelta a `h` en la
+  casa del hermano en T1 aparece en ~6/48 gemelos.
+- **El diseño enmendado** pone el tope de `persist` ticks: en el mecanismo, el experto
+  de casa protegido explicó en una mediana de 3–4 ticks; uno equivocado no explica
+  nunca.
+- **Su humo:** verificación con diferencia 0 y MISMA VIDA 2/2.
+  - El mismo gemelo, 0.792: el precio se achica, no desaparece. Afuera en T1, 0.616
+    contra 0.493.
+  - En casa en T2, 0.165 contra 0.166. En la vida corta la vuelta no daña a `h` (en el
+    humo del mecanismo, `lento_h` dio 0.064 → 0.062), así que el humo no puede mostrar
+    la protección.
+- Por eso la lectura del precio, RIGIDO_R, cubre también T1: cualquiera de los dos
+  ensayos, el lado conservador para el veredicto.
+
+**Lecturas por par** (la media de los gemelos): las del §K12; además, en cada ensayo de
+casa, el costo después del cambio a `h` (el de los primeros 100 ticks desde el primer
+tick en `h`; la lectura del mecanismo), y MISMA VIDA.
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola). E =
+`coin_regreso`, M = `coin_madurez`, C = `coin`, V = `coin_vigilia`.
+
+| Lectura | Criterio |
+|---|---|
+| VERIFICACIÓN | `coin_madurez` re-corrido igual a su vida del §K12; si no, se para |
+| PROTEGE (primaria) | costo en casa en T2, E < M, ≥ 10/12 |
+| VUELVE_R (primaria) | costo en casa en T2, E < C, ≥ 10/12 |
+| CONSERVA_R (primaria) | oráculo de casa despierto E < C y primer bloque del exilio E < V, cada uno ≥ 10/12 |
+| PERSISTE_R (primaria) | H(T2) de E > 0, ≥ 10/12 |
+| RIGIDO_R (primaria, el precio) | costo afuera E > M en T1 o en T2, ≥ 10/12 en alguno |
+
+Veredicto:
+- sin CONSERVA_R o sin PERSISTE_R → **PIERDE LO DEL K12**;
+- si no, sin PROTEGE → **NO PROTEGE**;
+- PROTEGE sin VUELVE_R → **PROTEGE PERO NO ALCANZA**;
+- las dos sin RIGIDO_R → **VUELVE A CASA**;
+- las dos y RIGIDO_R → **VUELVE, MÁS RÍGIDO AFUERA**.
+
+Secundarias:
+- RECUPERA: el costo después del cambio en T2, E < M.
+- PAREADO: H(T2), E > M y E > C.
+- AFUERA: el costo afuera en T2, E < V.
+- El costo en casa en Tm, E < M.
+- ELIGE de E y los atascos.
+
+Se reportan MISMA VIDA por gemelo (y si su vida principal tuvo cambios), H en
+T1/Tm/T2, los costos, la tabla del oráculo, los expertos y la latencia a `h`.
+
+**Predicciones, escritas después de los dos humos y antes de cualquier par de test:**
+- VERIFICACIÓN 1/1 por corrida.
+- MISMA VIDA en todos los gemelos cuya vida principal en `coin_madurez` no tiene
+  cambios.
+- CONSERVA_R pasa: esas vidas principales son las del §K12 (24/24 allí).
+- PERSISTE_R pasa.
+- PROTEGE pasa: en el mecanismo, sostener lento a `h` bajó el costo después del cambio
+  en 7/8 gemelos (casa en T2, 0.163 → 0.105).
+- VUELVE_R, inclinada a pasar: ese contrafactual dio 0.105 contra 0.147 de `coin` en 8
+  gemelos, y el cambio a `h` del §K12 es más temprano (19/24 juntos).
+- RIGIDO_R no pasa: afuera en T2 el cambio es un nacimiento en 45/48, y las vueltas en
+  T1 son ~6/48.
+- Veredicto previsto: **VUELVE A CASA**.
+- Secundarias: RECUPERA pasa; PAREADO E > M inclinada a pasar y E > C no pasa (en el
+  §K12, 4/24: el H de `coin` es sobre todo rigidez afuera); AFUERA pasa; casa en Tm
+  E < M inclinada a pasar; ELIGE pasa; los atascos, los de `coin_madurez`.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, con la misma regla. Se
+lanza apenas termine el test, salvo que aparezca un bug (cualquier cambio queda
+registrado). Queda REPLICADO si el veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
