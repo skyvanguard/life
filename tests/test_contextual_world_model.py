@@ -150,6 +150,57 @@ class TestContextInference:
         with pytest.raises(ValueError):
             ContextualWorldModel(2, wake_lr_scale=escala)
 
+    @staticmethod
+    def _paso(cwm: ContextualWorldModel) -> float:
+        antes = {k: p.detach().clone() for k, p in cwm.experts[cwm.active].named_parameters()}
+        _vivir(cwm, [(0, 1)], seed=5)
+        return max(float((p.detach() - antes[k]).abs().max())
+                   for k, p in cwm.experts[cwm.active].named_parameters())
+
+    def test_wake_lr_scale_learning_until_the_expert_explains_its_stream(self):
+        # §K12: an expert learns awake at wake_lr_scale_learning (here the full rate) until
+        # it is established and its running error is within the threshold, then at
+        # wake_lr_scale; above the threshold again, at the full rate.
+        def modelo(**kw) -> ContextualWorldModel:
+            torch.manual_seed(3)
+            return ContextualWorldModel(2, error_input=True, **kw)
+
+        lleno = self._paso(modelo())
+        assert self._paso(modelo(wake_lr_scale=0.1, wake_lr_scale_learning=1.0)) == lleno
+        cwm = modelo(wake_lr_scale=0.1, wake_lr_scale_learning=1.0)
+        cwm.established[0], cwm.running[0] = True, 0.0
+        assert 0.05 * lleno < self._paso(cwm) < 0.2 * lleno
+        cwm = modelo(wake_lr_scale=0.1, wake_lr_scale_learning=1.0)
+        cwm.established[0], cwm.running[0] = True, 10.0
+        assert self._paso(cwm) == lleno
+
+    def test_wake_lr_scale_learning_none_is_byte_identical(self):
+        pesos = []
+        for kw in ({}, {"wake_lr_scale_learning": None}):
+            torch.manual_seed(4)
+            cwm = ContextualWorldModel(2, error_input=True, wake_lr_scale=0.1, **kw)
+            _vivir(cwm, [(0, 200), (2, 100)])
+            pesos.append([p.detach().clone() for p in cwm.experts[0].parameters()])
+        assert all(torch.equal(a, b) for a, b in zip(*pesos))
+
+    def test_wake_lr_scale_learning_home_slow_spawned_expert_fast(self):
+        # The home expert explains its world and keeps the slow rate; the exile's expert
+        # is born not established and learns at the full rate.
+        torch.manual_seed(6)
+        cwm = ContextualWorldModel(3, error_input=True, wake_lr_scale=0.1, wake_lr_scale_learning=1.0)
+        _vivir(cwm, [(0, 600)])
+        assert cwm._explica(0)
+        _vivir(cwm, [(2, 60)])
+        assert cwm.in_use == 2 and cwm.active == 1 and not cwm.established[1]
+        rapido = self._paso(cwm)
+        cwm.established[1], cwm.running[1] = True, 0.0
+        assert self._paso(cwm) < 0.2 * rapido
+
+    @pytest.mark.parametrize("escala", [0.0, -0.5, 1.5])
+    def test_wake_lr_scale_learning_must_be_in_the_unit_interval(self, escala):
+        with pytest.raises(ValueError):
+            ContextualWorldModel(2, wake_lr_scale_learning=escala)
+
     def test_streak_transitions_move_to_the_new_context(self):
         cwm = ContextualWorldModel(4, error_input=True)
         _vivir(cwm, [(0, 600), (2, 300)])

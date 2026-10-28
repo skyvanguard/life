@@ -1157,6 +1157,124 @@ casa al final de la niñez y experto del exilio al final del exilio.
 Se lanza apenas termine el test, salvo que aparezca un bug (cualquier cambio
 queda registrado). Queda REPLICADO si el veredicto se repite.
 
+## §K12 — la madurez: ¿una vigilia lenta sólo mientras el experto explica su flujo da las dos cosas? (pre-registrado el 2026-10-28, antes de correr, sin calibración)
+
+Pregunta de Fran tras el §K11: "¿cómo seguimos?". Lo abierto más directo del §K11:
+una sola tasa despierta no da estabilidad y plasticidad a la vez.
+
+**Por qué.**
+- **El §K11, replicado (24/24 en todo).** Con lr × 0.1 despierto, el experto de casa
+  conserva lo que el sueño consolida: oráculo despierto 0.009 contra 0.042 de `coin`.
+  La identidad se sostiene.
+- **El precio es la entrada a lo nunca vivido.** Los 59 bloques atascados caen en los
+  dos primeros bloques del exilio (`coin`: 3); el primer bloque del exilio cuesta
+  0.956–0.970 contra 0.497–0.601.
+- **Una mirada posterior a las vidas guardadas del §K11.** En los dos brazos, el
+  experto del exilio nace a unos 34 ticks del comienzo (medianas 35 y 34). En
+  `coin_vigilia` nace como copia del de casa, aprende despierto a la décima parte, y
+  su parte de cada sueño es mínima: la dosis se reparte por tamaño de buffer.
+
+**El mecanismo nuevo:** `ContextualWorldModel(wake_lr_scale_learning=s_l)`, con tests
+en `tests/test_contextual_world_model.py`.
+- Un experto aprende despierto a lr × `wake_lr_scale` sólo mientras **explica su
+  flujo**: está establecido (su error corrido bajó del umbral alguna vez) y su error
+  corrido está ahora dentro del umbral.
+- Si no lo explica (recién nacido, o fallando), aprende a lr × s_l. El sueño
+  conserva la tasa entera.
+- Aprender rápido mientras falla un experto establecido está protegido por la foto
+  del §K6: un nacimiento o un cambio de experto lo restaura.
+- Con `wake_lr_scale_learning = None` el comportamiento es el de antes (test).
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_madurez.py`).
+- **El brazo nuevo, `coin_madurez`:** es `coin` con `wake_lr_scale` 0.1 y
+  `wake_lr_scale_learning` 1.0. Corre bajo la crianza `una`, con la vida, los
+  papeles, el exilio y los ensayos del §K4.
+- **`coin` y `coin_vigilia` no se re-corren:** sus vidas del §K11 se cargan de
+  `data/mundo_propio_vigilia`. Las dos ya tienen la sonda despierta, y cada `coin`
+  del §K11 es igual a su vida del §K7.
+- **Verificación:** en cada corrida se re-corre `coin_vigilia` del primer par,
+  gemelo A, y tiene que ser igual a su vida guardada del §K11 en todas las claves,
+  con diferencia 0. Si no, se para: es un bug.
+- **Ninguno usa `snapshot_lag`:** se cambia una variable por vez.
+
+**Enmienda después del humo, antes de este pre-registro** (par 0, vida corta; no es
+evidencia).
+- **El primer diseño** decidía la tasa sólo por "establecido": rápida para el experto
+  recién nacido y lenta para siempre después.
+- **Su humo:** el experto del exilio sí aprendió rápido, pero la entrada siguió siendo
+  la de `coin_vigilia`.
+  - El primer bloque del exilio dio 0.886, contra 0.334 de `coin` y 0.982 de
+    `coin_vigilia`.
+  - Entre los ticks 35 y 100 del exilio, 0.92 y 0.88, contra 0.21 y 0.14 de `coin`.
+  - La casa del hermano en T1, 0.895 (`coin_vigilia` 0.906, `coin` 0.362).
+  - El motivo: antes de que nazca el experto del exilio (a los 63 y 81 ticks), el que
+    aprende es el de casa, establecido y lento.
+- **El diseño enmendado** (el de arriba) aprende rápido también mientras el
+  experto establecido falla.
+- **Su humo:**
+  - El gemelo A entra como `coin`: su experto nace a los 34 ticks, y los primeros
+    35 / los 65 siguientes / los últimos 200 ticks del exilio dan 0.842 / 0.305 / 0.063
+    (`coin` 0.848 / 0.215 / 0.053).
+  - El gemelo B queda atascado antes del nacimiento (81 ticks; 0.957 en los primeros
+    100, `coin` 0.41). Atascado, el error queda chico y la tasa lenta se sostiene.
+  - Primer bloque del exilio 0.725. Casa del hermano en T1 0.493 (en T2 0.932;
+    `coin_vigilia` 0.970, `coin` 0.623).
+  - Oráculo de casa despierto 0.019 (`coin` 0.061, `coin_vigilia` 0.025). H(T2)
+    +1.53. Casa en T2 0.166 (`coin` 0.490).
+- La verificación pasó en los dos humos, con diferencia 0.
+
+**Lecturas por par** (la media de los gemelos), como en el §K11: el oráculo de casa
+justo después de un sueño y despierto (49 pasos después), mediana de los últimos 5
+bloques de la niñez; H; el `e_early` del primer bloque del exilio.
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola). E =
+`coin_madurez`, C = `coin`, V = `coin_vigilia`.
+
+| Lectura | Criterio |
+|---|---|
+| VERIFICACIÓN | `coin_vigilia` re-corrido igual a su vida del §K11; si no, se para |
+| PRECISA_M (primaria) | oráculo de casa despierto, E < C, ≥ 10/12 |
+| ENTRA (primaria) | primer bloque del exilio, E < V, ≥ 10/12 |
+| PERSISTE_M (primaria) | H(T2) de E > 0, ≥ 10/12 |
+| LENTO_M (primaria, el precio) | primer bloque del exilio, E > C, ≥ 10/12 |
+
+Veredicto:
+- sin PRECISA_M → **NO CONSERVA**;
+- PRECISA_M sin ENTRA → **SIGUE LENTA**;
+- las dos sin PERSISTE_M → **SIN IDENTIDAD**;
+- las tres sin LENTO_M → **VIGILIA QUE NO BORRA**;
+- las tres y LENTO_M → **MEJOR PERO NO GRATIS**.
+
+Secundarias:
+- PAREADO: H(T2), E > C y E > V.
+- CONTROLA: el `e_late` medio de la niñez, E < C.
+- VUELVE: el costo en casa en T2, E < C. En el §K11 fue un análisis posterior para V
+  (19/24); acá queda pre-registrado.
+- AFUERA: el costo en la casa del hermano en T2, E < V.
+- El oráculo despierto del experto del exilio al final del exilio, E < C.
+- Los atascos y ELIGE.
+
+Se reportan H en T1/Tm/T2, los costos en casa y afuera, la tabla del oráculo, los
+expertos y, para E, el tick del nacimiento del experto del exilio.
+
+**Predicciones, escritas después de los dos humos y antes de cualquier par de test:**
+- VERIFICACIÓN 1/1 por corrida.
+- PRECISA_M pasa: en la niñez el experto de casa establecido explica su flujo casi
+  siempre.
+- ENTRA pasa.
+- PERSISTE_M pasa.
+- LENTO_M, inclinada a pasar: los gemelos que se atascan antes del nacimiento (el B
+  del humo) se quedan con la tasa lenta.
+- Veredicto previsto: **MEJOR PERO NO GRATIS** (VIGILIA QUE NO BORRA si los
+  atascados son raros).
+- Atascos entre los de `coin` y los de `coin_vigilia`.
+- VUELVE, inclinada a pasar. AFUERA, incierta: en el humo es mejor que `coin_vigilia`
+  en T1 y no en T2.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, con la misma regla.
+Se lanza apenas termine el test, salvo que aparezca un bug (cualquier cambio
+queda registrado). Queda REPLICADO si el veredicto se repite.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*

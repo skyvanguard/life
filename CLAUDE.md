@@ -72,11 +72,11 @@ zeta-life/
 │   └── utils/           # statistics helpers
 ├── experiments/
 │   ├── utero/           # 71 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
-│   ├── kernel/          # 49 kernel experiments (§K1-§K11: the kernel in its own world)
+│   ├── kernel/          # 50 kernel experiments (§K1-§K12: the kernel in its own world)
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
-├── tests/               # 65 test files (810 tests + 1 opt-in slow)
+├── tests/               # 65 test files (816 tests + 1 opt-in slow)
 ├── results/             # experiment outputs (PNG + run .txt)
 ├── data/                # GITIGNORED — LoRA adapters, datasets, captured activations (regenerable)
 ├── docs/                # reports, papers, plans, theory (see SCIENCE_PLAN.md)
@@ -94,7 +94,7 @@ pip install -e ".[rl]"           # gymnasium + mujoco, only for the RL benchmark
 
 # === TESTS ===
 # Tests import `zeta_life...`; either install (above) or set PYTHONPATH:
-PYTHONPATH=src python -m pytest tests/ -q          # full suite (810 tests + 1 opt-in slow; ~110s alone, ~7 min on the shared machine)
+PYTHONPATH=src python -m pytest tests/ -q          # full suite (816 tests + 1 opt-in slow; ~110s alone, ~7 min on the shared machine)
 PYTHONPATH=src python -m pytest tests/test_conscious_kernel.py -q   # single file
 PYTHONPATH=src python -m pytest tests/test_utero_memoria.py -q -k regenera   # single test
 # `make test` / `make test-cov` wrap these (pyproject forces -v --tb=short).
@@ -217,6 +217,9 @@ PYTHONPATH=src python experiments/kernel/exp_mundo_propio_entre_suenos.py     # 
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_vigilia.py humo     # §K11 smoke (pair 0, short life): the coin re-run equals its §K7 life (diff 0); the awake probe only reads
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_vigilia.py          # §K11 THE WAKE THAT DOES NOT ERASE (ContextualWorldModel(wake_lr_scale=s): awake online steps at lr x s, sleep at the full rate; coin_vigilia = coin + s 0.1, coin re-run as the control with a probe 49 online steps after each sleep; pairs 0-11, ~122 min shared): PRECISA PERO LENTA -- EROSIONA 12/12 (coin home oracle 0.005 -> 0.042 awake), PRECISA 12/12 (0.009), PERSISTE_V 12/12, LENTO 12/12 (first exile block 0.970 vs 0.497)
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_vigilia.py replica  # §K11 replication (pairs 12-23, ~123 min): REPLICADO (24/24 pooled on every readout); the price is the entry into never-lived worlds (all 59 stuck blocks in the first two exile blocks); one awake rate does not give stability and plasticity -- next: a per-expert rate
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_madurez.py humo     # §K12 smoke (pair 0, short life): coin_vigilia re-run equals its §K11 life (diff 0); coin/coin_vigilia loaded from §K11
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_madurez.py          # §K12 MATURITY (ContextualWorldModel(wake_lr_scale_learning=1.0): slow wake (0.1) only while an expert explains its stream, full rate while newborn or failing; coin_madurez vs the stored §K11 coin / coin_vigilia; pairs 0-11, 25 lives): pre-registered, see docs/MUNDO_PROPIO.md
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_madurez.py replica  # §K12 replication (pairs 12-23)
 PYTHONPATH=src python experiments/kernel/exp_agency.py
 PYTHONPATH=src python experiments/kernel/exp_zeta_vs_baselines.py    # zeta vs fourier/random/learned/rnn
 PYTHONPATH=src python experiments/kernel/exp_spacing_statistics.py --kernel  # GUE vs Poisson vs lattice
@@ -496,7 +499,7 @@ The competing consciousness formalisms (psyche `ConsciousnessIndex`, hierarchica
 | `action_dim` / `dreamer_reward` | None / kl | decouple action from obs space; `neg_distance` reward for regulation to a raw goal state (e.g. CartPole) |
 | `wm_sleep_replay` / `wm_sleep_seq_len` / `wm_sleep_batch` | 0 / 16 / 8 | §K2: the WORLD MODEL replays lived transitions in sleep (every `dream_interval`): N gradient steps on windows of consecutive ticks through its own recurrence with BPTT (seq_len 1 = context-free one-step replay). 0 = off, byte-identical (`tests/test_sleep_replay.py`) |
 | `wm_error_input` | False | §K3: the world model's GRU also sees its own last prediction error (observation - prediction); zero in imagination and at the start of each sleep window. With 4x sleep replay it infers the hidden regime (context) instead of averaging. False = byte-identical (`tests/test_error_input.py`) |
-| `wm_contexts` / `wm_context_kwargs` | 0 / None | §K6: a COIN-style repertoire -- K world-model experts allocated at birth, one active; hard switch on the running prediction error, a NEW expert (copy of the active one) when none explains for `persist` ticks, the old one restored to its pre-streak weights; each expert sleeps on its own transitions. With error_x4 it keeps the known regimes through a never-seen one (§K6, replicated 24/24). 0 = byte-identical (`tests/test_contextual_world_model.py`). `wm_context_kwargs` also takes `snapshot_lag` (§K10: checkpoints after every sleep and every L ticks; restores the latest >= L ticks old) and `wake_lr_scale` (§K11: awake steps at lr x s, sleep at the full rate; 1 = byte-identical) |
+| `wm_contexts` / `wm_context_kwargs` | 0 / None | §K6: a COIN-style repertoire -- K world-model experts allocated at birth, one active; hard switch on the running prediction error, a NEW expert (copy of the active one) when none explains for `persist` ticks, the old one restored to its pre-streak weights; each expert sleeps on its own transitions. With error_x4 it keeps the known regimes through a never-seen one (§K6, replicated 24/24). 0 = byte-identical (`tests/test_contextual_world_model.py`). `wm_context_kwargs` also takes `snapshot_lag` (§K10: checkpoints after every sleep and every L ticks; restores the latest >= L ticks old) and `wake_lr_scale` (§K11: awake steps at lr x s, sleep at the full rate; 1 = byte-identical) and `wake_lr_scale_learning` (§K12: the factor while an expert does not explain its stream -- newborn or running error above threshold; None = byte-identical) |
 | `precision_hypermodel` | False | epistemic depth ("A beautiful loop", Friston 2025): a hyper-model that PREDICTS per-channel precisions globally and reports a **second-order error over precision** (`StepResult.second_order_error`). OFF = byte-identical kernel. The signal spikes at regime change and is independent of free energy (|corr|≈0 vs Psi's 0.53) — see `precision_hypermodel.py`, `exp_epistemic_depth.py`, `docs/SCIENCE_PLAN.md` |
 
 ## Documentation

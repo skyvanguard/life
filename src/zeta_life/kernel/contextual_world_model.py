@@ -46,6 +46,12 @@ version of that principle built from the kernel's own WorldModel:
 - ``wake_lr_scale`` (§K11, 1 = off): the online (awake) steps of the learning expert use
   the optimizer's learning rate times this factor; sleep keeps the full rate. Online
   learning between two sleeps erodes what the sleep consolidated (§K10).
+- ``wake_lr_scale_learning`` (§K12, None = off): the factor while an expert does not
+  explain its stream -- not yet ESTABLISHED, or its running error above ``threshold``;
+  ``wake_lr_scale`` then applies only while it is established and explains. One awake
+  rate for all trades stability for plasticity (§K11: the slow wake keeps the
+  consolidated experts and enters a never-lived world late). Learning fast while the
+  established expert fails is protected by the snapshot: a spawn or a switch restores it.
 - Each transition (prev obs, action, obs) is stored in the buffer of the expert
   that predicted it; sleep replays each expert on its own buffer, the dose split
   in proportion to the buffer sizes (the total is the kernel's dose).
@@ -94,6 +100,9 @@ class ContextualWorldModel(nn.Module):
         Capacity and base seed of the per-expert transition buffers.
     wake_lr_scale : float
         Factor on the learning rate of the online (awake) steps; 1 = unchanged (§K11).
+    wake_lr_scale_learning : float or None
+        The factor while an expert does not explain its stream (not established, or
+        running error above ``threshold``); None = ``wake_lr_scale`` (§K12).
     snapshot_lag : int
         0 = the snapshot is taken when the running error crosses the threshold (§K6).
         L > 0 = checkpoint the active expert after every sleep and every L ticks without
@@ -119,6 +128,7 @@ class ContextualWorldModel(nn.Module):
         replay_seed: int = 20261026,
         snapshot_lag: int = 0,
         wake_lr_scale: float = 1.0,
+        wake_lr_scale_learning: float | None = None,
     ) -> None:
         super().__init__()
         if n_contexts < 1:
@@ -129,7 +139,10 @@ class ContextualWorldModel(nn.Module):
             raise ValueError(f"snapshot_lag must be >= 0, got {snapshot_lag}")
         if not 0.0 < wake_lr_scale <= 1.0:
             raise ValueError(f"wake_lr_scale must be in (0, 1], got {wake_lr_scale}")
+        if wake_lr_scale_learning is not None and not 0.0 < wake_lr_scale_learning <= 1.0:
+            raise ValueError(f"wake_lr_scale_learning must be in (0, 1], got {wake_lr_scale_learning}")
         self.wake_lr_scale = wake_lr_scale
+        self.wake_lr_scale_learning = wake_lr_scale_learning
         self.n_contexts = n_contexts
         self.experts = nn.ModuleList([
             WorldModel(obs_dim, latent_dim, action_dim, learning_rate=learning_rate,
@@ -259,7 +272,7 @@ class ContextualWorldModel(nn.Module):
     def update_from_error(self, error: Tensor) -> float:
         """Online step of the expert that made the prediction (its graph carries the error)."""
         c = self.active if self._predictor is None else self._predictor
-        with self._despierto(self.experts[c]):
+        with self._despierto(c):
             return self.experts[c].update_from_error(error)
 
     def observe(self, observation: Tensor) -> float:
@@ -271,7 +284,7 @@ class ContextualWorldModel(nn.Module):
         loss = 0.0
         for c in range(self.in_use):
             if c == c0:
-                with self._despierto(self.experts[c]):
+                with self._despierto(c):
                     loss = self.experts[c].observe(observation, learn=True)
             else:
                 self.experts[c].observe(observation, learn=False)
@@ -353,19 +366,28 @@ class ContextualWorldModel(nn.Module):
         self.active_index.fill_(new)
 
     @contextmanager
-    def _despierto(self, wm: WorldModel):
-        """The online step's learning rate: the optimizer's times wake_lr_scale."""
-        if self.wake_lr_scale == 1.0:
+    def _despierto(self, c: int):
+        """Expert c's online learning rate: the optimizer's times wake_lr_scale, or times
+        wake_lr_scale_learning while c does not explain its stream."""
+        aprende = self.wake_lr_scale_learning is not None and not self._explica(c)
+        escala = self.wake_lr_scale_learning if aprende else self.wake_lr_scale
+        if escala == 1.0:
             yield
             return
+        wm = self.experts[c]
         base = [grupo["lr"] for grupo in wm.optimizer.param_groups]
         for grupo, lr in zip(wm.optimizer.param_groups, base):
-            grupo["lr"] = lr * self.wake_lr_scale
+            grupo["lr"] = lr * escala
         try:
             yield
         finally:
             for grupo, lr in zip(wm.optimizer.param_groups, base):
                 grupo["lr"] = lr
+
+    def _explica(self, c: int) -> bool:
+        """Expert c is established and its running error is within the threshold."""
+        r = self.running[c]
+        return self.established[c] and r is not None and r <= self.threshold
 
     def _checkpoint(self) -> None:
         self._ckpts.append((self._t, self._take(self.experts[self.active])))
