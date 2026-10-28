@@ -1072,7 +1072,7 @@ modelo del mundo bastante peor que lo que dicen las sondas de fin de bloque.
 - **La medición del §K10.** En una vida de `coin`, el experto de casa que
   duerme marca 0.004–0.006 justo después de cada sueño; mediana 0.012 y hasta
   0.215 entre sueños.
-- **Una mirada posterior sobre esa misma vida** (`scratchpad`, no es evidencia).
+- **Una mirada posterior sobre esa misma vida** (un análisis posterior, no es evidencia).
   - Los ticks de prueba suben la sonda en promedio: +0.007, contra −0.0001 en
     los ticks comunes.
   - Pero 15 de los 21 saltos de más de +0.01 caen en ticks comunes y seguidos
@@ -2488,3 +2488,62 @@ La réplica (pares 12–23, pre-registrada) está corriendo.
   sobreajusta a él?), y si una tasa menor en vigilia lo evita.
 - Lo que quedó de antes: un umbral relativo, re-entrar más rápido, INVIERTE, y
   un `self_embedding` que lea el modelo del mundo.
+
+### §K11 — PRECISA PERO LENTA por la letra; la vigilia lenta no borra, pero entra tarde a lo nuevo (2026-10-27)
+
+`results/mundo_propio_vigilia_run.txt`: pares 0–11, 121.8 min (la máquina se
+compartía con procesos de otra sesión).
+- **Verificación.** Los 24 `coin` re-corridos son iguales a sus vidas del §K7 en
+  las claves guardadas: diferencia máxima 0.0.
+
+**Veredicto pre-registrado: PRECISA PERO LENTA**, el previsto.
+- **EROSIONA (control): 12/12.** El oráculo de casa de `coin` pasa de 0.005,
+  justo después de un sueño, a 0.042 despierto, 49 pasos en línea después.
+- **PRECISA: 12/12.** En `coin_vigilia`, de 0.004 a 0.009.
+- **PERSISTE_V: 12/12,** con H(T2) +1.70. En `coin`, +0.69.
+- **LENTO: 12/12.** El primer bloque del exilio cuesta 0.970 contra 0.497.
+- Secundarias:
+  - PAREADO: 12/12 a favor de `coin_vigilia`; al revés, 0/12.
+  - CONTROLA: 12/12. El `e_late` medio de la niñez baja de 0.038 a 0.034.
+  - ELIGE: 12/12. En T2 se asientan en h los 24 gemelos, con una latencia de 8
+    ticks (`coin`: 23/24, 11 ticks).
+
+**Tampoco se erosiona el experto del exilio.** Al final del exilio, `coin` pasa
+de 0.031 a 0.062 despierto; `coin_vigilia`, de 0.023 a 0.022.
+
+**Costos en medianas.**
+
+| Brazo | En casa T1 | Afuera T1 | En casa T2 | Afuera T2 | 1.er bloque del exilio |
+|---|---|---|---|---|---|
+| `coin` | 0.032 | 0.512 | 0.146 | 0.489 | 0.497 |
+| `coin_vigilia` | 0.032 | 0.937 | 0.109 | 0.969 | 0.970 |
+
+**Dónde cae el precio** (un análisis posterior de las mismas vidas; no es
+evidencia pre-registrada).
+- Los 31 bloques atascados de `coin_vigilia` están todos en el exilio: 23 en
+  el primer bloque y 8 en el segundo. Ninguno en la niñez. `coin` tiene 2, los
+  dos en el primer bloque del exilio.
+- Desde el tercer bloque del exilio el `e_late` es el de `coin`: 0.033–0.036 en
+  los dos brazos.
+- En los ensayos, la casa del hermano también es un mundo nunca vivido, y
+  cuesta 0.94–0.97 (`coin`: 0.49–0.51).
+- **Buena parte del H mayor es ese precio.** En casa, en T2, `coin_vigilia` es
+  algo mejor (0.109 contra 0.146), pero la diferencia grande está afuera (0.969
+  contra 0.489). El PAREADO 12/12 mide tanto la identidad como la rigidez.
+
+**Lectura.**
+- La erosión del §K10 era el aprendizaje en línea con la tasa entera: con un
+  paso diez veces más chico despierto, lo que el sueño consolida queda casi
+  intacto hasta el sueño siguiente (0.009 contra 0.042).
+- El costo es la entrada a lo nunca vivido: 300–600 ticks atascado, hasta que
+  el sueño, cada 50 ticks, le enseña al experto nuevo lo que la vigilia ya no
+  alcanza a aprender.
+- Es el dilema estabilidad–plasticidad, medido dentro del kernel: una sola tasa
+  despierta no da las dos cosas.
+
+**Las predicciones, contra el resultado.**
+- Acertadas: VERIFICACIÓN 24/24, EROSIONA, PRECISA, PERSISTE_V, LENTO y el
+  veredicto PRECISA PERO LENTA.
+- CONTROLA, que se daba por incierta, pasó 12/12.
+
+La réplica (pares 12–23, pre-registrada) está corriendo.

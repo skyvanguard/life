@@ -58,6 +58,19 @@ REPLICATION, pre-registered with the test: pairs 12-23, the same rule, launched 
 after the test unless a bug is found (any change recorded). REPLICADO if the verdict
 repeats.
 
+RESULT (pairs 0-11, results/mundo_propio_vigilia_run.txt, 121.8 min on a shared machine;
+every coin re-run equals its §K7 life, max diff 0.0 over 24). Pre-registered verdict:
+PRECISA PERO LENTA, as predicted -- EROSIONA 12/12 (coin's home oracle 0.005 right after a
+sleep -> 0.042 awake), PRECISA 12/12 (coin_vigilia 0.004 -> 0.009), PERSISTE_V 12/12
+(H(T2) +1.70; coin +0.69), LENTO 12/12 (first exile block 0.970 vs 0.497). Secondary:
+PAREADO 12/12 (reverse 0/12), CONTROLA 12/12 (childhood e_late 0.034 vs 0.038), ELIGE
+12/12. The exile expert does not erode either (end of exile 0.023 -> 0.022; coin 0.031 ->
+0.062). The price is the entry into a never-lived world: post hoc, all 31 stuck blocks
+fall in the exile (23 in its first block, 8 in the second; none in the childhood; coin 2),
+and from the third exile block on e_late is coin's (0.033-0.036); the sibling's home in
+the assays costs 0.94-0.97 (coin 0.49-0.51). Much of the larger H is that price (home at
+T2 0.109 vs 0.146, abroad 0.969 vs 0.489).
+
 48 lives per run (24 coin re-runs + 24 new); 3 CPU processes, one torch thread each.
 `reanudar` after any mode loads the lives already on disk.
 
