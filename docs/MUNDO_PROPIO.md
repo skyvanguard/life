@@ -3587,4 +3587,115 @@ bajo `una`: `coin` del §K11 y `coin_regreso` del §K13).
   - NINEZ_D falla.
   - El veredicto NO AGUANTA: ENTRA_D.
 
-La réplica (pares 12–23, pre-registrada) está corriendo.
+La réplica (pares 12–23, pre-registrada) está más abajo.
+
+### §K14, réplica — NO REPLICADO por la letra (VUELVE_D 9/12); juntos, el brazo conserva y vuelve, pero ya no entra mejor que `coin` (2026-10-29)
+
+`results/mundo_propio_escuela_replica_run.txt`: pares 12–23, 120.7 min.
+- **Verificación: 24/24,** con diferencia máxima 0.0. Sumando las dos corridas, las 48
+  vidas de `coin` re-corridas son iguales a las del §K7.
+
+**Veredicto pre-registrado: NO AGUANTA: ENTRA_D, VUELVE_D.** El del test fue NO
+AGUANTA: ENTRA_D. Como el veredicto no se repite, queda **NO REPLICADO por la letra.**
+- CONSERVA_D 12/12 (0.015 contra 0.048).
+- ENTRA_D 8/12 (0.284 contra 0.334).
+- **VUELVE_D 9/12** (0.157 contra 0.206).
+- PERSISTE_D 10/12, justo en el umbral (H(T2) +0.430; `coin`, +0.657).
+- RIGIDO_D no pasa: T1 6/12, T2 2/12.
+- Secundarias: NINEZ_D 8/12, ESCUELA_D 6/12, la casa en Tm 8/12 (0.172 contra 0.188),
+  AFUERA 10/12 (0.366 contra 0.545), RECUPERA 9/12 (0.056 contra 0.068), PAREADO 5/12,
+  ELIGE 11/12 (`coin`, 12/12). Atascos: 0 en los dos brazos.
+
+**Por par** (análisis posterior).
+- **Los tres pares que fallan VUELVE_D.** El 13 (0.168 contra 0.139) y el 19 (0.186
+  contra 0.183) pierden por poco. El 23 pierde por mucho (0.337 contra 0.215): su
+  gemelo B tarda 64 ticks en volver a `h` en casa en T2, cuando la mediana del brazo es
+  12.
+- **Los dos que fallan PERSISTE_D.**
+  - El 20 falla también en `coin` (H(T2) −0.212 y −0.225). La casa cuesta 0.56–0.65 en
+    los dos brazos, y el gemelo B de `coin_regreso` no se asienta en `h` en 218 ticks.
+  - El 23 falla por el mismo gemelo B.
+- **Contra `una`** (los mismos pares, del §K11 y el §K13): `coin` entra mejor bajo
+  `dos` en 11/12 (0.334 contra 0.601), y `coin_regreso` en 7/12 (0.284 contra 0.348).
+  La mediana por par de E − C pasa de −0.275 a −0.044.
+
+**Juntos, 24 pares.** No se registró regla para juntar. Como referencia, en un test de
+signo de una cola 17/24 es p 0.032 y 20/24 es p 0.0008.
+
+| Lectura | Test | Réplica | Juntos |
+|---|---|---|---|
+| CONSERVA_D | 12/12 | 12/12 | 24/24 |
+| ENTRA_D | 7/12 | 8/12 | 15/24 |
+| VUELVE_D | 11/12 | 9/12 | 20/24 |
+| PERSISTE_D | 12/12 | 10/12 | 22/24 |
+| RIGIDO_D, T1 y T2 | 5/12, 4/12 | 6/12, 2/12 | 11/24, 6/24 |
+| NINEZ_D | 6/12 | 8/12 | 14/24 |
+| AFUERA (T2, E < C) | 8/12 | 10/12 | 18/24 |
+| RECUPERA | 8/12 | 9/12 | 17/24 |
+| PAREADO | 6/12 | 5/12 | 11/24 |
+
+| Brazo (juntos, medianas) | Oráculo de casa despierto | En casa T1 | Afuera T1 | En casa Tm | En casa T2 | Afuera T2 | Primer bloque del exilio | Después del cambio, T2 | H(T2) |
+|---|---|---|---|---|---|---|---|---|---|
+| `coin` | 0.047 | 0.033 | 0.376 | 0.189 | 0.206 | 0.534 | 0.334 | 0.068 | +0.547 |
+| `coin_regreso` | 0.015 | 0.038 | 0.367 | 0.157 | 0.146 | 0.413 | 0.285 | 0.056 | +0.518 |
+
+**Contra `una`, juntos** (análisis posterior):
+- `coin` entra mejor bajo `dos` en 23/24 pares (0.334 contra 0.560), y `coin_regreso`
+  en 16/24 (0.285 contra 0.367).
+- E entra mejor que C en 20/24 pares bajo `una` y en 15/24 bajo `dos`. La mediana por
+  par de E − C pasa de −0.125 a −0.035.
+- Los atascos del primer bloque (`e_early` > 0.6): bajo `una`, 17 gemelos de `coin` y 4
+  de `coin_regreso`; bajo `dos`, 4 y 1.
+
+**Lectura.**
+- **Lo que repite.** ENTRA_D falla en las dos corridas y por la misma razón: la crianza
+  en casa y escuela ya hace entrar bien a `coin` (mejor que bajo `una` en 23/24 pares),
+  y la ventaja del brazo se achica de −0.125 a −0.035. CONSERVA_D y PERSISTE_D pasan en
+  las dos.
+- **Lo que no repite.** VUELVE_D pasa en el test (11/12) y en la réplica queda a un par
+  del umbral (9/12); dos de los tres fallos son por menos de 0.03. Juntos da 20/24: en
+  el conjunto, la vuelta a casa mejor que `coin` aguanta la escuela, pero no por la
+  letra de cada corrida.
+- **Afuera no hay precio.** AFUERA, secundaria, da 18/24 juntos: el brazo paga menos que
+  `coin` en la casa del hermano en T2 (0.413 contra 0.534), como bajo `una` (0.387
+  contra 0.489 en el §K13).
+- **La identidad es la de `coin`:** PERSISTE 22/24 en los dos brazos y PAREADO 11/24.
+  Bajo `dos`, el brazo no la agranda.
+- **El brazo completo es del kernel en dos de sus tres cosas:** conservar lo
+  consolidado (24/24) y, en el conjunto, volver a casa (20/24). La tercera, entrar
+  mejor que `coin` a lo nunca vivido, era relativa a la rigidez de `coin` criado en una
+  sola casa, y la escuela ya se la saca.
+
+**Las predicciones, contra el resultado.** La réplica no tenía predicciones propias; se
+comparan las agregadas después de la calibración.
+- Acertadas:
+  - VERIFICACIÓN, CONSERVA_D y PERSISTE_D (esta, justo en el umbral).
+  - ENTRA_D, que falla; RIGIDO_D, que no pasa; NINEZ_D, que falla (8/12).
+- Erradas:
+  - VUELVE_D, inclinada a pasar: dio 9/12.
+  - El veredicto NO AGUANTA: ENTRA_D: salió ENTRA_D y VUELVE_D.
+
+**Manos declaradas:**
+- `coin` se re-corrió, en vez de cargarse, para tener la sonda despierta. Las 48 vidas
+  son iguales a las del §K7.
+- `coin_regreso` es el del §K13 sin cambios: s = 0.1, s_l = 1.0 y el tope de 30 ticks.
+- Bajo `dos`, el oráculo de casa despierto se lee sólo en los bloques vividos en casa.
+  Se declaró antes del humo.
+- No se corrieron `coin_vigilia` ni `coin_madurez` bajo `dos`.
+- El test corrió en dos tramos, porque el sistema cortó el primero por falta de
+  memoria; la réplica, en uno solo.
+- La comparación con `una` es análisis posterior.
+
+**Lo que sigue abierto:**
+- **Las vueltas de la niñez:** por qué el regreso lento no las cambia (NINEZ_D 14/24,
+  0.116 contra 0.120).
+- **El gemelo que tarda en volver a `h`:** el 23 B, con 64 ticks. No se midió si lo
+  demora el regreso lento o el par.
+- **Lo de antes:**
+  - el precio afuera bajo `una`, con un tope más corto;
+  - por qué el daño era mayor en `coin_madurez`;
+  - la madurez con la foto del §K10;
+  - un umbral relativo;
+  - INVIERTE;
+  - un `self_embedding` que lea el modelo del mundo;
+  - la atribución bajo `dos`.

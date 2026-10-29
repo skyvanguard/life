@@ -108,6 +108,25 @@ and 1 under "dos" (the calibration's stuck twin shows once, 11 A, and decides pa
 The five ENTRA_D misses lose by 0.000-0.075. The full arm does not lose the entry; the
 upbringing gives it to coin as well.
 
+REPLICATION RESULT (pairs 12-23, results/mundo_propio_escuela_replica_run.txt, 120.7 min;
+verification 24/24, max diff 0.0). Pre-registered verdict: NO AGUANTA: ENTRA_D, VUELVE_D --
+the verdict does not repeat: NOT REPLICATED by the letter. CONSERVA_D 12/12 (0.015 vs
+0.048), ENTRA_D 8/12 (0.284 vs 0.334), VUELVE_D 9/12 (0.157 vs 0.206), PERSISTE_D 10/12
+(H(T2) +0.430 vs +0.657), RIGIDO_D T1 6/12, T2 2/12. Secondary: NINEZ_D 8/12, ESCUELA_D
+6/12, home Tm 8/12, AFUERA 10/12 (0.366 vs 0.545), RECUPERA 9/12, PAREADO 5/12, ELIGE
+11/12 (coin 12/12); stuck blocks 0 and 0. VUELVE_D's misses: pairs 13 and 19 by < 0.03,
+pair 23 by 0.12 (twin B back to h at home after 64 ticks; the arm's median is 12).
+PERSISTE_D's: pair 20, where coin fails too (H(T2) -0.21 and -0.23), and pair 23 (the same
+twin). Pooled over 24 pairs (no pooled rule was registered): CONSERVA_D 24/24, ENTRA_D
+15/24, VUELVE_D 20/24, PERSISTE_D 22/24 (coin 22/24), RIGIDO_D T1 11/24, T2 6/24, AFUERA
+18/24 (0.413 vs 0.534), RECUPERA 17/24, NINEZ_D 14/24, PAREADO 11/24. Against "una" (post
+hoc, the same pairs): coin enters the exile better under "dos" in 23/24 (0.334 vs 0.560),
+coin_regreso in 16/24 (0.285 vs 0.367); E < C on the entry 20/24 under "una", 15/24 under
+"dos" (median per-pair E - C -0.125 -> -0.035). What repeats: the arm keeps what sleep
+consolidates and holds the identity under the other upbringing; it does not enter better
+than coin there, because the school already gives coin the entry. The return home holds
+pooled (20/24), not by the letter of each run.
+
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py humo
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py calibracion   # pairs 100-102
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py
