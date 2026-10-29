@@ -92,6 +92,22 @@ REPLICATION, pre-registered with the test: pairs 12-23, the same rule, launched 
 after the test unless a bug is found (any change recorded). REPLICADO if the verdict
 repeats.
 
+RESULT (pairs 0-11, results/mundo_propio_escuela_run.txt; two stretches: the system killed
+the first for low memory with 18 lives on disk, `reanudar` ran the other 30 in 80.9 min).
+Verification 24/24, max diff 0.0. Pre-registered verdict: NO AGUANTA: ENTRA_D, as predicted
+after the calibration. CONSERVA_D 12/12 (awake home oracle 0.015 vs 0.046; EROSIONA 12/12),
+ENTRA_D 7/12 (first exile block 0.285 vs 0.327), VUELVE_D 11/12 (home T2 0.145 vs 0.203),
+PERSISTE_D 12/12 (H(T2) +0.663 vs +0.464), RIGIDO_D T1 5/12, T2 4/12. Secondary: NINEZ_D
+6/12 (0.116 vs 0.118), ESCUELA_D 5/12 (0.124 vs 0.125), home Tm 8/12 (0.148 vs 0.217),
+AFUERA 8/12, RECUPERA 8/12 (0.056 vs 0.067), PAREADO 6/12, ELIGE 12/12 in both arms; stuck
+blocks 0 vs 1. Post hoc (the same pairs under "una": §K11's coin, §K13's coin_regreso): the
+school makes coin enter the exile better in 12/12 pairs (0.327 vs 0.497) and coin_regreso
+in 9/12 (0.285 vs 0.367); the median per-pair E - C shrinks from -0.093 to -0.020. Twins
+stuck in the first exile block (e_early > 0.6): 7 coin and 3 coin_regreso under "una", 2
+and 1 under "dos" (the calibration's stuck twin shows once, 11 A, and decides pair 11).
+The five ENTRA_D misses lose by 0.000-0.075. The full arm does not lose the entry; the
+upbringing gives it to coin as well.
+
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py humo
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py calibracion   # pairs 100-102
     PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py

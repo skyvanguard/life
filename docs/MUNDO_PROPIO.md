@@ -3509,3 +3509,82 @@ La réplica (pares 12–23, pre-registrada) está más abajo.
 - La madurez y el regreso con la foto a tiempo del §K10, y bajo la crianza `dos`.
 - Lo que quedó de antes: un umbral relativo o una inferencia bayesiana del contexto,
   INVIERTE, y un `self_embedding` que lea el modelo del mundo.
+
+### §K14 — NO AGUANTA: ENTRA_D por la letra; la escuela le da a `coin` la entrada que daba el brazo (2026-10-28)
+
+`results/mundo_propio_escuela_run.txt`: pares 0–11.
+- **Corrió en dos tramos.** El sistema cortó el primero por falta de memoria, con 18
+  vidas en disco (la máquina se compartía con procesos de otras sesiones). `reanudar`
+  corrió las 30 restantes en 80.9 min.
+- **Verificación: 24/24.** Cada `coin` re-corrido es igual a su vida del §K7 bajo
+  `dos` en todas las claves guardadas: diferencia máxima 0.0.
+
+**Veredicto pre-registrado: NO AGUANTA: ENTRA_D,** el previsto después de la
+calibración.
+- **CONSERVA_D: 12/12.** El oráculo de casa despierto queda en 0.015, contra 0.046 de
+  `coin` (recién dormidos, 0.012 y 0.013; EROSIONA 12/12).
+- **ENTRA_D: 7/12.** El primer bloque del exilio cuesta 0.285 contra 0.327.
+- **VUELVE_D: 11/12.** La casa en T2 cuesta 0.145 contra 0.203.
+- **PERSISTE_D: 12/12,** con H(T2) +0.663 (`coin`, +0.464).
+- **RIGIDO_D: no pasa.** Afuera es peor que en `coin` en 5/12 pares en T1 y en 4/12 en
+  T2.
+- Secundarias:
+  - NINEZ_D 6/12 y ESCUELA_D 5/12: las vueltas de la niñez cuestan lo mismo en los dos
+    brazos (0.116 contra 0.118 a casa, 0.124 contra 0.125 a la escuela).
+  - La casa en Tm, 8/12 (0.148 contra 0.217). AFUERA 8/12. RECUPERA 8/12 (después del
+    cambio a `h` en T2, 0.056 contra 0.067). PAREADO 6/12.
+  - ELIGE 12/12 en los dos brazos. Atascos: 0 bloques en `coin_regreso`, 1 en `coin`.
+- El oráculo al final del exilio, despierto: 0.031 contra 0.075.
+
+**Costos en medianas.**
+
+| Brazo | En casa T1 | Afuera T1 | En casa Tm | En casa T2 | Afuera T2 | Primer bloque del exilio | Después del cambio, T2 | H(T2) |
+|---|---|---|---|---|---|---|---|---|
+| `coin` | 0.033 | 0.510 | 0.217 | 0.203 | 0.432 | 0.327 | 0.067 | +0.464 |
+| `coin_regreso` | 0.036 | 0.422 | 0.148 | 0.145 | 0.477 | 0.285 | 0.056 | +0.663 |
+
+**Por par** (análisis posterior de las mismas vidas, junto con las de los mismos pares
+bajo `una`: `coin` del §K11 y `coin_regreso` del §K13).
+- **Lo que cambia es `coin`.** Bajo `dos` entra al exilio mejor que bajo `una` en los
+  12 pares (0.327 contra 0.497). `coin_regreso` también mejora, en 9/12 (0.285 contra
+  0.367).
+- **La ventaja se achica:** la mediana por par de E − C pasa de −0.093 bajo `una` a
+  −0.020 bajo `dos`. Bajo `una`, en estos mismos pares, E entraba mejor en 9/12.
+- **Los atascos del primer bloque** (`e_early` > 0.6) bajan en los dos brazos: bajo
+  `una`, 7 gemelos de `coin` y 3 de `coin_regreso`; bajo `dos`, 2 y 1.
+- **El atasco de la calibración aparece una sola vez** (11 A, 0.77) y decide el par 11
+  (0.613 contra 0.540).
+- **Los cinco pares que fallan ENTRA_D** pierden por entre 0.000 y 0.075.
+- **El par que falla VUELVE_D** es el 1 (0.231 contra 0.156).
+
+**Lectura.**
+- **Dos de las tres cosas aguantan la otra crianza.** El brazo conserva lo que el sueño
+  consolida (12/12) y vuelve a casa mejor que `coin` (11/12), con identidad (12/12) y
+  sin pagar más afuera. Esas dos son del kernel, no de la crianza en la que se
+  construyeron.
+- **La tercera no la pierde el brazo: la gana `coin`.** La crianza en casa y escuela ya
+  achica la rigidez (§K5) y hace entrar mejor a `coin` en todos los pares, así que
+  queda poco para mejorar. `coin_regreso` sigue entrando un poco mejor en la mediana,
+  pero no de forma consistente (7/12).
+- **Las vueltas de la niñez no cambian con el regreso lento** (6/12; 0.116 contra
+  0.118). No se midió por qué.
+- **La identidad crece** de +0.464 a +0.663, otra vez por una casa mejor (afuera queda
+  igual o peor). Bajo `dos`, a diferencia de bajo `una`, H(T2) no queda por debajo de
+  la de `coin` (PAREADO 6/12).
+
+**Las predicciones, contra el resultado.**
+- **Las escritas antes del humo:**
+  - Acertadas: VERIFICACIÓN, PERSISTE_D, CONSERVA_D, VUELVE_D (inclinada a pasar),
+    RIGIDO_D que no pasa, y el veredicto, una de las dos opciones previstas.
+  - ENTRA_D era incierta: falló.
+  - Errada: NINEZ_D (prevista pasar; 6/12).
+- **Las agregadas después de la calibración:** acertadas todas.
+  - VERIFICACIÓN 24/24, CONSERVA_D, PERSISTE_D y VUELVE_D.
+  - ENTRA_D falla. **Acertada en el resultado, no en la razón:** el atasco de
+    `coin_regreso` aparece en 1 gemelo de 24; lo que decide es que `coin` ya entra
+    bien.
+  - RIGIDO_D no pasa en T1; en T2, incierta, tampoco pasa (4/12).
+  - NINEZ_D falla.
+  - El veredicto NO AGUANTA: ENTRA_D.
+
+La réplica (pares 12–23, pre-registrada) está corriendo.
