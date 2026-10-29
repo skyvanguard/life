@@ -93,6 +93,16 @@ sorpresa relativa con un umbral que mueve el bono de memoria episódica. En
 discriminaba: la meta de "des-saturar" estaba mal puesta. Lo que sigue es una decisión nueva: el kernel viviendo en su propio
 mundo, donde sus actos causan su experiencia.
 
+## El repertorio se cierra; el mundo se abre (2026-10-29)
+
+Con el §K14 se cierra la línea del repertorio (§K6–§K14). Queda como configuración de
+referencia del kernel `coin_regreso`: conserva lo que el sueño consolida, vuelve a casa y
+sostiene la identidad, replicado bajo dos crianzas. La síntesis está al principio de
+`docs/MUNDO_PROPIO.md`. Todo eso se midió en un solo mundo, con contextos limpios que
+cambian de golpe, y con perillas puestas a mano. Lo que sigue (Fran: "vamos con tu
+recomendacion") no es otro parche: es preguntar si lo logrado es del kernel o de ese
+mundo. El §K15 deja la vida igual y hace que el exilio llegue de a poco.
+
 ## Lo que la estrella sigue siendo
 
 La experiencia subjetiva verificable no es alcanzable con ninguna matemática

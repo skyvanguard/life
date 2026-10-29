@@ -6,6 +6,90 @@ Hermes ni ningún LLM. Encarnación de la pregunta de docs/NORTE.md: ¿puede un
 sistema nacer vacío, aprender en vida de su propia experiencia y sostener una
 identidad, sin entrenamiento previo?*
 
+## Dónde está el programa: síntesis del §K1 al §K14 (2026-10-29)
+
+Escrita al cerrar la línea del repertorio y antes de abrir el §K15. El detalle de cada
+experimento está en su entrada del ledger. Acá va sólo lo que quedó firme, lo que no, y
+por qué se cambia de pregunta.
+
+**Lo firme.** Pre-registrado y replicado; los números son de las dos corridas juntas
+(24 semillas o 24 pares).
+
+| Resultado | Dónde | Juntos |
+|---|---|---|
+| Aprende en vida un régimen nunca visto, que la infancia sola no da | §K1, §K2 | APRENDE 24/24 con sueño |
+| Recuerda lo vivido si el sueño repasa secuencias vividas; al principio, como el promedio de lo vivido | §K2 | RECUERDA 21/24 |
+| Distingue lo que hizo de lo que le pasó | §K3 | DISTINGUE 24/24 |
+| Gemelos criados en mundos distintos siguen distintos después de un exilio compartido. La identidad vive en el modelo del mundo, no en el `self_embedding` | §K4, §K5 | PERSISTE 24/24 |
+| Esa identidad cuesta rigidez ante lo nunca vivido, y una niñez entre casa y escuela la achica sin perderla | §K4, §K5 | ACHICA 20/24, CONSERVA 23/24 |
+| Un repertorio de expertos al estilo COIN sobrevive a lo nunca visto | §K6 | ROBUSTO 24/24 |
+| Con repertorio, la identidad es a qué experto vuelve al volver a casa | §K7 | PERSISTE 24/24, ELIGE 22/24 |
+| Un experto preciso, guardado a tiempo, sostiene esa identidad | §K10 | PERSISTE_F 23/24 |
+| La vigilia erosiona entre sueños lo que el sueño consolida; una vigilia más lenta lo conserva, pero entra tarde a lo nuevo | §K11 | 24/24 en todo |
+| Una tasa por experto (lenta mientras explica, entera mientras aprende) da las dos cosas | §K12 | 24/24 |
+| Si el experto que vuelve aprende lento hasta explicar, la vuelta a casa deja de costar | §K13 | PROTEGE 24/24, VUELVE_R 22/24 |
+| Bajo la otra crianza, el brazo completo conserva lo consolidado y sostiene la identidad | §K14 | CONSERVA_D 24/24, PERSISTE_D 22/24 |
+
+**Lo que no pasó o no se replicó por la letra.**
+- §K1: NO CONTROLA (9/12). Con el sueño del §K2, CONTROLA 24/24.
+- §K3: el repertorio en un solo modelo (CONTEXTO 12/12, después 8/12). Lo nuevo lo
+  deshace y el sueño lo rehace en unos dos ciclos.
+- §K9: dormir sólo en la niñez no alcanza (INDETERMINADO, después HACE FALTA SEGUIR
+  DURMIENDO).
+- §K14: ENTRA_D falla en las dos corridas (15/24) y VUELVE_D en la réplica (9/12; 20/24
+  juntos).
+
+**Lo que se reinterpretó después.**
+- El promedio del §K2 era una meseta de entrenamiento, no un límite de capacidad
+  (calibración del §K3).
+- El POR EL SUEÑO del §K8 era de la foto atrasada: con la foto a tiempo, la separación
+  sola también sostiene la identidad (§K10).
+- La vuelta a casa que fallaba en el §K12 (VUELVE 7/24) tenía un mecanismo medido, y el
+  §K13 lo arregló.
+- Entrar a lo nunca vivido mejor que `coin` era relativo a la rigidez de crecer en una
+  sola casa (§K14).
+
+**La configuración de referencia** es `coin_regreso`, el brazo del §K13:
+`ConsciousKernel(action_mode="efe", efe_n_samples=48, efe_obs_norm="l1", preference=C,
+wm_sleep_replay=200, wm_sleep_seq_len=16, wm_sleep_batch=8, wm_error_input=True,
+wm_contexts=6, wm_context_kwargs={"wake_lr_scale": 0.1, "wake_lr_scale_learning": 1.0,
+"slow_return": True})`. De dónde viene cada pieza:
+- el sueño en secuencias, del §K2;
+- ver su propio error y la dosis 4×, del §K3;
+- los expertos de contexto, del §K6;
+- la vigilia lenta, del §K11;
+- la tasa por experto, del §K12;
+- el regreso lento, del §K13.
+
+**Los límites, dichos de frente.**
+- **Un solo mundo.** El 4-simplex con 4 regímenes discretos, que son permutaciones
+  exactas y cambian de golpe en el borde de un bloque. El repertorio cambia de experto
+  cuando el error corriente pasa un umbral absoluto y crea uno cuando ninguno explica:
+  eso es justo lo que premia un mundo de contextos limpios.
+- **Las perillas nunca se barrieron.** El umbral 0.08, la tau 10, la paciencia de 30
+  ticks, el margen 0.2, las gracias de 20 y 150 ticks, los 6 expertos, la vigilia 0.1,
+  la foto a 50 ticks y la dosis 4× tienen un solo valor cada una.
+- **Rendimientos decrecientes.** Cada brazo arregló un costo del anterior: el §K11 la
+  erosión, el §K12 la lentitud, el §K13 la vuelta. Los últimos movieron diferencias de
+  0.03 a 0.06, y el §K14 mostró que parte de la ventaja dependía de la crianza.
+- **La identidad medida es conductual y cruzada:** H > 0 en el costo de volver a entrar.
+  No es un sentido de sí; el `self_embedding` no la lleva (§K4, §K5).
+- **Las piezas se conocen por separado:** COIN, los sistemas de memoria complementarios,
+  las tasas de aprendizaje moduladas por la sorpresa. Lo propio es armarlas en un agente
+  que nace vacío y medirlas con reglas pre-registradas y la vara de los gemelos. Que eso
+  sea nuevo no se verificó contra la literatura.
+
+**Por qué se cierra esta línea.** Seguir en este mundo mejora decimales y no responde
+nada nuevo. La pregunta siguiente es la del §K14 llevada al mundo: ¿lo logrado es del
+kernel o de un mundo con contextos limpios? El §K15 la abre con el mismo brazo y la misma
+vida, en un mundo cuyo exilio llega de a poco.
+
+**Abierto, anotado y no corrido:** el precio afuera con un tope más corto que 30 ticks;
+por qué el daño era mayor con madurez que en `coin`; la madurez y el regreso con la foto
+a tiempo; un umbral relativo; por qué el regreso lento no cambia las vueltas de la niñez;
+el gemelo 23 B, que tarda en volver; un `self_embedding` que lea el modelo del mundo;
+vidas más largas que el búfer de sueño (10000 ticks).
+
 ## Por qué este mundo
 
 Lo que faltó en los programas anteriores, en orden:
