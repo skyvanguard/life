@@ -156,6 +156,15 @@ def mover(s, a, k: int):
     return s / s.sum(dim=-1, keepdim=True)
 
 
+def mezcla(s, a, w):
+    """§K15: the §K1 physics with the remapping a convex mix of the regimes' (w: weights
+    over the 4). A one-hot w gives exactly mover()'s step."""
+    import torch
+    m = sum(float(w[k]) * torch.roll(a, k, dims=-1) for k in range(4) if w[k])
+    s = ((1 - mp.R) * s + mp.R * m).clamp(min=1e-6)
+    return s / s.sum(dim=-1, keepdim=True)
+
+
 def sondas() -> dict:
     """Fixed probe per regime: obs (M, L+1, 4) and actions (M, L, 4)."""
     import torch

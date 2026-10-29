@@ -165,6 +165,9 @@ ULTIMOS = 5
 # §K9: arms whose world model stops sleeping when the exile begins (after the T1 assay,
 # so the clones of later assays inherit it). Empty here: byte-identical for §K7.
 SUENO_SOLO_NINEZ: set[str] = set()
+# §K15: a hook (papel, gemelo, t, escala, crianza) -> weights over the 4 regimes for tick t,
+# or None for the block's own regime (ms.mover's step). None here: byte-identical for §K7.
+MEZCLA = None
 
 
 def salida(args: tuple, vida: dict, t0: float) -> dict:
@@ -236,7 +239,8 @@ def vivir(args: tuple) -> dict:
                 k.last_action = a
         else:
             a = r.action.detach()
-        s = ms.mover(s, a, reg)
+        w = None if MEZCLA is None else MEZCLA(papel, gemelo, t, escala, crianza)
+        s = ms.mover(s, a, reg) if w is None else ms.mezcla(s, a, w)
         if t % D in (D - 2, D - 1):
             s_, o_ = (sonda, oraculo) if t % D == D - 1 else (sonda_v, oraculo_v)
             for kk in range(4):

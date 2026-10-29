@@ -72,7 +72,7 @@ zeta-life/
 │   └── utils/           # statistics helpers
 ├── experiments/
 │   ├── utero/           # 71 experiments — the live line (Nivel 1/2, v1..v6 + controls, replica, anatomy, lineage/shadow, interaction)
-│   ├── kernel/          # 53 kernel experiments (§K1-§K14: the kernel in its own world)
+│   ├── kernel/          # 54 kernel experiments (§K1-§K15: the kernel in its own world)
 │   ├── introspection/   # the north — probe, P(IK) LoRA, injected-concept detection
 │   └── datasets/        # 1 experiment (Psi on real data)
 ├── deploy/zeta/         # yvyra_kernel.py — the tick-driven entry point for Yvyra
@@ -228,6 +228,9 @@ PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py humo       
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py calibracion  # §K14 calibration (pairs 100-102, ~36 min): CONSERVA_D 3/3, ENTRA_D 1/3 (two twins stuck in the first exile block), VUELVE_D 2/3, PERSISTE_D 3/3
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py              # §K14 THE SCHOOL (coin_regreso vs coin re-run, both under §K5's 'dos'; every coin re-run must equal its §K7 life; pairs 0-11, 48 lives, ~81 min resumed): NO AGUANTA: ENTRA_D, as predicted after the calibration -- verification 24/24; CONSERVA_D 12/12 (awake home oracle 0.015 vs 0.046), VUELVE_D 11/12 (home T2 0.145 vs 0.203), PERSISTE_D 12/12, ENTRA_D 7/12 (0.285 vs 0.327), RIGIDO_D T1 5/12, T2 4/12; the school already makes coin enter better (0.327 vs 0.497 under 'una', 12/12 pairs), so the arm's entry advantage shrinks to -0.02
 PYTHONPATH=src python experiments/kernel/exp_mundo_propio_escuela.py replica      # §K14 replication (pairs 12-23, ~121 min): NOT REPLICATED by the letter (NO AGUANTA: ENTRA_D, VUELVE_D -- VUELVE_D 9/12); pooled CONSERVA_D 24/24, VUELVE_D 20/24, PERSISTE_D 22/24, ENTRA_D 15/24, RIGIDO_D 11/24 and 6/24, AFUERA 18/24: the arm keeps and returns under the other upbringing, but no longer enters better than coin -- the school already gives coin the entry (23/24 pairs better than under 'una')
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_deriva.py humo         # §K15 smoke (pair 0, short life): the one-hot mix equals mover's step; every drifted childhood equals its clean life (diff 0)
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_deriva.py calibracion  # §K15 calibration (pairs 100-102; runs the clean coin_regreso lives it has no stored reference for)
+PYTHONPATH=src python experiments/kernel/exp_mundo_propio_deriva.py              # §K15 THE DRIFT (coin_regreso and coin, the exile arriving as a linear ramp home -> X over its first 1500 ticks, vs the same twins' stored clean lives; pairs 0-11, 48 lives): pre-registered, see docs/MUNDO_PROPIO.md
 PYTHONPATH=src python experiments/kernel/exp_agency.py
 PYTHONPATH=src python experiments/kernel/exp_zeta_vs_baselines.py    # zeta vs fourier/random/learned/rnn
 PYTHONPATH=src python experiments/kernel/exp_spacing_statistics.py --kernel  # GUE vs Poisson vs lattice

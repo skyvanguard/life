@@ -1613,6 +1613,125 @@ gemelo.
 lanza apenas termine el test, salvo que aparezca un bug (cualquier cambio queda
 registrado). Queda REPLICADO si el veredicto se repite.
 
+## §K15 — la deriva: ¿aguanta lo logrado un exilio que llega de a poco? (pre-registrado el 2026-10-29, antes del humo y de la calibración)
+
+Fran, después de la síntesis del §K1 al §K14: "vamos con tu recomendacion" (cambiar de
+mundo, no seguir parchando).
+
+**Por qué.**
+- **Todo el programa se midió en un solo mundo:** cuatro regímenes que son permutaciones
+  exactas y que cambian de golpe en el borde de un bloque.
+- **El repertorio está hecho para eso.** Cambia de experto cuando el error corriente pasa
+  un umbral absoluto (0.08) y crea uno cuando ninguno explica durante 30 ticks seguidos.
+  Un cambio de golpe dispara las dos cosas; uno gradual, no se sabe.
+- **La pregunta:** ¿lo logrado es del kernel o de un mundo con contextos limpios? Es la
+  pregunta del §K14, llevada del modo de criarse al mundo.
+
+**Diseño** (`experiments/kernel/exp_mundo_propio_deriva.py`).
+- **La misma vida del §K4:** los papeles, los ticks de prueba, los ensayos y las sondas,
+  sin cambios. Cambia sólo el primer tramo del exilio.
+- **La rampa.** Desde el primer tick del exilio hasta el ensayo Tm (bloques 18–22, 1500
+  ticks) el paso es `s' = normaliza(0.7 s + 0.3 [(1 − f) roll(a, casa) + f roll(a, X)])`,
+  con `f = (t − t0 + 1) / 1500`. El mapeo va de la casa del gemelo al exilio X en línea
+  recta, y en el último tick de la rampa ya es X. Después, X puro, como antes. Los ensayos
+  siguen visitando mundos puros.
+- **Dos brazos bajo la deriva:** `coin_regreso` (E, la configuración de referencia) y
+  `coin` (C).
+- **La referencia es cada gemelo en el mundo limpio,** con el mismo nacimiento y los mismos
+  dados: las vidas guardadas de E (§K13) y de C (§K11). Para los pares de calibración, C
+  viene del §K7 y la vida limpia de E se corre acá.
+- **No se ajusta nada.**
+- **Manos declaradas:**
+  - **La mitad de la rampa no se puede controlar del todo.** Una mezcla 50/50 de dos
+    permutaciones del 4-simplex es singular. El mejor punto fijo posible queda a 0.07 de C
+    con f = 0.2, a 0.18 con 0.3, a 0.27–0.31 con 0.4 y a 0.31–0.42 con 0.5 (0 con f ≤ 0.1
+    y f ≥ 0.9). Por eso los bloques de la rampa no entran en la cuenta de atascos: se
+    reportan aparte.
+  - El exilio puro dura 10 bloques en vez de 15.
+  - Con la política de casa, el error de un paso de la predicción de casa pura es
+    0.255 f. Si el experto activo no aprendiera, su error corriente pasaría el umbral cerca
+    de f = 0.31.
+
+**Verificación.** La deriva empieza después del ensayo T1. Por eso cada vida con deriva
+tiene que ser igual a su vida limpia antes del exilio: las series por tick, las sondas, el
+ensayo T1, el `self_embedding` ahí y los eventos de contexto. Diferencia máxima 0; si no,
+se para. Son 24 verificaciones por corrida.
+
+**Lecturas por par** (la media de los gemelos):
+- H en T1, Tm y T2;
+- el costo en casa en Tm y T2, y afuera en T2;
+- si el exilio tuvo su propio experto (`e ≠ h`);
+- el primer parto del exilio, su tick y su f;
+- los expertos en uso;
+- el oráculo de casa al final del exilio;
+- el costo de la rampa y el del primer bloque de X puro;
+- los atascos fuera de la rampa y ELIGE.
+
+**Regla** (tests de signo sobre 12 pares; 10/12 = p 0.019 de una cola). E =
+`coin_regreso`; W = la deriva, L = el mundo limpio.
+
+| Lectura | Criterio |
+|---|---|
+| VERIFICACIÓN | cada niñez con deriva igual a su vida limpia; si no, se para |
+| SEPARA_W (primaria) | el exilio tuvo su propio experto (`e ≠ h`) en los dos gemelos, E bajo W, ≥ 10/12 |
+| PERSISTE_W (primaria) | H(T2) > 0, E bajo W, ≥ 10/12 |
+| DAÑO_W (primaria) | costo en casa en T2, E bajo W > E bajo L, ≥ 10/12: la deriva encarece la vuelta |
+
+Veredicto:
+- sin PERSISTE_W → **LA DERIVA BORRA LA IDENTIDAD**;
+- si no, SEPARA_W sin DAÑO_W → **AGUANTA LA DERIVA**;
+- SEPARA_W y DAÑO_W → **SEPARA, PERO VUELVE PEOR**;
+- sin SEPARA_W y sin DAÑO_W → **SE FUNDE, SIN COSTO**;
+- sin SEPARA_W y con DAÑO_W → **SE FUNDE Y VUELVE PEOR**.
+
+Secundarias:
+- las tres primarias para C;
+- VUELVE_W: costo en casa en T2, E < C bajo W;
+- AFUERA_W: costo afuera en T2, E < C bajo W;
+- PAREADO_W: H(T2) de E, W < L;
+- ORACULO_W: el oráculo de casa al final del exilio, E, W > L;
+- ELIGE de E bajo W.
+
+Se reportan el tick y la f del parto, los expertos en uso, `h` y `e`, el costo de la rampa,
+el primer bloque de X puro, los atascos fuera de la rampa, la latencia a `h` y la tabla
+del oráculo.
+
+**Predicciones escritas antes del humo y de la calibración:**
+- VERIFICACIÓN 24/24.
+- **SEPARA_W falla en los dos brazos:** el experto de casa sigue la deriva en vez de
+  dejarle el exilio a uno nuevo. Un parto necesita que todos los expertos pasen el umbral
+  durante 30 ticks seguidos. La rampa mueve f 0.02 cada 30 ticks, y un experto que aprende
+  despierto a tasa entera sigue eso. Inclinado: E separa en más gemelos que C, porque su
+  vigilia lenta se atrasa antes de cruzar el umbral.
+- **PERSISTE_W pasa:** el búfer del experto fundido todavía tiene la niñez, y el sueño la
+  repasa. El modelo único del §K4 (`error_x4`) persistió 24/24, con H(T2) +0.53.
+- **DAÑO_W pasa:** fundido, volver a casa cuesta lo que le cuesta a un modelo único (casa
+  en T2 0.300 en el §K4, contra 0.117 de E en el mundo limpio).
+- **Veredicto previsto: SE FUNDE Y VUELVE PEOR.**
+- Secundarias: lo mismo para C; VUELVE_W incierta; ORACULO_W y PAREADO_W pasan.
+
+**Antecedente, no predicción.** En la adaptación motora humana la comparación entre
+cambio gradual y abrupto da resultados mixtos. Leow y colegas encontraron que el ahorro
+necesita haber vivido el error, algo que un cambio gradual evita. Savalia y colegas
+(resumen de MathPsych 2020) reportan un efecto residual mayor al volver a la base después
+de un entrenamiento gradual.
+
+**Réplica, pre-registrada junto con el test.** Pares 12–23, con la misma regla. Se lanza
+apenas termine el test, salvo que aparezca un bug (cualquier cambio queda registrado).
+Queda REPLICADO si el veredicto se repite.
+
+**Humo** (par 0, vida corta; la rampa es el bloque 3, 300 ticks; no es evidencia).
+- La mezcla one-hot es igual al paso de `mover`: diferencia 0.0. Los pesos de la rampa
+  van de 1/300 de X en el primer tick a X puro en el último.
+- Verificación 4/4, con diferencia máxima 0.0. Las vidas enteras difieren en 4/4.
+- **Bajo la deriva ningún gemelo separa** (`e ≠ h` en 0/2, en los dos brazos); en el mundo
+  limpio, 2/2. Los partos bajo la deriva llegan después de la rampa (a los 304–351 ticks
+  del exilio; un gemelo de `coin` no pare nunca), y en el limpio a los 34–81.
+- En la vida corta la ventana del final del exilio incluye el bloque de la rampa. En la
+  vida completa son los bloques 28–32, X puro.
+- Oráculo de casa al final del exilio, despierto: C 0.123 bajo W contra 0.007 bajo L; E
+  0.031 contra 0.010.
+
 ## Ledger
 
 *(se llena sólo con resultados que pasaron su control)*
