@@ -32,7 +32,7 @@ believed, and refutations go into the ledger with the same weight as positives.
 | **The North** (`introspection/`, 2026-06 to 2026-07) | Can $\Psi$ live in a real LLM's own activations, and can the model learn to read it? | No: trained introspection is a lookup, not a general read (0.6B and 8B alike) | closed, honest negative |
 | **El Útero** (`utero/`, 2026-07 to 2026-10-26) | What emerges from a physics that rewrites itself, with nothing pretrained in it? | Rare sustained novelty behind five named cages; a measured, replicated Darwinian adaptation; learning in life that does not generalize | closed |
 | **The kernel coupled to Yvyra** (Phase A/B, 2026-06 to 2026-10-26) | Does an LLM's introspection anchor to the kernel's $\Psi$? | Inconclusive; $\Psi$ turned out to be a relative-surprise detector | closed as a vehicle: the kernel *is* the agent |
-| **The kernel in its own world** (2026-10-26 on, [`docs/MUNDO_PROPIO.md`](docs/MUNDO_PROPIO.md)) | Does it learn in life, remember, tell what it did from what happened to it, and keep an identity? | §K1–§K13, below | **live frontier** |
+| **The kernel in its own world** (2026-10-26 on, [`docs/MUNDO_PROPIO.md`](docs/MUNDO_PROPIO.md)) | Does it learn in life, remember, tell what it did from what happened to it, and keep an identity? | §K1–§K14, below | **live frontier** |
 
 ---
 
@@ -54,9 +54,10 @@ The experiments change one variable at a time:
 - **§K4–§K5, identity.** Identical newborn twins are raised in different worlds, then
   share a long exile in a world neither has lived. Do they stay different? The readout
   H > 0 means each twin does better in its own childhood world than its sibling does.
-- **§K6–§K13, a repertoire.** A COIN-style set of context experts in the world model,
+- **§K6–§K14, a repertoire.** A COIN-style set of context experts in the world model,
   and what holds the identity inside it: the sleep, the separation, the snapshot, the
-  wake, a wake rate per expert, and the return home.
+  wake, a wake rate per expert, and the return home -- and whether that holds under
+  the other upbringing.
 
 | § | Mechanism | Pre-registered verdict (pairs 0–11) | Replication (pairs 12–23) |
 |---|-----------|-------------------------------------|---------------------------|
@@ -73,6 +74,7 @@ The experiments change one variable at a time:
 | §K11 | `wake_lr_scale=0.1`: a slower wake | PRECISA PERO LENTA: the slow wake keeps what sleep consolidates (home oracle 0.009 vs 0.042 awake) but enters never-lived worlds late (first exile block 0.970 vs 0.497) | REPLICADO (24/24 pooled on every readout); the price falls in the first two exile blocks |
 | §K12 | `wake_lr_scale_learning=1.0`: slow wake only while an expert explains its stream | VIGILIA QUE NO BORRA: keeps like the slow wake (0.009) and enters never-lived worlds faster than the full-rate kernel (first exile block 0.367 vs 0.497); 0 stuck blocks | REPLICADO (24/24 pooled; 1 stuck block in 48 twins); the return home after the exile costs a bit more (VUELVE 7/24) |
 | §K13 | `slow_return=True`: an expert made active again by a switch learns slowly until it explains its stream (at most `persist` ticks) | VUELVE A CASA: the return home costs less than under §K12 (12/12; home T2 0.117 vs 0.168) and than the full-rate kernel (11/12), keeping all of §K12 | REPLICADO (pooled 24/24 and 22/24); after the switch the home expert costs what an intact one does (0.056 vs 0.114); the price is 9 of 96 twin-assays abroad |
+| §K14 | §K13's full arm under §K5's home/school upbringing (`dos`), against the full-rate kernel | NO AGUANTA: ENTRA_D -- it keeps (12/12), returns home (11/12) and keeps the identity (12/12), but does not enter the never-lived better (7/12) | NOT replicated by the letter (VUELVE_D 9/12); pooled it keeps 24/24, returns 20/24, enters 15/24: the school already gives the full-rate kernel the entry (23/24 pairs better than with one home) |
 
 **What it adds up to, so far.** The kernel learns in life from its own stream. With a
 sleep that replays what it lived, it remembers. With a repertoire of experts it keeps
@@ -89,7 +91,11 @@ the return home: the home expert came back intact, but its running error carried
 exile, so it relearned at the full rate and damaged itself until the next sleep. Letting
 a returning expert learn slowly until it explains its stream again removes that. The
 same kernel now keeps what sleep consolidates, enters the never-lived faster than the
-full-rate kernel, and returns home better than it.
+full-rate kernel, and returns home better than it. Under the other upbringing (home and
+a school, §K14) it still keeps what sleep consolidated and, pooled, returns home better,
+but it no longer enters the never-lived better: the school already gives the full-rate
+kernel that entry. Keeping is the kernel's; entering better was relative to the rigidity
+of a single home.
 
 ```python
 import torch
@@ -323,6 +329,7 @@ python experiments/kernel/exp_mundo_propio_foto.py          # §K10: the snapsho
 python experiments/kernel/exp_mundo_propio_vigilia.py       # §K11: the wake that does not erase
 python experiments/kernel/exp_mundo_propio_madurez.py       # §K12: a wake rate per expert
 python experiments/kernel/exp_mundo_propio_regreso.py       # §K13: the return home
+python experiments/kernel/exp_mundo_propio_escuela.py       # §K14: the full arm under the other upbringing
 # most take `humo` (smoke), `calibracion`, `replica` and `reanudar` (resume from disk)
 
 python experiments/kernel/exp_psi_quiebres.py               # Psi as a relative-surprise detector
@@ -371,7 +378,7 @@ zeta-life/
 |   +-- utils/           # shared utilities
 |
 |-- experiments/
-|   |-- kernel/          # 52 experiments - the kernel's own world (§K1-§K13) and earlier
+|   |-- kernel/          # 53 experiments - the kernel's own world (§K1-§K14) and earlier
 |   |-- utero/           # 71 experiments - the útero line, closed
 |   |-- introspection/   # the north - probe, P(IK) LoRA, injected-concept detection
 |   +-- datasets/        # Psi on real data
